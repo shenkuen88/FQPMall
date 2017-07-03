@@ -33,7 +33,7 @@ import de.greenrobot.event.EventBus;
  * 自定义Dialog
  */
 public class GuiGeBtmDialog extends Dialog {
-    private String TAG = "GuiGeBtmDialog";
+    private String TAG = "GuiGeCSBtmDialog";
 
     public GuiGeBtmDialog(Activity ctx, GoodsDetailResponse goodsDetailResponse) {
         this(ctx, ctx.getLayoutInflater().inflate(R.layout.sel_btm_layout, null), goodsDetailResponse);
