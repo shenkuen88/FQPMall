@@ -54,6 +54,12 @@ public class GuiGeBtmDialog extends Dialog {
     private List<GuiGeBean> styleList = new ArrayList<>();
     private CommonAdapter<GuiGeBean> styleAdapter;
 
+    public void setGwcClickListener(View.OnClickListener listener){
+        btn_addgwc.setOnClickListener(listener);
+    }
+    public void setBuyClickListener(View.OnClickListener listener){
+        btn_buy.setOnClickListener(listener);
+    }
     public GuiGeBtmDialog(final Activity ctx, View view, int style,final GoodsDetailResponse goodsDetailResponse) {
         super(view.getContext(), style);
         // // 透明背景
@@ -113,7 +119,22 @@ public class GuiGeBtmDialog extends Dialog {
                     gg_price.setText("￥" + item.getPrice());
                 }
             }
-            tv_guige.setText(stylestr + "、" + colorstr + "、" + num_txt.getText().toString() + "件");
+            String str="";
+            try {
+                if(stylestr!=null
+                        &&!stylestr.equals("")){
+                    str= stylestr;
+                }
+                if(colorstr!=null
+                        &&!colorstr.equals("")){
+                    str=str+"、"+colorstr;
+                }
+                str= str+ "、" + num_txt.getText().toString() + "件";
+                tv_guige.setText(str);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            tv_guige.setText(str);
             List<String> stylestrs=new ArrayList<>();
             final List<String> colorstrs=new ArrayList<>();
             for (GoodsDetailResponse.ContentStyleListBean item : goodsDetailResponse.getContentStyleList()) {
@@ -163,7 +184,23 @@ public class GuiGeBtmDialog extends Dialog {
                                         colorstr=subitem;
                                     }
                                     styleAdapter.notifyDataSetChanged();
-                                    tv_guige.setText(stylestr + "、" + colorstr + "、" + num_txt.getText().toString() + "件");
+                                    String str="";
+                                    try {
+                                        if(stylestr!=null
+                                                &&!stylestr.equals("")){
+                                            str= stylestr;
+                                        }
+                                        if(colorstr!=null
+                                                &&!colorstr.equals("")){
+                                            str=str+"、"+colorstr;
+                                        }
+                                        str= str+ "、" + num_txt.getText().toString() + "件";
+                                        tv_guige.setText(str);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    tv_guige.setText(str);
+
                                     EventBus.getDefault().post(new NoticeEvent("GUIGEREFRESH"));
                                     for (GoodsDetailResponse.ContentStyleListBean item : goodsDetailResponse.getContentStyleList()) {
                                         if(item.getStyle().equals(stylestr)&&item.getColor().equals(colorstr)){
@@ -186,7 +223,22 @@ public class GuiGeBtmDialog extends Dialog {
                 if (num <= 1) return;
                 num--;
                 num_txt.setText(num + "");
-                tv_guige.setText(stylestr + "、" + colorstr + "、" + num_txt.getText().toString() + "件");
+                String str="";
+                try {
+                    if(stylestr!=null
+                            &&!stylestr.equals("")){
+                        str= stylestr;
+                    }
+                    if(colorstr!=null
+                            &&!colorstr.equals("")){
+                        str=str+"、"+colorstr;
+                    }
+                    str= str+ "、" + num_txt.getText().toString() + "件";
+                    tv_guige.setText(str);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                tv_guige.setText(str);
                 EventBus.getDefault().post(new NoticeEvent("GUIGEREFRESH"));
             }
         });
@@ -196,7 +248,22 @@ public class GuiGeBtmDialog extends Dialog {
                 if (num >= 99) return;
                 num++;
                 num_txt.setText(num + "");
-                tv_guige.setText(stylestr + "、" + colorstr + "、" + num_txt.getText().toString() + "件");
+                String str="";
+                try {
+                    if(stylestr!=null
+                            &&!stylestr.equals("")){
+                        str= stylestr;
+                    }
+                    if(colorstr!=null
+                            &&!colorstr.equals("")){
+                        str=str+"、"+colorstr;
+                    }
+                    str= str+ "、" + num_txt.getText().toString() + "件";
+                    tv_guige.setText(str);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                tv_guige.setText(str);
                 EventBus.getDefault().post(new NoticeEvent("GUIGEREFRESH"));
 
             }

@@ -76,5 +76,12 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/gray</item>
     </style>
-
+    <!-- MyDialog样式 -->
+    <style name="MyDialog" parent="@style/CustomProgressDialog">
+        <item name="android:windowAnimationStyle">@style/ScaledDialog</item>
+    </style>
+    <style name="ScaledDialog">
+        <item name="android:windowEnterAnimation">@anim/scaled_in</item>
+        <item name="android:windowExitAnimation">@anim/scaled_out</item>
+    </style>
 </resources>

@@ -1,22 +1,31 @@
 package com.fengqipu.mall.main.acty.goods;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
+import com.fengqipu.mall.bean.goods.AddGWCResponse;
+import com.fengqipu.mall.bean.goods.AddGoodsFavourResponse;
 import com.fengqipu.mall.bean.goods.GoodsCommentResponse;
 import com.fengqipu.mall.bean.goods.GoodsDetailResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.dialog.GuiGeBtmDialog;
+import com.fengqipu.mall.dialog.SucDialog;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.fragment.goods.CommentFragment;
@@ -33,7 +42,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
-public class GoodsDetailActivity extends BaseActivity implements View.OnClickListener{
+import static com.fengqipu.mall.R.id.collect_tv;
+
+public class GoodsDetailActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.mTabs)
     TabLayout mTabs;
@@ -43,8 +54,18 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
     ImageView ivBack;
     @Bind(R.id.iv_info)
     ImageView ivInfo;
+    @Bind(R.id.shop_tv)
+    TextView shopTv;
+    @Bind(collect_tv)
+    TextView collectTv;
+    @Bind(R.id.service_tv)
+    TextView serviceTv;
+    @Bind(R.id.btn_addgwc)
+    Button btnAddgwc;
+    @Bind(R.id.btn_buy)
+    Button btnBuy;
 
-    private String contentID="";
+    private String contentID = "";
     //sel_btm_layout  gwc_canshu_item gwc_cs_item
 
     @Override
@@ -52,7 +73,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_detail);
         ButterKnife.bind(this);
-        contentID=getIntent().getStringExtra("contentID");
+        contentID = getIntent().getStringExtra("contentID");
         initAll();
     }
 
@@ -70,42 +91,70 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
         initData();
         getProComment();
     }
-    public int pageNum=1;
-    public int pageSize=10;
+
+    public int pageNum = 1;
+    public int pageSize = 10;
+
     public void initData() {
-        UserServiceImpl.instance().getGoodsDetial(this,contentID,GoodsDetailResponse.class.getName());
+        UserServiceImpl.instance().getGoodsDetial(this, contentID, GoodsDetailResponse.class.getName());
     }
-    public void getProComment(){
-        UserServiceImpl.instance().getProductCommentList(contentID,pageNum,pageSize,GoodsCommentResponse.class.getName());
+
+    public void getProComment() {
+        UserServiceImpl.instance().getProductCommentList(contentID, pageNum, pageSize, GoodsCommentResponse.class.getName());
     }
+
     @Override
     public void initEvent() {
         ivBack.setOnClickListener(this);
         ivInfo.setOnClickListener(this);
+        shopTv.setOnClickListener(this);
+        collectTv.setOnClickListener(this);
+        serviceTv.setOnClickListener(this);
+        btnAddgwc.setOnClickListener(this);
+        btnBuy.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
+            case R.id.iv_info:break;
+            case R.id.shop_tv:
+
+                break;
+            case R.id.search_tv:
+
+                break;
+            case collect_tv:
+                UserServiceImpl.instance().addFavour(this,"1",contentID, AddGoodsFavourResponse.class.getName());
+                break;
+            case R.id.btn_addgwc:
+                UserServiceImpl.instance().addToBuyCar(contentID,num,style,color,AddGWCResponse.class.getName());
+                break;
+            case R.id.btn_buy:
+
+                break;
         }
     }
+    public String style="";
+    public String color="";
+    public int num=1;
 
     public void chang2Comment() {
         mContainer.setCurrentItem(2);
     }
 
-    public class SectionsPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(android.support.v4.app.FragmentManager fm) {
+        public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
-        public android.support.v4.app.Fragment getItem(int position) {
-            switch (position){
+        public Fragment getItem(int position) {
+            switch (position) {
                 case 0:
                     return new GoodsFragment();
                 case 1:
@@ -135,20 +184,31 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
             return null;
         }
     }
+
     public GuiGeBtmDialog guiGeBtmDialog;
-    public void showGuiGeDialog(){
-        if(guiGeBtmDialog==null) {
+
+    public void showGuiGeDialog() {
+        if (guiGeBtmDialog == null) {
             guiGeBtmDialog = new GuiGeBtmDialog(GoodsDetailActivity.this, goodsDetailResponse);
         }
+        guiGeBtmDialog.setGwcClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserServiceImpl.instance().addToBuyCar(contentID,num,style,color,AddGWCResponse.class.getName());
+            }
+        });
         guiGeBtmDialog.show();
     }
-    private void hideGuiGeDialog(){
-        if(guiGeBtmDialog!=null&&guiGeBtmDialog.isShowing()){
+
+    private void hideGuiGeDialog() {
+        if (guiGeBtmDialog != null && guiGeBtmDialog.isShowing()) {
             guiGeBtmDialog.dismiss();
         }
     }
+
     public GoodsDetailResponse goodsDetailResponse;
     public GoodsCommentResponse goodsCommentResponse;
+
     @Override
     public void onEventMainThread(BaseResponse event) throws Exception {
         if (event instanceof NoticeEvent) {
@@ -177,8 +237,16 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
             if (tag.equals(GoodsDetailResponse.class.getName())) {
                 goodsDetailResponse = GsonHelper.toType(result, GoodsDetailResponse.class);
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    Log.e("sub",result);
                     if (Constants.SUCESS_CODE.equals(goodsDetailResponse.getResultCode())) {
                         EventBus.getDefault().post(new NoticeEvent("REFRESH"));
+                        if(goodsDetailResponse.getIsFavorite()==1){
+                            Drawable top = getResources().getDrawable(R.mipmap.star_chedked_new);
+                            collectTv.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                        }else{
+                            Drawable top = getResources().getDrawable(R.mipmap.star_check);
+                            collectTv.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                        }
                     } else {
                         ErrorCode.doCode(this, goodsDetailResponse.getResultCode(), goodsDetailResponse.getDesc());
                     }
@@ -186,7 +254,34 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                     ToastUtil.showError(this);
                 }
             }
-
+            if (tag.equals(AddGoodsFavourResponse.class.getName())) {
+                AddGoodsFavourResponse addGoodsFavourResponse = GsonHelper.toType(result, AddGoodsFavourResponse.class);
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    if (Constants.SUCESS_CODE.equals(addGoodsFavourResponse.getResultCode())) {
+                        SucDialog sucDialog=new SucDialog(this,"加入购物车成功");
+                        sucDialog.show();
+                        Drawable top = getResources().getDrawable(R.mipmap.star_chedked_new);
+                        collectTv.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                    } else {
+                        ErrorCode.doCode(this, addGoodsFavourResponse.getResultCode(), addGoodsFavourResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(this);
+                }
+            }
+            if (tag.equals(AddGWCResponse.class.getName())) {
+                AddGWCResponse addGWCResponse = GsonHelper.toType(result, AddGWCResponse.class);
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    if (Constants.SUCESS_CODE.equals(addGWCResponse.getResultCode())) {
+                        SucDialog sucDialog=new SucDialog(this,"收藏成功");
+                        sucDialog.show();
+                    } else {
+                        ErrorCode.doCode(this, addGWCResponse.getResultCode(), addGWCResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(this);
+                }
+            }
         }
     }
 }

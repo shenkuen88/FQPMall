@@ -362,11 +362,37 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                     tvFreight.setText("快递:" + goodsDetailResponse.getFreight() + "元");
                 }
                 tvLocation.setText("发货地:" + goodsDetailResponse.getContent().getShopProvince() + goodsDetailResponse.getContent().getShopCity());
-                tvGg.setText(goodsDetailResponse.getContentStyleList().get(0).getStyle() + "、"
-                        + goodsDetailResponse.getContentStyleList().get(0).getColor() + "、1件");
+                try {
+                    String str="";
+                    if(goodsDetailResponse.getContentStyleList().get(0).getStyle()!=null
+                            &&!goodsDetailResponse.getContentStyleList().get(0).getStyle().equals("")){
+                        str= goodsDetailResponse.getContentStyleList().get(0).getStyle();
+                    }
+                    if(goodsDetailResponse.getContentStyleList().get(0).getColor()!=null
+                            &&!goodsDetailResponse.getContentStyleList().get(0).getColor().equals("")){
+                        str=str+"、"+goodsDetailResponse.getContentStyleList().get(0).getColor();
+                    }
+                    str= str+ "、1件";
+                    tvGg.setText(str);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             if (tag.equals("GUIGEREFRESH")) {
                 if (goodsDetailActivity.guiGeBtmDialog != null) {
+                    String[] strs=goodsDetailActivity.guiGeBtmDialog.tv_guige.getText().toString().split("、");
+                    try {
+                        if(strs.length==3) {
+                            goodsDetailActivity.style = strs[0];
+                            goodsDetailActivity.color = strs[1];
+                            goodsDetailActivity.num = Integer.getInteger(strs[2].replace("件", ""));
+                        }else{
+                            goodsDetailActivity.style = strs[0];
+                            goodsDetailActivity.num = Integer.getInteger(strs[1].replace("件", ""));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     tvGg.setText(goodsDetailActivity.guiGeBtmDialog.tv_guige.getText().toString());
                 }
             }

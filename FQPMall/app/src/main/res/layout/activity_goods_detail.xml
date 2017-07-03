@@ -74,7 +74,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/addBuy_bn"
+            android:layout_toLeftOf="@+id/btn_addgwc"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/shop_tv"
@@ -114,19 +114,19 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/addBuy_bn"
+            android:id="@+id/btn_addgwc"
             android:layout_width="@dimen/pxtodp190"
             android:layout_height="@dimen/pxtodp60"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/pxtodp32"
-            android:layout_toLeftOf="@+id/buy_bn"
+            android:layout_toLeftOf="@+id/btn_buy"
             android:background="@drawable/yellow_rec_normal"
             android:text="加入购物车"
             android:textColor="@color/white"
             android:textSize="@dimen/pxtosp26" />
 
         <Button
-            android:id="@+id/buy_bn"
+            android:id="@+id/btn_buy"
             android:layout_width="@dimen/pxtodp190"
             android:layout_height="@dimen/pxtodp60"
             android:layout_alignParentRight="true"

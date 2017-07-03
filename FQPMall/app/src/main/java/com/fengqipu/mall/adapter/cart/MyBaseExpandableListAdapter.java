@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import com.fengqipu.mall.bean.cart.GoodsBean;
 import com.fengqipu.mall.bean.cart.StoreBean;
 import com.fengqipu.mall.bean.cart.StoreGoodsBean;
 import com.fengqipu.mall.network.UserServiceImpl;
+import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 
 import java.util.ArrayList;
@@ -240,6 +242,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
                     .findViewById(R.id.num_txt);
             childViewHolder.btn_jia = (TextView) convertView
                     .findViewById(R.id.btn_jia);
+            childViewHolder.id_iv_logo=(ImageView)convertView.findViewById(R.id.id_iv_logo);
 //            childViewHolder.id_iv_reduce = (ImageView) convertView
 //                    .findViewById(R.id.id_iv_reduce);
 //            childViewHolder.id_iv_add = (ImageView) convertView
@@ -284,7 +287,9 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         double priceNow = goodsBean.getCount() * goodsBean.getPrice();//小结
 //        childViewHolder.id_tv_price_now.setText(String.format(context.getString(R.string.price), priceNow));
 //        childViewHolder.id_tv_des_now.setText(goodsBean.getDesc());
-
+        if (goodsBean.getPicUrl() != null && !goodsBean.getPicUrl().equals("")) {
+            GeneralUtils.setImageViewWithUrl(context, goodsBean.getPicUrl(), childViewHolder.id_iv_logo, R.drawable.default_bg);
+        }
         childViewHolder.id_cb_select_child.setChecked(goodsBean.isChecked());
         childViewHolder.id_cb_select_child.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -735,7 +740,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         TextView id_tv_discount_price;
         TextView id_tv_count;
         TextView btn_jian, num_txt, btn_jia;
-
+        ImageView id_iv_logo;
 //        ImageView id_iv_reduce;
 //        ImageView id_iv_add;
 //        TextView id_tv_des_now;
@@ -769,6 +774,9 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
                 dealPrice();
             } else {
                 int count = goodsBean.getCount();
+                if (count == 99) {
+                    return;
+                }
                 count++;
                 goodsBean.setCount(count);
                 //  textView.setText(String.valueOf(count));
@@ -777,11 +785,10 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
             }
             NetLoadingDialog.getInstance().loading(context);
             List<CartResponse.CartRecord> clist = new ArrayList<CartResponse.CartRecord>();
-            clist.add(new CartResponse.CartRecord(goodsBean.getCreateTime(), goodsBean.getUserID(), goodsBean.getPicUrl(), goodsBean.getPrice(),
-                    goodsBean.getStyle(), goodsBean.getCount(), goodsBean.getShopID(),
-                    goodsBean.getObjectName(), goodsBean.getShopName(),
-                    goodsBean.getRecordID(), goodsBean.getContentID(),
-                    goodsBean.getSize()));
+            clist.add(new CartResponse.CartRecord(goodsBean.getRecordID(),goodsBean.getShopID(),goodsBean.getUserID()
+                    ,goodsBean.getContentID(),goodsBean.getObjectName(),goodsBean.getPicUrl()
+                    ,goodsBean.getCount(),goodsBean.getStyle(),goodsBean.getColor(),goodsBean.getPrice()+""
+                    ,goodsBean.getCreateTime(),goodsBean.getPicUrl(),goodsBean.getShopName()));
             UserServiceImpl.instance().setCartNum(clist, CartNumResponse.class.getName());
         }
     }

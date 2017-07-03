@@ -16,7 +16,17 @@ public class GoodsDetailResponse extends BaseResponse{
      */
 
     private ContentBean content;
+    private int isFavorite;//1。收藏 0。未收藏
     private int freight;
+
+    public int getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(int isFavorite) {
+        this.isFavorite = isFavorite;
+    }
+
     private List<ContentStyleListBean> contentStyleList;
 
     public ContentBean getContent() {

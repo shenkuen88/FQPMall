@@ -3,6 +3,7 @@ package com.fengqipu.mall.main.fragment.cart;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,10 +39,18 @@ import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
 
 /**
  * 购物车
@@ -60,6 +69,8 @@ public class CartFragment extends BaseFragment {
     RelativeLayout id_rl_foot;
 
     TextView id_tv_edit_all;
+    @Bind(R.id.refreshLayout)
+    PtrClassicFrameLayout refreshLayout;
     private HeadView headView;
     private View mView;
     TextView id_tv_totalCount_jiesuan, id_tv_delete_all;
@@ -71,6 +82,8 @@ public class CartFragment extends BaseFragment {
                              Bundle savedInstanceState) {
 
         mView = inflater.inflate(R.layout.activity_cart, null);
+        ButterKnife.bind(this, mView);
+
         return mView;
     }
 
@@ -102,6 +115,29 @@ public class CartFragment extends BaseFragment {
         //initData();
 
         expandableListView = (ExpandableListView) mView.findViewById(R.id.id_elv_listview);
+        refreshLayout.setLastUpdateTimeRelateObject(getActivity());
+        refreshLayout.setResistance(1.7f);
+        refreshLayout.setRatioOfHeaderHeightToRefresh(1.2f);
+        refreshLayout.setDurationToClose(200);
+        refreshLayout.setDurationToCloseHeader(1000);
+        // default is false
+        refreshLayout.setPullToRefresh(false);
+        // default is true
+        refreshLayout.setKeepHeaderWhenRefresh(true);
+
+        refreshLayout.disableWhenHorizontalMove(true);
+
+        refreshLayout.setPtrHandler(new PtrHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                initCartData();
+            }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, expandableListView, header);
+            }
+        });
         initTitle();
         myBaseExpandableListAdapter = new MyBaseExpandableListAdapter(getActivity(), parentMapList, childMapList_list);
         expandableListView.setAdapter(myBaseExpandableListAdapter);
@@ -312,6 +348,16 @@ public class CartFragment extends BaseFragment {
 //        NetLoadingDialog.getInstance().loading(getActivity());
         UserServiceImpl.instance().getCartList(page + "", num, CartResponse.class.getName());
         id_cb_select_all.setChecked(false);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    refreshLayout.refreshComplete();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 2000);
 //        for (int i = 0; i < 4; i++) {
 //            String store = "旗舰店";
 //            if (i % 2 == 0) {
@@ -357,6 +403,7 @@ public class CartFragment extends BaseFragment {
                     //网络数据(一般不用去做处理)
                 }
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    Log.e("sub",result);
                     CartResponse cartResponse = GsonHelper.toType(result, CartResponse.class);
                     if (Constants.SUCESS_CODE.equals(cartResponse.getResultCode())) {
                         parentMapList.clear();
@@ -365,19 +412,25 @@ public class CartFragment extends BaseFragment {
                             CartResponse.Shop shop = cartResponse.getShopMap().get(map.getKey());
                             //提供父列表的数据
                             Map<String, Object> parentMap = new HashMap<String, Object>();
-                            parentMap.put("parentName", new StoreBean(shop.getShopID(), shop.getShopName(), false, false));
+                            parentMap.put("parentName", new StoreBean(shop.getId(), shop.getShopName(), false, false));
                             parentMapList.add(parentMap);
                             //提供当前父列的子列数据
                             List<Map<String, Object>> childMapList = new ArrayList<Map<String, Object>>();
                             for (int j = 0; j < map.getValue().size(); j++) {
                                 CartResponse.CartRecord c = map.getValue().get(j);
                                 Map<String, Object> childMap = new HashMap<String, Object>();
-
-                                GoodsBean goodsBean = new GoodsBean(c.getCreateTime(), c.getUserID(), c.getPicUrl(), c.getPrice(),
+                                DecimalFormat df   = new DecimalFormat("######0.0");
+                                Double price=0d;
+                                try {
+                                    price=Double.valueOf(df.format(Double.valueOf(c.getPrice())));
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                }
+                                GoodsBean goodsBean = new GoodsBean(c.getCreateTime(), c.getUserID(), c.getPicUrlRequestUrl(),price ,
                                         c.getStyle(), c.getCount(), c.getShopID(),
-                                        c.getObjectName(), c.getShopName(),
-                                        c.getRecordID(), c.getContentID(),
-                                        c.getSize(), GoodsBean.STATUS_VALID, false, false);
+                                        c.getContentName(), c.getShopName(),
+                                        c.getId(), c.getContentID(),
+                                        c.getColor(), GoodsBean.STATUS_VALID, false, false);
                                 childMap.put("childName", goodsBean);
                                 childMapList.add(childMap);
                             }
@@ -417,6 +470,12 @@ public class CartFragment extends BaseFragment {
                 }
             }
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }
 

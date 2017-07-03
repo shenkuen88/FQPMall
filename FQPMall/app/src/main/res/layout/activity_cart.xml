@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
+    android:layout_height="match_parent">
 
 
     <RelativeLayout
@@ -29,30 +28,42 @@
             android:layout_below="@id/id_rl_cart_is_empty_image"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
+            android:text="您的购物车还是空的，赶快挑选商品吧~"
             android:textColor="#9d9d9d"
-            android:textSize="@dimen/pxtosp30"
-            android:text="您的购物车还是空的，赶快挑选商品吧~" />
+            android:textSize="@dimen/pxtosp30" />
+
         <View
-            android:layout_below="@+id/id_rl_cart_is_empty_text"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/pxtodp50" />
+            android:layout_height="@dimen/pxtodp50"
+            android:layout_below="@+id/id_rl_cart_is_empty_text" />
     </RelativeLayout>
 
     <!--android:background="@mipmap/channel_expandablelistview_bg"
      android:layout_below="@id/id_inc_top"  有点问题 why?
     -->
-    <ExpandableListView
-        android:layout_below="@+id/common_back"
-        android:id="@+id/id_elv_listview"
+    <in.srain.cube.views.ptr.PtrClassicFrameLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:cacheColorHint="#00000000"
-        android:divider="#ebebeb"
-        android:dividerHeight="@dimen/pxtodp1"
-        android:footerDividersEnabled="false"
-        android:groupIndicator="@null"
-        android:visibility="visible"></ExpandableListView>
+        android:layout_height="match_parent"
+        cube_ptr:ptr_duration_to_close="200"
+        cube_ptr:ptr_duration_to_close_header="1000"
+        cube_ptr:ptr_keep_header_when_refresh="true"
+        cube_ptr:ptr_pull_to_fresh="false"
+        cube_ptr:ptr_ratio_of_header_height_to_refresh="0.5"
+        cube_ptr:ptr_resistance="0.3">
 
+        <ExpandableListView
+            android:id="@+id/id_elv_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/common_back"
+            android:cacheColorHint="#00000000"
+            android:divider="#ebebeb"
+            android:dividerHeight="@dimen/pxtodp1"
+            android:footerDividersEnabled="false"
+            android:groupIndicator="@null"
+            android:visibility="visible"></ExpandableListView>
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
     <!--include进来方式可能会导致view覆盖listview的最后一个item  代码里动态改变listview下面的距离
     android:layout_below="@id/id_elv" 有点问题 why?
@@ -62,8 +73,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
     <include
         android:id="@+id/common_back"
         layout="@layout/layout_top" />
+        </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/btn_information_sort"/>
+    </LinearLayout>
 </RelativeLayout>

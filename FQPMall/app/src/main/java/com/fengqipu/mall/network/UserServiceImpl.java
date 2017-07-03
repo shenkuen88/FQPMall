@@ -872,20 +872,20 @@ public class UserServiceImpl
     /**
      * 1.5.2 添加商品到购物车
      */
-    public void addToBuyCar(String contentID, int count, String style, String size, String tag)
+    public void addToBuyCar(String contentID, int count, String style, String color, String tag)
     {
         Map<String, String> param = new HashMap<String, String>();
         param.put("contentID", contentID);
         param.put("count", count + "");
-        param.put("style", style);
-        param.put("size", size);
+//        param.put("style", style);
+//        param.put("size", size);
         if (GeneralUtils.isNotNullOrZeroLenght(style))
         {
             param.put("style", style);
         }
-        if (GeneralUtils.isNotNullOrZeroLenght(size))
+        if (GeneralUtils.isNotNullOrZeroLenght(color))
         {
-            param.put("size", size);
+            param.put("color", color);
         }
         new NetWork().startPost(URLUtil.ADD_TO_BUY_CAR, param, tag);
     }

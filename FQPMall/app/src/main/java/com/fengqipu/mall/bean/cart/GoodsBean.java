@@ -23,7 +23,7 @@ public class GoodsBean implements Parcelable  {
     private String shopName;
     private String recordID;
     private String contentID;
-    private String size;
+    private String color;
     private int state;
 
     @Override
@@ -40,7 +40,7 @@ public class GoodsBean implements Parcelable  {
                 ", objectName='" + objectName + '\'' +
                 ", shopName='" + shopName + '\'' +
                 ", recordID='" + recordID + '\'' +
-                ", size='" + size + '\'' +
+                ", color='" + color + '\'' +
                 ", state=" + state +
                 ", isChecked=" + isChecked +
                 ", isEditing=" + isEditing +
@@ -55,7 +55,7 @@ public class GoodsBean implements Parcelable  {
     public GoodsBean() {
     }
 
-    public GoodsBean(String createTime, String userID, String picUrl, double price, String style, int count, String shopID, String objectName, String shopName, String recordID, String contentID, String size, int state, boolean isChecked, boolean isEditing) {
+    public GoodsBean(String createTime, String userID, String picUrl, double price, String style, int count, String shopID, String objectName, String shopName, String recordID, String contentID, String color, int state, boolean isChecked, boolean isEditing) {
         this.createTime = createTime;
         this.userID = userID;
         this.picUrl = picUrl;
@@ -67,7 +67,7 @@ public class GoodsBean implements Parcelable  {
         this.shopName = shopName;
         this.recordID = recordID;
         this.contentID = contentID;
-        this.size = size;
+        this.color = color;
         this.state = state;
         this.isChecked = isChecked;
         this.isEditing = isEditing;
@@ -85,7 +85,7 @@ public class GoodsBean implements Parcelable  {
         shopName = in.readString();
         recordID = in.readString();
         contentID = in.readString();
-        size = in.readString();
+        color = in.readString();
         state = in.readInt();
         isChecked = in.readByte() != 0;
         isEditing = in.readByte() != 0;
@@ -199,12 +199,12 @@ public class GoodsBean implements Parcelable  {
         this.contentID = contentID;
     }
 
-    public String getSize() {
-        return size;
+    public String getColor() {
+        return color;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public boolean isChecked() {
@@ -241,7 +241,7 @@ public class GoodsBean implements Parcelable  {
         dest.writeString(shopName);
         dest.writeString(recordID);
         dest.writeString(contentID);
-        dest.writeString(size);
+        dest.writeString(color);
         dest.writeInt(state);
         dest.writeByte((byte) (isChecked ? 1 : 0));
         dest.writeByte((byte) (isEditing ? 1 : 0));

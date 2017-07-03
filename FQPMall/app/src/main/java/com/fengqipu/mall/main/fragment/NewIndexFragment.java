@@ -379,7 +379,7 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                     e.printStackTrace();
                 }
             }
-        }, 3000);
+        }, 2000);
     }
 
     /**
