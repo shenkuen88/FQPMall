@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    cube_ptr:ptr_duration_to_close="200"
+    cube_ptr:ptr_duration_to_close_header="1000"
+    cube_ptr:ptr_keep_header_when_refresh="true"
+    cube_ptr:ptr_pull_to_fresh="false"
+    cube_ptr:ptr_ratio_of_header_height_to_refresh="0.5"
+    cube_ptr:ptr_resistance="0.3">
+
+    <in.srain.cube.views.ptr.PtrClassicFrameLayout
+        android:id="@+id/rotate_header_grid_view_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        cube_ptr:ptr_duration_to_close="200"
+        cube_ptr:ptr_duration_to_close_header="1000"
+        cube_ptr:ptr_keep_header_when_refresh="true"
+        cube_ptr:ptr_pull_to_fresh="false"
+        cube_ptr:ptr_ratio_of_header_height_to_refresh="0.5"
+        cube_ptr:ptr_resistance="0.3">
+
+        <ScrollView
+            android:id="@+id/all_content_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/pxtodp800">
+
+                    <com.fengqipu.mall.view.banner.CusConvenientBanner
+                        android:id="@+id/product_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/pxtodp800"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true" />
+
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/pxtodp180"
+                    android:background="@color/white"
+                    android:paddingLeft="@dimen/pxtodp20">
+
+                    <LinearLayout
+                        android:id="@+id/right_share_ll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/pxtodp92"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/pxtodp24"
+                        android:layout_marginTop="@dimen/pxtodp10"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="@dimen/pxtodp1"
+                            android:layout_height="match_parent" />
+
+                        <TextView
+                            android:id="@+id/share_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/pxtodp12"
+                            android:drawableTop="@mipmap/share_icon"
+                            android:text="分享"
+                            android:textSize="@dimen/pxtosp24" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/name_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/pxtodp32"
+                        android:layout_marginLeft="@dimen/pxtodp24"
+                        android:layout_marginRight="@dimen/pxtodp30"
+                        android:layout_marginTop="@dimen/pxtodp32"
+                        android:layout_toLeftOf="@+id/right_share_ll"
+                        android:ellipsize="end"
+                        android:gravity="left"
+                        android:singleLine="true"
+                        android:textColor="@color/register_black_text"
+                        android:textSize="@dimen/pxtosp34" />
+
+                    <TextView
+                        android:id="@+id/abstract_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/name_tv"
+                        android:layout_marginBottom="@dimen/pxtodp32"
+                        android:layout_marginLeft="@dimen/pxtodp24"
+                        android:layout_marginRight="@dimen/pxtodp30"
+                        android:layout_toLeftOf="@+id/right_share_ll"
+                        android:ellipsize="end"
+                        android:gravity="left"
+                        android:singleLine="true"
+                        android:textColor="@color/txt_nol_col"
+                        android:textSize="@dimen/pxtosp30" />
+
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/pxtodp20"
+                    android:background="@color/white_color"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/pxtodp20">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/pxtodp24"
+                        android:layout_marginRight="@dimen/pxtodp30"
+                        android:layout_weight="1"
+                        android:text="参考报价"
+                        android:textColor="@color/txt_nol_col"
+                        android:textSize="@dimen/pxtosp30" />
+
+                    <TextView
+                        android:id="@+id/price_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/pxtodp24"
+                        android:layout_weight="4"
+                        android:textColor="@color/txt_nol_col"
+                        android:textSize="@dimen/pxtosp30" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+    <ImageView
+        android:id="@+id/btn_fanhui"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="@dimen/pxtodp30"
+        android:layout_marginTop="@dimen/pxtodp18"
+        android:src="@mipmap/icon_back" />
+</RelativeLayout>

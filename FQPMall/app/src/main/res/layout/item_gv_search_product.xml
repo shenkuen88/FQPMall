@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="172dp"
+    android:layout_height="240dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/product_iv"
+        android:layout_width="match_parent"
+        android:layout_height="142dp"
+        android:layout_margin="@dimen/pxtodp24"
+        android:src="@color/app_color" />
+
+    <TextView
+        android:layout_below="@+id/product_iv"
+        android:id="@+id/product_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/pxtodp24"
+        android:layout_marginRight="@dimen/pxtodp24"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="@string/no_data_show_long_text" />
+
+    <TextView
+        android:id="@+id/price_tv"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/pxtodp20"
+        android:layout_marginBottom="@dimen/pxtodp20"
+        android:layout_width="wrap_content"
+        android:text="@string/no_data_show_Num"
+        android:textColor="@color/app_color"
+        android:textSize="@dimen/pxtosp34"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:id="@+id/provider_tv"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/pxtodp20"
+        android:layout_marginBottom="@dimen/pxtodp20"
+        android:layout_width="wrap_content"
+        android:text="@string/no_data_show_Num"
+        android:textColor="@color/txt_nol_col"
+        android:textSize="@dimen/pxtosp20"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

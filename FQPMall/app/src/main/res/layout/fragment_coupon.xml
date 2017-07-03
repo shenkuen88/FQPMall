@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.fengqipu.mall.view.PullToRefreshView
+        android:id="@+id/pull_to_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/common_back">
+
+        <ListView
+            android:id="@+id/community_list"
+            android:layout_width="match_parent"
+            android:footerDividersEnabled="false"
+            android:layout_height="match_parent"
+            android:dividerHeight="@dimen/pxtodp0" />
+    </com.fengqipu.mall.view.PullToRefreshView>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/no_history"
+        layout="@layout/listview_empty" />
+
+</RelativeLayout>

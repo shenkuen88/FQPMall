@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/common_back"
+        layout="@layout/layout_top" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pxtodp1"
+        android:layout_below="@+id/common_back"
+        android:background="@color/line" />
+
+    <LinearLayout
+        android:id="@+id/name_ll"
+        style="@style/addAddressLL"
+        android:layout_below="@+id/line1">
+
+        <TextView
+            style="@style/addAddressTv"
+            android:text="收货人姓名" />
+
+        <EditText
+            android:id="@+id/name_et"
+            style="@style/addAddressEt" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line2"
+        style="@style/marginLeft24Line"
+        android:layout_below="@+id/name_ll" />
+
+
+    <LinearLayout
+        android:id="@+id/phone_ll"
+        style="@style/addAddressLL"
+        android:layout_below="@+id/line2">
+
+        <TextView
+            style="@style/addAddressTv"
+            android:text="手机号码" />
+
+        <EditText
+            android:id="@+id/phone_et"
+            style="@style/addAddressEt"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line3"
+        style="@style/marginLeft24Line"
+        android:layout_below="@+id/phone_ll" />
+
+    <LinearLayout
+        android:id="@+id/location_ll"
+        style="@style/addAddressLL"
+        android:layout_below="@+id/line3"
+        android:clickable="true">
+
+        <TextView
+            style="@style/addAddressTv"
+            android:text="所在地区" />
+
+        <TextView
+            android:id="@+id/location_et"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white_color"
+            android:clickable="false"
+            android:gravity="right|center_vertical"
+            android:textColor="@color/add_address_left_text"
+            android:textSize="@dimen/pxtosp32" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line4"
+        style="@style/marginLeft24Line"
+        android:layout_below="@+id/location_ll" />
+
+    <LinearLayout
+        android:id="@+id/detail_ll"
+        style="@style/addAddressLL"
+        android:layout_below="@+id/line4">
+
+        <TextView
+            style="@style/addAddressTv"
+            android:text="详细地址" />
+
+        <EditText
+            android:id="@+id/address_et"
+            style="@style/addAddressEt" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line5"
+        style="@style/marginLeft24Line"
+        android:layout_below="@+id/detail_ll" />
+
+
+    <LinearLayout
+        android:id="@+id/set_ll"
+        style="@style/addAddressLL"
+        android:layout_below="@+id/line5">
+
+        <TextView
+            style="@style/addAddressTv"
+            android:layout_weight="1"
+            android:text="设为默认收货地址" />
+
+        <com.fengqipu.mall.view.switchbn.SwitchButton
+            android:id="@+id/default_bn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/pxtodp24" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line6"
+        style="@style/marginLeft24Line"
+        android:layout_below="@+id/set_ll" />
+
+
+    <LinearLayout
+        android:id="@+id/bottom_ll"
+        android:layout_below="@+id/line6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/pxtodp100"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/pxtodp24"
+                android:paddingRight="@dimen/pxtodp24"
+                android:text="取消"
+                android:textColor="@color/register_code_get_sms"
+                android:textSize="@dimen/pxtosp32" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingLeft="@dimen/pxtodp24"
+                android:paddingRight="@dimen/pxtodp24"
+                android:text="选择城市"
+                android:textColor="@color/register_success_reward"
+                android:textSize="@dimen/pxtosp38" />
+
+            <TextView
+                android:id="@+id/btn_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/pxtodp24"
+                android:paddingRight="@dimen/pxtodp24"
+                android:text="确定"
+                android:textColor="@color/register_code_get_sms"
+                android:textSize="@dimen/pxtosp32" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

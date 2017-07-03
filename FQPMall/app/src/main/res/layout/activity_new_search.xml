@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.fengqipu.mall.main.acty.search.NewSearchActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/finish_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/pxtodp20"
+            android:paddingRight="@dimen/pxtodp10"
+            android:src="@mipmap/app_title_back" />
+
+        <TextView
+            android:id="@+id/search_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/pxtodp20"
+            android:drawablePadding="3dp"
+            android:drawableRight="@mipmap/icon_dropdown"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="企业"
+            android:textColor="#4a4a4a"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/home_top_search"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp">
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="搜您想要的企业"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:singleLine="true"
+                android:paddingLeft="10dp"
+                android:textColor="@color/gray"
+                android:textColorHint="@color/gray"
+                android:textSize="14sp"
+                tools:ignore="RtlHardcoded" />
+
+            <ImageView
+                android:id="@+id/iv_search_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignRight="@+id/et_search"
+                android:paddingLeft="12dp"
+                android:paddingRight="8dp"
+                android:src="@mipmap/ic_search_clear"
+                android:visibility="gone"
+                tools:ignore="ContentDescription" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/btn_ss"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="搜索"
+            android:textColor="#4A4A4A"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line"></View>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="热门搜索"
+                android:textColor="#4A4A4A"
+                android:textSize="15sp" />
+
+            <com.fengqipu.mall.view.MyGridView
+                android:id="@+id/gridview_rmss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:horizontalSpacing="7dp"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:numColumns="3"
+                android:scrollbars="none"
+                android:overScrollMode="never"
+                android:verticalSpacing="7dp"></com.fengqipu.mall.view.MyGridView>
+
+            <View
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line"></View>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="历史搜索"
+                android:textColor="#4A4A4A"
+                android:textSize="15sp" />
+
+            <com.fengqipu.mall.view.MyGridView
+                android:id="@+id/gridview_lsss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_color"
+                android:horizontalSpacing="7dp"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:numColumns="3"
+                android:scrollbars="none"
+                android:overScrollMode="never"
+                android:verticalSpacing="7dp"></com.fengqipu.mall.view.MyGridView>
+            <LinearLayout
+                android:id="@+id/btn_qkls"
+                android:layout_marginTop="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="@dimen/pxtodp40"
+                android:layout_marginRight="@dimen/pxtodp40"
+                android:background="@drawable/transparent_rec"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@mipmap/icon_ashcan"
+                    android:gravity="center"
+                    android:text="清空历史消息"
+                    android:textColor="#9B9B9B"
+                    android:drawablePadding="5dp"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

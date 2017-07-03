@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_input"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/pxtodp134"
+    android:background="@color/white_color">
+
+    <EditText
+        android:layout_centerVertical="true"
+        android:id="@+id/comment_et"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pxtodp92"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="@dimen/pxtodp16"
+        android:layout_marginLeft="@dimen/pxtodp30"
+        android:layout_marginTop="@dimen/pxtodp16"
+        android:layout_toLeftOf="@+id/comment_bn"
+        android:background="@drawable/app_img_bg"
+        android:hint="评论"
+        android:maxHeight="@dimen/pxtodp120"
+        android:padding="@dimen/pxtodp10"
+        android:textColorHint="@color/white_grey"
+        android:textSize="@dimen/pxtosp30" />
+
+
+    <Button
+        android:id="@+id/comment_bn"
+        android:layout_width="@dimen/pxtodp180"
+        android:layout_height="@dimen/pxtodp92"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/comment_et"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/pxtodp20"
+        android:layout_marginRight="@dimen/pxtodp20"
+        android:background="@drawable/community_reply_bn"
+        android:text="评论"
+        android:textColor="@color/white_color"
+        android:textSize="@dimen/pxtosp30" />
+</RelativeLayout>

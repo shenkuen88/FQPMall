@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/common_back"
+        layout="@layout/layout_top" />
+
+    <View
+        android:id="@+id/line1"
+        android:background="@color/line"
+        android:layout_below="@+id/common_back"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pxtodp1"/>
+
+    <com.fengqipu.mall.view.swipemenulist.SwipeMenuListView
+        android:id="@+id/address_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:divider="@drawable/line_view"
+        android:dividerHeight="@dimen/pxtodp1"
+        android:descendantFocusability="afterDescendants"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:layout_below="@+id/line1"/>
+    <include
+        android:layout_below="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/no_history"
+        layout="@layout/listview_empty"
+        />
+</RelativeLayout>

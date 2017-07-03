@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_col">
+
+    <include
+        android:id="@+id/common_back"
+        layout="@layout/layout_top" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pxtodp1"
+        android:layout_below="@+id/common_back"
+        android:background="@color/line" />
+
+    <EditText
+        android:id="@+id/title_et"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pxtodp88"
+        android:layout_below="@id/line1"
+        android:background="@color/white_color"
+        android:paddingLeft="@dimen/pxtodp30"
+        android:hint="请输入标题"
+        android:singleLine="true"
+        android:textColorHint="@color/txt_nol_col"
+        android:textColor="@color/txt_nol_col"
+        android:textSize="@dimen/pxtosp32" />
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/content_et"
+        android:layout_height="@dimen/pxtodp180"
+        android:layout_below="@id/title_et"
+        android:layout_marginTop="@dimen/pxtodp2"
+        android:background="@color/white_color"
+        android:layout_marginBottom="@dimen/pxtodp20"
+        android:paddingLeft="@dimen/pxtodp30"
+        android:paddingTop="@dimen/pxtodp24"
+        android:paddingBottom="@dimen/pxtodp24"
+        android:hint="请输入内容"
+        android:gravity="top|left"
+        android:paddingRight="@dimen/pxtodp30"
+        android:singleLine="true"
+        android:textColorHint="@color/txt_nol_col"
+        android:textColor="@color/txt_nol_col"
+        android:textSize="@dimen/pxtosp32" />
+
+    <LinearLayout
+        android:layout_below="@+id/content_et"
+        android:background="@color/white_color"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/pxtodp30"
+        android:paddingRight="@dimen/pxtodp30"
+        android:paddingTop="@dimen/pxtodp36"
+        android:paddingBottom="@dimen/pxtodp36"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:background="@mipmap/default_upload_pic"
+            android:layout_width="@dimen/pxtodp200"
+            android:layout_height="@dimen/pxtodp200" >
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

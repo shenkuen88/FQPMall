@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tol_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_col"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/title"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="一周以内"
+        />
+    <com.fengqipu.mall.view.MySwipeMenuListView
+        android:id="@+id/my_sub_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/bg_gray"
+        android:dividerHeight="10dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:descendantFocusability="afterDescendants"
+        android:background="@color/white"
+        ></com.fengqipu.mall.view.MySwipeMenuListView>
+</LinearLayout>

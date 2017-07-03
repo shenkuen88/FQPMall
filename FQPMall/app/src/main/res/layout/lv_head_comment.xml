@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/pxtodp120"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pxtodp120"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/pxtodp30"
+        android:paddingRight="@dimen/pxtodp30">
+
+
+        <com.fengqipu.mall.view.CircleImageView
+            android:layout_width="@dimen/pxtodp64"
+            android:layout_height="@dimen/pxtodp64"
+            android:id="@+id/head_iv"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/pxtodp30"
+            android:src="@drawable/default_head"
+            app:border_color="@color/line"
+            app:border_width="@dimen/pxtodp1" />
+
+        <TextView
+            android:id="@+id/input_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/app_img_bg_circle_dark"
+            android:hint="评论..."
+            android:imeOptions="actionDone"
+            android:minHeight="@dimen/pxtodp62"
+            android:paddingBottom="@dimen/pxtodp10"
+            android:paddingLeft="@dimen/pxtodp16"
+            android:paddingRight="@dimen/pxtodp16"
+            android:paddingTop="@dimen/pxtodp10"
+            android:textColor="@color/register_black_text"
+            android:textColorHint="@color/txt_nol_col"
+            android:textSize="@dimen/pxtosp34" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

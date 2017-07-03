@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/top_rl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pxtodp90"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/location_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/pxtodp20"
+            android:layout_marginRight="@dimen/pxtodp12"
+            android:drawablePadding="@dimen/pxtodp10"
+            android:drawableRight="@mipmap/arrow_down"
+            android:gravity="center_vertical"
+            android:text="南京"
+            android:textColor="@color/register_black_text" />
+
+        <TextView
+            android:id="@+id/search_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/pxtodp14"
+            android:layout_marginTop="@dimen/pxtodp14"
+            android:layout_toLeftOf="@+id/index_news_iv"
+            android:layout_toRightOf="@+id/location_tv"
+            android:background="@drawable/home_top_search"
+            android:drawableLeft="@mipmap/search_icon"
+            android:drawablePadding="@dimen/pxtodp14"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/pxtodp10"
+            android:paddingLeft="@dimen/pxtodp28"
+            android:paddingTop="@dimen/pxtodp10"
+            android:text="搜索您想要的商品"
+            android:textColor="@color/txt_nol_col" />
+
+        <ImageView
+            android:id="@+id/index_news_iv"
+            android:layout_width="@dimen/pxtodp94"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawablePadding="@dimen/pxtodp10"
+            android:drawableRight="@mipmap/arrow_down"
+            android:layout_alignParentBottom="true"
+            android:paddingLeft="@dimen/pxtodp22"
+            android:paddingRight="@dimen/pxtodp26"
+            android:src="@mipmap/index_news" />
+    </RelativeLayout>
+
+    <in.srain.cube.views.ptr.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        cube_ptr:ptr_duration_to_close="200"
+        cube_ptr:ptr_duration_to_close_header="1000"
+        cube_ptr:ptr_keep_header_when_refresh="true"
+        cube_ptr:ptr_pull_to_fresh="false"
+        cube_ptr:ptr_ratio_of_header_height_to_refresh="0.5"
+        cube_ptr:ptr_resistance="0.3">
+
+        <com.fengqipu.mall.view.MyScrollView1
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.fengqipu.mall.view.banner.ConvenientBanner
+                    android:id="@+id/index_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/pxtodp320" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/pxtodp162"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:id="@+id/online_teach_iv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/common_background"
+                        android:paddingBottom="@dimen/pxtodp30"
+                        android:paddingTop="@dimen/pxtodp30"
+                        android:src="@mipmap/online_teach_icon" />
+
+                    <ImageView
+                        android:id="@+id/baby_iv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/common_background"
+                        android:paddingBottom="@dimen/pxtodp30"
+                        android:paddingTop="@dimen/pxtodp30"
+                        android:src="@mipmap/chilid_part_icon" />
+
+                    <ImageView
+                        android:id="@+id/decorate_iv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/common_background"
+                        android:paddingBottom="@dimen/pxtodp30"
+                        android:paddingTop="@dimen/pxtodp30"
+                        android:src="@mipmap/decorate_icon" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/pxtodp20"
+                    android:background="@color/app_add_friend_dialog_bg" />
+
+                <com.fengqipu.mall.view.PublicNoticeView
+                    android:id="@+id/notice_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/pxtodp100"
+                    >
+
+                </com.fengqipu.mall.view.PublicNoticeView>
+
+                <View
+                    android:id="@+id/notice_view_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/pxtodp20"
+                    android:background="@color/app_add_friend_dialog_bg"
+                    android:visibility="gone" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/all_content_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </LinearLayout>
+            </LinearLayout>
+        </com.fengqipu.mall.view.MyScrollView1>
+
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+
+
+
+</LinearLayout>

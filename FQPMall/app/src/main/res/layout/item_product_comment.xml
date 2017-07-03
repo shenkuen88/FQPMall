@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingRight="@dimen/pxtodp30"
+    >
+
+
+    <ImageView
+        android:id="@+id/comment_head_iv"
+        android:layout_width="@dimen/pxtodp60"
+        android:layout_height="@dimen/pxtodp60"
+        android:layout_marginLeft="@dimen/pxtodp30"
+        android:layout_marginRight="@dimen/pxtodp20"
+        android:layout_marginTop="@dimen/pxtodp32"
+        android:src="@drawable/default_head"
+        />
+
+    <TextView
+        android:id="@+id/comment_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/pxtodp34"
+        android:layout_toRightOf="@+id/comment_head_iv"
+        android:text="@string/no_data_show_short_text"
+        android:textColor="@color/register_black_text"
+        android:textSize="@dimen/pxtodp30"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/comment_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/comment_head_iv"
+        android:text="@string/no_data_show_short_text"
+        android:textColor="@color/txt_nol_col"
+        android:textSize="@dimen/pxtodp30" />
+
+    <TextView
+        android:id="@+id/comment_content_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment_name_tv"
+        android:layout_marginBottom="@dimen/pxtodp20"
+        android:layout_marginTop="@dimen/pxtodp18"
+        android:layout_toRightOf="@+id/comment_head_iv"
+        android:maxLines="2"
+        android:text="@string/no_data_show_long_text" />
+
+    <LinearLayout
+        android:id="@+id/image_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/comment_content_tv"
+        android:layout_marginBottom="@dimen/pxtodp20"
+        android:layout_marginLeft="@dimen/pxtodp110"
+        android:layout_marginTop="@dimen/pxtodp20"
+        android:orientation="horizontal">
+        <com.fengqipu.mall.view.MyGridView
+            android:id="@+id/my_grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:gravity="center"
+            android:numColumns="3"
+            android:horizontalSpacing="3dp"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            android:stretchMode="columnWidth"></com.fengqipu.mall.view.MyGridView>
+    </LinearLayout>
+</RelativeLayout>

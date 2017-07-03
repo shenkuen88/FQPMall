@@ -1,0 +1,36 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="86dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="在线教育"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:background="@mipmap/icon_decoration_sortx"
+        />
+    <FrameLayout
+        android:id="@+id/txt_bg"
+        android:layout_width="86dp"
+        android:layout_height="52dp"
+        android:background="@color/bg_col">
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="86dp"
+        android:layout_height="52dp"
+        android:gravity="center"
+        android:text="在线教育"
+        android:textColor="@color/txt_col"
+        />
+        <View
+            android:id="@+id/sel_line"
+            android:layout_width="2dp"
+            android:layout_height="52dp"
+            android:visibility="gone"
+            android:background="@color/app_color"></View>
+    </FrameLayout>
+</LinearLayout>
+

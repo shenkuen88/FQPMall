@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/pxtodp270"
+    android:background="@mipmap/bj_ss"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:id="@+id/pw_enterprise_tv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:drawableLeft="@mipmap/icon1"
+        android:textColor="@color/white"
+        android:paddingLeft="@dimen/pxtodp20"
+        android:drawablePadding="5dp"
+        android:textSize="15sp"
+        android:text="企业" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pxtodp1"
+        android:background="@color/line" />
+
+    <TextView
+        android:id="@+id/pw_shop_tv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:drawableLeft="@mipmap/icon2"
+        android:paddingLeft="@dimen/pxtodp20"
+        android:text="商铺"
+        android:textSize="15sp"
+        android:drawablePadding="5dp"
+        android:textColor="@color/white"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pxtodp1"
+        android:background="@color/line" />
+
+    <TextView
+        android:id="@+id/pw_goods_tv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:drawableLeft="@mipmap/icon3"
+        android:paddingLeft="@dimen/pxtodp20"
+        android:text="商品"
+        android:textSize="15sp"
+        android:drawablePadding="5dp"
+        android:textColor="@color/white"
+        />
+</LinearLayout>

@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whole_bg"
+    android:orientation="vertical">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0">
+
+        <com.fengqipu.mall.view.VerticalViewPager
+            android:id="@+id/vertical_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </RelativeLayout>
+
+    <!--底部布局-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pxtodp94"
+        android:layout_alignParentBottom="true"
+        android:background="@color/fc">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pxtodp1"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/line_view" />
+
+        <TextView
+            android:text="在线客服"
+            android:id="@+id/service_tv"
+            android:drawableLeft="@mipmap/icon_service"
+            android:textColor="@color/white_color"
+            android:background="@drawable/pink_button"
+            android:drawablePadding="@dimen/pxtodp10"
+            android:gravity="center"
+            android:paddingLeft="@dimen/pxtodp34"
+            android:paddingRight="@dimen/pxtodp44"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/pxtodp60" />
+
+    </RelativeLayout>
+</LinearLayout>

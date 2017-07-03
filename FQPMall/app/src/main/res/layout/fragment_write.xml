@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white_color"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.fengqipu.mall.view.swipemenulist.SwipeMenuListView
+        android:id="@+id/address_lv"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_ll"
+        android:background="@color/transparent"
+        android:descendantFocusability="afterDescendants"
+        android:divider="@drawable/line_view"
+        android:dividerHeight="@dimen/pxtodp1"
+        android:overScrollMode="never"
+        android:scrollbars="none" />
+
+    <include
+        android:id="@+id/no_history"
+        layout="@layout/listview_empty" />
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/line"
+        android:layout_above="@+id/bottom_ll"
+        android:layout_height="@dimen/pxtodp1"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:id="@+id/bottom_ll"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_height="@dimen/pxtodp92">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="全选"
+            android:gravity="center"
+            android:textSize="@dimen/pxtosp32"
+            android:textColor="@color/register_black_text"
+            android:id="@+id/all_tv"
+            android:layout_height="match_parent" />
+        <View
+            android:layout_width="@dimen/pxtodp1"
+            android:background="@color/line"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="删除"
+            android:gravity="center"
+            android:textSize="@dimen/pxtosp32"
+            android:textColor="@color/register_black_text"
+            android:id="@+id/delete_tv"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</RelativeLayout>

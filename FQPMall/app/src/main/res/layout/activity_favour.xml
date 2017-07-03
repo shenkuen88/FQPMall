@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.fengqipu.mall.main.acty.mine.HistoryGoodsActivity">
+    <include
+        android:id="@+id/common_back"
+        layout="@layout/layout_top" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pxtodp1"
+        android:background="@color/line" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/mTabs"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        android:background="@color/white_color"
+        app:tabIndicatorColor="@color/order_sel_col"
+        app:tabSelectedTextColor="@color/order_sel_col"
+        app:tabTextColor="@color/order_nol_col" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pxtodp1"
+        android:background="@color/line" />
+    <com.fengqipu.mall.view.NoScrollViewPager
+        android:id="@+id/mContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></com.fengqipu.mall.view.NoScrollViewPager>
+    <!--<com.fengqipu.mall.view.MySwipeMenuListView-->
+        <!--android:id="@+id/his_goods_list"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@color/transparent"-->
+        <!--android:divider="@color/line"-->
+        <!--android:dividerHeight="@dimen/pxtodp1"-->
+        <!--android:descendantFocusability="afterDescendants"-->
+        <!--android:overScrollMode="never"-->
+        <!--android:scrollbars="none">-->
+    <!--</com.fengqipu.mall.view.MySwipeMenuListView>-->
+    <!--<include-->
+        <!--android:id="@+id/no_history"-->
+        <!--layout="@layout/listview_empty"-->
+        <!--/>-->
+</LinearLayout>
