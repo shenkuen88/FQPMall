@@ -50,8 +50,8 @@ public class GWCGuiGeBtmDialog extends Dialog {
     private Button btn_confim;
     int num = 1;
 
-    private String stylestr = "";
-    private String colorstr = "";
+    public String stylestr = "";
+    public String colorstr = "";
     private List<GuiGeBean> styleList = new ArrayList<>();
     private CommonAdapter<GuiGeBean> styleAdapter;
 

@@ -21,6 +21,7 @@ import com.fengqipu.mall.adapter.cart.MyBaseExpandableListAdapter;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.cart.CartDelResponse;
+import com.fengqipu.mall.bean.cart.CartGuiGeResponse;
 import com.fengqipu.mall.bean.cart.CartNumResponse;
 import com.fengqipu.mall.bean.cart.CartResponse;
 import com.fengqipu.mall.bean.cart.GWCGoodsDetailResponse;
@@ -28,7 +29,6 @@ import com.fengqipu.mall.bean.cart.GoodsBean;
 import com.fengqipu.mall.bean.cart.StoreBean;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
-import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.dialog.GWCGuiGeBtmDialog;
 import com.fengqipu.mall.main.acty.index.ConfirmOrderActivity;
@@ -92,9 +92,9 @@ public class CartFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isVisible()) {
-            initCartData();
-        }
+//        if (isVisibleToUser && isVisible()) {
+//            initCartData();
+//        }
     }
 
     @Override
@@ -107,9 +107,10 @@ public class CartFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (getUserVisibleHint() && Global.getNowIndex().equals(this.getClass().getName())) {
-            initCartData();
-        }
+        initCartData();
+//        if (getUserVisibleHint() && Global.getNowIndex().equals(this.getClass().getName())) {
+//
+//        }
     }
 
     private void init() {
@@ -388,7 +389,9 @@ public class CartFragment extends BaseFragment {
 //            childMapList_list.add(childMapList);
 //        }
     }
-
+    public String styleStr="";
+    public String colorStr="";
+    public String priceStr="";
 
     @Override
     public void onEventMainThread(BaseResponse event) {
@@ -477,17 +480,45 @@ public class CartFragment extends BaseFragment {
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     if (Constants.SUCESS_CODE.equals(goodsDetailResponse.getResultCode())) {
                         myBaseExpandableListAdapter.showdialog=true;
-                        GWCGuiGeBtmDialog guiGeBtmDialog=new GWCGuiGeBtmDialog(getActivity(),goodsDetailResponse,myBaseExpandableListAdapter.curstyle,myBaseExpandableListAdapter.curcolor);
+                        final GoodsBean goodsBean=myBaseExpandableListAdapter.curgoodsBean;
+                        final GWCGuiGeBtmDialog guiGeBtmDialog=new GWCGuiGeBtmDialog(getActivity(),goodsDetailResponse,goodsBean.getStyle(),goodsBean.getColor());
 //                        GuiGeBtmDialog guiGeBtmDialog=new GuiGeBtmDialog(getActivity(),goodsDetailResponse);
                         guiGeBtmDialog.show();
                         guiGeBtmDialog.setConfimClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                
+                                List<CartResponse.CartRecord> clist = new ArrayList<CartResponse.CartRecord>();
+                                clist.add(new CartResponse.CartRecord(goodsBean.getRecordID(), goodsBean.getShopID(), goodsBean.getUserID()
+                                        , goodsBean.getContentID(), goodsBean.getObjectName(), goodsBean.getPicUrl()
+                                        , goodsBean.getCount(), guiGeBtmDialog.stylestr, guiGeBtmDialog.colorstr, guiGeBtmDialog.gg_price.getText().toString().trim().replace("￥","")+ ""
+                                        , goodsBean.getCreateTime(), goodsBean.getPicUrl(), goodsBean.getShopName()));
+                                UserServiceImpl.instance().setCartNum(clist, CartGuiGeResponse.class.getName());
+                                styleStr=guiGeBtmDialog.stylestr;
+                                colorStr=guiGeBtmDialog.colorstr;
+                                priceStr=guiGeBtmDialog.gg_price.getText().toString().trim().replace("￥","");
+                                guiGeBtmDialog.dismiss();
+
                             }
                         });
                     } else {
                         ErrorCode.doCode(getActivity(), goodsDetailResponse.getResultCode(), goodsDetailResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(getActivity());
+                }
+            }
+            if (tag.equals(CartGuiGeResponse.class.getName())) {
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    CartGuiGeResponse cartGuiGeResponse = GsonHelper.toType(result, CartGuiGeResponse.class);
+                    if (Constants.SUCESS_CODE.equals(cartGuiGeResponse.getResultCode())) {
+//                        initCartData();
+                        GoodsBean goodsBean=myBaseExpandableListAdapter.curgoodsBean;
+                        goodsBean.setStyle(styleStr);
+                        goodsBean.setColor(colorStr);
+                        goodsBean.setPrice(Double.valueOf(priceStr));
+                        myBaseExpandableListAdapter.changeData(goodsBean);
+                    } else {
+                        ErrorCode.doCode(getActivity(), cartGuiGeResponse.getResultCode(), cartGuiGeResponse.getDesc());
                     }
                 } else {
                     ToastUtil.showError(getActivity());

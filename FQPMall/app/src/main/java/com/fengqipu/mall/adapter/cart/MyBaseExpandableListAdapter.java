@@ -28,6 +28,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.fengqipu.mall.R.id.edit_info;
+import static com.fengqipu.mall.R.id.edit_price;
+import static com.fengqipu.mall.R.id.id_tv_discount_price;
+import static com.fengqipu.mall.R.id.tv_items_child_desc;
+
 /**
  * Created by louisgeek on 2016/4/27.
  */
@@ -228,16 +233,18 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
                     .findViewById(R.id.id_ll_edtoring);
             //常规下：
             childViewHolder.tv_items_child_desc = (TextView) convertView
-                    .findViewById(R.id.tv_items_child_desc);
+                    .findViewById(tv_items_child_desc);
             childViewHolder.id_tv_price = (TextView) convertView
                     .findViewById(R.id.id_tv_price);
             childViewHolder.id_tv_discount_price = (TextView) convertView
-                    .findViewById(R.id.id_tv_discount_price);
+                    .findViewById(id_tv_discount_price);
             childViewHolder.id_tv_count = (TextView) convertView
                     .findViewById(R.id.id_tv_count);
             //编辑下：
+            childViewHolder.edit_price = (TextView) convertView
+                    .findViewById(edit_price);
             childViewHolder.edit_info = (TextView) convertView
-                    .findViewById(R.id.edit_info);
+                    .findViewById(edit_info);
             childViewHolder.btn_jian = (TextView) convertView
                     .findViewById(R.id.btn_jian);
             childViewHolder.num_txt = (TextView) convertView
@@ -281,15 +288,16 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         // childViewHolder.id_tv_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);//数字划线效果
         childViewHolder.id_tv_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置中划线并抗锯齿
         childViewHolder.id_tv_discount_price.setText(String.format(context.getString(R.string.price), goodsBean.getPrice()));
+        childViewHolder.edit_price.setText(String.format(context.getString(R.string.price), goodsBean.getPrice()));
         if (goodsBean.getColor() != null && !goodsBean.getColor().equals("")) {
             childViewHolder.tv_items_child_desc.setText("分类:" + goodsBean.getStyle() + "、" + goodsBean.getColor());
         } else {
             childViewHolder.tv_items_child_desc.setText("分类:" + goodsBean.getStyle());
         }
         if (goodsBean.getColor() != null && !goodsBean.getColor().equals("")) {
-            childViewHolder.edit_info.setText("分类:" + goodsBean.getStyle() + "、" + goodsBean.getColor());
+            childViewHolder.edit_info.setText(goodsBean.getStyle() + "、" + goodsBean.getColor());
         } else {
-            childViewHolder.edit_info.setText("分类:" + goodsBean.getStyle());
+            childViewHolder.edit_info.setText(goodsBean.getStyle());
         }
         childViewHolder.id_tv_count.setText(String.format(context.getString(R.string.good_count), goodsBean.getCount()));
 //        childViewHolder.id_tv_count_now.setText(String.valueOf(goodsBean.getCount()));
@@ -353,16 +361,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
                 dealPrice();
             }
         });
-        childViewHolder.edit_info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!showdialog)return;
-                showdialog=false;
-                curstyle = goodsBean.getStyle();
-                curcolor = goodsBean.getColor();
-                UserServiceImpl.instance().getGoodsDetial(context, goodsBean.getContentID(), GWCGoodsDetailResponse.class.getName());
-            }
-        });
+        childViewHolder.edit_info.setOnClickListener(new MyEditOnClickListener(goodsBean,groupPosition,childPosition));
 //        childViewHolder.id_iv_add.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -412,8 +411,32 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         childViewHolder.btn_jia.setOnClickListener(new MyOnClickListener(goodsBean, 1));//1.加
         return convertView;
     }
-    public String curstyle="";
-    public String curcolor="";
+
+    public GoodsBean curgoodsBean=null;
+    int groupPos=0;
+    int childPos=0;
+    private class MyEditOnClickListener implements View.OnClickListener {
+        GoodsBean goodsBean;
+        int fpos=0;
+        int cpos=0;
+        public MyEditOnClickListener(GoodsBean goodsBean,int fpostion,int cpostion){
+            this.goodsBean=goodsBean;
+        }
+        @Override
+        public void onClick(View view) {
+            if(!showdialog)return;
+            showdialog=false;
+            curgoodsBean=goodsBean;
+            groupPos=fpos;
+            childPos=cpos;
+            changeData(curgoodsBean);
+            UserServiceImpl.instance().getGoodsDetial(context, goodsBean.getContentID(), GWCGoodsDetailResponse.class.getName());
+        }
+    }
+    public void changeData(GoodsBean curgoodsBean){
+        childMapList_list.get(groupPos).get(childPos).put("childName",curgoodsBean);
+        notifyDataSetChanged();
+    }
     public boolean showdialog=true;
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
@@ -759,7 +782,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView tv_items_child_desc,edit_info;
         TextView id_tv_price;
-        TextView id_tv_discount_price;
+        TextView id_tv_discount_price,edit_price;
         TextView id_tv_count;
         TextView btn_jian, num_txt, btn_jia;
         ImageView id_iv_logo;
@@ -814,5 +837,6 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
             UserServiceImpl.instance().setCartNum(clist, CartNumResponse.class.getName());
         }
     }
+
 
 }
