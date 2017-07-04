@@ -107,10 +107,12 @@
             android:layout_height="1px"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:visibility="gone"
             android:background="@color/bg_col"></View>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="0dp"
@@ -180,27 +182,16 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/btn_addgwc"
-            android:layout_width="@dimen/pxtodp190"
-            android:layout_height="@dimen/pxtodp60"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/pxtodp22"
-            android:layout_toLeftOf="@+id/buy_bn"
-            android:background="@drawable/yellow_rec_normal"
-            android:text="加入购物车"
-            android:textColor="@color/white"
-            android:textSize="@dimen/pxtosp26" />
 
         <Button
-            android:id="@+id/btn_buy"
+            android:id="@+id/btn_confim"
             android:layout_width="@dimen/pxtodp190"
             android:layout_height="@dimen/pxtodp60"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/pxtodp22"
             android:background="@drawable/pink_button"
-            android:text="立即购买"
+            android:text="确定"
             android:textColor="@color/white"
             android:textSize="@dimen/pxtosp26" />
     </LinearLayout>

@@ -23,12 +23,14 @@ import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.cart.CartDelResponse;
 import com.fengqipu.mall.bean.cart.CartNumResponse;
 import com.fengqipu.mall.bean.cart.CartResponse;
+import com.fengqipu.mall.bean.cart.GWCGoodsDetailResponse;
 import com.fengqipu.mall.bean.cart.GoodsBean;
 import com.fengqipu.mall.bean.cart.StoreBean;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
+import com.fengqipu.mall.dialog.GWCGuiGeBtmDialog;
 import com.fengqipu.mall.main.acty.index.ConfirmOrderActivity;
 import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.main.base.HeadView;
@@ -387,6 +389,7 @@ public class CartFragment extends BaseFragment {
 //        }
     }
 
+
     @Override
     public void onEventMainThread(BaseResponse event) {
         if (event instanceof NetResponseEvent) {
@@ -464,6 +467,27 @@ public class CartFragment extends BaseFragment {
                         initCartData();
                     } else {
                         ErrorCode.doCode(getActivity(), delResponse.getResultCode(), delResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(getActivity());
+                }
+            }
+            if (tag.equals(GWCGoodsDetailResponse.class.getName())) {
+                GWCGoodsDetailResponse goodsDetailResponse = GsonHelper.toType(result, GWCGoodsDetailResponse.class);
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    if (Constants.SUCESS_CODE.equals(goodsDetailResponse.getResultCode())) {
+                        myBaseExpandableListAdapter.showdialog=true;
+                        GWCGuiGeBtmDialog guiGeBtmDialog=new GWCGuiGeBtmDialog(getActivity(),goodsDetailResponse,myBaseExpandableListAdapter.curstyle,myBaseExpandableListAdapter.curcolor);
+//                        GuiGeBtmDialog guiGeBtmDialog=new GuiGeBtmDialog(getActivity(),goodsDetailResponse);
+                        guiGeBtmDialog.show();
+                        guiGeBtmDialog.setConfimClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                
+                            }
+                        });
+                    } else {
+                        ErrorCode.doCode(getActivity(), goodsDetailResponse.getResultCode(), goodsDetailResponse.getDesc());
                     }
                 } else {
                     ToastUtil.showError(getActivity());

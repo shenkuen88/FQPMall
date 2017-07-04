@@ -32,7 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/id_iv_logo"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
         <TextView
             android:id="@+id/tv_items_child"
@@ -41,19 +42,27 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:paddingRight="10dp"
-            android:text="商品名称"></TextView>
+            android:text="商品名称"
+            android:textSize="15sp"
+            android:textColor="#4a4a4a"
+            ></TextView>
 
         <TextView
             android:id="@+id/tv_items_child_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="颜色规格描述"></TextView>
+            android:text="颜色规格描述"
+            android:textColor="#9B9B9B"
+            android:textSize="13sp"
+            ></TextView>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            >
 
             <TextView
                 android:id="@+id/id_tv_discount_price"
@@ -62,7 +71,7 @@
                 android:layout_centerVertical="true"
                 android:singleLine="true"
                 android:text="@string/price"
-                android:textColor="@android:color/holo_red_light"
+                android:textColor="#EB464E"
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
@@ -99,10 +108,12 @@
         android:layout_height="80dp"
         android:layout_marginLeft="10dp"
         android:orientation="vertical"
+
         >
 
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
@@ -154,6 +165,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
+            android:layout_marginBottom="7dp"
             android:gravity="bottom"
             android:orientation="horizontal">
             <TextView
@@ -163,17 +175,21 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="￥0.0"
-                android:textSize="12sp"
-                android:textColor="#999999"/>
+                android:textColor="#EB464E"
+                android:textSize="14sp"
+                />
+
             <TextView
                 android:id="@+id/edit_info"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
+                android:drawableRight="@mipmap/icon_dropdown"
+                android:drawablePadding="3dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|right"
                 android:text="黑色 中号"
-                android:textSize="12sp"
-                android:textColor="#999999"/>
+                android:textColor="#9B9B9B"
+                android:textSize="12sp"/>
         </LinearLayout>
         <!--<RelativeLayout-->
             <!--android:layout_width="0dp"-->

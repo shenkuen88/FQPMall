@@ -131,6 +131,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 UserServiceImpl.instance().addFavour(this,"1",contentID, AddGoodsFavourResponse.class.getName());
                 break;
             case R.id.btn_addgwc:
+                Log.e("sub","style="+style+",color="+color);
                 UserServiceImpl.instance().addToBuyCar(contentID,num,style,color,AddGWCResponse.class.getName());
                 break;
             case R.id.btn_buy:
@@ -204,6 +205,11 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
         if (guiGeBtmDialog != null && guiGeBtmDialog.isShowing()) {
             guiGeBtmDialog.dismiss();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     public GoodsDetailResponse goodsDetailResponse;

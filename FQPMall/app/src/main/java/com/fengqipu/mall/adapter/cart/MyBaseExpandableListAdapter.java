@@ -16,6 +16,7 @@ import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.cart.CartDelResponse;
 import com.fengqipu.mall.bean.cart.CartNumResponse;
 import com.fengqipu.mall.bean.cart.CartResponse;
+import com.fengqipu.mall.bean.cart.GWCGoodsDetailResponse;
 import com.fengqipu.mall.bean.cart.GoodsBean;
 import com.fengqipu.mall.bean.cart.StoreBean;
 import com.fengqipu.mall.bean.cart.StoreGoodsBean;
@@ -158,7 +159,6 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         //覆盖原有收起展开事件
 
 
-
         groupViewHolder.id_cb_select_parent.setChecked(storeBean.isChecked());
         final boolean nowBeanChecked = storeBean.isChecked();
         groupViewHolder.id_cb_select_parent.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +169,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
                 onAllCheckedBoxNeedChangeListener.onCheckedBoxNeedChange(dealAllParentIsChecked());
             }
         });
-        final  GroupViewHolder tempvh =groupViewHolder;
+        final GroupViewHolder tempvh = groupViewHolder;
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -236,13 +236,15 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
             childViewHolder.id_tv_count = (TextView) convertView
                     .findViewById(R.id.id_tv_count);
             //编辑下：
+            childViewHolder.edit_info = (TextView) convertView
+                    .findViewById(R.id.edit_info);
             childViewHolder.btn_jian = (TextView) convertView
                     .findViewById(R.id.btn_jian);
             childViewHolder.num_txt = (TextView) convertView
                     .findViewById(R.id.num_txt);
             childViewHolder.btn_jia = (TextView) convertView
                     .findViewById(R.id.btn_jia);
-            childViewHolder.id_iv_logo=(ImageView)convertView.findViewById(R.id.id_iv_logo);
+            childViewHolder.id_iv_logo = (ImageView) convertView.findViewById(R.id.id_iv_logo);
 //            childViewHolder.id_iv_reduce = (ImageView) convertView
 //                    .findViewById(R.id.id_iv_reduce);
 //            childViewHolder.id_iv_add = (ImageView) convertView
@@ -279,8 +281,16 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         // childViewHolder.id_tv_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);//数字划线效果
         childViewHolder.id_tv_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置中划线并抗锯齿
         childViewHolder.id_tv_discount_price.setText(String.format(context.getString(R.string.price), goodsBean.getPrice()));
-        childViewHolder.tv_items_child_desc.setText(String.valueOf(goodsBean.getStyle()));
-
+        if (goodsBean.getColor() != null && !goodsBean.getColor().equals("")) {
+            childViewHolder.tv_items_child_desc.setText("分类:" + goodsBean.getStyle() + "、" + goodsBean.getColor());
+        } else {
+            childViewHolder.tv_items_child_desc.setText("分类:" + goodsBean.getStyle());
+        }
+        if (goodsBean.getColor() != null && !goodsBean.getColor().equals("")) {
+            childViewHolder.edit_info.setText("分类:" + goodsBean.getStyle() + "、" + goodsBean.getColor());
+        } else {
+            childViewHolder.edit_info.setText("分类:" + goodsBean.getStyle());
+        }
         childViewHolder.id_tv_count.setText(String.format(context.getString(R.string.good_count), goodsBean.getCount()));
 //        childViewHolder.id_tv_count_now.setText(String.valueOf(goodsBean.getCount()));
 
@@ -320,7 +330,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
             childViewHolder.id_ll_normal.setVisibility(View.VISIBLE);
             childViewHolder.id_ll_edtoring.setVisibility(View.GONE);
         }
-        final ChildViewHolder tempch=childViewHolder;
+        final ChildViewHolder tempch = childViewHolder;
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -343,7 +353,16 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
                 dealPrice();
             }
         });
-
+        childViewHolder.edit_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!showdialog)return;
+                showdialog=false;
+                curstyle = goodsBean.getStyle();
+                curcolor = goodsBean.getColor();
+                UserServiceImpl.instance().getGoodsDetial(context, goodsBean.getContentID(), GWCGoodsDetailResponse.class.getName());
+            }
+        });
 //        childViewHolder.id_iv_add.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -393,7 +412,9 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         childViewHolder.btn_jia.setOnClickListener(new MyOnClickListener(goodsBean, 1));//1.加
         return convertView;
     }
-
+    public String curstyle="";
+    public String curcolor="";
+    public boolean showdialog=true;
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         // return false;
@@ -563,10 +584,10 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         dealPrice();
     }
 
-    public ArrayList<StoreGoodsBean> getGoods(){
-        ArrayList<StoreGoodsBean> slist=new ArrayList<StoreGoodsBean>();
+    public ArrayList<StoreGoodsBean> getGoods() {
+        ArrayList<StoreGoodsBean> slist = new ArrayList<StoreGoodsBean>();
         for (int i = parentMapList.size() - 1; i >= 0; i--) {//倒过来遍历  remove
-            StoreGoodsBean storeGoodsBean=new StoreGoodsBean();
+            StoreGoodsBean storeGoodsBean = new StoreGoodsBean();
             storeGoodsBean.setStoreBean(null);
             StoreBean storeBean = (StoreBean) parentMapList.get(i).get("parentName");
             if (storeBean.isChecked()) {
@@ -586,13 +607,14 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
                     }
                 }
             }
-            if(storeGoodsBean.getStoreBean()!=null) {
+            if (storeGoodsBean.getStoreBean() != null) {
                 slist.add(storeGoodsBean);
             }
 
         }
         return slist;
     }
+
     public void removeGoods() {
     /*    for (int i = 0; i <parentMapList.size(); i++) {
             StoreBean storeBean= (StoreBean) parentMapList.get(i).get("parentName");
@@ -735,7 +757,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         LinearLayout id_ll_normal;
         LinearLayout id_ll_edtoring;
 
-        TextView tv_items_child_desc;
+        TextView tv_items_child_desc,edit_info;
         TextView id_tv_price;
         TextView id_tv_discount_price;
         TextView id_tv_count;
@@ -785,10 +807,10 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
             }
             NetLoadingDialog.getInstance().loading(context);
             List<CartResponse.CartRecord> clist = new ArrayList<CartResponse.CartRecord>();
-            clist.add(new CartResponse.CartRecord(goodsBean.getRecordID(),goodsBean.getShopID(),goodsBean.getUserID()
-                    ,goodsBean.getContentID(),goodsBean.getObjectName(),goodsBean.getPicUrl()
-                    ,goodsBean.getCount(),goodsBean.getStyle(),goodsBean.getColor(),goodsBean.getPrice()+""
-                    ,goodsBean.getCreateTime(),goodsBean.getPicUrl(),goodsBean.getShopName()));
+            clist.add(new CartResponse.CartRecord(goodsBean.getRecordID(), goodsBean.getShopID(), goodsBean.getUserID()
+                    , goodsBean.getContentID(), goodsBean.getObjectName(), goodsBean.getPicUrl()
+                    , goodsBean.getCount(), goodsBean.getStyle(), goodsBean.getColor(), goodsBean.getPrice() + ""
+                    , goodsBean.getCreateTime(), goodsBean.getPicUrl(), goodsBean.getShopName()));
             UserServiceImpl.instance().setCartNum(clist, CartNumResponse.class.getName());
         }
     }
