@@ -761,10 +761,9 @@ public class UserServiceImpl
     /**
      * 获取订单列表
      */
-    public void getOrderList(String userID, int status, String keyword, int pageNo, int pageSize, String tag)
+    public void getOrderList(int status, String keyword, int pageNo, int pageSize, String tag)
     {
         Map<String, String> param = new HashMap<String, String>();
-        param.put("userID", userID);
         if (status != 0)
         {
             param.put("status", "" + status);

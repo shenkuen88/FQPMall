@@ -58,55 +58,67 @@ public class OrderResponse extends BaseResponse implements Serializable{
 
 
     public static class OrderListBean implements Serializable{
-        private String orderID;
+
+        /**
+         * id : 4453
+         * orderCode : 17070414991587305030008
+         * shopID : 3
+         * userID : 1
+         * userName : null
+         * userPortrait : null
+         * payType : 2
+         * outerCode : null
+         * originalPrice : null
+         * realPrice : 1500
+         * freight : null
+         * orderContentList : [{"id":"5","orderID":"5","contentID":"1","contentName":"智能榨汁机","picUrl":"/file/content/78fd39f1-2bbb-47a0-8798-4375cca855db.jpg","count":1,"style":"高效版","color":null,"realPrice":1500,"createTime":"2017-07-04"}]
+         * status : 1
+         * refundStatus : null
+         * delFlag : 0
+         * payTime : null
+         * deliveryTime : null
+         * signTime : null
+         * createTime : 2017-07-04
+         * deliveryTimeShow : 
+         * endTimeShow : 2天0小时0分钟
+         * createTimeStr : 20170704165850
+         * createTimeShow : 20170704165850
+         * shopName : 商铺1
+         * payTimeShow : 
+         */
+
+        private String id;
         private String orderCode;
         private String shopID;
         private String userID;
+        private String userName;
+        private String userPortrait;
         private int payType;
         private String outerCode;
         private String originalPrice;
-        private double realPrice;
+        private int realPrice;
+        private String freight;
         private int status;
+        private String refundStatus;
         private int delFlag;
         private String payTime;
         private String deliveryTime;
+        private String signTime;
         private String createTime;
-        private String payTimeShow;
         private String deliveryTimeShow;
+        private String endTimeShow;
         private String createTimeStr;
         private String createTimeShow;
         private String shopName;
-        private String freight;
-
-        public String getFreight() {
-            return freight;
-        }
-
-        public void setFreight(String freight) {
-            this.freight = freight;
-        }
-
-        /**
-         * relationID : 71
-         * orderID : 31
-         * contentID : 1
-         * contentName : 内容1
-         * picUrl : http://221.226.118.110:18080/skin/upload/content/5fbd985d-64a5-4c7c-babf-32a0db15b91e.jpg
-         * count : 1
-         * style : 款式1
-         * originalPrice : null
-         * realPrice : 0.0
-         * createTime : 2016-08-04
-         */
-
+        private String payTimeShow;
         private List<OrderContentListBean> orderContentList;
 
-        public String getOrderID() {
-            return orderID;
+        public String getId() {
+            return id;
         }
 
-        public void setOrderID(String orderID) {
-            this.orderID = orderID;
+        public void setId(String id) {
+            this.id = id;
         }
 
         public String getOrderCode() {
@@ -133,6 +145,22 @@ public class OrderResponse extends BaseResponse implements Serializable{
             this.userID = userID;
         }
 
+        public String getUserName() {
+            return userName;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
+        }
+
+        public String getUserPortrait() {
+            return userPortrait;
+        }
+
+        public void setUserPortrait(String userPortrait) {
+            this.userPortrait = userPortrait;
+        }
+
         public int getPayType() {
             return payType;
         }
@@ -157,12 +185,20 @@ public class OrderResponse extends BaseResponse implements Serializable{
             this.originalPrice = originalPrice;
         }
 
-        public double getRealPrice() {
+        public int getRealPrice() {
             return realPrice;
         }
 
-        public void setRealPrice(double realPrice) {
+        public void setRealPrice(int realPrice) {
             this.realPrice = realPrice;
+        }
+
+        public String getFreight() {
+            return freight;
+        }
+
+        public void setFreight(String freight) {
+            this.freight = freight;
         }
 
         public int getStatus() {
@@ -171,6 +207,14 @@ public class OrderResponse extends BaseResponse implements Serializable{
 
         public void setStatus(int status) {
             this.status = status;
+        }
+
+        public String getRefundStatus() {
+            return refundStatus;
+        }
+
+        public void setRefundStatus(String refundStatus) {
+            this.refundStatus = refundStatus;
         }
 
         public int getDelFlag() {
@@ -197,6 +241,14 @@ public class OrderResponse extends BaseResponse implements Serializable{
             this.deliveryTime = deliveryTime;
         }
 
+        public String getSignTime() {
+            return signTime;
+        }
+
+        public void setSignTime(String signTime) {
+            this.signTime = signTime;
+        }
+
         public String getCreateTime() {
             return createTime;
         }
@@ -205,20 +257,20 @@ public class OrderResponse extends BaseResponse implements Serializable{
             this.createTime = createTime;
         }
 
-        public String getPayTimeShow() {
-            return payTimeShow;
-        }
-
-        public void setPayTimeShow(String payTimeShow) {
-            this.payTimeShow = payTimeShow;
-        }
-
         public String getDeliveryTimeShow() {
             return deliveryTimeShow;
         }
 
         public void setDeliveryTimeShow(String deliveryTimeShow) {
             this.deliveryTimeShow = deliveryTimeShow;
+        }
+
+        public String getEndTimeShow() {
+            return endTimeShow;
+        }
+
+        public void setEndTimeShow(String endTimeShow) {
+            this.endTimeShow = endTimeShow;
         }
 
         public String getCreateTimeStr() {
@@ -245,6 +297,14 @@ public class OrderResponse extends BaseResponse implements Serializable{
             this.shopName = shopName;
         }
 
+        public String getPayTimeShow() {
+            return payTimeShow;
+        }
+
+        public void setPayTimeShow(String payTimeShow) {
+            this.payTimeShow = payTimeShow;
+        }
+
         public List<OrderContentListBean> getOrderContentList() {
             return orderContentList;
         }
@@ -253,24 +313,46 @@ public class OrderResponse extends BaseResponse implements Serializable{
             this.orderContentList = orderContentList;
         }
 
-        public static class OrderContentListBean implements Serializable{
-            private String relationID;
+        public static class OrderContentListBean {
+            /**
+             * id : 5
+             * orderID : 5
+             * contentID : 1
+             * contentName : 智能榨汁机
+             * picUrl : /file/content/78fd39f1-2bbb-47a0-8798-4375cca855db.jpg
+             * count : 1
+             * style : 高效版
+             * color : null
+             * realPrice : 1500
+             * createTime : 2017-07-04
+             */
+
+            private String id;
             private String orderID;
             private String contentID;
             private String contentName;
             private String picUrl;
             private int count;
             private String style;
-            private String originalPrice;
-            private double realPrice;
+            private String color;
+            private int realPrice;
             private String createTime;
+            private String originalPrice;
 
-            public String getRelationID() {
-                return relationID;
+            public String getOriginalPrice() {
+                return originalPrice;
             }
 
-            public void setRelationID(String relationID) {
-                this.relationID = relationID;
+            public void setOriginalPrice(String originalPrice) {
+                this.originalPrice = originalPrice;
+            }
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
             }
 
             public String getOrderID() {
@@ -321,19 +403,19 @@ public class OrderResponse extends BaseResponse implements Serializable{
                 this.style = style;
             }
 
-            public String getOriginalPrice() {
-                return originalPrice;
+            public String getColor() {
+                return color;
             }
 
-            public void setOriginalPrice(String originalPrice) {
-                this.originalPrice = originalPrice;
+            public void setColor(String color) {
+                this.color = color;
             }
 
-            public double getRealPrice() {
+            public int getRealPrice() {
                 return realPrice;
             }
 
-            public void setRealPrice(double realPrice) {
+            public void setRealPrice(int realPrice) {
                 this.realPrice = realPrice;
             }
 

@@ -121,7 +121,7 @@ public class OrderListActivity extends BaseActivity {
 
         @Override
         public android.support.v4.app.Fragment getItem(int position) {
-            return new MyOrderFragment(5);
+            return new MyOrderFragment(6);
         }
 
         @Override

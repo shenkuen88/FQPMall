@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +69,7 @@ public class MyOrderFragment extends BaseFragment {
     private int page = 1;
     private int num = 5;
     private int tolcount = 0;
-    private int orderstate;//0全部1待付款2待发货3待收货4待评价 5.退款
+    private int orderstate;//0全部1待付款2待发货3待收货4待评价 6.退款
     private LinearLayout no_order;
     private ListView order_list;
     private CommonAdapter<OrderResponse.OrderListBean> orderAdapter;
@@ -170,7 +171,7 @@ public class MyOrderFragment extends BaseFragment {
                         btn_qkqx.setVisibility(View.GONE);
                         helper.setText(R.id.state, "交易成功");
                         break;
-                    case "5":
+                    case "6":
                         btn_qxdd.setVisibility(View.GONE);
                         btn_sqth.setVisibility(View.GONE);
                         btn_ckwl.setVisibility(View.GONE);
@@ -196,8 +197,13 @@ public class MyOrderFragment extends BaseFragment {
                         helper.setText(R.id.goods_info, mItem.getContentName());
                         helper.setText(R.id.goods_price, "￥" + mItem.getRealPrice());
                         TextView or_price = helper.getView(R.id.or_price);
-                        or_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                        or_price.setText("￥" + mItem.getOriginalPrice());
+                        if(mItem.getOriginalPrice()==null||mItem.getOriginalPrice().equals("")){
+                            or_price.setVisibility(View.GONE);
+                        }else {
+                            or_price.setVisibility(View.VISIBLE);
+                            or_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                            or_price.setText("￥" + mItem.getOriginalPrice());
+                        }
                         helper.setText(R.id.goods_type, mItem.getStyle());
                         helper.setText(R.id.goods_num_x, "X" + mItem.getCount());
                         helper.getView(R.id.good_ll).setOnClickListener(new View.OnClickListener() {
@@ -207,7 +213,7 @@ public class MyOrderFragment extends BaseFragment {
                                 Intent intent=new Intent(getActivity(), OrderDetailActivity.class);
                                 intent.putExtra(IntentCode.ORDER_GOODS_LIST,(Serializable) item);
                                 intent.putExtra(IntentCode.ORDER_STATE,item.getStatus()+"");
-                                intent.putExtra(IntentCode.C_ORDER_ID,item.getOrderID());
+                                intent.putExtra(IntentCode.C_ORDER_ID,item.getId());
                                 startActivity(intent);
                             }
                         });
@@ -220,7 +226,7 @@ public class MyOrderFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), LogisticsActivity.class);
-                        intent.putExtra("orderID", item.getOrderID());
+                        intent.putExtra("orderID", item.getId());
                         startActivity(intent);
                     }
                 });
@@ -255,8 +261,8 @@ public class MyOrderFragment extends BaseFragment {
                         Intent intent = new Intent(getActivity(), PublicCommentActy.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         intent.putExtra(IntentCode.COMMUNITY_PUBLIC, "1");
-                        intent.putExtra(IntentCode.C_ORDER_ID,item.getOrderID());
-                        Global.saveOrderId(item.getOrderID());
+                        intent.putExtra(IntentCode.C_ORDER_ID,item.getId());
+                        Global.saveOrderId(item.getId());
                         startActivity(intent);
                     }
                 });
@@ -264,7 +270,7 @@ public class MyOrderFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         NetLoadingDialog.getInstance().loading(mContext);
-                        UserServiceImpl.instance().upDateOrder(item.getOrderID(),"1", UpdataOrderResponse.class.getName());
+                        UserServiceImpl.instance().upDateOrder(item.getId(),"1", UpdataOrderResponse.class.getName());
                     }
                 });
                 btn_sqth.setOnClickListener(new View.OnClickListener() {
@@ -272,8 +278,8 @@ public class MyOrderFragment extends BaseFragment {
                     public void onClick(View v) {
                         Intent intent=new Intent(getActivity(), RefundActy.class);
                         intent.putExtra(IntentCode.COMMUNITY_PUBLIC, "1");
-                        intent.putExtra(IntentCode.C_ORDER_ID,item.getOrderID());
-                        Global.saveOrderId(item.getOrderID());
+                        intent.putExtra(IntentCode.C_ORDER_ID,item.getId());
+                        Global.saveOrderId(item.getId());
                         //最多退款金额
                         Global.saveRefundMoney(item.getRealPrice()+"");
                         startActivity(intent);
@@ -294,7 +300,7 @@ public class MyOrderFragment extends BaseFragment {
                         Intent intent=new Intent(getActivity(), OrderDetailActivity.class);
                         intent.putExtra(IntentCode.ORDER_GOODS_LIST,(Serializable) item);
                         intent.putExtra(IntentCode.ORDER_STATE,item.getStatus()+"");
-                        intent.putExtra(IntentCode.C_ORDER_ID,item.getOrderID());
+                        intent.putExtra(IntentCode.C_ORDER_ID,item.getId());
                         startActivity(intent);
                     }
                 });
@@ -407,7 +413,7 @@ public class MyOrderFragment extends BaseFragment {
     private void getOrderList(String keyword) {
         //正式访问
 //        NetLoadingDialog.getInstance().loading(orderListActivity);
-        UserServiceImpl.instance().getOrderList(Global.getUserId(), orderstate, keyword, page, num, OrderResponse.class.getName());
+        UserServiceImpl.instance().getOrderList(orderstate, keyword, page, num, OrderResponse.class.getName());
 
 //        if (page == 1) {
 //            olist.clear();
@@ -445,7 +451,7 @@ public class MyOrderFragment extends BaseFragment {
             String tag = ((NoticeEvent) event).getTag();
             if (NotiTag.TAG_DEL_GOODS_OK.equals(tag)) {
                 NetLoadingDialog.getInstance().loading(getActivity());
-                UserServiceImpl.instance().DelOrder(delOrder.getOrderID(), DelOrderResponse.class.getName());
+                UserServiceImpl.instance().DelOrder(delOrder.getId(), DelOrderResponse.class.getName());
             }
         }
         if (event instanceof NetResponseEvent) {
@@ -462,6 +468,7 @@ public class MyOrderFragment extends BaseFragment {
                     //网络数据(一般不用去做处理)
                 }
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    Log.e("sub","result="+result);
                     OrderResponse orderResponse = GsonHelper.toType(result, OrderResponse.class);
                     if (Constants.SUCESS_CODE.equals(orderResponse.getResultCode())) {
                         if (page == 1) {
