@@ -313,7 +313,7 @@ public class OrderResponse extends BaseResponse implements Serializable{
             this.orderContentList = orderContentList;
         }
 
-        public static class OrderContentListBean {
+        public static class OrderContentListBean implements Serializable{
             /**
              * id : 5
              * orderID : 5
@@ -338,6 +338,15 @@ public class OrderResponse extends BaseResponse implements Serializable{
             private int realPrice;
             private String createTime;
             private String originalPrice;
+            private String picUrlRequestUrl;
+
+            public String getPicUrlRequestUrl() {
+                return picUrlRequestUrl;
+            }
+
+            public void setPicUrlRequestUrl(String picUrlRequestUrl) {
+                this.picUrlRequestUrl = picUrlRequestUrl;
+            }
 
             public String getOriginalPrice() {
                 return originalPrice;

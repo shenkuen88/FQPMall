@@ -118,9 +118,9 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
                         <TextView
-                            android:padding="6dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="78dp"
+                            android:gravity="center"
+                            android:layout_height="30dp"
                             android:text="取消订单"
                             android:textSize="13sp"
                             android:textColor="@color/order_nol_col"
@@ -134,9 +134,9 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
                         <TextView
-                            android:padding="6dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="78dp"
+                            android:gravity="center"
+                            android:layout_height="30dp"
                             android:text="申请退货"
                             android:textSize="13sp"
                             android:textColor="@color/order_nol_col"
@@ -150,9 +150,9 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
                         <TextView
-                            android:padding="6dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="78dp"
+                            android:gravity="center"
+                            android:layout_height="30dp"
                             android:text="查看物流"
                             android:textSize="13sp"
                             android:textColor="@color/order_nol_col"
@@ -167,9 +167,9 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
                         <TextView
-                            android:padding="6dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="78dp"
+                            android:gravity="center"
+                            android:layout_height="30dp"
                             android:text=" 找相似 "
                             android:textSize="13sp"
                             android:textColor="@color/order_nol_col"
@@ -184,9 +184,9 @@
                         android:gravity="center_vertical"
                         android:orientation="vertical">
                         <TextView
-                            android:padding="6dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="78dp"
+                            android:gravity="center"
+                            android:layout_height="30dp"
                             android:text="钱款去向"
                             android:textSize="13sp"
                             android:textColor="@color/app_color"
@@ -201,9 +201,9 @@
                         android:gravity="center_vertical"
                         android:orientation="vertical">
                         <TextView
-                            android:padding="6dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="78dp"
+                            android:gravity="center"
+                            android:layout_height="30dp"
                             android:text="马上付款"
                             android:textSize="13sp"
                             android:textColor="@color/app_color"
@@ -217,9 +217,9 @@
                         android:gravity="center_vertical"
                         android:orientation="vertical">
                         <TextView
-                            android:padding="6dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="78dp"
+                            android:gravity="center"
+                            android:layout_height="30dp"
                             android:text="提醒发货"
                             android:textSize="13sp"
                             android:textColor="@color/app_color"
@@ -233,9 +233,9 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
                         <TextView
-                            android:padding="6dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="78dp"
+                            android:gravity="center"
+                            android:layout_height="30dp"
                             android:text="确认收货"
                             android:textSize="13sp"
                             android:textColor="@color/app_color"
@@ -250,9 +250,9 @@
                         android:orientation="vertical">
                         <TextView
                             android:id="@+id/pj_txt"
-                            android:padding="6dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="78dp"
+                            android:gravity="center"
+                            android:layout_height="30dp"
                             android:text="评价"
                             android:textSize="13sp"
                             android:textColor="@color/app_color"

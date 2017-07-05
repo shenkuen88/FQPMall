@@ -132,20 +132,19 @@ public class MyOrderFragment extends BaseFragment {
                         btn_pj.setVisibility(View.GONE);
                         btn_zxs.setVisibility(View.GONE);
                         btn_qkqx.setVisibility(View.GONE);
-                        helper.setText(R.id.state, "待付款");
+                        helper.setText(R.id.state, "等待买家付款");
                         break;
                     case "2":
                         btn_qxdd.setVisibility(View.GONE);
                         btn_sqth.setVisibility(View.GONE);
                         btn_ckwl.setVisibility(View.GONE);
                         btn_msfk.setVisibility(View.GONE);
-//                        btn_txfh.setVisibility(View.VISIBLE);
-                        btn_txfh.setVisibility(View.GONE);
+                        btn_txfh.setVisibility(View.VISIBLE);
                         btn_qrsh.setVisibility(View.GONE);
                         btn_pj.setVisibility(View.GONE);
                         btn_zxs.setVisibility(View.GONE);
                         btn_qkqx.setVisibility(View.GONE);
-                        helper.setText(R.id.state, "待发货");
+                        helper.setText(R.id.state, "买家已付款");
                         break;
                     case "3":
                         btn_qxdd.setVisibility(View.GONE);
@@ -192,7 +191,7 @@ public class MyOrderFragment extends BaseFragment {
                         if (GeneralUtils.isNotNullOrZeroLenght(mItem.getPicUrl())) {
                             ImageView img = helper.getView(R.id.img);
 //                            ImageLoaderUtil.getInstance().initImage(orderListActivity, mItem.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
-                            GeneralUtils.setImageViewWithUrl(getActivity(), mItem.getPicUrl(), img, R.drawable.default_bg);
+                            GeneralUtils.setImageViewWithUrl(getActivity(), mItem.getPicUrlRequestUrl(), img, R.drawable.default_bg);
                         }
                         helper.setText(R.id.goods_info, mItem.getContentName());
                         helper.setText(R.id.goods_price, "￥" + mItem.getRealPrice());
@@ -204,7 +203,11 @@ public class MyOrderFragment extends BaseFragment {
                             or_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                             or_price.setText("￥" + mItem.getOriginalPrice());
                         }
-                        helper.setText(R.id.goods_type, mItem.getStyle());
+                        if(mItem.getColor()!=null&&!mItem.getColor().equals("")){
+                            helper.setText(R.id.goods_type, "分类:"+mItem.getStyle()+"、"+mItem.getColor());
+                        }else {
+                            helper.setText(R.id.goods_type, "分类:" + mItem.getStyle());
+                        }
                         helper.setText(R.id.goods_num_x, "X" + mItem.getCount());
                         helper.getView(R.id.good_ll).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -291,6 +294,13 @@ public class MyOrderFragment extends BaseFragment {
                         delOrder=item;
                         DialogUtil.showNoTipTwoBnttonDialog(mContext,"确定要删除该订单吗？","取消","确定"
                                 , NotiTag.TAG_DEL_GOODS_CANCEL, NotiTag.TAG_DEL_GOODS_OK);
+                    }
+                });
+                btn_txfh.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //提醒发货
+
                     }
                 });
                 helper.getView(R.id.tol_layout).setOnClickListener(new View.OnClickListener() {

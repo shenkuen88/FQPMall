@@ -3,7 +3,6 @@ package com.fengqipu.mall.main.acty.mine;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,22 +126,31 @@ public class OrderDetailActivity extends BaseActivity {
                 helper.getView(R.id.all_num).setVisibility(View.GONE);
                 helper.setText(R.id.all_money, "￥" + item.getRealPrice());
 //                helper.setText(R.id.dy_price, "(含运费￥" + item.getd() + ")");
-                CommonAdapter<OrderDetailResponse.OrderBean.OrderContentList> goodsCommonAdapter
-                        = new CommonAdapter<OrderDetailResponse.OrderBean.OrderContentList>(mContext
+                CommonAdapter<OrderDetailResponse.OrderBean.OrderContentListBean> goodsCommonAdapter
+                        = new CommonAdapter<OrderDetailResponse.OrderBean.OrderContentListBean>(mContext
                         , item.getOrderContentList(), R.layout.item_myorder_goods) {
                     @Override
-                    public void convert(ViewHolder helper, final OrderDetailResponse.OrderBean.OrderContentList item) {
-                        if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrl())) {
+                    public void convert(ViewHolder helper, final OrderDetailResponse.OrderBean.OrderContentListBean item) {
+                        if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrlRequestUrl())) {
                             ImageView img = helper.getView(R.id.img);
 //                            ImageLoaderUtil.getInstance().initImage(mContext, item.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
-                            GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl(), img, R.drawable.default_bg);
+                            GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrlRequestUrl(), img, R.drawable.default_bg);
                         }
                         helper.setText(R.id.goods_info, item.getContentName());
                         helper.setText(R.id.goods_price, "￥" + item.getRealPrice());
                         TextView or_price = helper.getView(R.id.or_price);
-                        or_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                        or_price.setText("￥" + item.getOriginalPrice());
-                        helper.setText(R.id.goods_type, item.getStyle());
+//                        if(item.getOriginalPrice()==null||item.getOriginalPrice().equals("")){
+                            or_price.setVisibility(View.GONE);
+//                        }else {
+//                            or_price.setVisibility(View.VISIBLE);
+//                            or_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//                            or_price.setText("￥" + item.getOriginalPrice());
+//                        }
+                        if(item.getColor()!=null&&!item.getColor().equals("")){
+                            helper.setText(R.id.goods_type, "分类:"+item.getStyle()+"、"+item.getColor());
+                        }else {
+                            helper.setText(R.id.goods_type, "分类:" + item.getStyle());
+                        }
                         helper.setText(R.id.goods_num_x, "X" + item.getCount());
                         helper.getView(R.id.good_ll).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -159,7 +167,7 @@ public class OrderDetailActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(mContext, LogisticsActivity.class);
-                        intent.putExtra("orderID",item.getOrderID());
+                        intent.putExtra("orderID",item.getId());
                         startActivity(intent);
                     }
                 });
@@ -257,7 +265,7 @@ public class OrderDetailActivity extends BaseActivity {
                 StoreBean storeBean=new StoreBean(item.getShopID(),item.getShopName(),false,false);
                 storeGoodsBean.setStoreBean(storeBean);
                 List<GoodsBean> goodsBeens=new ArrayList<GoodsBean>();
-                for(OrderDetailResponse.OrderBean.OrderContentList it:item.getOrderContentList()){
+                for(OrderDetailResponse.OrderBean.OrderContentListBean it:item.getOrderContentList()){
                     GoodsBean goodsBean = new GoodsBean(it.getCreateTime(), Global.getUserId()+"", it.getPicUrl(), it.getRealPrice(),
                             it.getStyle(), it.getCount(), item.getShopID(),
                             it.getContentName(), item.getShopName(),
@@ -364,7 +372,7 @@ public class OrderDetailActivity extends BaseActivity {
                             public void onClick(View v) {
                                 ClipboardManager cmb = (ClipboardManager) mContext
                                         .getSystemService(Context.CLIPBOARD_SERVICE);
-                                cmb.setText(orderDetailResponse.getOrder().getOrderID());
+                                cmb.setText(orderDetailResponse.getOrder().getId());
                                 ToastUtil.makeText(mContext,"复制成功!");
                             }
                         });

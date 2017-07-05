@@ -104,36 +104,82 @@ public class OrderDetailResponse extends BaseResponse{
         }
     }
     public static class OrderBean {
-        private String orderID;
+
+
+        /**
+         * id : 6
+         * orderCode : 17070514992228942280001
+         * shopID : 3
+         * userID : 3
+         * userName : null
+         * userPortrait : null
+         * payType : 2
+         * outerCode : null
+         * originalPrice : null
+         * realPrice : 4000
+         * freight : null
+         * orderContentList : [{"id":"4454","orderID":"6","contentID":"1","contentName":"智能榨汁机","picUrl":"/file/content/78fd39f1-2bbb-47a0-8798-4375cca855db.jpg","count":2,"style":"高效版","color":null,"realPrice":1500,"createTime":"2017-07-05","picUrlRequestUrl":"http://116.62.116.15/f/file/content/78fd39f1-2bbb-47a0-8798-4375cca855db.jpg"},{"id":"4455","orderID":"6","contentID":"1","contentName":"智能榨汁机","picUrl":"/file/content/78fd39f1-2bbb-47a0-8798-4375cca855db.jpg","count":1,"style":"普通版","color":"黄色","realPrice":1000,"createTime":"2017-07-05","picUrlRequestUrl":"http://116.62.116.15/f/file/content/78fd39f1-2bbb-47a0-8798-4375cca855db.jpg"}]
+         * status : 1
+         * refundStatus : null
+         * delFlag : 0
+         * payTime : null
+         * deliveryTime : null
+         * signTime : null
+         * createTime : 2017-07-05
+         * payTimeShow : 
+         * deliveryTimeShow : 
+         * endTimeShow : 2天0小时0分钟
+         * createTimeStr : 20170705104814
+         * shopName : 商铺1
+         * createTimeShow : 20170705104814
+         */
+
+        private String id;
         private String orderCode;
         private String shopID;
         private String userID;
+        private String userName;
+        private String userPortrait;
         private int payType;
         private String outerCode;
-        private Object originalPrice;
+        private String originalPrice;
         private int realPrice;
-        private Object freight;
-        private List<OrderContentList> orderContentList;
+        private String freight;
         private int status;
-        private Object refundStatus;
+        private String refundStatus;
         private int delFlag;
         private String payTime;
         private String deliveryTime;
-        private Object signTime;
+        private String signTime;
         private String createTime;
-        private String shopName;
-        private String createTimeShow;
-        private String createTimeStr;
+        private String payTimeShow;
         private String deliveryTimeShow;
         private String endTimeShow;
-        private String payTimeShow;
+        private String createTimeStr;
+        private String shopName;
+        private String createTimeShow;
+        /**
+         * id : 4454
+         * orderID : 6
+         * contentID : 1
+         * contentName : 智能榨汁机
+         * picUrl : /file/content/78fd39f1-2bbb-47a0-8798-4375cca855db.jpg
+         * count : 2
+         * style : 高效版
+         * color : null
+         * realPrice : 1500
+         * createTime : 2017-07-05
+         * picUrlRequestUrl : http://116.62.116.15/f/file/content/78fd39f1-2bbb-47a0-8798-4375cca855db.jpg
+         */
 
-        public String getOrderID() {
-            return orderID;
+        private List<OrderContentListBean> orderContentList;
+
+        public String getId() {
+            return id;
         }
 
-        public void setOrderID(String orderID) {
-            this.orderID = orderID;
+        public void setId(String id) {
+            this.id = id;
         }
 
         public String getOrderCode() {
@@ -160,6 +206,22 @@ public class OrderDetailResponse extends BaseResponse{
             this.userID = userID;
         }
 
+        public String getUserName() {
+            return userName;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
+        }
+
+        public String getUserPortrait() {
+            return userPortrait;
+        }
+
+        public void setUserPortrait(String userPortrait) {
+            this.userPortrait = userPortrait;
+        }
+
         public int getPayType() {
             return payType;
         }
@@ -176,11 +238,11 @@ public class OrderDetailResponse extends BaseResponse{
             this.outerCode = outerCode;
         }
 
-        public Object getOriginalPrice() {
+        public String getOriginalPrice() {
             return originalPrice;
         }
 
-        public void setOriginalPrice(Object originalPrice) {
+        public void setOriginalPrice(String originalPrice) {
             this.originalPrice = originalPrice;
         }
 
@@ -192,20 +254,12 @@ public class OrderDetailResponse extends BaseResponse{
             this.realPrice = realPrice;
         }
 
-        public Object getFreight() {
+        public String getFreight() {
             return freight;
         }
 
-        public void setFreight(Object freight) {
+        public void setFreight(String freight) {
             this.freight = freight;
-        }
-
-        public List<OrderContentList> getOrderContentList() {
-            return orderContentList;
-        }
-
-        public void setOrderContentList(List<OrderContentList> orderContentList) {
-            this.orderContentList = orderContentList;
         }
 
         public int getStatus() {
@@ -216,11 +270,11 @@ public class OrderDetailResponse extends BaseResponse{
             this.status = status;
         }
 
-        public Object getRefundStatus() {
+        public String getRefundStatus() {
             return refundStatus;
         }
 
-        public void setRefundStatus(Object refundStatus) {
+        public void setRefundStatus(String refundStatus) {
             this.refundStatus = refundStatus;
         }
 
@@ -248,11 +302,11 @@ public class OrderDetailResponse extends BaseResponse{
             this.deliveryTime = deliveryTime;
         }
 
-        public Object getSignTime() {
+        public String getSignTime() {
             return signTime;
         }
 
-        public void setSignTime(Object signTime) {
+        public void setSignTime(String signTime) {
             this.signTime = signTime;
         }
 
@@ -264,28 +318,12 @@ public class OrderDetailResponse extends BaseResponse{
             this.createTime = createTime;
         }
 
-        public String getShopName() {
-            return shopName;
+        public String getPayTimeShow() {
+            return payTimeShow;
         }
 
-        public void setShopName(String shopName) {
-            this.shopName = shopName;
-        }
-
-        public String getCreateTimeShow() {
-            return createTimeShow;
-        }
-
-        public void setCreateTimeShow(String createTimeShow) {
-            this.createTimeShow = createTimeShow;
-        }
-
-        public String getCreateTimeStr() {
-            return createTimeStr;
-        }
-
-        public void setCreateTimeStr(String createTimeStr) {
-            this.createTimeStr = createTimeStr;
+        public void setPayTimeShow(String payTimeShow) {
+            this.payTimeShow = payTimeShow;
         }
 
         public String getDeliveryTimeShow() {
@@ -304,45 +342,57 @@ public class OrderDetailResponse extends BaseResponse{
             this.endTimeShow = endTimeShow;
         }
 
-        public String getPayTimeShow() {
-            return payTimeShow;
+        public String getCreateTimeStr() {
+            return createTimeStr;
         }
 
-        public void setPayTimeShow(String payTimeShow) {
-            this.payTimeShow = payTimeShow;
+        public void setCreateTimeStr(String createTimeStr) {
+            this.createTimeStr = createTimeStr;
         }
-        public class OrderContentList {
 
-            /**
-             * relationID : 71
-             * orderID : 31
-             * contentID : 1
-             * contentName : 内容1
-             * picUrl : http://221.226.118.110:18080/skin/upload/content/5fbd985d-64a5-4c7c-babf-32a0db15b91e.jpg
-             * count : 1
-             * style : 款式1
-             * originalPrice : null
-             * realPrice : 0
-             * createTime : 2016-08-04
-             */
+        public String getShopName() {
+            return shopName;
+        }
 
-            private String relationID;
+        public void setShopName(String shopName) {
+            this.shopName = shopName;
+        }
+
+        public String getCreateTimeShow() {
+            return createTimeShow;
+        }
+
+        public void setCreateTimeShow(String createTimeShow) {
+            this.createTimeShow = createTimeShow;
+        }
+
+        public List<OrderContentListBean> getOrderContentList() {
+            return orderContentList;
+        }
+
+        public void setOrderContentList(List<OrderContentListBean> orderContentList) {
+            this.orderContentList = orderContentList;
+        }
+
+        public static class OrderContentListBean {
+            private String id;
             private String orderID;
             private String contentID;
             private String contentName;
             private String picUrl;
             private int count;
             private String style;
-            private Object originalPrice;
+            private String color;
             private int realPrice;
             private String createTime;
+            private String picUrlRequestUrl;
 
-            public String getRelationID() {
-                return relationID;
+            public String getId() {
+                return id;
             }
 
-            public void setRelationID(String relationID) {
-                this.relationID = relationID;
+            public void setId(String id) {
+                this.id = id;
             }
 
             public String getOrderID() {
@@ -393,12 +443,12 @@ public class OrderDetailResponse extends BaseResponse{
                 this.style = style;
             }
 
-            public Object getOriginalPrice() {
-                return originalPrice;
+            public String getColor() {
+                return color;
             }
 
-            public void setOriginalPrice(Object originalPrice) {
-                this.originalPrice = originalPrice;
+            public void setColor(String color) {
+                this.color = color;
             }
 
             public int getRealPrice() {
@@ -416,8 +466,15 @@ public class OrderDetailResponse extends BaseResponse{
             public void setCreateTime(String createTime) {
                 this.createTime = createTime;
             }
-        }
 
+            public String getPicUrlRequestUrl() {
+                return picUrlRequestUrl;
+            }
+
+            public void setPicUrlRequestUrl(String picUrlRequestUrl) {
+                this.picUrlRequestUrl = picUrlRequestUrl;
+            }
+        }
     }
 
     public static class DeliveryBean {
