@@ -1,16 +1,15 @@
 package com.fengqipu.mall.main.acty.mine;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fengqipu.mall.R;
@@ -23,38 +22,46 @@ import com.fengqipu.mall.bean.mine.DelHistoryGoodsResponse;
 import com.fengqipu.mall.bean.mine.HistoryGoodsResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
-import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
-import com.fengqipu.mall.main.acty.index.ProductActy;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.HeadView;
 import com.fengqipu.mall.network.GsonHelper;
 import com.fengqipu.mall.network.UserServiceImpl;
 import com.fengqipu.mall.tools.DialogUtil;
-import com.fengqipu.mall.tools.DisplayUtil;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
 import com.fengqipu.mall.tools.V;
-import com.fengqipu.mall.view.MySwipeMenuListView;
-import com.fengqipu.mall.view.swipemenulist.SwipeMenu;
-import com.fengqipu.mall.view.swipemenulist.SwipeMenuCreator;
-import com.fengqipu.mall.view.swipemenulist.SwipeMenuItem;
-import com.fengqipu.mall.view.swipemenulist.SwipeMenuListView;
+import com.fengqipu.mall.view.RefreshListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * create jwei by 2016/7/10
  * 浏览历史
  */
 public class HistoryGoodsActivity extends BaseActivity {
+    @Bind(R.id.top_line)
+    View topLine;
+    @Bind(R.id.id_cb_select_all)
+    CheckBox idCbSelectAll;
+    @Bind(R.id.id_tv_delete_all)
+    TextView idTvDeleteAll;
+    @Bind(R.id.btn_edit)
+    TextView btnEdit;
+    @Bind(R.id.id_rl_foot)
+    RelativeLayout idRlFoot;
     private HeadView headView;
     private LinearLayout no_history;//空页面
     //    private ListView his_goods_list;
-    private MySwipeMenuListView his_goods_list;
+    private RefreshListView his_goods_list;
     private CommonAdapter<HistoryGoodsResponse.UserOperationListBean> hisgoodsAdapter;
     private List<HistoryGoodsResponse.UserOperationListBean> hglist = new ArrayList<HistoryGoodsResponse.UserOperationListBean>();
     private int page = 1;
@@ -64,6 +71,7 @@ public class HistoryGoodsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_goods);
+        ButterKnife.bind(this);
         initAll();
     }
 
@@ -73,9 +81,11 @@ public class HistoryGoodsActivity extends BaseActivity {
         his_goods_list = V.f(this, R.id.his_goods_list);
         initEmtyView();
     }
+    private Map<String,CheckBox> ck_list=new HashMap<>();
 
     @Override
     public void initViewData() {
+        idCbSelectAll.setChecked(false);
 //        hisgoodsAdapter=new CommonAdapter<HistoryGoodsResult>(mContext,hglist,R.layout.his_goods_item) {
 //            @Override
 //            public void convert(ViewHolder helper, HistoryGoodsResult item) {
@@ -99,9 +109,26 @@ public class HistoryGoodsActivity extends BaseActivity {
 //            }
 //        };
         hisgoodsAdapter =
-                new CommonAdapter<HistoryGoodsResponse.UserOperationListBean>(mContext, hglist, R.layout.item_his_g) {
+                new CommonAdapter<HistoryGoodsResponse.UserOperationListBean>(mContext, hglist, R.layout.item_his_history) {
                     @Override
-                    public void convert(ViewHolder helper, HistoryGoodsResponse.UserOperationListBean item) {
+                    public void convert(ViewHolder helper,final HistoryGoodsResponse.UserOperationListBean item) {
+                        final CheckBox btn_ck=helper.getView(R.id.btn_ck);
+                        if(isedit==1){
+                            btn_ck.setVisibility(View.VISIBLE);
+                        }else{
+                            btn_ck.setVisibility(View.GONE);
+                        }
+                        if(idCbSelectAll.isChecked()){
+                            btn_ck.setChecked(true);
+                            ck_list.put(item.getOperationID(),btn_ck);
+                        }else {
+                            if (ck_list.containsKey(item.getOperationID())) {
+                                btn_ck.setChecked(true);
+                                ck_list.put(item.getOperationID(),btn_ck);
+                            } else {
+                                btn_ck.setChecked(false);
+                            }
+                        }
                         helper.setText(R.id.goods_info, item.getContentName());
                         helper.setText(R.id.goods_price, "￥" + item.getPrice());
                         if (GeneralUtils.isNotNullOrZeroLenght(item.getThumPicUrl())) {
@@ -109,14 +136,32 @@ public class HistoryGoodsActivity extends BaseActivity {
 //                            ImageLoaderUtil.getInstance().initImage(mContext, item.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
                             GeneralUtils.setImageViewWithUrl(mContext, item.getThumPicUrl(), img, R.drawable.default_head);
                         }
+                        btn_ck.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(btn_ck.isChecked()){
+                                    btn_ck.setChecked(false);
+                                    ck_list.remove(item.getOperationID());
+                                }else {
+                                    btn_ck.setChecked(true);
+                                    ck_list.put(item.getOperationID(), btn_ck);
+                                }
+                                if(ck_list.size()==hglist.size()){
+                                    idCbSelectAll.setChecked(true);
+                                }else{
+                                    idCbSelectAll.setChecked(false);
+                                }
+                            }
+                        });
                     }
                 };
         his_goods_list.setAdapter(hisgoodsAdapter);
         his_goods_list.setEmptyView(no_history);
-        initLeftSlideList(his_goods_list);
+//        initLeftSlideList(his_goods_list);
         page = 1;
         getHistoryGoods();
     }
+
 
     //获取浏览历史
     private void getHistoryGoods() {
@@ -137,9 +182,22 @@ public class HistoryGoodsActivity extends BaseActivity {
 
     private boolean isloading = false;
     private int count = 0;
-
+    int isedit=0;//0.编辑 1.完成
     @Override
     public void initEvent() {
+        idCbSelectAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("sub","idCbSelectAll.isChecked()"+idCbSelectAll.isChecked());
+                if(idCbSelectAll.isChecked()){
+                    idCbSelectAll.setChecked(false);
+                    ck_list.clear();
+                }else{
+                    idCbSelectAll.setChecked(true);
+                }
+                hisgoodsAdapter.notifyDataSetChanged();
+            }
+        });
         his_goods_list.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             @Override
@@ -149,7 +207,7 @@ public class HistoryGoodsActivity extends BaseActivity {
                     //判断是否滚动到底部
                     if (view.getLastVisiblePosition() == view.getCount() - 1) {
                         if (!isloading) {
-                            isloading=true;
+                            isloading = true;
                             if (count > page * Integer.valueOf(num)) {
                                 page++;
                                 getHistoryGoods();
@@ -169,67 +227,44 @@ public class HistoryGoodsActivity extends BaseActivity {
         his_goods_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HistoryGoodsResponse.UserOperationListBean item=(HistoryGoodsResponse.UserOperationListBean)parent.getItemAtPosition(position);
-                Intent intent = new Intent();
-                if (item.getOperationType()==1) {
-//                    intent.setClass(mContext, EduOlineVideoActivity.class);
-                } else if (item.getOperationType()==2) {
-                    intent.setClass(mContext, ProductActy.class);
-                } else if (item.getOperationType()==3) {
-//                    intent.setClass(mContext, DecorateActy.class);
+//                HistoryGoodsResponse.UserOperationListBean item = (HistoryGoodsResponse.UserOperationListBean) parent.getItemAtPosition(position);
+//                Intent intent = new Intent();
+//                if (item.getOperationType() == 1) {
+////                    intent.setClass(mContext, EduOlineVideoActivity.class);
+//                } else if (item.getOperationType() == 2) {
+//                    intent.setClass(mContext, ProductActy.class);
+//                } else if (item.getOperationType() == 3) {
+////                    intent.setClass(mContext, DecorateActy.class);
+//                }
+//                intent.putExtra(IntentCode.contentID, item.getOperationID());
+//                startActivity(intent);
+            }
+        });
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (btnEdit.getText().equals("编辑")) {
+                    isedit=1;
+                    headView.setRightText("");
+                    topLine.setVisibility(View.GONE);
+                    btnEdit.setText("完成");
+                    idRlFoot.setVisibility(View.VISIBLE);
+                    hisgoodsAdapter.notifyDataSetChanged();
+                } else {
+                    isedit=0;
+                    headView.setRightText("清空");
+                    topLine.setVisibility(View.VISIBLE);
+                    btnEdit.setText("编辑");
+                    idRlFoot.setVisibility(View.GONE);
+                    hisgoodsAdapter.notifyDataSetChanged();
                 }
-                intent.putExtra(IntentCode.contentID, item.getOperationID());
-                startActivity(intent);
+
+
             }
         });
     }
 
     private HistoryGoodsResponse.UserOperationListBean delitem = null;
-
-    //初始化向左滑动出现删除按钮
-    private void initLeftSlideList(MySwipeMenuListView listview) {
-        SwipeMenuCreator creator = new SwipeMenuCreator() {
-
-            @Override
-            public void create(SwipeMenu menu) {
-                // create "open" item
-                SwipeMenuItem openItem = new SwipeMenuItem(
-                        getApplicationContext());
-                // set item background
-                openItem.setBackground(new ColorDrawable(getResources().getColor(R.color.app_color)));
-                // set item width
-                openItem.setWidth(DisplayUtil.dip2px(mContext, 60));
-                // set item title
-                openItem.setTitle("删除");
-                // set item title fontsize
-                openItem.setTitleSize(18);
-                // set item title font color
-                openItem.setTitleColor(Color.WHITE);
-                // add to menu
-
-                menu.addMenuItem(openItem);
-
-            }
-        };
-        // set creator
-        listview.setMenuCreator(creator);
-
-        // step 2. listener item click event
-        listview.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        delitem = hglist.get(position);
-                        NetLoadingDialog.getInstance().loading(mContext);
-                        UserServiceImpl.instance().DelHistoryGoods(delitem.getOperationID(),"5", DelHistoryGoodsResponse.class.getName());
-                    }
-                },300);
-               return false;
-            }
-        });
-    }
 
     //初始化标题
     private void initTitle() {
@@ -266,7 +301,7 @@ public class HistoryGoodsActivity extends BaseActivity {
             if (NotiTag.TAG_DEL_GOODS_OK.equals(tag)) {
                 delitem = null;
                 NetLoadingDialog.getInstance().loading(mContext);
-                UserServiceImpl.instance().DelHistoryGoods("","5", DelHistoryGoodsResponse.class.getName());
+                UserServiceImpl.instance().DelHistoryGoods("", "5", DelHistoryGoodsResponse.class.getName());
             }
         }
         if (event instanceof NetResponseEvent) {
@@ -275,7 +310,7 @@ public class HistoryGoodsActivity extends BaseActivity {
             String result = ((NetResponseEvent) event).getResult();
             NetLoadingDialog.getInstance().dismissDialog();
             if (tag.equals(HistoryGoodsResponse.class.getName())) {
-                isloading=false;
+                isloading = false;
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     HistoryGoodsResponse historyGoodsResponse = GsonHelper.toType(result, HistoryGoodsResponse.class);
                     if (Constants.SUCESS_CODE.equals(historyGoodsResponse.getResultCode())) {
@@ -300,12 +335,12 @@ public class HistoryGoodsActivity extends BaseActivity {
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     DelHistoryGoodsResponse delHistoryGoodsResponse = GsonHelper.toType(result, DelHistoryGoodsResponse.class);
                     if (Constants.SUCESS_CODE.equals(delHistoryGoodsResponse.getResultCode())) {
-                        if(delitem!=null){
+                        if (delitem != null) {
                             hglist.remove(delitem);
                             hisgoodsAdapter.setData(hglist);
                             hisgoodsAdapter.notifyDataSetChanged();
-                        }else{
-                            page=1;
+                        } else {
+                            page = 1;
                             getHistoryGoods();
                         }
                     } else {

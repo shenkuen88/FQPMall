@@ -5,27 +5,118 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.fengqipu.mall.main.acty.mine.HistoryGoodsActivity">
-    <include
-        android:id="@+id/common_back"
-        layout="@layout/layout_top" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:orientation="vertical">
+            <include
+                android:id="@+id/common_back"
+                layout="@layout/layout_top" />
+        </LinearLayout>
+        <View
+            android:id="@+id/top_line"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:background="@color/line"></View>
+        <TextView
+            android:id="@+id/btn_edit"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:text="编辑"
+            android:gravity="center"
+            android:textColor="#4a4a4a"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/pxtodp1"
         android:background="@color/line" />
-    <com.fengqipu.mall.view.MySwipeMenuListView
-        android:id="@+id/his_goods_list"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:orientation="vertical">
+    <com.fengqipu.mall.view.RefreshListView
+        android:id="@+id/his_goods_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/transparent"
         android:divider="@color/line"
         android:dividerHeight="@dimen/pxtodp1"
         android:descendantFocusability="afterDescendants"
         android:overScrollMode="never"
         android:scrollbars="none">
-    </com.fengqipu.mall.view.MySwipeMenuListView>
+    </com.fengqipu.mall.view.RefreshListView>
     <include
         android:id="@+id/no_history"
         layout="@layout/listview_empty"
         />
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/id_rl_foot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentTop="true"
+            android:background="#ccc"/>
+
+        <CheckBox
+            android:id="@+id/id_cb_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@null"
+            android:text=" 全选"
+            android:button="@drawable/selector_check_bg"/>
+
+        <!-- <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerVertical="true"
+             android:layout_marginLeft="5dp"
+             android:layout_toRightOf="@+id/ivSelectAll"
+             android:text="全选"
+             android:textColor="#003333"
+             android:textSize="13sp"/>-->
+
+
+        <LinearLayout
+            android:id="@+id/id_ll_normal_all_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/id_tv_delete_all"
+                android:layout_width="90dp"
+                android:layout_height="40dp"
+                android:background="@drawable/border_index_txt"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="删除"
+                android:textColor="#FFF"
+                android:textSize="13dp"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>
