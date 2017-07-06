@@ -266,11 +266,11 @@ public class OrderDetailActivity extends BaseActivity {
                 storeGoodsBean.setStoreBean(storeBean);
                 List<GoodsBean> goodsBeens=new ArrayList<GoodsBean>();
                 for(OrderDetailResponse.OrderBean.OrderContentListBean it:item.getOrderContentList()){
-                    GoodsBean goodsBean = new GoodsBean(it.getCreateTime(), Global.getUserId()+"", it.getPicUrl(), it.getRealPrice(),
+                    GoodsBean goodsBean = new GoodsBean(it.getCreateTime(), Global.getUserId()+"", it.getPicUrlRequestUrl(), it.getRealPrice(),
                             it.getStyle(), it.getCount(), item.getShopID(),
                             it.getContentName(), item.getShopName(),
-                            "", it.getContentID(),
-                            it.getCount()+"", GoodsBean.STATUS_VALID, false, false);
+                            it.getId(), it.getContentID(),
+                            it.getColor()+"", GoodsBean.STATUS_VALID, false, false);
                     goodsBeens.add(goodsBean);
                 }
                 storeGoodsBean.setGoodsBeanList(goodsBeens);

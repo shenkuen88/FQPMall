@@ -788,6 +788,16 @@ public class UserServiceImpl
         new NetWork()
                 .startPost(URLUtil.GET_ORDER_DETAIL, param, tag);
     }
+    /**
+     * 获取订单列表
+     */
+    public void REMINDDELIVER(String orderID, String tag)
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("orderID", orderID);
+        new NetWork()
+                .startPost(URLUtil.REMINDDELIVER, param, tag);
+    }
 
     /**
      * 搜索内容

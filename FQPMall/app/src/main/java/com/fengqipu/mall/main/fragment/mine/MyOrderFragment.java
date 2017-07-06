@@ -25,6 +25,7 @@ import com.fengqipu.mall.bean.cart.StoreBean;
 import com.fengqipu.mall.bean.cart.StoreGoodsBean;
 import com.fengqipu.mall.bean.mine.DelOrderResponse;
 import com.fengqipu.mall.bean.mine.OrderResponse;
+import com.fengqipu.mall.bean.mine.RemindDeliverResponse;
 import com.fengqipu.mall.bean.mine.UpdataOrderResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
@@ -45,6 +46,7 @@ import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
 import com.fengqipu.mall.tools.V;
+import com.fengqipu.mall.view.citylist.utils.ToastUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -178,9 +180,21 @@ public class MyOrderFragment extends BaseFragment {
                         btn_txfh.setVisibility(View.GONE);
                         btn_qrsh.setVisibility(View.GONE);
                         btn_pj.setVisibility(View.GONE);
-                        btn_zxs.setVisibility(View.VISIBLE);
-                        btn_qkqx.setVisibility(View.VISIBLE);
-                        helper.setText(R.id.state, "退款成功");
+                        btn_zxs.setVisibility(View.GONE);
+                        btn_qkqx.setVisibility(View.GONE);
+                        String str="";
+                        switch (item.getRefundStatus()){
+                            case "1":
+                                str="待处理";
+                                break;
+                            case "2":
+                                str="退款成功";
+                                break;
+                            case "3":
+                                str="退款拒绝";
+                                break;
+                        }
+                        helper.setText(R.id.state, str);
                         break;
                 }
                 CommonAdapter<OrderResponse.OrderListBean.OrderContentListBean> goodsCommonAdapter
@@ -242,11 +256,11 @@ public class MyOrderFragment extends BaseFragment {
                         storeGoodsBean.setStoreBean(storeBean);
                         List<GoodsBean> goodsBeens=new ArrayList<GoodsBean>();
                         for(OrderResponse.OrderListBean.OrderContentListBean it:item.getOrderContentList()){
-                            GoodsBean goodsBean = new GoodsBean(it.getCreateTime(), Global.getUserId()+"", it.getPicUrl(), it.getRealPrice(),
+                            GoodsBean goodsBean = new GoodsBean(it.getCreateTime(), Global.getUserId()+"", it.getPicUrlRequestUrl(), it.getRealPrice(),
                                     it.getStyle(), it.getCount(), item.getShopID(),
                                     it.getContentName(), item.getShopName(),
-                                    "", it.getContentID(),
-                                    it.getCount()+"", GoodsBean.STATUS_VALID, false, false);
+                                    it.getId(), it.getContentID(),
+                                    it.getColor()+"", GoodsBean.STATUS_VALID, false, false);
                             goodsBeens.add(goodsBean);
                         }
                         storeGoodsBean.setGoodsBeanList(goodsBeens);
@@ -300,7 +314,7 @@ public class MyOrderFragment extends BaseFragment {
                     @Override
                     public void onClick(View view) {
                         //提醒发货
-
+                        UserServiceImpl.instance().REMINDDELIVER(item.getId(),RemindDeliverResponse.class.getName());
                     }
                 });
                 helper.getView(R.id.tol_layout).setOnClickListener(new View.OnClickListener() {
@@ -519,6 +533,18 @@ public class MyOrderFragment extends BaseFragment {
                         orderAdapter.notifyDataSetChanged();
                     } else {
                         ErrorCode.doCode(getActivity(), delOrderResponse.getResultCode(), delOrderResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(getActivity());
+                }
+            }
+            if (tag.equals(RemindDeliverResponse.class.getName())) {
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    RemindDeliverResponse remindDeliverResponse = GsonHelper.toType(result, RemindDeliverResponse.class);
+                    if (Constants.SUCESS_CODE.equals(remindDeliverResponse.getResultCode())) {
+                        ToastUtils.showToast(getActivity(),"提醒发货成功!");
+                    } else {
+                        ErrorCode.doCode(getActivity(), remindDeliverResponse.getResultCode(), remindDeliverResponse.getDesc());
                     }
                 } else {
                     ToastUtil.showError(getActivity());

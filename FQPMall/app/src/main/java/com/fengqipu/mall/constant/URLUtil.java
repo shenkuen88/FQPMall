@@ -192,6 +192,10 @@ public class URLUtil
      * 获取订单列表详情
      */
     public static final String GET_ORDER_DETAIL = SERVER_BASE + "order/detail";
+    /**
+     * 获取订单列表详情
+     */
+    public static final String REMINDDELIVER = SERVER_BASE + "order/remindDeliver";
 
     /**
      * 订单退款
