@@ -136,10 +136,10 @@ public class HistoryGoodsActivity extends BaseActivity {
                         }
                         helper.setText(R.id.goods_info, item.getContentName());
                         helper.setText(R.id.goods_price, "￥" + item.getPrice());
-                        if (GeneralUtils.isNotNullOrZeroLenght(item.getThumPicUrl())) {
+                        if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrlRequestUrl())) {
                             ImageView img = helper.getView(R.id.img);
 //                            ImageLoaderUtil.getInstance().initImage(mContext, item.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
-                            GeneralUtils.setImageViewWithUrl(mContext, item.getThumPicUrl(), img, R.drawable.default_head);
+                            GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrlRequestUrl(), img, R.drawable.default_head);
                         }
                         btn_ck_ll.setOnClickListener(new View.OnClickListener() {
                             @Override

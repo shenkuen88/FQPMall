@@ -53,23 +53,25 @@ public class HistoryGoodsResponse extends BaseResponse {
 
     public static class UserOperationListBean {
 
+
         /**
-         * id : 2
+         * id : 1
          * operationType : 5
          * userID : 3
-         * userName :
-         * clientIP :
-         * extend1 : 2
-         * extend2 :
-         * contentName : null
-         * picUrl : null
-         * price : null
+         * userName : 
+         * clientIP : 
+         * extend1 : 1
+         * extend2 : 
+         * contentName : 智能榨汁机
+         * picUrl : /file/content/78fd39f1-2bbb-47a0-8798-4375cca855db.jpg
+         * price : 1000.0
+         * monthSales : null
          * beginTime : null
          * endTime : null
          * delFlag : 0
          * createTime : 2017-07-06
-         * createTimeStr : 2017-07-06 13:53:52
-         * thumPicUrl :
+         * createTimeStr : 2017-07-06 13:53:42
+         * picUrlRequestUrl : http://116.62.116.15/f/file/content/78fd39f1-2bbb-47a0-8798-4375cca855db.jpg
          */
 
         private String id;
@@ -81,13 +83,14 @@ public class HistoryGoodsResponse extends BaseResponse {
         private String extend2;
         private String contentName;
         private String picUrl;
-        private String price;
+        private double price;
+        private String monthSales;
         private String beginTime;
         private String endTime;
         private int delFlag;
         private String createTime;
         private String createTimeStr;
-        private String thumPicUrl;
+        private String picUrlRequestUrl;
 
         public String getId() {
             return id;
@@ -161,12 +164,20 @@ public class HistoryGoodsResponse extends BaseResponse {
             this.picUrl = picUrl;
         }
 
-        public String getPrice() {
+        public double getPrice() {
             return price;
         }
 
-        public void setPrice(String price) {
+        public void setPrice(double price) {
             this.price = price;
+        }
+
+        public String getMonthSales() {
+            return monthSales;
+        }
+
+        public void setMonthSales(String monthSales) {
+            this.monthSales = monthSales;
         }
 
         public String getBeginTime() {
@@ -209,12 +220,12 @@ public class HistoryGoodsResponse extends BaseResponse {
             this.createTimeStr = createTimeStr;
         }
 
-        public String getThumPicUrl() {
-            return thumPicUrl;
+        public String getPicUrlRequestUrl() {
+            return picUrlRequestUrl;
         }
 
-        public void setThumPicUrl(String thumPicUrl) {
-            this.thumPicUrl = thumPicUrl;
+        public void setPicUrlRequestUrl(String picUrlRequestUrl) {
+            this.picUrlRequestUrl = picUrlRequestUrl;
         }
     }
 }
