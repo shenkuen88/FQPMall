@@ -34,6 +34,7 @@ import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
 import com.fengqipu.mall.tools.V;
 import com.fengqipu.mall.view.RefreshListView;
+import com.fengqipu.mall.view.citylist.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +59,8 @@ public class HistoryGoodsActivity extends BaseActivity {
     TextView btnEdit;
     @Bind(R.id.id_rl_foot)
     RelativeLayout idRlFoot;
+    @Bind(R.id.all_ck_ll)
+    LinearLayout allCkLl;
     private HeadView headView;
     private LinearLayout no_history;//空页面
     //    private ListView his_goods_list;
@@ -81,7 +84,8 @@ public class HistoryGoodsActivity extends BaseActivity {
         his_goods_list = V.f(this, R.id.his_goods_list);
         initEmtyView();
     }
-    private Map<String,CheckBox> ck_list=new HashMap<>();
+
+    private Map<String, CheckBox> ck_list = new HashMap<>();
 
     @Override
     public void initViewData() {
@@ -111,20 +115,21 @@ public class HistoryGoodsActivity extends BaseActivity {
         hisgoodsAdapter =
                 new CommonAdapter<HistoryGoodsResponse.UserOperationListBean>(mContext, hglist, R.layout.item_his_history) {
                     @Override
-                    public void convert(ViewHolder helper,final HistoryGoodsResponse.UserOperationListBean item) {
-                        final CheckBox btn_ck=helper.getView(R.id.btn_ck);
-                        if(isedit==1){
-                            btn_ck.setVisibility(View.VISIBLE);
-                        }else{
-                            btn_ck.setVisibility(View.GONE);
+                    public void convert(ViewHolder helper, final HistoryGoodsResponse.UserOperationListBean item) {
+                        final LinearLayout btn_ck_ll=helper.getView(R.id.btn_ck_ll);
+                        final CheckBox btn_ck = helper.getView(R.id.btn_ck);
+                        if (isedit == 1) {
+                            btn_ck_ll.setVisibility(View.VISIBLE);
+                        } else {
+                            btn_ck_ll.setVisibility(View.GONE);
                         }
-                        if(idCbSelectAll.isChecked()){
+                        if (idCbSelectAll.isChecked()) {
                             btn_ck.setChecked(true);
-                            ck_list.put(item.getOperationID(),btn_ck);
-                        }else {
-                            if (ck_list.containsKey(item.getOperationID())) {
+                            ck_list.put(item.getId(), btn_ck);
+                        } else {
+                            if (ck_list.containsKey(item.getId())) {
                                 btn_ck.setChecked(true);
-                                ck_list.put(item.getOperationID(),btn_ck);
+                                ck_list.put(item.getId(), btn_ck);
                             } else {
                                 btn_ck.setChecked(false);
                             }
@@ -136,19 +141,19 @@ public class HistoryGoodsActivity extends BaseActivity {
 //                            ImageLoaderUtil.getInstance().initImage(mContext, item.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
                             GeneralUtils.setImageViewWithUrl(mContext, item.getThumPicUrl(), img, R.drawable.default_head);
                         }
-                        btn_ck.setOnClickListener(new View.OnClickListener() {
+                        btn_ck_ll.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if(btn_ck.isChecked()){
+                                if (btn_ck.isChecked()) {
                                     btn_ck.setChecked(false);
-                                    ck_list.remove(item.getOperationID());
-                                }else {
+                                    ck_list.remove(item.getId());
+                                } else {
                                     btn_ck.setChecked(true);
-                                    ck_list.put(item.getOperationID(), btn_ck);
+                                    ck_list.put(item.getId(), btn_ck);
                                 }
-                                if(ck_list.size()==hglist.size()){
+                                if (ck_list.size() == hglist.size()) {
                                     idCbSelectAll.setChecked(true);
-                                }else{
+                                } else {
                                     idCbSelectAll.setChecked(false);
                                 }
                             }
@@ -182,13 +187,13 @@ public class HistoryGoodsActivity extends BaseActivity {
 
     private boolean isloading = false;
     private int count = 0;
-    int isedit=0;//0.编辑 1.完成
+    int isedit = 0;//0.编辑 1.完成
+
     @Override
     public void initEvent() {
-        idCbSelectAll.setOnClickListener(new View.OnClickListener() {
+        allCkLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("sub","idCbSelectAll.isChecked()"+idCbSelectAll.isChecked());
                 if(idCbSelectAll.isChecked()){
                     idCbSelectAll.setChecked(false);
                     ck_list.clear();
@@ -198,6 +203,35 @@ public class HistoryGoodsActivity extends BaseActivity {
                 hisgoodsAdapter.notifyDataSetChanged();
             }
         });
+        idTvDeleteAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<String> operationIDs=new ArrayList<>();
+                if(tempDellist.size()>0)return;
+                tempDellist.addAll(hglist);
+                for(HistoryGoodsResponse.UserOperationListBean g:hglist){
+                    if(ck_list.containsKey(g.getId())){
+                        tempDellist.remove(g);
+                        operationIDs.add(g.getId());
+                    }
+                }
+                if(operationIDs.size()==0){
+                    tempDellist.clear();
+                    ToastUtils.showToast(HistoryGoodsActivity.this,"请选择您要删除的足迹!");
+                }
+                UserServiceImpl.instance().DelHistoryGoods(operationIDs, "5", DelHistoryGoodsResponse.class.getName());
+            }
+        });
+//        idCbSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                if (b) {
+//                } else {
+//                    ck_list.clear();
+//                }
+//                hisgoodsAdapter.notifyDataSetChanged();
+//            }
+//        });
         his_goods_list.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             @Override
@@ -244,14 +278,14 @@ public class HistoryGoodsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (btnEdit.getText().equals("编辑")) {
-                    isedit=1;
+                    isedit = 1;
                     headView.setRightText("");
                     topLine.setVisibility(View.GONE);
                     btnEdit.setText("完成");
                     idRlFoot.setVisibility(View.VISIBLE);
                     hisgoodsAdapter.notifyDataSetChanged();
                 } else {
-                    isedit=0;
+                    isedit = 0;
                     headView.setRightText("清空");
                     topLine.setVisibility(View.VISIBLE);
                     btnEdit.setText("编辑");
@@ -263,8 +297,6 @@ public class HistoryGoodsActivity extends BaseActivity {
             }
         });
     }
-
-    private HistoryGoodsResponse.UserOperationListBean delitem = null;
 
     //初始化标题
     private void initTitle() {
@@ -283,7 +315,7 @@ public class HistoryGoodsActivity extends BaseActivity {
         TextView tips = V.f(this, R.id.tips);
         tips.setText("暂无足迹~");
     }
-
+    private List<HistoryGoodsResponse.UserOperationListBean> tempDellist=new ArrayList<>();
     @Override
     public void onEventMainThread(BaseResponse event) {
         if (event instanceof NoticeEvent) {
@@ -299,9 +331,8 @@ public class HistoryGoodsActivity extends BaseActivity {
                         , NotiTag.TAG_DEL_GOODS_CANCEL, NotiTag.TAG_DEL_GOODS_OK);
             }
             if (NotiTag.TAG_DEL_GOODS_OK.equals(tag)) {
-                delitem = null;
                 NetLoadingDialog.getInstance().loading(mContext);
-                UserServiceImpl.instance().DelHistoryGoods("", "5", DelHistoryGoodsResponse.class.getName());
+                UserServiceImpl.instance().DelHistoryGoods(null, "5", DelHistoryGoodsResponse.class.getName());
             }
         }
         if (event instanceof NetResponseEvent) {
@@ -312,6 +343,7 @@ public class HistoryGoodsActivity extends BaseActivity {
             if (tag.equals(HistoryGoodsResponse.class.getName())) {
                 isloading = false;
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    Log.e("sub",result);
                     HistoryGoodsResponse historyGoodsResponse = GsonHelper.toType(result, HistoryGoodsResponse.class);
                     if (Constants.SUCESS_CODE.equals(historyGoodsResponse.getResultCode())) {
                         count = historyGoodsResponse.getTotalCount();
@@ -335,8 +367,10 @@ public class HistoryGoodsActivity extends BaseActivity {
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     DelHistoryGoodsResponse delHistoryGoodsResponse = GsonHelper.toType(result, DelHistoryGoodsResponse.class);
                     if (Constants.SUCESS_CODE.equals(delHistoryGoodsResponse.getResultCode())) {
-                        if (delitem != null) {
-                            hglist.remove(delitem);
+                        if (tempDellist.size()>0) {
+                            hglist.clear();
+                            hglist.addAll(tempDellist);
+                            tempDellist.clear();
                             hisgoodsAdapter.setData(hglist);
                             hisgoodsAdapter.notifyDataSetChanged();
                         } else {

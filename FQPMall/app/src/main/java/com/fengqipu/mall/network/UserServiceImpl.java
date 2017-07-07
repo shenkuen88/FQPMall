@@ -1022,21 +1022,18 @@ public class UserServiceImpl
     /**
      * 删除浏览历史item
      */
-    public void DelHistoryGoods(String operationID, String operationType, String tag)
+    public void DelHistoryGoods(List<String> operationIDs, String operationType, String tag)
     {
         Map<String, Object> param = new HashMap<String, Object>();
-        List<String> strs = new ArrayList<>();
-        if (!operationID.equals(""))
+        if (operationIDs!=null)
         {
-            strs.add(operationID);
-            param.put("operationIDList", strs);
+            param.put("operationIDList", operationIDs);
         }
         else
         {
             param.put("clear", "1");
         }
         param.put("operationType", operationType);
-
         new NetWork()
                 .startPost2(URLUtil.DEL_HISTORY_GOODS, param, tag);
     }

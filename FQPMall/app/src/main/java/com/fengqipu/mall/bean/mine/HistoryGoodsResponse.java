@@ -52,45 +52,81 @@ public class HistoryGoodsResponse extends BaseResponse {
     }
 
     public static class UserOperationListBean {
-        private String createTime;
-        private String picUrl;
-        private String extend1;
-        private Object beginTime;
-        private Object extend2;
-        private String contentName;
-        private Object endTime;
-        private String operationID;
-        private String userID;
-        private String createTimeStr;
-        private Object price;
+
+        /**
+         * id : 2
+         * operationType : 5
+         * userID : 3
+         * userName :
+         * clientIP :
+         * extend1 : 2
+         * extend2 :
+         * contentName : null
+         * picUrl : null
+         * price : null
+         * beginTime : null
+         * endTime : null
+         * delFlag : 0
+         * createTime : 2017-07-06
+         * createTimeStr : 2017-07-06 13:53:52
+         * thumPicUrl :
+         */
+
+        private String id;
         private int operationType;
+        private String userID;
         private String userName;
-        private Object clientIP;
-        private Object delFlag;
+        private String clientIP;
+        private String extend1;
+        private String extend2;
+        private String contentName;
+        private String picUrl;
+        private String price;
+        private String beginTime;
+        private String endTime;
+        private int delFlag;
+        private String createTime;
+        private String createTimeStr;
         private String thumPicUrl;
 
-        public String getThumPicUrl() {
-            return thumPicUrl;
+        public String getId() {
+            return id;
         }
 
-        public void setThumPicUrl(String thumPicUrl) {
-            this.thumPicUrl = thumPicUrl;
+        public void setId(String id) {
+            this.id = id;
         }
 
-        public String getCreateTime() {
-            return createTime;
+        public int getOperationType() {
+            return operationType;
         }
 
-        public void setCreateTime(String createTime) {
-            this.createTime = createTime;
+        public void setOperationType(int operationType) {
+            this.operationType = operationType;
         }
 
-        public String getPicUrl() {
-            return picUrl;
+        public String getUserID() {
+            return userID;
         }
 
-        public void setPicUrl(String picUrl) {
-            this.picUrl = picUrl;
+        public void setUserID(String userID) {
+            this.userID = userID;
+        }
+
+        public String getUserName() {
+            return userName;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
+        }
+
+        public String getClientIP() {
+            return clientIP;
+        }
+
+        public void setClientIP(String clientIP) {
+            this.clientIP = clientIP;
         }
 
         public String getExtend1() {
@@ -101,19 +137,11 @@ public class HistoryGoodsResponse extends BaseResponse {
             this.extend1 = extend1;
         }
 
-        public Object getBeginTime() {
-            return beginTime;
-        }
-
-        public void setBeginTime(Object beginTime) {
-            this.beginTime = beginTime;
-        }
-
-        public Object getExtend2() {
+        public String getExtend2() {
             return extend2;
         }
 
-        public void setExtend2(Object extend2) {
+        public void setExtend2(String extend2) {
             this.extend2 = extend2;
         }
 
@@ -125,28 +153,52 @@ public class HistoryGoodsResponse extends BaseResponse {
             this.contentName = contentName;
         }
 
-        public Object getEndTime() {
+        public String getPicUrl() {
+            return picUrl;
+        }
+
+        public void setPicUrl(String picUrl) {
+            this.picUrl = picUrl;
+        }
+
+        public String getPrice() {
+            return price;
+        }
+
+        public void setPrice(String price) {
+            this.price = price;
+        }
+
+        public String getBeginTime() {
+            return beginTime;
+        }
+
+        public void setBeginTime(String beginTime) {
+            this.beginTime = beginTime;
+        }
+
+        public String getEndTime() {
             return endTime;
         }
 
-        public void setEndTime(Object endTime) {
+        public void setEndTime(String endTime) {
             this.endTime = endTime;
         }
 
-        public String getOperationID() {
-            return operationID;
+        public int getDelFlag() {
+            return delFlag;
         }
 
-        public void setOperationID(String operationID) {
-            this.operationID = operationID;
+        public void setDelFlag(int delFlag) {
+            this.delFlag = delFlag;
         }
 
-        public String getUserID() {
-            return userID;
+        public String getCreateTime() {
+            return createTime;
         }
 
-        public void setUserID(String userID) {
-            this.userID = userID;
+        public void setCreateTime(String createTime) {
+            this.createTime = createTime;
         }
 
         public String getCreateTimeStr() {
@@ -157,44 +209,12 @@ public class HistoryGoodsResponse extends BaseResponse {
             this.createTimeStr = createTimeStr;
         }
 
-        public Object getPrice() {
-            return price;
+        public String getThumPicUrl() {
+            return thumPicUrl;
         }
 
-        public void setPrice(Object price) {
-            this.price = price;
-        }
-
-        public int getOperationType() {
-            return operationType;
-        }
-
-        public void setOperationType(int operationType) {
-            this.operationType = operationType;
-        }
-
-        public String getUserName() {
-            return userName;
-        }
-
-        public void setUserName(String userName) {
-            this.userName = userName;
-        }
-
-        public Object getClientIP() {
-            return clientIP;
-        }
-
-        public void setClientIP(Object clientIP) {
-            this.clientIP = clientIP;
-        }
-
-        public Object getDelFlag() {
-            return delFlag;
-        }
-
-        public void setDelFlag(Object delFlag) {
-            this.delFlag = delFlag;
+        public void setThumPicUrl(String thumPicUrl) {
+            this.thumPicUrl = thumPicUrl;
         }
     }
 }
