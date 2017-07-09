@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.acty.MainActivity;
+import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.mine.AccountManageActy;
 import com.fengqipu.mall.main.acty.mine.HistoryGoodsActivity;
 import com.fengqipu.mall.main.acty.mine.LoginActy;
@@ -205,6 +207,16 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
 //                initBtmList();
 //            }
 //        });
+        myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TuiJianResponse.ContentListBean item=(TuiJianResponse.ContentListBean)adapterView.getItemAtPosition(i);
+                Intent intent=new Intent(mainActivity, GoodsDetailActivity.class);
+                intent.putExtra("contentID",item.getId());
+                startActivity(intent);
+            }
+        });
+
         scrollView.setOnScrollChangeListener(new ScrollBottomScrollView.OnScrollChangeListener() {
             @Override
             public void scrollChange(int y) {

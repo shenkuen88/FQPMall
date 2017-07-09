@@ -200,13 +200,12 @@ public class GuiGeBtmDialog extends Dialog {
                                         e.printStackTrace();
                                     }
                                     tv_guige.setText(str);
-
-                                    EventBus.getDefault().post(new NoticeEvent("GUIGEREFRESH"));
                                     for (GoodsDetailResponse.ContentStyleListBean item : goodsDetailResponse.getContentStyleList()) {
                                         if(item.getStyle().equals(stylestr)&&item.getColor().equals(colorstr)){
                                             gg_price.setText("￥" + item.getPrice());
                                         }
                                     }
+                                    EventBus.getDefault().post(new NoticeEvent("GUIGEREFRESH"));
                                 }
                             });
                         }

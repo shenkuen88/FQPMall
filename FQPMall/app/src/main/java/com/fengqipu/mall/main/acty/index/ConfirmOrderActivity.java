@@ -173,7 +173,11 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                         //名称
                         helper.setText(R.id.name, item.getObjectName());
                         //样式
-                        helper.setText(R.id.classify_tv, item.getStyle());
+                        if(!item.getColor().equals("")){
+                            helper.setText(R.id.classify_tv, "分类:"+item.getStyle()+"、"+item.getColor());
+                        }else{
+                            helper.setText(R.id.classify_tv, "分类:"+item.getStyle());
+                        }
                         totalPay = item.getCount() * item.getPrice();
                     }
                 };

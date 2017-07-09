@@ -1,5 +1,6 @@
 package com.fengqipu.mall.main.acty.huodong;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.fengqipu.mall.bean.index.BannerListBean;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.NotiTag;
+import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.HeadView;
@@ -122,7 +124,7 @@ public class HuoDongActivity extends BaseActivity implements View.OnClickListene
     public void initViewData() {
         mAdapter = new CommonAdapter<HuodongResponse.ContentListBean>(this, goodsList, R.layout.item_huodong_goods) {
             @Override
-            public void convert(ViewHolder helper, HuodongResponse.ContentListBean item) {
+            public void convert(ViewHolder helper,final HuodongResponse.ContentListBean item) {
                 ImageView img=helper.getView(R.id.img);
                 if (item.getPicUrl1RequestUrl() != null && !item.getPicUrl1RequestUrl().equals("")) {
                     GeneralUtils.setImageViewWithUrl(HuoDongActivity.this, item.getPicUrl1RequestUrl(), img, R.drawable.default_bg);
@@ -139,7 +141,9 @@ public class HuoDongActivity extends BaseActivity implements View.OnClickListene
                 btn_msq.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        Intent intent=new Intent(HuoDongActivity.this, GoodsDetailActivity.class);
+                        intent.putExtra("contentID",item.getId());
+                        startActivity(intent);
                     }
                 });
 

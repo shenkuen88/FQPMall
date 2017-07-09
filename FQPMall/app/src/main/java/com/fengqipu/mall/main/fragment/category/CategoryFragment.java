@@ -27,7 +27,7 @@ import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.main.acty.MainActivity;
 import com.fengqipu.mall.main.acty.index.ColumnListActy;
-import com.fengqipu.mall.main.acty.index.SearchActy;
+import com.fengqipu.mall.main.acty.search.NewSearchActivity;
 import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.main.base.CommonWebViewActivity;
 import com.fengqipu.mall.network.GsonHelper;
@@ -239,7 +239,7 @@ public class CategoryFragment extends BaseFragment {
         search_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), SearchActy.class));
+                startActivity(new Intent(mainActivity, NewSearchActivity.class));
             }
         });
         left_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

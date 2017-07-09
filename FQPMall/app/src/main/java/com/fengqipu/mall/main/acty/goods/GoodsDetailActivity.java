@@ -1,5 +1,6 @@
 package com.fengqipu.mall.main.acty.goods;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -17,15 +18,21 @@ import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
+import com.fengqipu.mall.bean.cart.GoodsBean;
+import com.fengqipu.mall.bean.cart.StoreBean;
+import com.fengqipu.mall.bean.cart.StoreGoodsBean;
 import com.fengqipu.mall.bean.goods.AddGWCResponse;
 import com.fengqipu.mall.bean.goods.AddGoodsFavourResponse;
 import com.fengqipu.mall.bean.goods.GoodsCommentResponse;
 import com.fengqipu.mall.bean.goods.GoodsDetailResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
+import com.fengqipu.mall.constant.Global;
+import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.dialog.GuiGeBtmDialog;
 import com.fengqipu.mall.dialog.SucDialog;
+import com.fengqipu.mall.main.acty.index.ConfirmOrderActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.fragment.goods.CommentFragment;
@@ -37,6 +44,9 @@ import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -135,13 +145,34 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 UserServiceImpl.instance().addToBuyCar(contentID,num,style,color,AddGWCResponse.class.getName());
                 break;
             case R.id.btn_buy:
-
+                change2Buy();
                 break;
         }
     }
     public String style="";
     public String color="";
     public int num=1;
+    public double curprice=0;
+
+    public void change2Buy(){
+        ArrayList<StoreGoodsBean> shopList = new ArrayList<StoreGoodsBean>();
+        StoreGoodsBean storeGoodsBean=new StoreGoodsBean();
+        StoreBean storeBean=new StoreBean(goodsDetailResponse.getContent().getShopID(),goodsDetailResponse.getContent().getShopName(),false,false);
+        storeGoodsBean.setStoreBean(storeBean);
+        List<GoodsBean> goodsBeens=new ArrayList<GoodsBean>();
+        GoodsBean goodsBean = new GoodsBean(goodsDetailResponse.getContent().getCreateTime(), Global.getUserId()+"", goodsDetailResponse.getContent().getPicUrl1RequestUrl(), curprice,
+                style, num, goodsDetailResponse.getContent().getShopID(),
+                goodsDetailResponse.getContent().getContentName(), goodsDetailResponse.getContent().getShopName(),
+                goodsDetailResponse.getContent().getId(), goodsDetailResponse.getContent().getId(),
+                color+"", GoodsBean.STATUS_VALID, false, false);
+        goodsBeens.add(goodsBean);
+        storeGoodsBean.setGoodsBeanList(goodsBeens);
+        shopList.add(storeGoodsBean);
+        Intent intent = new Intent(mContext, ConfirmOrderActivity.class);
+        intent.putExtra(IntentCode.ORDER_GOODS_LIST, GsonHelper.toJson(shopList));
+        intent.putExtra(IntentCode.ORDER_STATE, "0");//0 新生成订单，代付款订单 传订单号
+        startActivity(intent);
+    }
 
     public void chang2Comment() {
         mContainer.setCurrentItem(2);
@@ -196,6 +227,12 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onClick(View view) {
                 UserServiceImpl.instance().addToBuyCar(contentID,num,style,color,AddGWCResponse.class.getName());
+            }
+        });
+        guiGeBtmDialog.setBuyClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                change2Buy();
             }
         });
         guiGeBtmDialog.show();

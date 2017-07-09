@@ -376,6 +376,8 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                     }
                     str= str+ "、1件";
                     tvGg.setText(str);
+                    price.setText("￥"+goodsDetailResponse.getContentStyleList().get(0).getPrice());
+                    goodsDetailActivity.curprice=goodsDetailResponse.getContentStyleList().get(0).getPrice();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -396,6 +398,8 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                         e.printStackTrace();
                     }
                     tvGg.setText(goodsDetailActivity.guiGeBtmDialog.tv_guige.getText().toString());
+                    price.setText(goodsDetailActivity.guiGeBtmDialog.gg_price.getText().toString());
+                    goodsDetailActivity.curprice=Double.valueOf(goodsDetailActivity.guiGeBtmDialog.gg_price.getText().toString().replace("￥",""));
                 }
             }
             if (tag.equals("COMMENTREFRESH")) {

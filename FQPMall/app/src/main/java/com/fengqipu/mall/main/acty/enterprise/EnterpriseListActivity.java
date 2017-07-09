@@ -24,6 +24,7 @@ import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.main.acty.index.ColumnListActy;
 import com.fengqipu.mall.main.acty.index.SearchActy;
+import com.fengqipu.mall.main.acty.search.NewSearchActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.CommonWebViewActivity;
 import com.fengqipu.mall.network.GsonHelper;
@@ -203,7 +204,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
         searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(EnterpriseListActivity.this, SearchActy.class));
+                startActivity(new Intent(EnterpriseListActivity.this, NewSearchActivity.class));
             }
         });
         leftList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
