@@ -12,7 +12,10 @@ public class URLUtil
      * 默认url
      */
     public static final String DEFAULT_WEB_URL = "http://baidu.com/";
-
+    /**
+     * 上传图片
+     */
+    public static final String UPLOAD_PIC = SERVER_BASE + "file/upload";
 
     /**
      * 应用初始化

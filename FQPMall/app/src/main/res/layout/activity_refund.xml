@@ -56,7 +56,8 @@
             android:gravity="center_vertical|right"
             android:paddingRight="@dimen/pxtodp20"
             android:text="请选择"
-            android:textColor="@color/txt_nol_col"
+            android:textColorHint="@color/register_black_text"
+            android:textColor="@color/register_black_text"
             android:textSize="@dimen/pxtosp30" />
     </RelativeLayout>
 
@@ -89,7 +90,8 @@
             android:paddingLeft="@dimen/pxtodp20"
             android:inputType="numberDecimal"
             android:paddingRight="@dimen/pxtodp20"
-            android:textColor="@color/txt_nol_col"
+            android:textColorHint="@color/txt_nol_col"
+            android:textColor="@color/register_black_text"
             android:textSize="@dimen/pxtosp30" />
     </RelativeLayout>
 
@@ -133,7 +135,8 @@
             android:hint="请输入退款说明"
             android:paddingLeft="@dimen/pxtodp20"
             android:paddingRight="@dimen/pxtodp20"
-            android:textColor="@color/txt_nol_col"
+            android:textColorHint="@color/txt_nol_col"
+            android:textColor="@color/register_black_text"
             android:textSize="@dimen/pxtosp30" />
     </RelativeLayout>
 
@@ -172,11 +175,26 @@
     <GridView
         android:id="@+id/gridview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/white_color"
         android:horizontalSpacing="3dp"
         android:numColumns="3"
         android:padding="@dimen/pxtodp10"
         android:scrollbars="none"
         android:verticalSpacing="5dp"></GridView>
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pxtodp90"
+        android:layout_marginLeft="@dimen/pxtodp30"
+        android:layout_marginRight="@dimen/pxtodp30"
+        android:layout_marginTop="@dimen/pxtodp42"
+        android:layout_marginBottom="@dimen/pxtodp42"
+        android:background="@drawable/common_pink_bn"
+        android:gravity="center"
+        android:text="提出申请"
+        android:textColor="@color/white_color"
+        android:textSize="@dimen/pxtosp36" />
 </LinearLayout>

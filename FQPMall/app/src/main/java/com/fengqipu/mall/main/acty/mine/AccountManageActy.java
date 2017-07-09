@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,9 +24,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.qiniu.android.http.ResponseInfo;
-import com.qiniu.android.storage.UpCompletionHandler;
-import com.qiniu.android.storage.UploadManager;
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
@@ -33,6 +31,7 @@ import com.fengqipu.mall.bean.NoticeDialogInfoEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.bean.mine.BirthDateResponse;
 import com.fengqipu.mall.bean.mine.EditUserInfoResponse;
+import com.fengqipu.mall.bean.mine.UploadFileResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
@@ -55,10 +54,9 @@ import com.fengqipu.mall.view.birthdate.MyDayView;
 import com.fengqipu.mall.view.birthdate.MyMonthView;
 import com.fengqipu.mall.view.birthdate.MyYearView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
@@ -177,6 +175,26 @@ public class AccountManageActy extends BaseActivity implements View.OnClickListe
             String tag = ((NetResponseEvent) event).getTag();
             String result = ((NetResponseEvent) event).getResult();
             NetLoadingDialog.getInstance().dismissDialog();
+            if (tag.equals(UploadFileResponse.class.getName()))
+            {
+                CMLog.e(Constants.HTTP_TAG, result);
+                if (GeneralUtils.isNotNullOrZeroLenght(result))
+                {
+                    UploadFileResponse uploadFileResponse = GsonHelper.toType(result, UploadFileResponse.class);
+                    if (Constants.SUCESS_CODE.equals(uploadFileResponse.getResultCode()))
+                    {
+                        UserServiceImpl.instance().editUserInfo(2, uploadFileResponse.getUrl(), EditUserInfoResponse.class.getName());
+                    }
+                    else
+                    {
+                        ErrorCode.doCode(mContext, uploadFileResponse.getResultCode(), uploadFileResponse.getDesc());
+                    }
+                }
+                else
+                {
+                    ToastUtil.showError(mContext);
+                }
+            }
             if (tag.equals(EditUserInfoResponse.class.getName()))
             {
                 CMLog.e(Constants.HTTP_TAG, result);
@@ -533,33 +551,39 @@ public class AccountManageActy extends BaseActivity implements View.OnClickListe
                     return;
                 }
                 //上传图片start
-                final UploadManager uploadManager = new UploadManager();
-                new Thread()
-                {
-                    public void run()
-                    {
-                        // 图片上传到七牛 重用 uploadManager。一般地，只需要创建一个 uploadManager 对象
-                        uploadManager.put(temppath, "portrait_" + Global.getUserId() + "_" + java.util.UUID.randomUUID().toString() + ".png", Global.getToken(),
-                                new UpCompletionHandler()
-                                {
-                                    @Override
-                                    public void complete(String key, ResponseInfo info, JSONObject res)
-                                    {
-                                        try
-                                        {
-                                            headUrl = res.getString("key");
-                                            EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_USER_HEAD_CHOOSE));
-                                        } catch (JSONException e)
-                                        {
-                                            e.printStackTrace();
-                                        }
-
-                                    }
-                                }
-                                , null);
-
-                    }
-                }.start();
+                NetLoadingDialog.getInstance().loading(mContext);
+                File file = new File(temppath);
+                Log.e("sub","file="+file.exists());
+                List<File> files=new ArrayList<>();
+                files.add(file);
+                UserServiceImpl.instance().uploadPic(files, UploadFileResponse.class.getName());
+//                final UploadManager uploadManager = new UploadManager();
+//                new Thread()
+//                {
+//                    public void run()
+//                    {
+//                        // 图片上传到七牛 重用 uploadManager。一般地，只需要创建一个 uploadManager 对象
+//                        uploadManager.put(temppath, "portrait_" + Global.getUserId() + "_" + java.util.UUID.randomUUID().toString() + ".png", Global.getToken(),
+//                                new UpCompletionHandler()
+//                                {
+//                                    @Override
+//                                    public void complete(String key, ResponseInfo info, JSONObject res)
+//                                    {
+//                                        try
+//                                        {
+//                                            headUrl = res.getString("key");
+//                                            EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_USER_HEAD_CHOOSE));
+//                                        } catch (JSONException e)
+//                                        {
+//                                            e.printStackTrace();
+//                                        }
+//
+//                                    }
+//                                }
+//                                , null);
+//
+//                    }
+//                }.start();
                 break;
             default:
                 break;

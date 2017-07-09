@@ -26,16 +26,12 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.qiniu.android.http.ResponseInfo;
-import com.qiniu.android.storage.UpCompletionHandler;
-import com.qiniu.android.storage.UploadManager;
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.bean.index.RefundResponse;
+import com.fengqipu.mall.bean.mine.UploadFileResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
@@ -46,6 +42,7 @@ import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.HeadView;
 import com.fengqipu.mall.network.GsonHelper;
 import com.fengqipu.mall.network.UserServiceImpl;
+import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.FileSystemManager;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
@@ -55,6 +52,11 @@ import com.fengqipu.mall.view.photopicker.adapter.ImagePublishAdapter;
 import com.fengqipu.mall.view.photopicker.model.ImageItem;
 import com.fengqipu.mall.view.photopicker.view.ImageBucketChooseActivity;
 import com.fengqipu.mall.view.photopicker.view.ImageZoomActivity;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,15 +66,19 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 /**
  * Created by huqing on 2016/7/20.
  * 退款
  */
-public class RefundActy extends BaseActivity implements View.OnClickListener
-{
+public class RefundActy extends BaseActivity implements View.OnClickListener {
+    @Bind(R.id.btn_next)
+    Button btnNext;
     private GridView mGridView;
 
     private ImagePublishAdapter mAdapter;
@@ -103,79 +109,57 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
 
     private static DecimalFormat df2 = new DecimalFormat("#.##");
 
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refund);
+        ButterKnife.bind(this);
         orderId = Global.getOrderId();
         SharePref.saveString(Constants.PUBLIC_NEED_IMG_ACTY, RefundActy.class.getName());
         gson = new Gson();
         initData();
         initView();
+        initEvent();
         initTitle();
     }
 
 
     @Override
-    public void onEventMainThread(BaseResponse event)
-    {
-        if (event instanceof NoticeEvent)
-        {
+    public void onEventMainThread(BaseResponse event) {
+        if (event instanceof NoticeEvent) {
             String tag = ((NoticeEvent) event).getTag();
             //关闭页面
-            if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName()))
-            {
+            if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 finish();
-            }
-            else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName()))
-            {
-                if (tvResson.getText().toString().equals("请选择"))
-                {
+            } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
+                if (tvResson.getText().toString().equals("请选择")) {
                     ToastUtil.makeText(mContext, "请选择退款原因");
                     return;
-                }
-                else if (GeneralUtils.isNullOrZeroLenght(etMoney.getText().toString()))
-                {
+                } else if (GeneralUtils.isNullOrZeroLenght(etMoney.getText().toString())) {
                     ToastUtil.makeText(mContext, "请输入退款金额");
                     return;
                 }
-                if (mDataList.size() == 0)
-                {
+                if (mDataList.size() == 0) {
                     UserServiceImpl.instance().refund(orderId, whitchIndex + "", etExplain.getText().toString(),
                             etMoney.getText().toString(), "", "", "", "", RefundResponse.class.getName());
-                }
-                else
-                {
+                } else {
                     uploadManager = new UploadManager();
-                    for (int i = 0; i < mDataList.size(); i++)
-                    {
-                        if (GeneralUtils.isNotNullOrZeroLenght(mDataList.get(i).getSourcePath()))
-                        {
+                    for (int i = 0; i < mDataList.size(); i++) {
+                        if (GeneralUtils.isNotNullOrZeroLenght(mDataList.get(i).getSourcePath())) {
                             getUpimg(mDataList.get(i).getSourcePath());
                         }
                     }
                 }
-            }
-            else if (NotiTag.equalsTags(mContext, tag, NotiTag.TAG_UPLOAD_PICS_SUCCESS))
-            {
+            } else if (NotiTag.equalsTags(mContext, tag, NotiTag.TAG_UPLOAD_PICS_SUCCESS)) {
                 String nm = 0 + "";
                 String url1 = "", url2 = "", url3 = "", url4 = "";
-                for (int i = 0; i < uploadUrlList.size(); i++)
-                {
-                    if (i == 0)
-                    {
+                for (int i = 0; i < uploadUrlList.size(); i++) {
+                    if (i == 0) {
                         url1 = uploadUrlList.get(i);
-                    }
-                    else if (i == 1)
-                    {
+                    } else if (i == 1) {
                         url2 = uploadUrlList.get(i);
-                    }
-                    else if (i == 2)
-                    {
+                    } else if (i == 2) {
                         url3 = uploadUrlList.get(i);
-                    }
-                    else if (i == 3)
-                    {
+                    } else if (i == 3) {
                         url4 = uploadUrlList.get(i);
                     }
                 }
@@ -183,27 +167,52 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
                         etMoney.getText().toString(), url1, url2, url3, url4, RefundResponse.class.getName());
             }
         }
-        if (event instanceof NetResponseEvent)
-        {
+        if (event instanceof NetResponseEvent) {
             NetLoadingDialog.getInstance().dismissDialog();
             String tag = ((NetResponseEvent) event).getTag();
             String result = ((NetResponseEvent) event).getResult();
             NetLoadingDialog.getInstance().dismissDialog();
-            if (tag.equals(RefundResponse.class.getName()))
-            {
-                if (GeneralUtils.isNotNullOrZeroLenght(result))
-                {
+            if (tag.equals(RefundResponse.class.getName())) {
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     RefundResponse mRefundResponse = GsonHelper.toType(result, RefundResponse.class);
-                    if (Constants.SUCESS_CODE.equals(mRefundResponse.getResultCode()))
-                    {
+                    if (Constants.SUCESS_CODE.equals(mRefundResponse.getResultCode())) {
                         ToastUtil.makeText(mContext, "申请退款成功！");
                         removeTempFromPref();
                         OrderDetailActivity.needclose = true;
                         finish();
+                    } else {
+                        ErrorCode.doCode(mContext, mRefundResponse.getResultCode(), mRefundResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(mContext);
+                }
+            }
+            if (tag.equals(UploadFileResponse.class.getName()))
+            {
+                CMLog.e(Constants.HTTP_TAG, result);
+                if (GeneralUtils.isNotNullOrZeroLenght(result))
+                {
+                    UploadFileResponse uploadFileResponse = GsonHelper.toType(result, UploadFileResponse.class);
+                    if (Constants.SUCESS_CODE.equals(uploadFileResponse.getResultCode()))
+                    {
+                        String url1 = "", url2 = "", url3 = "", url4 = "";
+                        for (int i = 0; i < uploadFileResponse.getUrlList().size(); i++) {
+                            if (i == 0) {
+                                url1 = uploadFileResponse.getUrlList().get(i);
+                            } else if (i == 1) {
+                                url2 = uploadFileResponse.getUrlList().get(i);
+                            } else if (i == 2) {
+                                url3 = uploadFileResponse.getUrlList().get(i);
+                            } else if (i == 3) {
+                                url4 = uploadFileResponse.getUrlList().get(i);
+                            }
+                        }
+                        UserServiceImpl.instance().refund(orderId, whitchIndex + "", etExplain.getText().toString(),
+                                etMoney.getText().toString(), url1, url2, url3, url4, RefundResponse.class.getName());
                     }
                     else
                     {
-                        ErrorCode.doCode(mContext, mRefundResponse.getResultCode(), mRefundResponse.getDesc());
+                        ErrorCode.doCode(mContext, uploadFileResponse.getResultCode(), uploadFileResponse.getDesc());
                     }
                 }
                 else
@@ -214,34 +223,26 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
         }
     }
 
-    public void getUpimg(final String imagePath)
-    {
-        new Thread()
-        {
-            public void run()
-            {
+    public void getUpimg(final String imagePath) {
+        new Thread() {
+            public void run() {
                 // 图片上传到七牛 重用 uploadManager。一般地，只需要创建一个 uploadManager 对象
-                uploadManager.put(imagePath, "refund_" + java.util.UUID.randomUUID().toString() + ".png", Global.getToken(),
-                        new UpCompletionHandler()
-                        {
+                uploadManager.put(imagePath, "refund_" + UUID.randomUUID().toString() + ".png", Global.getToken(),
+                        new UpCompletionHandler() {
                             @Override
-                            public void complete(String key, ResponseInfo info, JSONObject res)
-                            {
+                            public void complete(String key, ResponseInfo info, JSONObject res) {
                                 // res 包含hash、key等信息，具体字段取决于上传策略的设置。
 //                                CMLog.e(Constants.HTTP_TAG, key + ",\r\n " + info + ",\r\n "
 //                                        + res);
-                                try
-                                {
+                                try {
                                     // 七牛返回的文件名
                                     String upimg = res.getString("key");
                                     uploadUrlList.add(upimg);//将七牛返回图片的文件名添加到list集合中
                                     if (uploadUrlList.size() == mDataList
-                                            .size())
-                                    {
+                                            .size()) {
                                         EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_UPLOAD_PICS_SUCCESS));
                                     }
-                                } catch (JSONException e)
-                                {
+                                } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -253,30 +254,26 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
                         start();
     }
 
-    private void initTitle()
-    {
+    private void initTitle() {
         View view = findViewById(R.id.common_back);
         HeadView headView = new HeadView((ViewGroup) view);
         headView.setTitleText("申请退款");
         headView.setLeftImage(R.mipmap.app_title_back);
-        headView.setRightText("发送");
+        headView.setHiddenRight();
     }
 
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
         saveTempToPref();
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         saveTempToPref();
     }
 
-    private void saveTempToPref()
-    {
+    private void saveTempToPref() {
         SharedPreferences sp = getSharedPreferences(
                 Constants.APPLICATION_NAME, MODE_PRIVATE);
         String prefStr = gson.toJson(mDataList);
@@ -284,22 +281,18 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
 
     }
 
-    private void getTempFromPref()
-    {
+    private void getTempFromPref() {
         SharedPreferences sp = getSharedPreferences(
                 Constants.APPLICATION_NAME, MODE_PRIVATE);
         String prefStr = sp.getString(Constants.PREF_TEMP_IMAGES, null);
-        if (!TextUtils.isEmpty(prefStr))
-        {
-            List<ImageItem> tempImages = gson.fromJson(prefStr, new TypeToken<List<ImageItem>>()
-            {
+        if (!TextUtils.isEmpty(prefStr)) {
+            List<ImageItem> tempImages = gson.fromJson(prefStr, new TypeToken<List<ImageItem>>() {
             }.getType());
             mDataList = tempImages;
         }
     }
 
-    private void removeTempFromPref()
-    {
+    private void removeTempFromPref() {
         SharedPreferences sp = getSharedPreferences(
                 Constants.APPLICATION_NAME, MODE_PRIVATE);
         sp.edit().remove(Constants.PREF_TEMP_IMAGES).commit();
@@ -310,30 +303,24 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
     }
 
     @SuppressWarnings("unchecked")
-    private void initData()
-    {
+    private void initData() {
         //刚打开
-        if (getIntent().getStringExtra(IntentCode.COMMUNITY_PUBLIC).trim().equals("1"))
-        {
+        if (getIntent().getStringExtra(IntentCode.COMMUNITY_PUBLIC).trim().equals("1")) {
             mDataList.clear();
             isFirstOpen = true;
-        }
-        else
-        {
+        } else {
             isFirstOpen = false;
             getTempFromPref();
             List<ImageItem> incomingDataList = (List<ImageItem>) getIntent()
                     .getSerializableExtra(IntentCode.EXTRA_IMAGE_LIST);
-            if (incomingDataList != null)
-            {
+            if (incomingDataList != null) {
                 mDataList.addAll(incomingDataList);
             }
         }
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         notifyDataChanged(); //当在ImageZoomActivity中删除图片时，返回这里需要刷新
     }
@@ -342,31 +329,23 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
 
     private Double MAX_MARK = 100.0;
 
-    public void initView()
-    {
+    public void initView() {
         contentEt = (EditText) findViewById(R.id.content_et);
         mGridView = (GridView) findViewById(R.id.gridview);
         mGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
         mAdapter = new ImagePublishAdapter(this, mDataList);
         mGridView.setAdapter(mAdapter);
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id)
-            {
+                                    int position, long id) {
                 final int pos = position;
                 //权限
-                checkPermission(new CheckPermListener()
-                                {
+                checkPermission(new CheckPermListener() {
                                     @Override
-                                    public void superPermission()
-                                    {
-                                        if (pos == getDataSize())
-                                        {
+                                    public void superPermission() {
+                                        if (pos == getDataSize()) {
                                             new PopupWindows(mContext, mGridView);
-                                        }
-                                        else
-                                        {
+                                        } else {
                                             Intent intent = new Intent(mContext,
                                                     ImageZoomActivity.class);
                                             intent.putExtra(IntentCode.EXTRA_IMAGE_LIST,
@@ -390,31 +369,21 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
         etMoney = (EditText) findViewById(R.id.money_tv);
         etExplain = (EditText) findViewById(R.id.explain_et);
 
-        if (Global.getRefundMoney().equals("") || Global.getRefundMoney().equals("0"))
-        {
+        if (Global.getRefundMoney().equals("") || Global.getRefundMoney().equals("0")) {
             MAX_MARK = 0.0;
-        }
-        else
-        {
+        } else {
             MAX_MARK = Double.valueOf(Global.getRefundMoney());
         }
-        etMoney.addTextChangedListener(new TextWatcher()
-        {
+        etMoney.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-                if (start > 1)
-                {
-                    if (MIN_MARK != -1 && MAX_MARK != -1)
-                    {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (start > 1) {
+                    if (MIN_MARK != -1 && MAX_MARK != -1) {
                         double num = Double.parseDouble(s.toString());
-                        if (num > MAX_MARK)
-                        {
+                        if (num > MAX_MARK) {
                             s = String.valueOf(MAX_MARK);
                             etMoney.setText(s);
-                        }
-                        else if (num < MIN_MARK)
-                        {
+                        } else if (num < MIN_MARK) {
                             s = String.valueOf(MIN_MARK);
                         }
                         return;
@@ -424,27 +393,20 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after)
-            {
+                                          int after) {
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
-                if (s != null && !s.equals(""))
-                {
-                    if (MIN_MARK != -1 && MAX_MARK != -1)
-                    {
+            public void afterTextChanged(Editable s) {
+                if (s != null && !s.equals("")) {
+                    if (MIN_MARK != -1 && MAX_MARK != -1) {
                         double markVal = 0;
-                        try
-                        {
+                        try {
                             markVal = Double.parseDouble(s.toString());
-                        } catch (NumberFormatException e)
-                        {
+                        } catch (NumberFormatException e) {
                             markVal = 0;
                         }
-                        if (markVal > MAX_MARK)
-                        {
+                        if (markVal > MAX_MARK) {
                             ToastUtil.makeText(mContext, "金额不能超过" + MAX_MARK + "元");
                             etMoney.setText(String.valueOf(MAX_MARK));
                             etMoney.setSelection(etMoney.getText().length());//光标停在最右侧
@@ -509,12 +471,10 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
 //            }
 //        });
         tvResson.setOnClickListener(this);
-        if (!isFirstOpen)
-        {
+        if (!isFirstOpen) {
             contentEt.setText(SharePref.getString(Constants.PUBLIC_SAVE_CONTENT, ""));
             //原因
-            if (GeneralUtils.isNotNullOrZeroLenght(SharePref.getString(Constants.PUBLIC_SAVE_REASON, "")))
-            {
+            if (GeneralUtils.isNotNullOrZeroLenght(SharePref.getString(Constants.PUBLIC_SAVE_REASON, ""))) {
                 whitchIndex = Integer.parseInt(SharePref.getString(Constants.PUBLIC_SAVE_REASON, ""));
                 tvResson.setText(resonArr[whitchIndex]);
             }
@@ -524,41 +484,64 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
     }
 
     @Override
-    public void initViewData()
-    {
+    public void initViewData() {
 
     }
 
     @Override
-    public void initEvent()
-    {
-
+    public void initEvent() {
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (tvResson.getText().toString().equals("请选择")) {
+                    ToastUtil.makeText(mContext, "请选择退款原因");
+                    return;
+                } else if (GeneralUtils.isNullOrZeroLenght(etMoney.getText().toString())) {
+                    ToastUtil.makeText(mContext, "请输入退款金额");
+                    return;
+                }
+//                if (mDataList.size() == 0) {
+//                    UserServiceImpl.instance().refund(orderId, whitchIndex + "", etExplain.getText().toString(),
+//                            etMoney.getText().toString(), "", "", "", "", RefundResponse.class.getName());
+//                } else {
+//                    uploadManager = new UploadManager();
+//                    for (int i = 0; i < mDataList.size(); i++) {
+//                        if (GeneralUtils.isNotNullOrZeroLenght(mDataList.get(i).getSourcePath())) {
+//                            getUpimg(mDataList.get(i).getSourcePath());
+//                        }
+//                    }
+//                }
+                NetLoadingDialog.getInstance().loading(mContext);
+                List<File> files=new ArrayList<>();
+                for (int i = 0; i < mDataList.size(); i++) {
+                    if (GeneralUtils.isNotNullOrZeroLenght(mDataList.get(i).getSourcePath())) {
+                        File file = new File(mDataList.get(i).getSourcePath());
+                        files.add(file);
+                    }
+                }
+                UserServiceImpl.instance().uploadPic(files, UploadFileResponse.class.getName());
+            }
+        });
     }
 
-    private int getDataSize()
-    {
+    private int getDataSize() {
         return mDataList == null ? 0 : mDataList.size();
     }
 
-    private int getAvailableSize()
-    {
+    private int getAvailableSize() {
         int availSize = 4 - mDataList.size();
-        if (availSize >= 0)
-        {
+        if (availSize >= 0) {
             return availSize;
         }
         return 0;
     }
 
-    public String getString(String s)
-    {
+    public String getString(String s) {
         String path = null;
-        if (s == null)
-        {
+        if (s == null) {
             return "";
         }
-        for (int i = s.length() - 1; i > 0; i++)
-        {
+        for (int i = s.length() - 1; i > 0; i++) {
             s.charAt(i);
         }
         return path;
@@ -572,18 +555,14 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
 
 
     @Override
-    public void onClick(View v)
-    {
-        switch (v.getId())
-        {
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.choose_reason_tv:
                 AlertDialog Builder = new AlertDialog.Builder(mContext).setTitle("退款原因")
                         .setSingleChoiceItems(
                                 resonArr, whitchIndex,
-                                new DialogInterface.OnClickListener()
-                                {
-                                    public void onClick(DialogInterface dialog, int which)
-                                    {
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
                                         refundReson = resonArr[which];
                                         tvResson.setText(refundReson);
                                         whitchIndex = which;
@@ -594,11 +573,9 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
         }
     }
 
-    public class PopupWindows extends PopupWindow
-    {
+    public class PopupWindows extends PopupWindow {
 
-        public PopupWindows(final Context mContext, View parent)
-        {
+        public PopupWindows(final Context mContext, View parent) {
 
             View view = View.inflate(mContext, R.layout.item_popupwindow, null);
             view.startAnimation(AnimationUtils.loadAnimation(mContext,
@@ -622,26 +599,19 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
                     .findViewById(R.id.item_popupwindows_Photo);
             Button bt3 = (Button) view
                     .findViewById(R.id.item_popupwindows_cancel);
-            bt1.setOnClickListener(new View.OnClickListener()
-            {
-                public void onClick(View v)
-                {
+            bt1.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
                     takePhoto();
                     dismiss();
                 }
             });
-            bt2.setOnClickListener(new View.OnClickListener()
-            {
-                public void onClick(View v)
-                {
+            bt2.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
                     SharePref.saveString(Constants.PUBLIC_SAVE_CONTENT, etExplain.getText().toString());//说明
                     SharePref.saveString(Constants.PUBLIC_SAVE_MONEY, etMoney.getText().toString());//金额
-                    if (!tvResson.getText().toString().equals("请选择"))
-                    {
+                    if (!tvResson.getText().toString().equals("请选择")) {
                         SharePref.saveString(Constants.PUBLIC_SAVE_REASON, whitchIndex + "");//原因
-                    }
-                    else
-                    {
+                    } else {
                         SharePref.saveString(Constants.PUBLIC_SAVE_REASON, "");//原因
                     }
 
@@ -655,10 +625,8 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
                     dismiss();
                 }
             });
-            bt3.setOnClickListener(new View.OnClickListener()
-            {
-                public void onClick(View v)
-                {
+            bt3.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
                     dismiss();
                 }
             });
@@ -670,20 +638,15 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
 
     private String path = "";
 
-    public void takePhoto()
-    {
+    public void takePhoto() {
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File vFile = new File(FileSystemManager.getImgPath(mContext), String.valueOf(System.currentTimeMillis())
                 + ".jpg");
-        if (!vFile.exists())
-        {
+        if (!vFile.exists()) {
             File vDirPath = vFile.getParentFile();
             vDirPath.mkdirs();
-        }
-        else
-        {
-            if (vFile.exists())
-            {
+        } else {
+            if (vFile.exists()) {
                 vFile.delete();
             }
         }
@@ -693,14 +656,11 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
         startActivityForResult(openCameraIntent, TAKE_PICTURE);
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        switch (requestCode)
-        {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
             case TAKE_PICTURE:
                 if (mDataList.size() < Constants.MAX_IMAGE_SIZE
-                        && resultCode == -1 && !TextUtils.isEmpty(path))
-                {
+                        && resultCode == -1 && !TextUtils.isEmpty(path)) {
                     ImageItem item = new ImageItem();
                     item.sourcePath = path;
                     mDataList.add(item);
@@ -709,8 +669,7 @@ public class RefundActy extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private void notifyDataChanged()
-    {
+    private void notifyDataChanged() {
         mAdapter.notifyDataSetChanged();
     }
 

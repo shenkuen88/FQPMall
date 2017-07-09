@@ -32,7 +32,6 @@ import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.acty.MainActivity;
 import com.fengqipu.mall.main.acty.enterprise.EnterpriseListActivity;
-import com.fengqipu.mall.main.acty.enterprise.GoodsEnterpriseActivity;
 import com.fengqipu.mall.main.acty.huodong.HuoDongActivity;
 import com.fengqipu.mall.main.acty.mine.OneButtonShopActivity;
 import com.fengqipu.mall.main.acty.search.NewSearchActivity;
@@ -445,7 +444,7 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                 mainActivity.startActivity(intent2);
                 break;
             case R.id.btn_kx:
-                startActivity(new Intent(mainActivity, GoodsEnterpriseActivity.class));
+//                startActivity(new Intent(mainActivity, GoodsEnterpriseActivity.class));
                 break;
             case R.id.btn_yjkd:
                 GeneralUtils.toActyOtherwiseLogin(getActivity(), OneButtonShopActivity.class);

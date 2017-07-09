@@ -11,6 +11,7 @@ import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.SharePref;
 import com.fengqipu.mall.tools.StringEncrypt;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -327,12 +328,27 @@ public class UserServiceImpl
         if(!order.equals("")){
             param.put("order",order+"");
             if(order.equals("4")){
-                param.put("sort",sort+"");
+                if(!sort.equals("")) {
+                    param.put("sort", sort + "");
+                }
             }
         }
         new NetWork().
                 startPost(URLUtil.SEARCH_KEYWORD, param, tag);
     }
+
+    /**
+     * 上传图片
+     */
+    public void uploadPic(List<File> files, String tag)
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        Map<String, List<File>> fileparams = new HashMap<String, List<File>>();
+        fileparams.put("file", files);
+//        fileparams.put("file", files);
+        new NetWork().startPost(URLUtil.UPLOAD_PIC, param, fileparams, tag);
+    }
+
     /**
      * 搜索内容 首页头部的搜索
      */

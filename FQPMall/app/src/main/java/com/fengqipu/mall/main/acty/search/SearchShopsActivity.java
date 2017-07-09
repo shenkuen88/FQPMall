@@ -110,10 +110,9 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
 //        goodsList.add(g4);
 //        goodsList.add(g5);
 //        lAdapter.notifyDataSetChanged();
-        UserServiceImpl.instance().getSearchGList(this,"2",etSearch.getText().toString(),order + "", jgtype + "",pageNum,pageSize,SearchShopsResponse.class.getName());
+        UserServiceImpl.instance().getSearchGList(this,"2",etSearch.getText().toString(),order + "", "",pageNum,pageSize,SearchShopsResponse.class.getName());
 
     }
-    int jgtype = 0;
     private int order = 1;
     int totalCount=0;
     int lastVisibileItem=0;
@@ -258,6 +257,8 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
                 Drawable arraw1 = getResources().getDrawable(R.mipmap.icon_arrow_down);
                 arraw1.setBounds(0, 0, arraw1.getMinimumWidth(), arraw1.getMinimumHeight());
                 btnSx.setCompoundDrawables(null, null, arraw1, null);
+                order = 4;
+                initData();
                 break;
             case btn_sx://筛选
                 initTopBtn();
