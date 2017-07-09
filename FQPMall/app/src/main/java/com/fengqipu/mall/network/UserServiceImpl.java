@@ -313,6 +313,26 @@ public class UserServiceImpl
         new NetWork().
                 startPost(URLUtil.SEARCH_KEYWORD, param, tag);
     }
+
+    /**
+     * 搜索企业商品
+     */
+    public void getSearchGList(Context context,String contentType,String keyword,String order,String sort, int pageNo, int pageSize, String tag)
+    {
+        Map<String, String> param=new HashMap<String, String>();
+        param.put("contentType",contentType);
+        param.put("keyword",keyword);
+        param.put("pageNo",pageNo+"");
+        param.put("pageSize",pageSize+"");
+        if(!order.equals("")){
+            param.put("order",order+"");
+            if(order.equals("4")){
+                param.put("sort",sort+"");
+            }
+        }
+        new NetWork().
+                startPost(URLUtil.SEARCH_KEYWORD, param, tag);
+    }
     /**
      * 搜索内容 首页头部的搜索
      */

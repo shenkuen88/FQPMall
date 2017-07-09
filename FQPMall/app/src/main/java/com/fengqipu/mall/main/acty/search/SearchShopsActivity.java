@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -17,11 +18,23 @@ import android.widget.TextView;
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.adapter.CommonAdapter;
 import com.fengqipu.mall.adapter.ViewHolder;
+import com.fengqipu.mall.bean.BaseResponse;
+import com.fengqipu.mall.bean.NetResponseEvent;
+import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.bean.cart.GoodsBean;
+import com.fengqipu.mall.bean.search.SearchShopsResponse;
+import com.fengqipu.mall.constant.Constants;
+import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
+import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.base.BaseActivity;
+import com.fengqipu.mall.main.base.BaseApplication;
+import com.fengqipu.mall.network.GsonHelper;
+import com.fengqipu.mall.network.UserServiceImpl;
+import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.CommonMethod;
 import com.fengqipu.mall.tools.GeneralUtils;
+import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
 import com.fengqipu.mall.view.RefreshListView;
 
@@ -59,6 +72,9 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
     String keyword = "";
     int searchType = 0;
 
+    int pageNum=1;
+    int pageSize=10;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,24 +91,32 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initData() {
+        pageNum=1;
         initBtmList();
     }
 
     private void initBtmList() {
+        isloading=true;
 //        myLoading.setVisibility(View.GONE);
-        myListview.loadComplete();
-        GoodsBean g1 = new GoodsBean();
-        GoodsBean g2 = new GoodsBean();
-        GoodsBean g3 = new GoodsBean();
-        GoodsBean g4 = new GoodsBean();
-        GoodsBean g5 = new GoodsBean();
-        goodsList.add(g1);
-        goodsList.add(g2);
-        goodsList.add(g3);
-        goodsList.add(g4);
-        goodsList.add(g5);
-        lAdapter.notifyDataSetChanged();
+//        myListview.loadComplete();
+//        GoodsBean g1 = new GoodsBean();
+//        GoodsBean g2 = new GoodsBean();
+//        GoodsBean g3 = new GoodsBean();
+//        GoodsBean g4 = new GoodsBean();
+//        GoodsBean g5 = new GoodsBean();
+//        goodsList.add(g1);
+//        goodsList.add(g2);
+//        goodsList.add(g3);
+//        goodsList.add(g4);
+//        goodsList.add(g5);
+//        lAdapter.notifyDataSetChanged();
+        UserServiceImpl.instance().getSearchGList(this,"2",etSearch.getText().toString(),order + "", jgtype + "",pageNum,pageSize,SearchShopsResponse.class.getName());
+
     }
+    int jgtype = 0;
+    private int order = 1;
+    int totalCount=0;
+    int lastVisibileItem=0;
 
     @Override
     public void initViewData() {
@@ -122,6 +146,21 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
 
             }
         });
+        myListview.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && (lastVisibileItem + 1) == myListview.getCount())
+                if (pageNum * pageSize >= totalCount) return;
+                if(isloading)return;
+                pageNum=pageNum+1;
+                initBtmList();
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                lastVisibileItem = firstVisibleItem + visibleItemCount - 1;
+            }
+        });
         if (keyword != null) {
             etSearch.setText(keyword);
             ivSearchClear.setVisibility(View.VISIBLE);
@@ -133,7 +172,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
         }
         initData();
     }
-
+    private boolean isloading=false;
     @Override
     public void initEvent() {
         btnZh.setOnClickListener(this);
@@ -177,6 +216,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
 
     private void searchKeyWord() {
         if (GeneralUtils.isNotNullOrZeroLenght(etSearch.getText().toString())) {
+            initData();
         } else {
             ToastUtil.makeText(mContext, "请输入搜索内容");
         }
@@ -200,6 +240,8 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
                 Drawable arraw3 = getResources().getDrawable(R.mipmap.icon_arrow_down);
                 arraw3.setBounds(0, 0, arraw3.getMinimumWidth(), arraw3.getMinimumHeight());
                 btnSx.setCompoundDrawables(null, null, arraw3, null);
+                order = 1;
+                initData();
                 break;
             case R.id.btn_xl:
                 initTopBtn();
@@ -207,6 +249,8 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
                 Drawable arraw2 = getResources().getDrawable(R.mipmap.icon_arrow_down);
                 arraw2.setBounds(0, 0, arraw2.getMinimumWidth(), arraw2.getMinimumHeight());
                 btnSx.setCompoundDrawables(null, null, arraw2, null);
+                order = 2;
+                initData();
                 break;
             case R.id.btn_xy:
                 initTopBtn();
@@ -230,5 +274,44 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
         btnXl.setTextColor(Color.parseColor("#4A4A4A"));
         btnXy.setTextColor(Color.parseColor("#4A4A4A"));
         btnSx.setTextColor(Color.parseColor("#4A4A4A"));
+    }
+    @Override
+    public void onEventMainThread(BaseResponse event) throws Exception {
+        if (event instanceof NoticeEvent) {
+            String tag = ((NoticeEvent) event).getTag();
+            if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
+            } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
+            }
+        } else if (event instanceof NetResponseEvent) {
+            NetLoadingDialog.getInstance().dismissDialog();
+            String tag = ((NetResponseEvent) event).getTag();
+            String result = ((NetResponseEvent) event).getResult();
+            if (tag.equals(SearchShopsResponse.class.getName())) {
+                SearchShopsResponse searchShopsResponse = GsonHelper.toType(result, SearchShopsResponse.class);
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    CMLog.e(Constants.HTTP_TAG, result);
+                    if (Constants.SUCESS_CODE.equals(searchShopsResponse.getResultCode())) {
+                        if (pageNum == 1) {
+                            goodsList.clear();
+                        }
+                        isloading = false;
+//                        totalCount = goodsEnterpriseResponse.getTotalCount();
+//                        if (goodsEnterpriseResponse.getContentList() != null && goodsEnterpriseResponse.getContentList().size() > 0) {
+//                            goodsList.addAll(goodsEnterpriseResponse.getContentList());
+//                            gAdapter.setData(goodsList);
+//                            lAdapter.setData(goodsList);
+//                            gAdapter.notifyDataSetChanged();
+//                            lAdapter.notifyDataSetChanged();
+//                            CommonMethod.setListViewHeightBasedOnChildren(myListview);
+//                            CommonMethod.setListViewHeightBasedOnChildren(myGridview);
+//                        }
+                    } else {
+                        ErrorCode.doCode(this, searchShopsResponse.getResultCode(), searchShopsResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(this);
+                }
+            }
+        }
     }
 }

@@ -173,12 +173,12 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
 
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                if (myListview.getVisibility() == View.VISIBLE) {
-                    return PtrDefaultHandler.checkContentCanBePulledDown(frame, myListview, header);
-                } else {
-                    return PtrDefaultHandler.checkContentCanBePulledDown(frame, myGridview, header);
-                }
-
+//                if (myListview.getVisibility() == View.VISIBLE) {
+//                    return PtrDefaultHandler.checkContentCanBePulledDown(frame, myListview, header);
+//                } else {
+//                    return PtrDefaultHandler.checkContentCanBePulledDown(frame, myGridview, header);
+//                }
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, scrollView, header);
             }
         });
         lAdapter = new CommonAdapter<GoodsEnterpriseResponse.ContentListBean>(GoodsEnterpriseActivity.this, goodsList, R.layout.item_his_g) {
