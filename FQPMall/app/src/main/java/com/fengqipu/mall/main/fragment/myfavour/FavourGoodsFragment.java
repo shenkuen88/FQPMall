@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.adapter.CommonAdapter;
@@ -122,19 +123,25 @@ public class FavourGoodsFragment extends BaseFragment implements View.OnClickLis
                             R.drawable.default_bg);
                 }
                 GridView gridView = helper.getView(R.id.my_grid_view);
-                CommonAdapter<String> gadapter = new CommonAdapter<String>(newMyFavourActivity, item.getAdvPicUrlList(), R.layout.item_pic) {
-                    @Override
-                    public void convert(ViewHolder helper, String item) {
-                        ImageView iv_pic = helper.getView(R.id.iv_pic);
-                        if (GeneralUtils.isNotNullOrZeroLenght(item)) {
-                            GeneralUtils.setImageViewWithUrl(newMyFavourActivity, item,
-                                    iv_pic,
-                                    R.drawable.default_bg);
+                LinearLayout image_ll=helper.getView(R.id.image_ll);
+                if(item.getAdvPicUrlList()!=null&&item.getAdvPicUrlList().size()>0) {
+                    image_ll.setVisibility(View.VISIBLE);
+                    CommonAdapter<String> gadapter = new CommonAdapter<String>(newMyFavourActivity, item.getAdvPicUrlList(), R.layout.item_pic) {
+                        @Override
+                        public void convert(ViewHolder helper, String item) {
+                            ImageView iv_pic = helper.getView(R.id.iv_pic);
+                            if (GeneralUtils.isNotNullOrZeroLenght(item)) {
+                                GeneralUtils.setImageViewWithUrl(newMyFavourActivity, item,
+                                        iv_pic,
+                                        R.drawable.default_bg);
+                            }
                         }
-                    }
-                };
-                gridView.setAdapter(gadapter);
-                CommonMethod.setListViewHeightBasedOnChildren(gridView);
+                    };
+                    gridView.setAdapter(gadapter);
+                    CommonMethod.setListViewHeightBasedOnChildren(gridView);
+                }else{
+                    image_ll.setVisibility(View.GONE);
+                }
             }
         };
         myListview.setOnScrollListener(new AbsListView.OnScrollListener() {

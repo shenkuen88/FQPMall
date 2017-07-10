@@ -150,21 +150,21 @@ public class RefundActy extends BaseActivity implements View.OnClickListener {
                     }
                 }
             } else if (NotiTag.equalsTags(mContext, tag, NotiTag.TAG_UPLOAD_PICS_SUCCESS)) {
-                String nm = 0 + "";
-                String url1 = "", url2 = "", url3 = "", url4 = "";
-                for (int i = 0; i < uploadUrlList.size(); i++) {
-                    if (i == 0) {
-                        url1 = uploadUrlList.get(i);
-                    } else if (i == 1) {
-                        url2 = uploadUrlList.get(i);
-                    } else if (i == 2) {
-                        url3 = uploadUrlList.get(i);
-                    } else if (i == 3) {
-                        url4 = uploadUrlList.get(i);
-                    }
-                }
-                UserServiceImpl.instance().refund(orderId, whitchIndex + "", etExplain.getText().toString(),
-                        etMoney.getText().toString(), url1, url2, url3, url4, RefundResponse.class.getName());
+//                String nm = 0 + "";
+//                String url1 = "", url2 = "", url3 = "", url4 = "";
+//                for (int i = 0; i < uploadUrlList.size(); i++) {
+//                    if (i == 0) {
+//                        url1 = uploadUrlList.get(i);
+//                    } else if (i == 1) {
+//                        url2 = uploadUrlList.get(i);
+//                    } else if (i == 2) {
+//                        url3 = uploadUrlList.get(i);
+//                    } else if (i == 3) {
+//                        url4 = uploadUrlList.get(i);
+//                    }
+//                }
+//                UserServiceImpl.instance().refund(orderId, whitchIndex + "", etExplain.getText().toString(),
+//                        etMoney.getText().toString(), url1, url2, url3, url4, RefundResponse.class.getName());
             }
         }
         if (event instanceof NetResponseEvent) {

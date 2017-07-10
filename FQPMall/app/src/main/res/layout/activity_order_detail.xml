@@ -64,7 +64,7 @@
                         android:id="@+id/info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="还剩XXXXX确认"
+                        android:text="--"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -157,7 +157,7 @@
                             android:ellipsize="end"
                             android:layout_toLeftOf="@+id/sh_phone"
                             android:lines="1"
-                            android:text="收货人 :刘大大"
+                            android:text="收货人 :--"
                             android:layout_marginRight="@dimen/pxtodp20"
                             android:textColor="@color/txt_col"
                             android:textSize="@dimen/pxtosp30" />
@@ -169,7 +169,7 @@
                             android:layout_alignParentRight="true"
                             android:ellipsize="end"
                             android:lines="1"
-                            android:text="18306100856"
+                            android:text="--"
                             android:textColor="@color/txt_col"
                             android:textSize="@dimen/pxtosp30" />
                     </RelativeLayout>
@@ -181,7 +181,7 @@
                         android:layout_marginTop="5dp"
                         android:ellipsize="end"
                         android:lines="2"
-                        android:text="收货地址:上海市浦东新区XXXXX73号"
+                        android:text="收货地址:--"
                         android:textColor="@color/txt_nol_col"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -308,7 +308,7 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="订单编号:22222222"
+                            android:text="订单编号:--"
                             android:lines="1"
                             android:ellipsize="end"
                             android:textColor="@color/txt_nol_col"
@@ -328,7 +328,7 @@
                         android:id="@+id/order_jyh"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="支付宝交易号:22222222"
+                        android:text="支付宝交易号:--"
                         android:lines="1"
                         android:ellipsize="end"
                         android:textColor="@color/txt_nol_col"
@@ -337,7 +337,7 @@
                         android:id="@+id/order_createtime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="创建时间:22222222"
+                        android:text="创建时间:--"
                         android:lines="1"
                         android:ellipsize="end"
                         android:textColor="@color/txt_nol_col"
@@ -346,7 +346,7 @@
                         android:id="@+id/order_fktime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="付款时间:22222222"
+                        android:text="付款时间:--"
                         android:lines="1"
                         android:ellipsize="end"
                         android:textColor="@color/txt_nol_col"
@@ -355,7 +355,7 @@
                         android:id="@+id/order_fhtime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="发货时间:22222222"
+                        android:text="发货时间:--"
                         android:lines="1"
                         android:ellipsize="end"
                         android:textColor="@color/txt_nol_col"

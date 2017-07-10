@@ -244,6 +244,7 @@ public class MyOrderFragment extends BaseFragment {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), LogisticsActivity.class);
                         intent.putExtra("orderID", item.getId());
+                        intent.putExtra("headPic", item.getOrderContentList().get(0).getPicUrlRequestUrl());
                         startActivity(intent);
                     }
                 });
@@ -418,7 +419,7 @@ public class MyOrderFragment extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isVisible()) {
             page = 1;
-            pull_to_refresh.autoRefresh();
+//            pull_to_refresh.autoRefresh();
             getOrderList("");
         }
     }
@@ -428,7 +429,7 @@ public class MyOrderFragment extends BaseFragment {
         super.onResume();
         if (getUserVisibleHint()) {
             page = 1;
-            pull_to_refresh.autoRefresh();
+//            pull_to_refresh.autoRefresh();
             getOrderList("");
         }
     }

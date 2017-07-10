@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:text="距离本场结束:"
             android:textColor="#EB464E"
-            android:textSize="16sp"
+            android:textSize="15sp"
             />
     </LinearLayout>
     <com.fengqipu.mall.view.RefreshListView

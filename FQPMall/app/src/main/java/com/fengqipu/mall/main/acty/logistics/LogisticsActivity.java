@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,19 +31,27 @@ import com.fengqipu.mall.tools.V;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class LogisticsActivity extends BaseActivity {
+    @Bind(R.id.img_head)
+    ImageView imgHead;
     private HeadView headView;
     private String orderID = "1";
     private ListView my_listview;
     private CommonAdapter<LogisticsResponse.DeliveryRecordListBean> mAdapter;
     private List<LogisticsResponse.DeliveryRecordListBean> llist = new ArrayList<LogisticsResponse.DeliveryRecordListBean>();
-    private TextView wl_state,wl_ly,wl_id,wl_phone;
+    private TextView wl_state, wl_ly, wl_id, wl_phone;
+    String headPic="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logistics);
-        orderID=getIntent().getStringExtra("orderID");
+        ButterKnife.bind(this);
+        orderID = getIntent().getStringExtra("orderID");
+        headPic = getIntent().getStringExtra("headPic");
         initAll();
     }
 
@@ -52,7 +61,7 @@ public class LogisticsActivity extends BaseActivity {
         headView = new HeadView((ViewGroup) view);
         headView.setLeftImage(R.mipmap.app_title_back);
         headView.setTitleText("查看物流");
-        headView.setRightImage(R.mipmap.btn_more);
+        headView.setHiddenRight();
         my_listview = V.f(this, R.id.my_listview);
         wl_state = V.f(this, R.id.wl_state);
         wl_ly = V.f(this, R.id.wl_ly);
@@ -62,6 +71,9 @@ public class LogisticsActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        if(!headPic.equals("")){
+            GeneralUtils.setImageViewWithUrl(this,headPic,imgHead,R.drawable.default_bg);
+        }
         initTitle();
     }
 
@@ -77,7 +89,7 @@ public class LogisticsActivity extends BaseActivity {
                     time.setTextColor(getResources().getColor(R.color.app_color));
                     helper.getView(R.id.img).setVisibility(View.VISIBLE);
                     helper.getView(R.id.img2).setVisibility(View.GONE);
-                }else{
+                } else {
                     context.setTextColor(getResources().getColor(R.color.txt_nol_col));
                     time.setTextColor(getResources().getColor(R.color.txt_nol_col));
                     helper.getView(R.id.img).setVisibility(View.GONE);
@@ -133,7 +145,6 @@ public class LogisticsActivity extends BaseActivity {
 //                            case 3:wl_state.setText("完成");break;
 //                            default:wl_state.setText("暂无状态");break;
 //                        }
-
 
 
                         wl_state.setText(logisticsResponse.getDelivery().getStateDesc());

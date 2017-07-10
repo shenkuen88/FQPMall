@@ -28,6 +28,9 @@ import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseListActivity;
+import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.index.ConfirmOrderActivity;
 import com.fengqipu.mall.main.acty.logistics.LogisticsActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
@@ -126,6 +129,15 @@ public class OrderDetailActivity extends BaseActivity {
                 helper.getView(R.id.all_num).setVisibility(View.GONE);
                 helper.setText(R.id.all_money, "￥" + item.getRealPrice());
 //                helper.setText(R.id.dy_price, "(含运费￥" + item.getd() + ")");
+                helper.getView(R.id.store_nam).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(OrderDetailActivity.this, EnterpriseActivity.class);
+                        intent.putExtra("sid", item.getShopID());
+                        startActivity(intent);
+
+                    }
+                });
                 CommonAdapter<OrderDetailResponse.OrderBean.OrderContentListBean> goodsCommonAdapter
                         = new CommonAdapter<OrderDetailResponse.OrderBean.OrderContentListBean>(mContext
                         , item.getOrderContentList(), R.layout.item_myorder_goods) {
@@ -156,6 +168,9 @@ public class OrderDetailActivity extends BaseActivity {
                             @Override
                             public void onClick(View v) {
                                 //跳转到详情页
+                                Intent intent=new Intent(OrderDetailActivity.this, GoodsDetailActivity.class);
+                                intent.putExtra("contentID",item.getId());
+                                startActivity(intent);
                             }
                         });
                     }
@@ -168,6 +183,7 @@ public class OrderDetailActivity extends BaseActivity {
                     public void onClick(View v) {
                         Intent intent=new Intent(mContext, LogisticsActivity.class);
                         intent.putExtra("orderID",item.getId());
+                        intent.putExtra("headPic", item.getOrderContentList().get(0).getPicUrlRequestUrl());
                         startActivity(intent);
                     }
                 });
@@ -253,6 +269,7 @@ public class OrderDetailActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, LogisticsActivity.class);
                 intent.putExtra("orderID", orderId);
+                intent.putExtra("headPic", item.getOrderContentList().get(0).getPicUrlRequestUrl());
                 startActivity(intent);
             }
         });

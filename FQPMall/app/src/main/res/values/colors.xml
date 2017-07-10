@@ -5,7 +5,7 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#000000</color>
-    <color name="gray_bg">#f1f1ed</color>
+    <color name="gray_bg">#EFEFEF</color>
     <color name="app_color">#EB464E</color>
     <color name="app_bg">#EFEFEF</color>
     <color name="app_color_click">#F34030</color>
@@ -21,7 +21,7 @@
     <color name="dc">#dcdcdc</color>
     <color name="red_dark_color">#ca2d25</color>
     <color name="head_view_bg">#e1554e</color>
-    <color name="whole_bg">#ececec</color>
+    <color name="whole_bg">#EFEFEF</color>
     <color name="whole_gesture_bg">#ececec</color>
     <color name="circle_border">#7feeeeee</color>
     <color name="line">#d9d9d9</color>
@@ -112,7 +112,7 @@
     <color name="order_sel_col">#F34030</color>
     <color name="order_nol_col">#4d4d4d</color>
 
-    <color name="bg_col">#e1e1e1</color>
+    <color name="bg_col">#EFEFEF</color>
     <color name="ed_bg">#f5f5f5</color>
     <color name="title_black">#4A4A4A</color>
     <color name="txt_col">#4A4A4A</color>
