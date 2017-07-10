@@ -9,7 +9,16 @@
     <include
         android:id="@+id/common_back"
         layout="@layout/layout_top" />
-
+    <com.fengqipu.mall.view.ScrollBottomScrollView
+        android:id="@+id/my_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
     <com.fengqipu.mall.view.banner.ConvenientBanner
         android:id="@+id/index_banner"
         android:layout_width="match_parent"
@@ -45,4 +54,7 @@
         android:overScrollMode="never"
         android:scrollbars="none">
     </com.fengqipu.mall.view.RefreshListView>
+
+        </LinearLayout>
+    </com.fengqipu.mall.view.ScrollBottomScrollView>
 </LinearLayout>

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,10 +27,12 @@ import com.fengqipu.mall.main.base.HeadView;
 import com.fengqipu.mall.network.GsonHelper;
 import com.fengqipu.mall.network.UserServiceImpl;
 import com.fengqipu.mall.tools.CMLog;
+import com.fengqipu.mall.tools.CommonMethod;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
 import com.fengqipu.mall.view.RefreshListView;
+import com.fengqipu.mall.view.ScrollBottomScrollView;
 import com.fengqipu.mall.view.banner.ConvenientBanner;
 import com.fengqipu.mall.view.banner.demo.LocalImageHolderView;
 import com.fengqipu.mall.view.banner.demo.NetworkImageHolderView;
@@ -54,6 +55,8 @@ public class HuoDongActivity extends BaseActivity implements View.OnClickListene
     TextView syTime;
     @Bind(R.id.my_listview)
     RefreshListView myListview;
+    @Bind(R.id.my_scrollview)
+    ScrollBottomScrollView myScrollview;
     private ActivityListBean activityListBean = null;
     int pageNum = 1;
     int pageSize = 10;
@@ -119,30 +122,32 @@ public class HuoDongActivity extends BaseActivity implements View.OnClickListene
     private void initData() {
         UserServiceImpl.instance().getHuoDongList(this, activityListBean.getActivityID(), pageNum, pageSize, HuodongResponse.class.getName());
     }
-    int totalCount=0;
+
+    int totalCount = 0;
+
     @Override
     public void initViewData() {
         mAdapter = new CommonAdapter<HuodongResponse.ContentListBean>(this, goodsList, R.layout.item_huodong_goods) {
             @Override
-            public void convert(ViewHolder helper,final HuodongResponse.ContentListBean item) {
-                ImageView img=helper.getView(R.id.img);
+            public void convert(ViewHolder helper, final HuodongResponse.ContentListBean item) {
+                ImageView img = helper.getView(R.id.img);
                 if (item.getPicUrl1RequestUrl() != null && !item.getPicUrl1RequestUrl().equals("")) {
                     GeneralUtils.setImageViewWithUrl(HuoDongActivity.this, item.getPicUrl1RequestUrl(), img, R.drawable.default_bg);
                 }
-                TextView goods_info=helper.getView(R.id.goods_info);
-                TextView goods_price=helper.getView(R.id.goods_price);
-                TextView goods_old_price=helper.getView(R.id.goods_old_price);
-                TextView goods_xl=helper.getView(R.id.goods_xl);
-                Button btn_msq=helper.getView(R.id.btn_msq);
-                goods_info.setText(item.getContentName()+"");
-                goods_price.setText("￥"+item.getPrice()+"");
-                goods_old_price.setText("￥"+item.getOriginalPrice()+"");
-                goods_xl.setText("销量"+item.getSales()+"件");
+                TextView goods_info = helper.getView(R.id.goods_info);
+                TextView goods_price = helper.getView(R.id.goods_price);
+                TextView goods_old_price = helper.getView(R.id.goods_old_price);
+                TextView goods_xl = helper.getView(R.id.goods_xl);
+                Button btn_msq = helper.getView(R.id.btn_msq);
+                goods_info.setText(item.getContentName() + "");
+                goods_price.setText("￥" + item.getPrice() + "");
+                goods_old_price.setText("￥" + item.getOriginalPrice() + "");
+                goods_xl.setText("销量" + item.getSales() + "件");
                 btn_msq.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent=new Intent(HuoDongActivity.this, GoodsDetailActivity.class);
-                        intent.putExtra("contentID",item.getId());
+                        Intent intent = new Intent(HuoDongActivity.this, GoodsDetailActivity.class);
+                        intent.putExtra("contentID", item.getId());
                         startActivity(intent);
                     }
                 });
@@ -150,18 +155,26 @@ public class HuoDongActivity extends BaseActivity implements View.OnClickListene
             }
         };
         myListview.setAdapter(mAdapter);
-        myListview.setOnScrollListener(new AbsListView.OnScrollListener() {
+//        myListview.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+//                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && (lastVisibileItem + 1) == myListview.getCount())
+//                if (pageNum * pageSize >= totalCount) return;
+//                pageNum = pageNum + 1;
+//                initData();
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                lastVisibileItem = firstVisibleItem + visibleItemCount - 1;
+//            }
+//        });
+        myScrollview.setScrollBottomListener(new ScrollBottomScrollView.ScrollBottomListener() {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && (lastVisibileItem + 1) == myListview.getCount())
-                    pageNum=pageNum+1;
-                    if (pageNum * pageSize >= totalCount) return;
-                    initData();
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                lastVisibileItem = firstVisibleItem + visibleItemCount - 1;
+            public void scrollBottom() {
+                if (pageNum * pageSize >= totalCount) return;
+                pageNum = pageNum + 1;
+                initData();
             }
         });
         initData();
@@ -269,11 +282,12 @@ public class HuoDongActivity extends BaseActivity implements View.OnClickListene
                         if (pageNum == 1) {
                             goodsList.clear();
                         }
-                        totalCount=huodongResponse.getTotalCount();
+                        totalCount = huodongResponse.getTotalCount();
                         if (huodongResponse.getContentList() != null && huodongResponse.getContentList().size() > 0) {
                             goodsList.addAll(huodongResponse.getContentList());
                         }
                         mAdapter.notifyDataSetChanged();
+                        CommonMethod.setListViewHeightBasedOnChildren(myListview);
                     } else {
                         ErrorCode.doCode(this, huodongResponse.getResultCode(), huodongResponse.getDesc());
                     }
