@@ -2,7 +2,6 @@ package com.fengqipu.mall.network;
 
 
 import android.content.Context;
-import android.util.Log;
 
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.constant.Constants;
@@ -11,7 +10,10 @@ import com.fengqipu.mall.constant.URLUtil;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.tools.ACache;
 import com.fengqipu.mall.tools.CMLog;
+import com.fengqipu.mall.tools.FileExtensionUtil;
 import com.fengqipu.mall.tools.GeneralUtils;
+import com.fengqipu.mall.tools.MimeTypeUtil;
+import com.fengqipu.mall.tools.StringUtil;
 import com.fengqipu.mall.tools.klog.KLog;
 
 import org.apache.http.HttpEntity;
@@ -27,8 +29,13 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -38,6 +45,8 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -206,6 +215,7 @@ public class NetWork {
                 CMLog.i(TAG, "InterruptedException " + e.getMessage());
             } finally {
                 mPendingTasks.remove(this);
+                //出现过  IOException Connection to http://221.226.118.110:18080 refused, 调试发现根本没有通知到社区页面，所以一直显示加载页
                 if (result == null || result.equals("")) {
                     EventBus.getDefault().post(new NetResponseEvent("", tag, NetResponseEvent.Cache.isNetWork));
                 } else if (!Thread.interrupted()) {//线程未被中断
@@ -250,7 +260,7 @@ public class NetWork {
                 //登录账户
                 httpPost.setHeader("x-s-loginName",Global.getUserName());
                 //客户端版本号
-                httpPost.setHeader("x-s-clientVersion", ""+Constants.VERSION_NAME);
+                httpPost.setHeader("x-s-clientVersion", ""+ Constants.VERSION_NAME);
                 String ver = Constants.VERSION_NAME+"";
                 SchemeRegistry schReg = new SchemeRegistry();
                 schReg.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
@@ -263,96 +273,81 @@ public class NetWork {
                     defaultHttpClient.setCookieStore(BaseApplication.cookieStore);
                 }
 
-//                if (fileParameters != null && fileParameters.size() > 0)
-//                {
-//                    MultipartEntity multipartEntity =
-//                            new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
-//                    if (map != null)
-//                    {
-//                        String hashValue = "";
-//                        ArrayList<String> keys = GeneralUtils.doSort(map);
-//                        for (int i = 0; i < keys.size(); i++)
-//                        {
-//                            if ("hash".equals(keys.get(i)))
-//                            {
-//                                continue;
-//                            }
-//                            String key = keys.get(i);
-//                            String value = map.get(keys.get(i));
-//                            CMLog.i(TAG, "参数名     " + key);
-//                            CMLog.i(TAG, "参数值     " + value);
-//                            BasicNameValuePair valuePair = new BasicNameValuePair(key, value);
-//                            StringBody strBody =
-//                                    new StringBody(String.valueOf(valuePair.getValue()), Charset.forName("UTF-8"));
-//                            multipartEntity.addPart(valuePair.getName(), strBody);
-//                            hashValue += value;
-//                        }
+                if (fileParameters != null && fileParameters.size() > 0)
+                {
+                    MultipartEntity multipartEntity =
+                            new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
+                    if (map != null)
+                    {
+                        String hashValue = "";
+                        ArrayList<String> keys = GeneralUtils.doSort(map);
+                        for (int i = 0; i < keys.size(); i++)
+                        {
+                            if ("hash".equals(keys.get(i)))
+                            {
+                                continue;
+                            }
+                            String key = keys.get(i);
+                            String value = map.get(keys.get(i));
+                            CMLog.i(TAG, "参数名     " + key);
+                            CMLog.i(TAG, "参数值     " + value);
+                            BasicNameValuePair valuePair = new BasicNameValuePair(key, value);
+                            StringBody strBody =
+                                    new StringBody(String.valueOf(valuePair.getValue()), Charset.forName("UTF-8"));
+                            multipartEntity.addPart(valuePair.getName(), strBody);
+                            hashValue += value;
+                        }
+                    }
 
-//                        BasicNameValuePair valuePair =
-//                                new BasicNameValuePair("hash",GsonHelper.toJson(map));
-//                        BasicNameValuePair valuePair =
-//                                new BasicNameValuePair("hash", SecurityUtils.get32MD5Str(hashValue));
-//                        CMLog.i(TAG, "hash " + "加密前:" + GsonHelper.toJson(map));
-//                        StringBody strBody =
-//                                new StringBody(String.valueOf(valuePair.getValue()), Charset.forName("UTF-8"));
-//                        multipartEntity.addPart(valuePair.getName(), strBody);
-//                    }
+                    String fileExtension = null;
+                    String mineType = null;
+                    for (Map.Entry<String, List<File>> entry : fileParameters.entrySet())
+                    {
+                        List<File> files = entry.getValue();
+                        for (File file : files)
+                        {
+                            fileExtension = FileExtensionUtil.getFileExtensionFromName(file.getName());
+                            mineType = MimeTypeUtil.getSingleton().getMimeTypeFromExtension(fileExtension);
+                            //MIME 消息能包含文本、图像、音频、视频以及其他应用程序专用的数据
+                            if (StringUtil.isNotEmpty(mineType))
+                            {
+                                multipartEntity.addPart(entry.getKey(), new FileBody(file, mineType)); // 添加文件参数,带上mimeType
+                            }
+                            else
+                            {
+                                multipartEntity.addPart(entry.getKey(), new FileBody(file)); // 添加文件参数
+                            }
+                        }
+                    }
+                    httpPost.setEntity(multipartEntity);
 
-//                    String fileExtension = null;
-//                    String mineType = null;
-//                    for (Map.Entry<String, List<File>> entry : fileParameters.entrySet())
-//                    {
-//                        List<File> files = entry.getValue();
-//                        for (File file : files)
-//                        {
-//                            fileExtension = FileExtensionUtil.getFileExtensionFromName(file.getName());
-//                            mineType = MimeTypeUtil.getSingleton().getMimeTypeFromExtension(fileExtension);
-//                            if (StringUtil.isNotEmpty(mineType))
-//                            {
-//                                multipartEntity.addPart(entry.getKey(), new FileBody(file, mineType)); // 添加文件参数,带上mimeType
-//                            } else
-//                            {
-//                                multipartEntity.addPart(entry.getKey(), new FileBody(file)); // 添加文件参数
-//                            }
-//                        }
-//                    }
-//                    httpPost.setEntity(multipartEntity);
-//
-//                } else
-//                {
-                httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-//                    List<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>();
-//                    if (map != null)
-//                    {
-//                        String hashValue = "";
-//                        ArrayList<String> keys = GeneralUtils.doSort(map);
-//                        for (int i = 0; i < keys.size(); i++)
-//                        {
-//                            if ("hash".equals(keys.get(i)))
-//                            {
-//                                continue;
-//                            }
-//                            String key = keys.get(i);
-//                            String value = map.get(keys.get(i));
-//                            CMLog.i(TAG, "参数名     " + key);
-//                            CMLog.i(TAG, "参数值     " + value);
-//                            BasicNameValuePair valuePair = new BasicNameValuePair(key, value);
-//                            nameValuePairs.add(valuePair);
-//                            hashValue += value;
-//                        }
-//                        BasicNameValuePair valuePair =
-//                                new BasicNameValuePair("hash", GsonHelper.toJson(map));
-//                        BasicNameValuePair valuePair =
-//                                new BasicNameValuePair("hash", SecurityUtils.get32MD5Str(hashValue));
-//                        CMLog.i(TAG, "hash " + SecurityUtils.get32MD5Str(hashValue));
-//                        CMLog.i(TAG, "hash " + "加密前:" +  GsonHelper.toJson(map));
-//                        nameValuePairs.add(valuePair);
-//                    }
-                CMLog.e("HTTP", "参数：\n" + GsonHelper.toJson(map));
-                HttpEntity httpEntity = new StringEntity(GsonHelper.toJson(map), HTTP.UTF_8);
-                httpPost.setEntity(httpEntity);
-
-//            }
+                }
+                else
+                {
+                    httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+                    List<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>();
+                    if (map != null)
+                    {
+                        String hashValue = "";
+                        ArrayList<String> keys = GeneralUtils.doSort(map);
+                        for (int i = 0; i < keys.size(); i++)
+                        {
+                            if ("hash".equals(keys.get(i)))
+                            {
+                                continue;
+                            }
+                            String key = keys.get(i);
+                            String value = map.get(keys.get(i));
+                            CMLog.i(TAG, "参数名     " + key);
+                            CMLog.i(TAG, "参数值     " + value);
+                            BasicNameValuePair valuePair = new BasicNameValuePair(key, value);
+                            nameValuePairs.add(valuePair);
+                            hashValue += value;
+                        }
+                    }
+                    HttpEntity httpEntity = new StringEntity(GsonHelper.toJson(map), HTTP.UTF_8);
+                    httpPost.setEntity(httpEntity);
+                }
                 HttpResponse httpResponse = defaultHttpClient.execute(httpPost);
                 if (httpResponse == null) {
                     CMLog.i(TAG, "http response result null");
@@ -369,7 +364,7 @@ public class NetWork {
                         CMLog.i(TAG, "request was sucessful, but paser value was null or empty");
                         return null;
                     }
-//                    CMLog.i(TAG, "respnse result:" + result);
+                    CMLog.i(TAG, "respnse result:" + result);
                     KLog.json(TAG, result);
                     return result;
                 } else {
@@ -421,97 +416,10 @@ public class NetWork {
                 if (GeneralUtils.isNotNull(BaseApplication.cookieStore)) {
                     defaultHttpClient.setCookieStore(BaseApplication.cookieStore);
                 }
-
-//                if (fileParameters != null && fileParameters.size() > 0)
-//                {
-//                    MultipartEntity multipartEntity =
-//                            new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, null, Charset.forName("UTF-8"));
-//                    if (map != null)
-//                    {
-//                        String hashValue = "";
-//                        ArrayList<String> keys = GeneralUtils.doSort(map);
-//                        for (int i = 0; i < keys.size(); i++)
-//                        {
-//                            if ("hash".equals(keys.get(i)))
-//                            {
-//                                continue;
-//                            }
-//                            String key = keys.get(i);
-//                            String value = map.get(keys.get(i));
-//                            CMLog.i(TAG, "参数名     " + key);
-//                            CMLog.i(TAG, "参数值     " + value);
-//                            BasicNameValuePair valuePair = new BasicNameValuePair(key, value);
-//                            StringBody strBody =
-//                                    new StringBody(String.valueOf(valuePair.getValue()), Charset.forName("UTF-8"));
-//                            multipartEntity.addPart(valuePair.getName(), strBody);
-//                            hashValue += value;
-//                        }
-
-//                        BasicNameValuePair valuePair =
-//                                new BasicNameValuePair("hash",GsonHelper.toJson(map));
-//                        BasicNameValuePair valuePair =
-//                                new BasicNameValuePair("hash", SecurityUtils.get32MD5Str(hashValue));
-//                        CMLog.i(TAG, "hash " + "加密前:" + GsonHelper.toJson(map));
-//                        StringBody strBody =
-//                                new StringBody(String.valueOf(valuePair.getValue()), Charset.forName("UTF-8"));
-//                        multipartEntity.addPart(valuePair.getName(), strBody);
-//                    }
-
-//                    String fileExtension = null;
-//                    String mineType = null;
-//                    for (Map.Entry<String, List<File>> entry : fileParameters.entrySet())
-//                    {
-//                        List<File> files = entry.getValue();
-//                        for (File file : files)
-//                        {
-//                            fileExtension = FileExtensionUtil.getFileExtensionFromName(file.getName());
-//                            mineType = MimeTypeUtil.getSingleton().getMimeTypeFromExtension(fileExtension);
-//                            if (StringUtil.isNotEmpty(mineType))
-//                            {
-//                                multipartEntity.addPart(entry.getKey(), new FileBody(file, mineType)); // 添加文件参数,带上mimeType
-//                            } else
-//                            {
-//                                multipartEntity.addPart(entry.getKey(), new FileBody(file)); // 添加文件参数
-//                            }
-//                        }
-//                    }
-//                    httpPost.setEntity(multipartEntity);
-//
-//                } else
-//                {
                 httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-//                    List<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>();
-//                    if (map != null)
-//                    {
-//                        String hashValue = "";
-//                        ArrayList<String> keys = GeneralUtils.doSort(map);
-//                        for (int i = 0; i < keys.size(); i++)
-//                        {
-//                            if ("hash".equals(keys.get(i)))
-//                            {
-//                                continue;
-//                            }
-//                            String key = keys.get(i);
-//                            String value = map.get(keys.get(i));
-//                            CMLog.i(TAG, "参数名     " + key);
-//                            CMLog.i(TAG, "参数值     " + value);
-//                            BasicNameValuePair valuePair = new BasicNameValuePair(key, value);
-//                            nameValuePairs.add(valuePair);
-//                            hashValue += value;
-//                        }
-//                        BasicNameValuePair valuePair =
-//                                new BasicNameValuePair("hash", GsonHelper.toJson(map));
-//                        BasicNameValuePair valuePair =
-//                                new BasicNameValuePair("hash", SecurityUtils.get32MD5Str(hashValue));
-//                        CMLog.i(TAG, "hash " + SecurityUtils.get32MD5Str(hashValue));
-//                        CMLog.i(TAG, "hash " + "加密前:" +  GsonHelper.toJson(map));
-//                        nameValuePairs.add(valuePair);
-//                    }
                 CMLog.e("HTTP", "参数2：\n" + GsonHelper.toJson(map));
                 HttpEntity httpEntity = new StringEntity(GsonHelper.toJson(map), HTTP.UTF_8);
                 httpPost.setEntity(httpEntity);
-
-//            }
                 HttpResponse httpResponse = defaultHttpClient.execute(httpPost);
                 if (httpResponse == null) {
                     CMLog.i(TAG, "http response result null");
@@ -528,7 +436,7 @@ public class NetWork {
                         CMLog.i(TAG, "request was sucessful, but paser value was null or empty");
                         return null;
                     }
-//                    CMLog.i(TAG, "respnse result:" + result);
+                    CMLog.i(TAG, "respnse result:" + result);
                     KLog.json(TAG, result);
                     return result;
                 } else {

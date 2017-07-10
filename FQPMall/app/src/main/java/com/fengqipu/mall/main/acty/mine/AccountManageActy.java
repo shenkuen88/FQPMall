@@ -553,7 +553,7 @@ public class AccountManageActy extends BaseActivity implements View.OnClickListe
                 //上传图片start
                 NetLoadingDialog.getInstance().loading(mContext);
                 File file = new File(temppath);
-                Log.e("sub","file="+file.exists());
+                Log.e("sub","file="+file.exists()+",temppath="+temppath);
                 List<File> files=new ArrayList<>();
                 files.add(file);
                 UserServiceImpl.instance().uploadPic(files, UploadFileResponse.class.getName());
