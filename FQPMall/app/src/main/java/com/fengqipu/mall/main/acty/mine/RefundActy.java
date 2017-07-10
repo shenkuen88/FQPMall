@@ -54,23 +54,16 @@ import com.fengqipu.mall.view.photopicker.view.ImageBucketChooseActivity;
 import com.fengqipu.mall.view.photopicker.view.ImageZoomActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.qiniu.android.http.ResponseInfo;
-import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by huqing on 2016/7/20.
@@ -131,24 +124,6 @@ public class RefundActy extends BaseActivity implements View.OnClickListener {
             if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 finish();
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
-                if (tvResson.getText().toString().equals("请选择")) {
-                    ToastUtil.makeText(mContext, "请选择退款原因");
-                    return;
-                } else if (GeneralUtils.isNullOrZeroLenght(etMoney.getText().toString())) {
-                    ToastUtil.makeText(mContext, "请输入退款金额");
-                    return;
-                }
-                if (mDataList.size() == 0) {
-                    UserServiceImpl.instance().refund(orderId, whitchIndex + "", etExplain.getText().toString(),
-                            etMoney.getText().toString(), "", "", "", "", RefundResponse.class.getName());
-                } else {
-                    uploadManager = new UploadManager();
-                    for (int i = 0; i < mDataList.size(); i++) {
-                        if (GeneralUtils.isNotNullOrZeroLenght(mDataList.get(i).getSourcePath())) {
-                            getUpimg(mDataList.get(i).getSourcePath());
-                        }
-                    }
-                }
             } else if (NotiTag.equalsTags(mContext, tag, NotiTag.TAG_UPLOAD_PICS_SUCCESS)) {
 //                String nm = 0 + "";
 //                String url1 = "", url2 = "", url3 = "", url4 = "";
@@ -187,14 +162,11 @@ public class RefundActy extends BaseActivity implements View.OnClickListener {
                     ToastUtil.showError(mContext);
                 }
             }
-            if (tag.equals(UploadFileResponse.class.getName()))
-            {
+            if (tag.equals(UploadFileResponse.class.getName())) {
                 CMLog.e(Constants.HTTP_TAG, result);
-                if (GeneralUtils.isNotNullOrZeroLenght(result))
-                {
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     UploadFileResponse uploadFileResponse = GsonHelper.toType(result, UploadFileResponse.class);
-                    if (Constants.SUCESS_CODE.equals(uploadFileResponse.getResultCode()))
-                    {
+                    if (Constants.SUCESS_CODE.equals(uploadFileResponse.getResultCode())) {
                         String url1 = "", url2 = "", url3 = "", url4 = "";
                         for (int i = 0; i < uploadFileResponse.getUrlList().size(); i++) {
                             if (i == 0) {
@@ -209,50 +181,46 @@ public class RefundActy extends BaseActivity implements View.OnClickListener {
                         }
                         UserServiceImpl.instance().refund(orderId, whitchIndex + "", etExplain.getText().toString(),
                                 etMoney.getText().toString(), url1, url2, url3, url4, RefundResponse.class.getName());
-                    }
-                    else
-                    {
+                    } else {
                         ErrorCode.doCode(mContext, uploadFileResponse.getResultCode(), uploadFileResponse.getDesc());
                     }
-                }
-                else
-                {
+                } else {
                     ToastUtil.showError(mContext);
                 }
             }
         }
     }
 
-    public void getUpimg(final String imagePath) {
-        new Thread() {
-            public void run() {
-                // 图片上传到七牛 重用 uploadManager。一般地，只需要创建一个 uploadManager 对象
-                uploadManager.put(imagePath, "refund_" + UUID.randomUUID().toString() + ".png", Global.getToken(),
-                        new UpCompletionHandler() {
-                            @Override
-                            public void complete(String key, ResponseInfo info, JSONObject res) {
-                                // res 包含hash、key等信息，具体字段取决于上传策略的设置。
-//                                CMLog.e(Constants.HTTP_TAG, key + ",\r\n " + info + ",\r\n "
-//                                        + res);
-                                try {
-                                    // 七牛返回的文件名
-                                    String upimg = res.getString("key");
-                                    uploadUrlList.add(upimg);//将七牛返回图片的文件名添加到list集合中
-                                    if (uploadUrlList.size() == mDataList
-                                            .size()) {
-                                        EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_UPLOAD_PICS_SUCCESS));
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                        , null);
-            }
-        }
-                .
-                        start();
-    }
+//    public void getUpimg(final String imagePath) {
+//        new Thread() {
+//            public void run() {
+//                // 图片上传到七牛 重用 uploadManager。一般地，只需要创建一个 uploadManager 对象
+//                uploadManager.put(imagePath, "refund_" + UUID.randomUUID().toString() + ".png", Global.getToken(),
+//                        new UpCompletionHandler() {
+//                            @Override
+//                            public void complete(String key, ResponseInfo info, JSONObject res) {
+//                                // res 包含hash、key等信息，具体字段取决于上传策略的设置。
+////                                CMLog.e(Constants.HTTP_TAG, key + ",\r\n " + info + ",\r\n "
+////                                        + res);
+//                                try {
+//                                    // 七牛返回的文件名
+//                                    String upimg = res.getString("key");
+//                                    uploadUrlList.add(upimg);//将七牛返回图片的文件名添加到list集合中
+//                                    if (uploadUrlList.size() == mDataList
+//                                            .size()) {
+//                                        EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_UPLOAD_PICS_SUCCESS));
+//                                    }
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        }
+//                        , null);
+//            }
+//        }
+//                .
+//                        start();
+//    }
 
     private void initTitle() {
         View view = findViewById(R.id.common_back);
@@ -500,26 +468,26 @@ public class RefundActy extends BaseActivity implements View.OnClickListener {
                     ToastUtil.makeText(mContext, "请输入退款金额");
                     return;
                 }
-//                if (mDataList.size() == 0) {
-//                    UserServiceImpl.instance().refund(orderId, whitchIndex + "", etExplain.getText().toString(),
-//                            etMoney.getText().toString(), "", "", "", "", RefundResponse.class.getName());
-//                } else {
+                if (mDataList.size() == 0) {
+                    UserServiceImpl.instance().refund(orderId, whitchIndex + "", etExplain.getText().toString(),
+                            etMoney.getText().toString(), "", "", "", "", RefundResponse.class.getName());
+                } else {
 //                    uploadManager = new UploadManager();
 //                    for (int i = 0; i < mDataList.size(); i++) {
 //                        if (GeneralUtils.isNotNullOrZeroLenght(mDataList.get(i).getSourcePath())) {
 //                            getUpimg(mDataList.get(i).getSourcePath());
 //                        }
 //                    }
-//                }
-                NetLoadingDialog.getInstance().loading(mContext);
-                List<File> files=new ArrayList<>();
-                for (int i = 0; i < mDataList.size(); i++) {
-                    if (GeneralUtils.isNotNullOrZeroLenght(mDataList.get(i).getSourcePath())) {
-                        File file = new File(mDataList.get(i).getSourcePath());
-                        files.add(file);
+                    NetLoadingDialog.getInstance().loading(mContext);
+                    List<File> files = new ArrayList<>();
+                    for (int i = 0; i < mDataList.size(); i++) {
+                        if (GeneralUtils.isNotNullOrZeroLenght(mDataList.get(i).getSourcePath())) {
+                            File file = new File(mDataList.get(i).getSourcePath());
+                            files.add(file);
+                        }
                     }
+                    UserServiceImpl.instance().uploadPic(files, UploadFileResponse.class.getName());
                 }
-                UserServiceImpl.instance().uploadPic(files, UploadFileResponse.class.getName());
             }
         });
     }

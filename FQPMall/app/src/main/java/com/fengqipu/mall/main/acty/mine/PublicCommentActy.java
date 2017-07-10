@@ -24,16 +24,12 @@ import android.widget.PopupWindow;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.qiniu.android.http.ResponseInfo;
-import com.qiniu.android.storage.UpCompletionHandler;
-import com.qiniu.android.storage.UploadManager;
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.bean.index.AddProductCommentResponse;
+import com.fengqipu.mall.bean.mine.UploadFileResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
@@ -54,16 +50,14 @@ import com.fengqipu.mall.view.photopicker.adapter.ImagePublishSmallAdapter;
 import com.fengqipu.mall.view.photopicker.model.ImageItem;
 import com.fengqipu.mall.view.photopicker.view.ImageBucketChooseActivity;
 import com.fengqipu.mall.view.photopicker.view.ImageZoomActivity;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.qiniu.android.storage.UploadManager;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import de.greenrobot.event.EventBus;
 
 /**
  * Created by huqing on 2016/7/20.
@@ -150,7 +144,40 @@ public class PublicCommentActy extends BaseActivity {
                     ToastUtil.showError(mContext);
                 }
             }
+            if (tag.equals(UploadFileResponse.class.getName())) {
+                CMLog.e(Constants.HTTP_TAG, result);
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    UploadFileResponse uploadFileResponse = GsonHelper.toType(result, UploadFileResponse.class);
+                    if (Constants.SUCESS_CODE.equals(uploadFileResponse.getResultCode())) {
+                        String nm = 0 + "";
+                        if (cb.isChecked()) {
+                            nm = "1";
+                        } else {
+                            nm = "0";
+                        }
+                        String url1 = "", url2 = "", url3 = "", url4 = "";
+                        for (int i = 0; i < uploadUrlList.size(); i++) {
+                            if (i == 0) {
+                                url1 = uploadUrlList.get(i);
+                            } else if (i == 1) {
+                                url2 = uploadUrlList.get(i);
+                            } else if (i == 2) {
+                                url3 = uploadUrlList.get(i);
+                            } else if (i == 3) {
+                                url4 = uploadUrlList.get(i);
+                            }
+                        }
+                        UserServiceImpl.instance().addProductComment(orderId, nm, rb.getNumStars() + "",
+                                contentEt.getText().toString(), url1, url2, url3, url4, AddProductCommentResponse.class.getName());
+                    } else {
+                        ErrorCode.doCode(mContext, uploadFileResponse.getResultCode(), uploadFileResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(mContext);
+                }
+            }
         }
+
     }
 
     private void upLoadInfo() {
@@ -166,20 +193,38 @@ public class PublicCommentActy extends BaseActivity {
                 UserServiceImpl.instance().addProductComment(orderId, nm, rb.getNumStars() + "",
                         contentEt.getText().toString(), "", "", "", "", AddProductCommentResponse.class.getName());
             } else {
-                uploadManager = new UploadManager();
+//                uploadManager = new UploadManager();
+//                for (int i = 0; i < mDataList.size(); i++) {
+//                    if (GeneralUtils.isNotNullOrZeroLenght(mDataList.get(i).getSourcePath())) {
+//                        getUpimg(mDataList.get(i).getSourcePath());
+//                    }
+//                }
+                NetLoadingDialog.getInstance().loading(mContext);
+                List<File> files = new ArrayList<>();
                 for (int i = 0; i < mDataList.size(); i++) {
                     if (GeneralUtils.isNotNullOrZeroLenght(mDataList.get(i).getSourcePath())) {
-                        getUpimg(mDataList.get(i).getSourcePath());
+                        File file = new File(mDataList.get(i).getSourcePath());
+                        files.add(file);
                     }
                 }
+                UserServiceImpl.instance().uploadPic(files, UploadFileResponse.class.getName());
             }
         }else if (mDataList.size()>0){
-            uploadManager = new UploadManager();
+//            uploadManager = new UploadManager();
+//            for (int i = 0; i < mDataList.size(); i++) {
+//                if (GeneralUtils.isNotNullOrZeroLenght(mDataList.get(i).getSourcePath())) {
+//                    getUpimg(mDataList.get(i).getSourcePath());
+//                }
+//            }
+            NetLoadingDialog.getInstance().loading(mContext);
+            List<File> files = new ArrayList<>();
             for (int i = 0; i < mDataList.size(); i++) {
                 if (GeneralUtils.isNotNullOrZeroLenght(mDataList.get(i).getSourcePath())) {
-                    getUpimg(mDataList.get(i).getSourcePath());
+                    File file = new File(mDataList.get(i).getSourcePath());
+                    files.add(file);
                 }
             }
+            UserServiceImpl.instance().uploadPic(files, UploadFileResponse.class.getName());
         }else {ToastUtil.makeText(mContext,"请输入内容");}
 
     }
@@ -193,37 +238,37 @@ public class PublicCommentActy extends BaseActivity {
         headView.setHiddenRight();
     }
 
-    public void getUpimg(final String imagePath) {
-        new Thread() {
-            public void run() {
-                // 图片上传到七牛 重用 uploadManager。一般地，只需要创建一个 uploadManager 对象
-                uploadManager.put(imagePath, "apprise_" + java.util.UUID.randomUUID().toString() + ".png", Global.getToken(),
-                        new UpCompletionHandler() {
-                            @Override
-                            public void complete(String key, ResponseInfo info, JSONObject res) {
-                                // res 包含hash、key等信息，具体字段取决于上传策略的设置。
-//                                CMLog.e(Constants.HTTP_TAG, key + ",\r\n " + info + ",\r\n "
-//                                        + res);
-                                try {
-                                    // 七牛返回的文件名
-                                    String upimg = res.getString("key");
-                                    uploadUrlList.add(upimg);//将七牛返回图片的文件名添加到list集合中
-                                    if (uploadUrlList.size() == mDataList
-                                            .size()) {
-                                        EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_UPLOAD_PICS_SUCCESS));
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                        , null);
-
-            }
-        }
-                .
-                        start();
-    }
+//    public void getUpimg(final String imagePath) {
+//        new Thread() {
+//            public void run() {
+//                // 图片上传到七牛 重用 uploadManager。一般地，只需要创建一个 uploadManager 对象
+//                uploadManager.put(imagePath, "apprise_" + java.util.UUID.randomUUID().toString() + ".png", Global.getToken(),
+//                        new UpCompletionHandler() {
+//                            @Override
+//                            public void complete(String key, ResponseInfo info, JSONObject res) {
+//                                // res 包含hash、key等信息，具体字段取决于上传策略的设置。
+////                                CMLog.e(Constants.HTTP_TAG, key + ",\r\n " + info + ",\r\n "
+////                                        + res);
+//                                try {
+//                                    // 七牛返回的文件名
+//                                    String upimg = res.getString("key");
+//                                    uploadUrlList.add(upimg);//将七牛返回图片的文件名添加到list集合中
+//                                    if (uploadUrlList.size() == mDataList
+//                                            .size()) {
+//                                        EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_UPLOAD_PICS_SUCCESS));
+//                                    }
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        }
+//                        , null);
+//
+//            }
+//        }
+//                .
+//                        start();
+//    }
 
     protected void onPause() {
         super.onPause();
