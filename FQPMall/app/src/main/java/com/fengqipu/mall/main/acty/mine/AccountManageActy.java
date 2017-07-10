@@ -58,8 +58,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
-
 /**
  * Created by huqing on 2016/7/4.
  * 账号管理
@@ -205,7 +203,7 @@ public class AccountManageActy extends BaseActivity implements View.OnClickListe
                     {
                         Global.saveLoginUserData(mContext, mEditUserInfoResponse.getUser());
                         initViewData();
-                        EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_LOGIN_SUCCESS));
+//                        EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_LOGIN_SUCCESS));
                         ToastUtil.makeText(mContext, "修改成功！");
                     }
                     else
@@ -359,7 +357,8 @@ public class AccountManageActy extends BaseActivity implements View.OnClickListe
     @Override
     public void initViewData()
     {
-        GeneralUtils.setRoundImageViewWithUrl(mContext, Global.getThumUserHeadUrl(), ivHead, R.drawable.default_head);
+        Log.e("sub","head="+Global.getUserHeadUrl());
+        GeneralUtils.setRoundImageViewWithUrl(mContext, Global.getUserHeadUrl(), ivHead, R.drawable.default_head);
         tvName.setText(Global.getUserName());
         tvNick.setText(Global.getNickName());
         if (Global.getGender().equals("1"))

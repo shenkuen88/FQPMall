@@ -5,25 +5,27 @@ package com.fengqipu.mall.bean.mine;
  */
 public class UserBean {
 
+
     /**
-     * id : 1
-     * userName : 18306100856
+     * id : 3
+     * userName : 15251813022
      * qqOpenID : null
      * wxOpenID : null
-     * password : 111111
-     * userType : null
-     * nickName : 18306100856
-     * portrait : http: //116.62.116.15/api/skin/images/avatars.png
-     * phone : 18306100856
-     * gender : null
-     * birthday : null
+     * password : null
+     * userType : 1
+     * nickName : 15251813022
+     * portrait : /file/user/1525181302207a7e18d-5569-4860-a7c6-17c0f653051d.png
+     * phone : 15251813022
+     * gender : 1
+     * birthday : 2000-01-04
      * email : null
-     * balance : 0
+     * balance : 1000.0
      * city : null
      * status : 1
      * delFlag : null
-     * lastLoginTime : null
-     * createTime : null
+     * lastLoginTime : 2017-06-22
+     * createTime : 2017-06-22
+     * portraitRequestUrl : http://116.62.116.15/f/file/user/1525181302207a7e18d-5569-4860-a7c6-17c0f653051d.png
      */
 
     private String id;
@@ -31,19 +33,20 @@ public class UserBean {
     private String qqOpenID;
     private String wxOpenID;
     private String password;
-    private String userType;
+    private int userType;
     private String nickName;
     private String portrait;
     private String phone;
     private String gender;
     private String birthday;
     private String email;
-    private int balance;
+    private double balance;
     private String city;
     private int status;
     private String delFlag;
     private String lastLoginTime;
     private String createTime;
+    private String portraitRequestUrl;
 
     public String getId() {
         return id;
@@ -85,11 +88,11 @@ public class UserBean {
         this.password = password;
     }
 
-    public String getUserType() {
+    public int getUserType() {
         return userType;
     }
 
-    public void setUserType(String userType) {
+    public void setUserType(int userType) {
         this.userType = userType;
     }
 
@@ -141,11 +144,11 @@ public class UserBean {
         this.email = email;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
@@ -187,5 +190,13 @@ public class UserBean {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public String getPortraitRequestUrl() {
+        return portraitRequestUrl;
+    }
+
+    public void setPortraitRequestUrl(String portraitRequestUrl) {
+        this.portraitRequestUrl = portraitRequestUrl;
     }
 }

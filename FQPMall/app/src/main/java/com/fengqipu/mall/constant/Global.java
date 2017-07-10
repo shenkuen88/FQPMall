@@ -237,8 +237,8 @@ public class Global {
         saveuserType(userBean.getUserType() + "");
         savePassword(userBean.getPassword());
         saveNickname(userBean.getNickName());
-        saveUserHeadUrl(userBean.getPortrait());
-        saveThumUserHeadUrl(userBean.getPortrait());
+        saveUserHeadUrl(userBean.getPortraitRequestUrl());
+        saveThumUserHeadUrl(userBean.getPortraitRequestUrl());
         savePhone(userBean.getPhone());
         saveGender(userBean.getGender());
         saveEmail(userBean.getEmail());
