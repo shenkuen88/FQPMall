@@ -405,8 +405,8 @@
                    />
                 <ImageView
                     android:id="@+id/btn_setting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="@dimen/pxtodp10"
                     android:src="@mipmap/tool" />

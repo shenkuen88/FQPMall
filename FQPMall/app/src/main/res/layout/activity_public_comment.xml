@@ -43,33 +43,6 @@
         android:background="@color/line" />
 
     <RelativeLayout
-        android:id="@+id/voice_rl"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/pxtodp102"
-        android:layout_below="@+id/line2"
-        android:layout_marginBottom="@dimen/pxtodp20"
-        android:background="@color/white_color">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/pxtodp30"
-            android:singleLine="true"
-            android:text="评价也可以用语音哦"
-            android:textColor="@color/txt_nol_col"
-            android:textSize="@dimen/pxtosp30" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/pxtodp20"
-            android:src="@mipmap/voice_icon" />
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/rating_rl"
         android:layout_width="match_parent"
         android:layout_height="@dimen/pxtodp102"

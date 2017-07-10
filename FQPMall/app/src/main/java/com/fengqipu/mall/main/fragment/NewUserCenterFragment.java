@@ -222,6 +222,7 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
             public void scrollChange(int y) {
 
                 float f = y / 300f;
+                Log.e("sub","f="+f);
                 if (f >= 1) {
                     headSmall.setVisibility(View.VISIBLE);
                     usercenterTitle.setVisibility(View.VISIBLE);
