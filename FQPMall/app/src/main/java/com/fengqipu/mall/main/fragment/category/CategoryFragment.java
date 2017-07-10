@@ -239,7 +239,9 @@ public class CategoryFragment extends BaseFragment {
         search_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mainActivity, NewSearchActivity.class));
+                Intent intent=new Intent(mainActivity, NewSearchActivity.class);
+                intent.putExtra("searchtype",2);
+                startActivity(intent);
             }
         });
         left_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

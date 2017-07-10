@@ -204,7 +204,13 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
         searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(EnterpriseListActivity.this, NewSearchActivity.class));
+                Intent intent=new Intent(EnterpriseListActivity.this, NewSearchActivity.class);
+                if (categorytype.equals("2")) {
+                    intent.putExtra("searchtype",0);
+                } else {
+                    intent.putExtra("searchtype",1);
+                }
+                startActivity(intent);
             }
         });
         leftList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

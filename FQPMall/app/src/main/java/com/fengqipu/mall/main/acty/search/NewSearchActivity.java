@@ -65,6 +65,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_search);
         ButterKnife.bind(this);
+        searchtype=getIntent().getIntExtra("searchtype",0);
         initAll();
     }
 
@@ -108,6 +109,20 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
     }
     @Override
     public void initViewData() {
+        switch (searchtype){
+            case 0:
+                etSearch.setHint("搜您想要的企业");
+                searchTv.setText("企业");
+                break;
+            case 1:
+                etSearch.setHint("搜您想要的商铺");
+                searchTv.setText("商铺");
+                break;
+            case 2:
+                etSearch.setHint("搜您想要的商品");
+                searchTv.setText("商品");
+                break;
+        }
         initData();
     }
 

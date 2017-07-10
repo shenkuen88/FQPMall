@@ -450,7 +450,9 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                 GeneralUtils.toActyOtherwiseLogin(getActivity(), OneButtonShopActivity.class);
                 break;
             case R.id.search_layout:
-                startActivity(new Intent(mainActivity, NewSearchActivity.class));
+                Intent intent3=new Intent(mainActivity, NewSearchActivity.class);
+                intent3.putExtra("searchtype",0);
+                startActivity(intent3);
                 break;
         }
     }
