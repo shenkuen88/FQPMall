@@ -100,26 +100,6 @@ public class PublicCommentActy extends BaseActivity {
                 removeTempFromPref();
                 finish();
             } else if (NotiTag.equalsTags(mContext, tag, NotiTag.TAG_UPLOAD_PICS_SUCCESS)) {
-                String nm = 0 + "";
-                if (cb.isChecked()) {
-                    nm = "1";
-                } else {
-                    nm = "0";
-                }
-                String url1 = "", url2 = "", url3 = "", url4 = "";
-                for (int i = 0; i < uploadUrlList.size(); i++) {
-                    if (i == 0) {
-                        url1 = uploadUrlList.get(i);
-                    } else if (i == 1) {
-                        url2 = uploadUrlList.get(i);
-                    } else if (i == 2) {
-                        url3 = uploadUrlList.get(i);
-                    } else if (i == 3) {
-                        url4 = uploadUrlList.get(i);
-                    }
-                }
-                UserServiceImpl.instance().addProductComment(orderId, nm, rb.getNumStars() + "",
-                        contentEt.getText().toString(), url1, url2, url3, url4, AddProductCommentResponse.class.getName());
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 upLoadInfo();
             }
@@ -156,15 +136,15 @@ public class PublicCommentActy extends BaseActivity {
                             nm = "0";
                         }
                         String url1 = "", url2 = "", url3 = "", url4 = "";
-                        for (int i = 0; i < uploadUrlList.size(); i++) {
+                        for (int i = 0; i < uploadFileResponse.getUrlList().size(); i++) {
                             if (i == 0) {
-                                url1 = uploadUrlList.get(i);
+                                url1 = uploadFileResponse.getUrlList().get(i);
                             } else if (i == 1) {
-                                url2 = uploadUrlList.get(i);
+                                url2 = uploadFileResponse.getUrlList().get(i);
                             } else if (i == 2) {
-                                url3 = uploadUrlList.get(i);
+                                url3 = uploadFileResponse.getUrlList().get(i);
                             } else if (i == 3) {
-                                url4 = uploadUrlList.get(i);
+                                url4 = uploadFileResponse.getUrlList().get(i);
                             }
                         }
                         UserServiceImpl.instance().addProductComment(orderId, nm, rb.getNumStars() + "",
