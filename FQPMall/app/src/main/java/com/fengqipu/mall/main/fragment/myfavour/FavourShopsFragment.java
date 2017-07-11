@@ -157,8 +157,8 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onScrollStateChanged(AbsListView absListView, int scrollState) {
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && (lastVisibileItem + 1) == myListview.getCount())
-                    pageNum=pageNum+1;
                 if (pageNum * pageSize >= totalCount) return;
+                pageNum=pageNum+1;
                 initBtmList();
             }
 

@@ -186,6 +186,7 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
             public void convert(ViewHolder helper, GoodsEnterpriseResponse.ContentListBean item) {
                 helper.setText(R.id.goods_info, item.getContentName());
                 helper.setText(R.id.goods_price, "￥" + item.getPrice());
+                helper.setText(R.id.goods_time,""+item.getCreateTime());
                 if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrl1RequestUrl())) {
                     ImageView img = helper.getView(R.id.img);
 //                            ImageLoaderUtil.getInstance().initImage(mContext, item.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);

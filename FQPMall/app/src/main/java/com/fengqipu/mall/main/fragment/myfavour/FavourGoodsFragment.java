@@ -10,9 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.adapter.CommonAdapter;
@@ -29,7 +27,6 @@ import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.network.GsonHelper;
 import com.fengqipu.mall.network.UserServiceImpl;
 import com.fengqipu.mall.tools.CMLog;
-import com.fengqipu.mall.tools.CommonMethod;
 import com.fengqipu.mall.tools.DisplayUtil;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
@@ -112,35 +109,16 @@ public class FavourGoodsFragment extends BaseFragment implements View.OnClickLis
 //
 //            }
 //        });
-        lAdapter = new CommonAdapter<GoodsFavourResponse.FavoriteListBean>(newMyFavourActivity, goodsList, R.layout.item_shops) {
+        lAdapter = new CommonAdapter<GoodsFavourResponse.FavoriteListBean>(newMyFavourActivity, goodsList, R.layout.item_his_g) {
             @Override
-            public void convert(ViewHolder helper,final GoodsFavourResponse.FavoriteListBean item) {
-                helper.setText(R.id.comment_name_tv, item.getObjectName());
-                ImageView comment_head_iv = helper.getView(R.id.comment_head_iv);
+            public void convert(ViewHolder helper, GoodsFavourResponse.FavoriteListBean item) {
+                helper.setText(R.id.goods_info, item.getObjectName());
+                helper.setText(R.id.goods_price, "￥" + item.getPrice());
+                helper.getView(R.id.goods_time).setVisibility(View.GONE);
                 if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrlRequestUrl())) {
-                    GeneralUtils.setImageViewWithUrl(newMyFavourActivity, item.getPicUrlRequestUrl(),
-                            comment_head_iv,
-                            R.drawable.default_bg);
-                }
-                GridView gridView = helper.getView(R.id.my_grid_view);
-                LinearLayout image_ll=helper.getView(R.id.image_ll);
-                if(item.getAdvPicUrlList()!=null&&item.getAdvPicUrlList().size()>0) {
-                    image_ll.setVisibility(View.VISIBLE);
-                    CommonAdapter<String> gadapter = new CommonAdapter<String>(newMyFavourActivity, item.getAdvPicUrlList(), R.layout.item_pic) {
-                        @Override
-                        public void convert(ViewHolder helper, String item) {
-                            ImageView iv_pic = helper.getView(R.id.iv_pic);
-                            if (GeneralUtils.isNotNullOrZeroLenght(item)) {
-                                GeneralUtils.setImageViewWithUrl(newMyFavourActivity, item,
-                                        iv_pic,
-                                        R.drawable.default_bg);
-                            }
-                        }
-                    };
-                    gridView.setAdapter(gadapter);
-                    CommonMethod.setListViewHeightBasedOnChildren(gridView);
-                }else{
-                    image_ll.setVisibility(View.GONE);
+                    ImageView img = helper.getView(R.id.img);
+//                            ImageLoaderUtil.getInstance().initImage(mContext, item.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
+                    GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrlRequestUrl(), img, R.drawable.default_head);
                 }
             }
         };
