@@ -1,6 +1,7 @@
 package com.fengqipu.mall.adapter.cart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ import com.fengqipu.mall.bean.cart.GWCGoodsDetailResponse;
 import com.fengqipu.mall.bean.cart.GoodsBean;
 import com.fengqipu.mall.bean.cart.StoreBean;
 import com.fengqipu.mall.bean.cart.StoreGoodsBean;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
+import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.network.UserServiceImpl;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
@@ -136,10 +139,17 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
             groupViewHolder = (GroupViewHolder) convertView.getTag();
         }
 
-        StoreBean storeBean = (StoreBean) parentMapList.get(groupPosition).get("parentName");
+        final StoreBean storeBean = (StoreBean) parentMapList.get(groupPosition).get("parentName");
         final String parentName = storeBean.getName();
         groupViewHolder.tv_title_parent.setText(parentName);
-
+        groupViewHolder.tv_title_parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, EnterpriseActivity.class);
+                intent.putExtra("sid", storeBean.getId());
+                context.startActivity(intent);
+            }
+        });
         if (storeBean.isEditing()) {
             groupViewHolder.id_tv_edit.setText(FINISH_EDITING);
         } else {
@@ -342,23 +352,26 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tempch.id_cb_select_child.setChecked(!tempch.id_cb_select_child.isChecked());
-                final boolean nowBeanChecked = goodsBean.isChecked();
-                //更新数据
-                goodsBean.setChecked(!nowBeanChecked);
-
-                boolean isOneParentAllChildIsChecked = dealOneParentAllChildIsChecked(groupPosition);
-                Log.d(TAG, "getChildView:onClick:  ==============");
-                Log.d(TAG, "getChildView:onClick:isOneParentAllChildIsChecked:" + isOneParentAllChildIsChecked);
-
-                StoreBean storeBean = (StoreBean) parentMapList.get(groupPosition).get("parentName");
-                storeBean.setIsChecked(isOneParentAllChildIsChecked);
-
-
-                notifyDataSetChanged();
-                //控制总checkedbox 接口
-                onAllCheckedBoxNeedChangeListener.onCheckedBoxNeedChange(dealAllParentIsChecked());
-                dealPrice();
+//                tempch.id_cb_select_child.setChecked(!tempch.id_cb_select_child.isChecked());
+//                final boolean nowBeanChecked = goodsBean.isChecked();
+//                //更新数据
+//                goodsBean.setChecked(!nowBeanChecked);
+//
+//                boolean isOneParentAllChildIsChecked = dealOneParentAllChildIsChecked(groupPosition);
+//                Log.d(TAG, "getChildView:onClick:  ==============");
+//                Log.d(TAG, "getChildView:onClick:isOneParentAllChildIsChecked:" + isOneParentAllChildIsChecked);
+//
+//                StoreBean storeBean = (StoreBean) parentMapList.get(groupPosition).get("parentName");
+//                storeBean.setIsChecked(isOneParentAllChildIsChecked);
+//
+//
+//                notifyDataSetChanged();
+//                //控制总checkedbox 接口
+//                onAllCheckedBoxNeedChangeListener.onCheckedBoxNeedChange(dealAllParentIsChecked());
+//                dealPrice();
+                Intent intent=new Intent(context, GoodsDetailActivity.class);
+                intent.putExtra("contentID",goodsBean.getContentID());
+                context.startActivity(intent);
             }
         });
         childViewHolder.edit_info.setOnClickListener(new MyEditOnClickListener(goodsBean,groupPosition,childPosition));

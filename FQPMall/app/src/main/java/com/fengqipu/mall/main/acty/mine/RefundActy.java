@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -64,6 +65,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.fengqipu.mall.main.acty.mine.AccountManageActy.PHOTOTAKE;
 
 /**
  * Created by huqing on 2016/7/20.
@@ -618,10 +621,21 @@ public class RefundActy extends BaseActivity implements View.OnClickListener {
                 vFile.delete();
             }
         }
-        path = vFile.getPath();
-        Uri cameraUri = Uri.fromFile(vFile);
-        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
-        startActivityForResult(openCameraIntent, TAKE_PICTURE);
+//        path = vFile.getPath();
+//        Uri cameraUri = Uri.fromFile(vFile);
+//        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
+//        startActivityForResult(openCameraIntent, TAKE_PICTURE);
+
+        Uri imageUri = FileProvider.getUriForFile(RefundActy.this, "com.fengqipu.mall.fileprovider", vFile);//通过FileProvider创建一个content类型的Uri
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);//设置Action为拍照
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
+//                    Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    imageUri = Uri.fromFile(new File(photoSavePath, photoSaveName));
+//                    openCameraIntent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
+//                    openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent, TAKE_PICTURE);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

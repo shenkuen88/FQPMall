@@ -21,6 +21,7 @@
         android:layout_centerVertical="true"
         android:layout_height="100dp"
         android:padding="5dp"
+        android:scaleType="fitXY"
         android:layout_marginRight="10dp"
         android:layout_toRightOf="@id/id_cb_select_child"
         android:src="@drawable/default_bg" />

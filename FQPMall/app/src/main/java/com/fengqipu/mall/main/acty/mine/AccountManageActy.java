@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -430,12 +431,18 @@ public class AccountManageActy extends BaseActivity implements View.OnClickListe
                 {
                     dismiss();
                     photoSaveName = String.valueOf(System.currentTimeMillis()) + ".png";
-                    Uri imageUri = null;
-                    Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    imageUri = Uri.fromFile(new File(photoSavePath, photoSaveName));
-                    openCameraIntent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
-                    openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                    startActivityForResult(openCameraIntent, PHOTOTAKE);
+                    File file=new File(photoSavePath+photoSaveName);
+                    if (!file.getParentFile().exists())file.getParentFile().mkdirs();
+                    Uri imageUri = FileProvider.getUriForFile(AccountManageActy.this, "com.fengqipu.mall.fileprovider", file);//通过FileProvider创建一个content类型的Uri
+                    Intent intent = new Intent();
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
+                    intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);//设置Action为拍照
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
+//                    Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    imageUri = Uri.fromFile(new File(photoSavePath, photoSaveName));
+//                    openCameraIntent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
+//                    openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                    startActivityForResult(intent, PHOTOTAKE);
                 }
             });
         }
