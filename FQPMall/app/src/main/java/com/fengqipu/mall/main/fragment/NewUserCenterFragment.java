@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.fengqipu.mall.R;
@@ -39,11 +40,9 @@ import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.network.GsonHelper;
 import com.fengqipu.mall.network.UserServiceImpl;
 import com.fengqipu.mall.tools.CMLog;
-import com.fengqipu.mall.tools.CommonMethod;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
-import com.fengqipu.mall.view.ScrollBottomScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +63,7 @@ import static com.fengqipu.mall.R.id.spgz_num;
 public class NewUserCenterFragment extends BaseFragment implements View.OnClickListener {
     private static MainActivity mainActivity;
     @Bind(R.id.scrollView)
-    ScrollBottomScrollView scrollView;
+    ScrollView scrollView;
     @Bind(R.id.refreshLayout)
     PtrClassicFrameLayout refreshLayout;
     @Bind(R.id.ll_top_bg)
@@ -133,9 +132,9 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isVisible()) {
-            if (scrollView != null) {
-                scrollView.scrollTo(0, 0);
-            }
+//            if (scrollView != null) {
+//                scrollView.scrollTo(0, 0);
+//            }
 
         }
     }
@@ -217,11 +216,10 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
             }
         });
 
-        scrollView.setOnScrollChangeListener(new ScrollBottomScrollView.OnScrollChangeListener() {
+        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
-            public void scrollChange(int y) {
-
-                float f = y / 300f;
+            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+                float f = i3 / 300f;
                 Log.e("sub","f="+f);
                 if (f >= 1) {
                     headSmall.setVisibility(View.VISIBLE);
@@ -440,7 +438,6 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
                             goodsList.addAll(tuiJianResponse.getContentList());
                             mAdapter.setData(goodsList);
                             mAdapter.notifyDataSetChanged();
-                            CommonMethod.setListViewHeightBasedOnChildren(myGridView);
                         }
                     } else {
                         ErrorCode.doCode(mainActivity, tuiJianResponse.getResultCode(), tuiJianResponse.getDesc());

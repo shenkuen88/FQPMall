@@ -18,7 +18,7 @@
             cube_ptr:ptr_pull_to_fresh="false"
             cube_ptr:ptr_ratio_of_header_height_to_refresh="0.5"
             cube_ptr:ptr_resistance="0.3">
-            <com.fengqipu.mall.view.ScrollBottomScrollView
+            <ScrollView
                 android:id="@+id/scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -353,7 +353,7 @@
                         android:gravity="center"
                         android:textSize="16sp"
                         android:textColor="#4A4A4A"/>
-                    <GridView
+                    <com.fengqipu.mall.view.MyGridView
                         android:id="@+id/my_grid_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -364,13 +364,12 @@
                         android:verticalSpacing="5dp"
                         android:listSelector="@color/transparent"
                         android:numColumns="2"
-                        android:stretchMode="columnWidth"></GridView>
+                        android:stretchMode="columnWidth"></com.fengqipu.mall.view.MyGridView>
                     </LinearLayout>
                 </LinearLayout>
 
-        </com.fengqipu.mall.view.ScrollBottomScrollView>
+        </ScrollView>
         </in.srain.cube.views.ptr.PtrClassicFrameLayout>
-
         <LinearLayout
             android:id="@+id/ll_top_bg"
             android:layout_width="match_parent"
