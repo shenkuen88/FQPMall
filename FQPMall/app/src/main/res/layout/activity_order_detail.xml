@@ -197,10 +197,12 @@
                 android:scrollbars="none">
             </ListView>
             <View
+                android:id="@+id/ll_view_line"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/pxtodp1"
                 android:background="@color/line"></View>
             <LinearLayout
+                android:id="@+id/ll_view"
                 android:layout_width="match_parent"
                 android:gravity="right|center_vertical"
                 android:background="@color/white"

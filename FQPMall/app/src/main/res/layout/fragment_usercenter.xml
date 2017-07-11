@@ -237,14 +237,14 @@
                             android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:text="我的订单"
-                            android:textSize="15sp"
+                            android:textSize="14sp"
                             android:textColor="#4A4A4A"/>
                         <TextView
                             android:id="@+id/tv_allorder"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:textSize="17sp"
+                            android:textSize="15sp"
                             android:text="全部订单"
                             android:textColor="#4A4A4A"/>
                         <ImageView

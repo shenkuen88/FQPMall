@@ -33,6 +33,7 @@ import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.dialog.GuiGeBtmDialog;
 import com.fengqipu.mall.dialog.SucDialog;
 import com.fengqipu.mall.main.acty.index.ConfirmOrderActivity;
+import com.fengqipu.mall.main.acty.mine.LoginActy;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.fragment.goods.CommentFragment;
@@ -95,7 +96,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
     public void initViewData() {
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mContainer.setAdapter(sectionsPagerAdapter);
-        mContainer.setOffscreenPageLimit(1);
+        mContainer.setOffscreenPageLimit(3);
         mTabs.setupWithViewPager(mContainer);
         mTabs.setVisibility(View.VISIBLE);
         initData();
@@ -141,11 +142,18 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 UserServiceImpl.instance().addFavour(this,"1",contentID, AddGoodsFavourResponse.class.getName());
                 break;
             case R.id.btn_addgwc:
-                Log.e("sub","style="+style+",color="+color);
-                UserServiceImpl.instance().addToBuyCar(contentID,num,style,color,AddGWCResponse.class.getName());
+                if(GeneralUtils.isLogin()){
+                    UserServiceImpl.instance().addToBuyCar(contentID,num,style,color,AddGWCResponse.class.getName());
+                }else {
+                    startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
+                }
                 break;
             case R.id.btn_buy:
-                change2Buy();
+                if(GeneralUtils.isLogin()){
+                    change2Buy();
+                }else {
+                    startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
+                }
                 break;
         }
     }
@@ -226,13 +234,22 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
         guiGeBtmDialog.setGwcClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserServiceImpl.instance().addToBuyCar(contentID,num,style,color,AddGWCResponse.class.getName());
+                if(GeneralUtils.isLogin()){
+                    UserServiceImpl.instance().addToBuyCar(contentID,num,style,color,AddGWCResponse.class.getName());
+                }else {
+                    startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
+                }
+
             }
         });
         guiGeBtmDialog.setBuyClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                change2Buy();
+                if(GeneralUtils.isLogin()){
+                    change2Buy();
+                }else {
+                    startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
+                }
             }
         });
         guiGeBtmDialog.show();
@@ -301,7 +318,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 AddGoodsFavourResponse addGoodsFavourResponse = GsonHelper.toType(result, AddGoodsFavourResponse.class);
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     if (Constants.SUCESS_CODE.equals(addGoodsFavourResponse.getResultCode())) {
-                        SucDialog sucDialog=new SucDialog(this,"加入购物车成功");
+                        SucDialog sucDialog=new SucDialog(this,"收藏成功");
                         sucDialog.show();
                         Drawable top = getResources().getDrawable(R.mipmap.star_chedked_new);
                         collectTv.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
@@ -316,7 +333,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 AddGWCResponse addGWCResponse = GsonHelper.toType(result, AddGWCResponse.class);
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     if (Constants.SUCESS_CODE.equals(addGWCResponse.getResultCode())) {
-                        SucDialog sucDialog=new SucDialog(this,"收藏成功");
+                        SucDialog sucDialog=new SucDialog(this,"加入购物车成功");
                         sucDialog.show();
                     } else {
                         ErrorCode.doCode(this, addGWCResponse.getResultCode(), addGWCResponse.getDesc());

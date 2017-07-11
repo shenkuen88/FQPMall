@@ -259,7 +259,7 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
 
     private void changLoginOrLoginOut() {
         if (GeneralUtils.isLogin()) {
-            btmLl.setVisibility(View.VISIBLE);
+//            btmLl.setVisibility(View.VISIBLE);
             loginLl.setVisibility(View.VISIBLE);
             nologinLl.setVisibility(View.GONE);
             if(Global.getNickName().equals("")){
@@ -270,7 +270,7 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
             GeneralUtils.setRoundImageViewWithUrl(getActivity(), Global.getUserHeadUrl(), headbig, R.drawable.default_head);
             GeneralUtils.setRoundImageViewWithUrl(getActivity(), Global.getUserHeadUrl(), headSmall, R.drawable.default_head);
         } else {
-            btmLl.setVisibility(View.GONE);
+//            btmLl.setVisibility(View.GONE);
             loginLl.setVisibility(View.GONE);
             nologinLl.setVisibility(View.VISIBLE);
             spgzNum.setText("0");

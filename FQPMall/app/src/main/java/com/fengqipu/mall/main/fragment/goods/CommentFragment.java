@@ -1,6 +1,5 @@
 package com.fengqipu.mall.main.fragment.goods;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -9,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +16,6 @@ import com.fengqipu.mall.adapter.CommonAdapter;
 import com.fengqipu.mall.adapter.ViewHolder;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NoticeEvent;
-import com.fengqipu.mall.bean.cart.GoodsBean;
 import com.fengqipu.mall.bean.goods.GoodsCommentResponse;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.base.BaseFragment;
@@ -151,14 +148,14 @@ public class CommentFragment extends BaseFragment implements View.OnClickListene
             }
         });
         myListview.setAdapter(mAdapter);
-        myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                GoodsBean item = (GoodsBean) adapterView.getItemAtPosition(i);
-                Intent intent = new Intent(goodsDetailActivity, GoodsDetailActivity.class);
-                startActivity(intent);
-            }
-        });
+//        myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                GoodsBean item = (GoodsBean) adapterView.getItemAtPosition(i);
+//                Intent intent = new Intent(goodsDetailActivity, GoodsDetailActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 //        initData();
     }
 

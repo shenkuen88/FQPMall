@@ -1,5 +1,6 @@
 package com.fengqipu.mall.main.acty.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.fengqipu.mall.bean.mine.HistoryGoodsResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.NotiTag;
+import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.HeadView;
@@ -37,9 +39,7 @@ import com.fengqipu.mall.view.RefreshListView;
 import com.fengqipu.mall.view.citylist.utils.ToastUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -85,7 +85,7 @@ public class HistoryGoodsActivity extends BaseActivity {
         initEmtyView();
     }
 
-    private Map<String, CheckBox> ck_list = new HashMap<>();
+    private List<String> ck_list = new ArrayList<>();
 
     @Override
     public void initViewData() {
@@ -123,17 +123,14 @@ public class HistoryGoodsActivity extends BaseActivity {
                         } else {
                             btn_ck_ll.setVisibility(View.GONE);
                         }
-                        if (idCbSelectAll.isChecked()) {
-                            btn_ck.setChecked(true);
-                            ck_list.put(item.getId(), btn_ck);
-                        } else {
-                            if (ck_list.containsKey(item.getId())) {
-                                btn_ck.setChecked(true);
-                                ck_list.put(item.getId(), btn_ck);
-                            } else {
-                                btn_ck.setChecked(false);
+                        boolean ischeck=false;
+                        for(String s:ck_list){
+                            if (s.equals(item.getId())){
+                                ischeck=true;
                             }
                         }
+                        Log.e("sub","ischeck="+ischeck);
+                        btn_ck.setChecked(ischeck);
                         helper.setText(R.id.goods_info, item.getContentName());
                         helper.setText(R.id.goods_price, "￥" + item.getPrice());
                         if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrlRequestUrl())) {
@@ -149,12 +146,35 @@ public class HistoryGoodsActivity extends BaseActivity {
                                     ck_list.remove(item.getId());
                                 } else {
                                     btn_ck.setChecked(true);
-                                    ck_list.put(item.getId(), btn_ck);
+                                    ck_list.add(item.getId());
                                 }
                                 if (ck_list.size() == hglist.size()) {
                                     idCbSelectAll.setChecked(true);
                                 } else {
                                     idCbSelectAll.setChecked(false);
+                                }
+                            }
+                        });
+                        helper.getConvertView().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(isedit == 1){
+                                    if (btn_ck.isChecked()) {
+                                        btn_ck.setChecked(false);
+                                        ck_list.remove(item.getId());
+                                    } else {
+                                        btn_ck.setChecked(true);
+                                        ck_list.add(item.getId());
+                                    }
+                                    if (ck_list.size() == hglist.size()) {
+                                        idCbSelectAll.setChecked(true);
+                                    } else {
+                                        idCbSelectAll.setChecked(false);
+                                    }
+                                }else {
+                                    Intent intent = new Intent(HistoryGoodsActivity.this, GoodsDetailActivity.class);
+                                    intent.putExtra("contentID", item.getId());
+                                    startActivity(intent);
                                 }
                             }
                         });
@@ -191,6 +211,7 @@ public class HistoryGoodsActivity extends BaseActivity {
 
     @Override
     public void initEvent() {
+        idCbSelectAll.setClickable(false);
         allCkLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,6 +220,9 @@ public class HistoryGoodsActivity extends BaseActivity {
                     ck_list.clear();
                 }else{
                     idCbSelectAll.setChecked(true);
+                    for(HistoryGoodsResponse.UserOperationListBean item:hglist){
+                        ck_list.add(item.getId());
+                    }
                 }
                 hisgoodsAdapter.notifyDataSetChanged();
             }
@@ -210,7 +234,7 @@ public class HistoryGoodsActivity extends BaseActivity {
                 if(tempDellist.size()>0)return;
                 tempDellist.addAll(hglist);
                 for(HistoryGoodsResponse.UserOperationListBean g:hglist){
-                    if(ck_list.containsKey(g.getId())){
+                    if(ck_list.contains(g.getId())){
                         tempDellist.remove(g);
                         operationIDs.add(g.getId());
                     }

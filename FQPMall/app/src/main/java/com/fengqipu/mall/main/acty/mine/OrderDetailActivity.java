@@ -47,9 +47,16 @@ import com.fengqipu.mall.tools.V;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class OrderDetailActivity extends BaseActivity {
-    private String state="1";
-    private String orderId="";
+    @Bind(R.id.ll_view_line)
+    View llViewLine;
+    @Bind(R.id.ll_view)
+    LinearLayout llView;
+    private String state = "1";
+    private String orderId = "";
     LinearLayout btn_sqth;//申请退货
     LinearLayout btn_ckwl;//查看物流
     LinearLayout btn_msfk;//马上付款
@@ -62,57 +69,59 @@ public class OrderDetailActivity extends BaseActivity {
     private List<OrderDetailResponse.OrderBean> olist = new ArrayList<OrderDetailResponse.OrderBean>();
     private ListView my_list;
     private ImageView img;
-    private TextView title,info;
+    private TextView title, info;
     private LinearLayout wl_info;
-    private TextView wl_info_txt,wl_info_time;
-    private TextView sh_name,sh_phone,sh_address,order_id,order_jyh,order_createtime,order_fktime,order_fhtime;
+    private TextView wl_info_txt, wl_info_time;
+    private TextView sh_name, sh_phone, sh_address, order_id, order_jyh, order_createtime, order_fktime, order_fhtime;
     private TextView fz;
-    public static boolean needclose=false;
+    public static boolean needclose = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
-        state=getIntent().getStringExtra(IntentCode.ORDER_STATE);
-        orderId=getIntent().getStringExtra(IntentCode.C_ORDER_ID);
+        ButterKnife.bind(this);
+        state = getIntent().getStringExtra(IntentCode.ORDER_STATE);
+        orderId = getIntent().getStringExtra(IntentCode.C_ORDER_ID);
         initAll();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(needclose){
+        if (needclose) {
             finish();
-            needclose=false;
+            needclose = false;
         }
     }
 
     @Override
     public void initView() {
         initTitle();
-        btn_sqth = V.f(this,R.id.btn_sqth);//申请退货
-        btn_ckwl = V.f(this,R.id.btn_ckwl);//查看物流
-        btn_msfk = V.f(this,R.id.btn_msfk);//马上付款
-        btn_txfh = V.f(this,R.id.btn_txfh);//提醒发货
-        btn_qrsh = V.f(this,R.id.btn_qrsh);//确认收货
-        btn_pj = V.f(this,R.id.btn_pj);//评价
-        btn_qxdd = V.f(this,R.id.btn_qxdd);//取消订单
-        btn_sqsh = V.f(this,R.id.btn_sqsh);//申请售后
-        my_list=V.f(this,R.id.my_list);
-        img=V.f(this,R.id.img);
-        title=V.f(this,R.id.title);
-        info=V.f(this,R.id.info);
-        wl_info_txt=V.f(this,R.id.wl_info_txt);
-        wl_info_time=V.f(this,R.id.wl_info_time);
-        sh_name=V.f(this,R.id.sh_name);
-        sh_phone=V.f(this,R.id.sh_phone);
-        sh_address=V.f(this,R.id.sh_address);
-        order_id=V.f(this,R.id.order_id);
-        order_jyh=V.f(this,R.id.order_jyh);
-        order_createtime=V.f(this,R.id.order_createtime);
-        order_fktime=V.f(this,R.id.order_fktime);
-        order_fhtime=V.f(this,R.id.order_fhtime);
-        wl_info=V.f(this,R.id.wl_info);
-        fz=V.f(this,R.id.fz);
+        btn_sqth = V.f(this, R.id.btn_sqth);//申请退货
+        btn_ckwl = V.f(this, R.id.btn_ckwl);//查看物流
+        btn_msfk = V.f(this, R.id.btn_msfk);//马上付款
+        btn_txfh = V.f(this, R.id.btn_txfh);//提醒发货
+        btn_qrsh = V.f(this, R.id.btn_qrsh);//确认收货
+        btn_pj = V.f(this, R.id.btn_pj);//评价
+        btn_qxdd = V.f(this, R.id.btn_qxdd);//取消订单
+        btn_sqsh = V.f(this, R.id.btn_sqsh);//申请售后
+        my_list = V.f(this, R.id.my_list);
+        img = V.f(this, R.id.img);
+        title = V.f(this, R.id.title);
+        info = V.f(this, R.id.info);
+        wl_info_txt = V.f(this, R.id.wl_info_txt);
+        wl_info_time = V.f(this, R.id.wl_info_time);
+        sh_name = V.f(this, R.id.sh_name);
+        sh_phone = V.f(this, R.id.sh_phone);
+        sh_address = V.f(this, R.id.sh_address);
+        order_id = V.f(this, R.id.order_id);
+        order_jyh = V.f(this, R.id.order_jyh);
+        order_createtime = V.f(this, R.id.order_createtime);
+        order_fktime = V.f(this, R.id.order_fktime);
+        order_fhtime = V.f(this, R.id.order_fhtime);
+        wl_info = V.f(this, R.id.wl_info);
+        fz = V.f(this, R.id.fz);
     }
 
     @Override
@@ -151,15 +160,15 @@ public class OrderDetailActivity extends BaseActivity {
                         helper.setText(R.id.goods_price, "￥" + item.getRealPrice());
                         TextView or_price = helper.getView(R.id.or_price);
 //                        if(item.getOriginalPrice()==null||item.getOriginalPrice().equals("")){
-                            or_price.setVisibility(View.GONE);
+                        or_price.setVisibility(View.GONE);
 //                        }else {
 //                            or_price.setVisibility(View.VISIBLE);
 //                            or_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 //                            or_price.setText("￥" + item.getOriginalPrice());
 //                        }
-                        if(item.getColor()!=null&&!item.getColor().equals("")){
-                            helper.setText(R.id.goods_type, "分类:"+item.getStyle()+"、"+item.getColor());
-                        }else {
+                        if (item.getColor() != null && !item.getColor().equals("")) {
+                            helper.setText(R.id.goods_type, "分类:" + item.getStyle() + "、" + item.getColor());
+                        } else {
                             helper.setText(R.id.goods_type, "分类:" + item.getStyle());
                         }
                         helper.setText(R.id.goods_num_x, "X" + item.getCount());
@@ -167,8 +176,8 @@ public class OrderDetailActivity extends BaseActivity {
                             @Override
                             public void onClick(View v) {
                                 //跳转到详情页
-                                Intent intent=new Intent(OrderDetailActivity.this, GoodsDetailActivity.class);
-                                intent.putExtra("contentID",item.getContentID());
+                                Intent intent = new Intent(OrderDetailActivity.this, GoodsDetailActivity.class);
+                                intent.putExtra("contentID", item.getContentID());
                                 startActivity(intent);
                             }
                         });
@@ -180,8 +189,8 @@ public class OrderDetailActivity extends BaseActivity {
                 btn_ckwl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent=new Intent(mContext, LogisticsActivity.class);
-                        intent.putExtra("orderID",item.getId());
+                        Intent intent = new Intent(mContext, LogisticsActivity.class);
+                        intent.putExtra("orderID", item.getId());
                         intent.putExtra("headPic", item.getOrderContentList().get(0).getPicUrlRequestUrl());
                         startActivity(intent);
                     }
@@ -191,7 +200,8 @@ public class OrderDetailActivity extends BaseActivity {
         my_list.setAdapter(orderAdapter);
         initState();
     }
-    private void initState(){
+
+    private void initState() {
         switch (state) {
             case "1":
                 btn_sqth.setVisibility(View.GONE);
@@ -201,7 +211,7 @@ public class OrderDetailActivity extends BaseActivity {
                 btn_qrsh.setVisibility(View.GONE);
                 btn_pj.setVisibility(View.GONE);
                 btn_qxdd.setVisibility(View.VISIBLE);
-                ((TextView)btn_qxdd.getChildAt(0)).setText("取消订单");
+                ((TextView) btn_qxdd.getChildAt(0)).setText("取消订单");
                 btn_sqsh.setVisibility(View.GONE);
                 img.setImageResource(R.mipmap.pic8);
                 title.setText("等待买家付款");
@@ -238,7 +248,7 @@ public class OrderDetailActivity extends BaseActivity {
                 btn_qrsh.setVisibility(View.GONE);
                 btn_pj.setVisibility(View.VISIBLE);
                 btn_qxdd.setVisibility(View.VISIBLE);
-                ((TextView)btn_qxdd.getChildAt(0)).setText("删除订单");
+                ((TextView) btn_qxdd.getChildAt(0)).setText("删除订单");
                 btn_sqsh.setVisibility(View.GONE);
                 img.setImageResource(R.mipmap.pic4);
                 title.setText("交易成功");
@@ -254,8 +264,16 @@ public class OrderDetailActivity extends BaseActivity {
                 btn_sqsh.setVisibility(View.VISIBLE);
                 break;
         }
+        if(btn_sqth.getVisibility()==View.GONE&&btn_sqsh.getVisibility()==View.GONE){
+            llView.setVisibility(View.GONE);
+            llViewLine.setVisibility(View.GONE);
+        }else{
+            llView.setVisibility(View.VISIBLE);
+            llViewLine.setVisibility(View.VISIBLE);
+        }
     }
-    private void getOrderDetail(){
+
+    private void getOrderDetail() {
         NetLoadingDialog.getInstance().loading(mContext);
         UserServiceImpl.instance().getOrderDetail(orderId, OrderDetailResponse.class.getName());
     }
@@ -275,18 +293,18 @@ public class OrderDetailActivity extends BaseActivity {
         btn_msfk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(item==null)return;
+                if (item == null) return;
                 ArrayList<StoreGoodsBean> shopList = new ArrayList<StoreGoodsBean>();
-                StoreGoodsBean storeGoodsBean=new StoreGoodsBean();
-                StoreBean storeBean=new StoreBean(item.getShopID(),item.getShopName(),false,false);
+                StoreGoodsBean storeGoodsBean = new StoreGoodsBean();
+                StoreBean storeBean = new StoreBean(item.getShopID(), item.getShopName(), false, false);
                 storeGoodsBean.setStoreBean(storeBean);
-                List<GoodsBean> goodsBeens=new ArrayList<GoodsBean>();
-                for(OrderDetailResponse.OrderBean.OrderContentListBean it:item.getOrderContentList()){
-                    GoodsBean goodsBean = new GoodsBean(it.getCreateTime(), Global.getUserId()+"", it.getPicUrlRequestUrl(), it.getRealPrice(),
+                List<GoodsBean> goodsBeens = new ArrayList<GoodsBean>();
+                for (OrderDetailResponse.OrderBean.OrderContentListBean it : item.getOrderContentList()) {
+                    GoodsBean goodsBean = new GoodsBean(it.getCreateTime(), Global.getUserId() + "", it.getPicUrlRequestUrl(), it.getRealPrice(),
                             it.getStyle(), it.getCount(), item.getShopID(),
                             it.getContentName(), item.getShopName(),
                             it.getId(), it.getContentID(),
-                            it.getColor()+"", GoodsBean.STATUS_VALID, false, false);
+                            it.getColor() + "", GoodsBean.STATUS_VALID, false, false);
                     goodsBeens.add(goodsBean);
                 }
                 storeGoodsBean.setGoodsBeanList(goodsBeens);
@@ -304,7 +322,7 @@ public class OrderDetailActivity extends BaseActivity {
                 Intent intent = new Intent(mContext, PublicCommentActy.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 intent.putExtra(IntentCode.COMMUNITY_PUBLIC, "1");
-                intent.putExtra(IntentCode.C_ORDER_ID,orderId);
+                intent.putExtra(IntentCode.C_ORDER_ID, orderId);
                 Global.saveOrderId(orderId);
                 startActivity(intent);
             }
@@ -313,30 +331,31 @@ public class OrderDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 NetLoadingDialog.getInstance().loading(mContext);
-                UserServiceImpl.instance().upDateOrder(orderId,"1", UpdataOrderResponse.class.getName());
+                UserServiceImpl.instance().upDateOrder(orderId, "1", UpdataOrderResponse.class.getName());
             }
         });
         btn_sqth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(item==null)return;
-                Intent intent=new Intent(mContext, RefundActy.class);
+                if (item == null) return;
+                Intent intent = new Intent(mContext, RefundActy.class);
                 intent.putExtra(IntentCode.COMMUNITY_PUBLIC, "1");
-                intent.putExtra(IntentCode.C_ORDER_ID,orderId);
+                intent.putExtra(IntentCode.C_ORDER_ID, orderId);
                 Global.saveOrderId(orderId);
                 //最多退款金额
-                Global.saveRefundMoney(item.getRealPrice()+"");
+                Global.saveRefundMoney(item.getRealPrice() + "");
                 startActivity(intent);
             }
         });
         btn_qxdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.showNoTipTwoBnttonDialog(mContext,"确定要删除该订单吗？","取消","确定"
-                        ,NotiTag.TAG_DEL_GOODS_CANCEL, NotiTag.TAG_DEL_GOODS_OK);
+                DialogUtil.showNoTipTwoBnttonDialog(mContext, "确定要删除该订单吗？", "取消", "确定"
+                        , NotiTag.TAG_DEL_GOODS_CANCEL, NotiTag.TAG_DEL_GOODS_OK);
             }
         });
     }
+
     private void initTitle() {
         View view = findViewById(R.id.common_back);
         HeadView headView = new HeadView((ViewGroup) view);
@@ -344,7 +363,9 @@ public class OrderDetailActivity extends BaseActivity {
         headView.setTitleText("订单详情");
         headView.setHiddenRight();
     }
+
     private OrderDetailResponse.OrderBean item;
+
     @Override
     public void onEventMainThread(BaseResponse event) {
         if (event instanceof NoticeEvent) {
@@ -367,7 +388,7 @@ public class OrderDetailActivity extends BaseActivity {
             NetResponseEvent.Cache cache = ((NetResponseEvent) event).getCache();
             NetLoadingDialog.getInstance().dismissDialog();
             if (tag.equals(OrderDetailResponse.class.getName())) {
-                CMLog.e(Constants.HTTP_TAG,result);
+                CMLog.e(Constants.HTTP_TAG, result);
                 if (cache.equals(NetResponseEvent.Cache.isCache)) {
                     //缓存数据需要做特殊处理的时候进行(一般不用去做处理)
                 } else if (cache.equals(NetResponseEvent.Cache.isNetWork)) {
@@ -376,45 +397,45 @@ public class OrderDetailActivity extends BaseActivity {
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     final OrderDetailResponse orderDetailResponse = GsonHelper.toType(result, OrderDetailResponse.class);
                     if (Constants.SUCESS_CODE.equals(orderDetailResponse.getResultCode())) {
-                        if(orderDetailResponse.getOrder()!=null){
+                        if (orderDetailResponse.getOrder() != null) {
                             olist.clear();
                             olist.add(orderDetailResponse.getOrder());
                             orderAdapter.setData(olist);
                             orderAdapter.notifyDataSetChanged();
                         }
-                        item=orderDetailResponse.getOrder();
+                        item = orderDetailResponse.getOrder();
                         fz.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 ClipboardManager cmb = (ClipboardManager) mContext
                                         .getSystemService(Context.CLIPBOARD_SERVICE);
                                 cmb.setText(orderDetailResponse.getOrder().getId());
-                                ToastUtil.makeText(mContext,"复制成功!");
+                                ToastUtil.makeText(mContext, "复制成功!");
                             }
                         });
-                        state=orderDetailResponse.getOrder().getStatus()+"";
+                        state = orderDetailResponse.getOrder().getStatus() + "";
                         initState();
                         switch (state) {
                             case "1":
-                                info.setText("还有"+orderDetailResponse.getOrder().getEndTimeShow()+"自动关闭");
+                                info.setText("还有" + orderDetailResponse.getOrder().getEndTimeShow() + "自动关闭");
                                 break;
                             case "2":
-                                info.setText("还有"+orderDetailResponse.getOrder().getEndTimeShow()+"自动确认");
+                                info.setText("还有" + orderDetailResponse.getOrder().getEndTimeShow() + "自动确认");
                                 break;
                             case "3":
-                                info.setText("还有"+orderDetailResponse.getOrder().getEndTimeShow()+"自动确认");
+                                info.setText("还有" + orderDetailResponse.getOrder().getEndTimeShow() + "自动确认");
                                 break;
                             case "4":
-                                info.setText("还有"+orderDetailResponse.getOrder().getEndTimeShow()+"自动评价");
+                                info.setText("还有" + orderDetailResponse.getOrder().getEndTimeShow() + "自动评价");
                                 break;
                             case "5":
                                 break;
                         }
-                        if(orderDetailResponse.getDeliveryRecordList()!=null&&orderDetailResponse.getDeliveryRecordList().size()>0){
+                        if (orderDetailResponse.getDeliveryRecordList() != null && orderDetailResponse.getDeliveryRecordList().size() > 0) {
                             wl_info.setVisibility(View.VISIBLE);
-                            wl_info_txt.setText(orderDetailResponse.getDeliveryRecordList().get(orderDetailResponse.getDeliveryRecordList().size()-1).getContext());
-                            wl_info_time.setText(orderDetailResponse.getDeliveryRecordList().get(orderDetailResponse.getDeliveryRecordList().size()-1).getTime());
-                        }else{
+                            wl_info_txt.setText(orderDetailResponse.getDeliveryRecordList().get(orderDetailResponse.getDeliveryRecordList().size() - 1).getContext());
+                            wl_info_time.setText(orderDetailResponse.getDeliveryRecordList().get(orderDetailResponse.getDeliveryRecordList().size() - 1).getTime());
+                        } else {
                             wl_info.setVisibility(View.GONE);
                         }
                         try {
@@ -424,11 +445,11 @@ public class OrderDetailActivity extends BaseActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        order_id.setText("订单编号:"+orderDetailResponse.getOrder().getOrderCode());
-                        order_jyh.setText("订单交易号:"+orderDetailResponse.getOrder().getOuterCode());
-                        order_createtime.setText("创建时间:"+orderDetailResponse.getOrder().getCreateTimeShow());
-                        order_fktime.setText("付款时间:"+orderDetailResponse.getOrder().getPayTimeShow());
-                        order_fhtime.setText("发货时间:"+orderDetailResponse.getOrder().getDeliveryTimeShow());
+                        order_id.setText("订单编号:" + orderDetailResponse.getOrder().getOrderCode());
+                        order_jyh.setText("订单交易号:" + orderDetailResponse.getOrder().getOuterCode());
+                        order_createtime.setText("创建时间:" + orderDetailResponse.getOrder().getCreateTimeShow());
+                        order_fktime.setText("付款时间:" + orderDetailResponse.getOrder().getPayTimeShow());
+                        order_fhtime.setText("发货时间:" + orderDetailResponse.getOrder().getDeliveryTimeShow());
                     } else {
                         ErrorCode.doCode(mContext, orderDetailResponse.getResultCode(), orderDetailResponse.getDesc());
                     }
