@@ -29,7 +29,6 @@ import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
-import com.fengqipu.mall.main.acty.enterprise.EnterpriseListActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.index.ConfirmOrderActivity;
 import com.fengqipu.mall.main.acty.logistics.LogisticsActivity;
@@ -169,7 +168,7 @@ public class OrderDetailActivity extends BaseActivity {
                             public void onClick(View v) {
                                 //跳转到详情页
                                 Intent intent=new Intent(OrderDetailActivity.this, GoodsDetailActivity.class);
-                                intent.putExtra("contentID",item.getId());
+                                intent.putExtra("contentID",item.getContentID());
                                 startActivity(intent);
                             }
                         });
@@ -418,9 +417,13 @@ public class OrderDetailActivity extends BaseActivity {
                         }else{
                             wl_info.setVisibility(View.GONE);
                         }
-                        sh_name.setText(orderDetailResponse.getDelivery().getDeliveryUser());
-                        sh_phone.setText(orderDetailResponse.getDelivery().getDeliveryNum());
-                        sh_address.setText(orderDetailResponse.getDelivery().getDeliveryAddress());
+                        try {
+                            sh_name.setText(orderDetailResponse.getDelivery().getDeliveryUser());
+                            sh_phone.setText(orderDetailResponse.getDelivery().getDeliveryNum());
+                            sh_address.setText(orderDetailResponse.getDelivery().getDeliveryAddress());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         order_id.setText("订单编号:"+orderDetailResponse.getOrder().getOrderCode());
                         order_jyh.setText("订单交易号:"+orderDetailResponse.getOrder().getOuterCode());
                         order_createtime.setText("创建时间:"+orderDetailResponse.getOrder().getCreateTimeShow());

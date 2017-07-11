@@ -255,12 +255,14 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
                     <ImageView
+                        android:id="@+id/iv_lxmj"
                         android:layout_width="30dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:layout_height="30dp"
                         android:src="@mipmap/pic3"/>
                     <TextView
+                        android:id="@+id/tv_lxmj"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
@@ -274,12 +276,14 @@
                         android:layout_marginTop="6dp"
                         android:layout_marginBottom="6dp"></View>
                     <ImageView
+                        android:id="@+id/iv_bddh"
                         android:layout_width="30dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:layout_height="30dp"
                         android:src="@mipmap/pic2"/>
                     <TextView
+                        android:id="@+id/tv_bddh"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
@@ -313,6 +317,7 @@
                             android:ellipsize="end"
                             android:textColor="@color/txt_nol_col"
                             android:textSize="13sp" />
+
                         <TextView
                             android:id="@+id/fz"
                             android:padding="6dp"
