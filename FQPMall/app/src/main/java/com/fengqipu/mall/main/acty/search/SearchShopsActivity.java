@@ -11,8 +11,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fengqipu.mall.R;
@@ -21,7 +21,6 @@ import com.fengqipu.mall.adapter.ViewHolder;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
-import com.fengqipu.mall.bean.cart.GoodsBean;
 import com.fengqipu.mall.bean.search.SearchShopsResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
@@ -37,6 +36,7 @@ import com.fengqipu.mall.tools.CommonMethod;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
+import com.fengqipu.mall.view.MyGridView;
 import com.fengqipu.mall.view.RefreshListView;
 
 import java.util.ArrayList;
@@ -68,8 +68,8 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
     TextView btnSx;
     @Bind(R.id.my_listview)
     RefreshListView myListview;
-    private CommonAdapter<GoodsBean> lAdapter;
-    private List<GoodsBean> goodsList = new ArrayList<>();
+    private CommonAdapter<SearchShopsResponse.ShopListBean> lAdapter;
+    private List<SearchShopsResponse.ShopListBean> goodsList = new ArrayList<>();
     String keyword = "";
     int searchType = 0;
 
@@ -119,23 +119,35 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void initViewData() {
-        lAdapter = new CommonAdapter<GoodsBean>(this, goodsList, R.layout.item_shops) {
+        lAdapter = new CommonAdapter<SearchShopsResponse.ShopListBean>(this, goodsList, R.layout.item_shops) {
             @Override
-            public void convert(ViewHolder helper, GoodsBean item) {
-                helper.getView(R.id.btn_jd).setVisibility(View.VISIBLE);
-                List<String> pics = new ArrayList<>();
-                pics.add("");
-                pics.add("");
-                pics.add("");
-                CommonAdapter adapter = new CommonAdapter(SearchShopsActivity.this, pics, R.layout.item_pic) {
-                    @Override
-                    public void convert(ViewHolder helper, Object item) {
-
-                    }
-                };
-                GridView myGridView = helper.getView(R.id.my_grid_view);
-                myGridView.setAdapter(adapter);
-                CommonMethod.setListViewHeightBasedOnChildren(myGridView);
+            public void convert(ViewHolder helper, SearchShopsResponse.ShopListBean item) {
+                helper.setText(R.id.comment_name_tv, item.getShopName());
+                ImageView comment_head_iv = helper.getView(R.id.comment_head_iv);
+                if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrlRequestUrl())) {
+                    GeneralUtils.setImageViewWithUrl(SearchShopsActivity.this, item.getPicUrlRequestUrl(),
+                            comment_head_iv,
+                            R.drawable.default_bg);
+                }
+                MyGridView gridView = helper.getView(R.id.my_grid_view);
+                LinearLayout image_ll=helper.getView(R.id.image_ll);
+                if(item.getAdvPicUrlList()!=null&&item.getAdvPicUrlList().size()>0) {
+                    image_ll.setVisibility(View.VISIBLE);
+                    CommonAdapter<String> gadapter = new CommonAdapter<String>(SearchShopsActivity.this, item.getAdvPicUrlList(), R.layout.item_pic) {
+                        @Override
+                        public void convert(ViewHolder helper, String item) {
+                            ImageView iv_pic = helper.getView(R.id.iv_pic);
+                            if (GeneralUtils.isNotNullOrZeroLenght(item)) {
+                                GeneralUtils.setImageViewWithUrl(SearchShopsActivity.this, item,
+                                        iv_pic,
+                                        R.drawable.default_bg);
+                            }
+                        }
+                    };
+                    gridView.setAdapter(gadapter);
+                }else{
+                    image_ll.setVisibility(View.GONE);
+                }
             }
         };
         myListview.setAdapter(lAdapter);
@@ -297,16 +309,13 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
                             goodsList.clear();
                         }
                         isloading = false;
-//                        totalCount = goodsEnterpriseResponse.getTotalCount();
-//                        if (goodsEnterpriseResponse.getContentList() != null && goodsEnterpriseResponse.getContentList().size() > 0) {
-//                            goodsList.addAll(goodsEnterpriseResponse.getContentList());
-//                            gAdapter.setData(goodsList);
-//                            lAdapter.setData(goodsList);
-//                            gAdapter.notifyDataSetChanged();
-//                            lAdapter.notifyDataSetChanged();
-//                            CommonMethod.setListViewHeightBasedOnChildren(myListview);
-//                            CommonMethod.setListViewHeightBasedOnChildren(myGridview);
-//                        }
+                        totalCount = searchShopsResponse.getTotalCount();
+                        if (searchShopsResponse.getShopList() != null && searchShopsResponse.getShopList().size() > 0) {
+                            goodsList.addAll(searchShopsResponse.getShopList());
+                            lAdapter.setData(goodsList);
+                            lAdapter.notifyDataSetChanged();
+                            CommonMethod.setListViewHeightBasedOnChildren(myListview);
+                        }
                     } else {
                         ErrorCode.doCode(this, searchShopsResponse.getResultCode(), searchShopsResponse.getDesc());
                     }

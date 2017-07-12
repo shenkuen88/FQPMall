@@ -155,6 +155,7 @@
             android:divider="@color/bg_col"
             android:dividerHeight="1px"
             android:overScrollMode="never"
-            android:scrollbars="none"></com.fengqipu.mall.view.RefreshListView>
+            android:scrollbars="none">
+        </com.fengqipu.mall.view.RefreshListView>
     </LinearLayout>
 </LinearLayout>
