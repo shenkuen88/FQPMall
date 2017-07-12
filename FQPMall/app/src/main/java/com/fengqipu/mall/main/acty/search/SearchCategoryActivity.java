@@ -36,6 +36,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 public class SearchCategoryActivity extends BaseActivity {
 
@@ -78,15 +79,17 @@ public class SearchCategoryActivity extends BaseActivity {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             CategoryResponse.Category item = (CategoryResponse.Category) adapterView.getItemAtPosition(i);
+                            EventBus.getDefault().post(new NoticeEvent("SearchCategory",item.getId()));
+                            finish();
+
                         }
                     });
                 }
+                sub_listview.setVisibility(View.GONE);
+                iv_pic.setImageResource(R.mipmap.arrow_down);
                 if (selid.equals(item.getId())&&sitems!=null) {
                     sub_listview.setVisibility(View.VISIBLE);
                     iv_pic.setImageResource(R.mipmap.arrow_up);
-                } else {
-                    sub_listview.setVisibility(View.GONE);
-                    iv_pic.setImageResource(R.mipmap.arrow_down);
                 }
             }
         };
@@ -111,7 +114,8 @@ public class SearchCategoryActivity extends BaseActivity {
         mHeaderView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                EventBus.getDefault().post(new NoticeEvent("SearchCategory",""));
+                finish();
             }
         });
         myListview.addHeaderView(mHeaderView);

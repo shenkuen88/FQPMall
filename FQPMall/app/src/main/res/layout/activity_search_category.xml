@@ -9,6 +9,10 @@
     <include
         android:id="@+id/common_back"
         layout="@layout/layout_top" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line"></View>
     <ListView
         android:id="@+id/my_listview"
         android:layout_width="match_parent"

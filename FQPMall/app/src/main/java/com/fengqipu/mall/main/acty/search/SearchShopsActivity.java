@@ -304,6 +304,15 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
             if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
             }
+            if("SearchCategory".equals(tag)){
+                String str=((NoticeEvent) event).getText();
+                if(!str.equals("")){
+                    category2=str;
+                }else{
+                    category2="";
+                }
+                initData();
+            }
         } else if (event instanceof NetResponseEvent) {
             NetLoadingDialog.getInstance().dismissDialog();
             String tag = ((NetResponseEvent) event).getTag();
