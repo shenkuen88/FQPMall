@@ -149,6 +149,9 @@
             android:layout_height="20dp"
             android:src="@mipmap/icon1_browse"/>
     </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <com.fengqipu.mall.view.ScrollBottomScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -182,4 +185,137 @@
             android:verticalSpacing="5dp"></GridView>
     </LinearLayout>
     </com.fengqipu.mall.view.ScrollBottomScrollView>
+    <LinearLayout
+        android:id="@+id/sx_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:background="@color/white"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="价格区间"
+                    android:layout_marginLeft="15dp"
+                    android:textColor="#4a4a4a"
+                    android:textSize="16sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/min_price"
+                        android:layout_width="110dp"
+                        android:layout_height="35dp"
+                        android:background="@drawable/price_rec"
+                        android:gravity="center"
+                        android:hint="最低价"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textColor="#4a4a4a"
+                        android:textColorHint="@color/gray"
+                        android:textSize="14sp"
+                        />
+                    <View
+                        android:layout_width="48dp"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/line"
+                        android:layout_gravity="center"></View>
+                    <EditText
+                        android:id="@+id/max_price"
+                        android:layout_width="110dp"
+                        android:layout_height="35dp"
+                        android:background="@drawable/price_rec"
+                        android:gravity="center"
+                        android:hint="最高价"
+                        android:inputType="text"
+                        android:singleLine="true"
+                        android:textColor="#4a4a4a"
+                        android:textColorHint="@color/gray"
+                        android:textSize="14sp"
+                        />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line"></View>
+                <RelativeLayout
+                    android:id="@+id/nick_rl"
+                    style="@style/mine_top_select_rl"
+                    android:layout_below="@+id/user_name_rl">
+                    <TextView
+                        style="@style/account_manage_tv"
+                        android:text="分类" />
+                    <TextView
+                        android:id="@+id/fenlei_tv"
+                        style="@style/mine_right_arrow_tv"
+                        android:drawablePadding="@dimen/pxtodp20"
+                        android:drawableRight="@mipmap/listright_arrow"
+                        android:text="全部" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line"></View>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@color/white"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_cz"
+                    android:layout_width="78dp"
+                    android:layout_height="@dimen/pxtodp60"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/pxtodp62"
+                    android:layout_toLeftOf="@+id/buy_bn"
+                    android:background="@drawable/yellow_rec_normal"
+                    android:text="重置"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/pxtosp26" />
+
+                <Button
+                    android:id="@+id/btn_confirm"
+                    android:layout_width="78dp"
+                    android:layout_height="@dimen/pxtodp60"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/pxtodp62"
+                    android:background="@drawable/pink_button"
+                    android:text="确定"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/pxtosp26" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="@color/transparent_black"
+            ></LinearLayout>
+    </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

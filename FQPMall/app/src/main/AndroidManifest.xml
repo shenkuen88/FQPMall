@@ -30,7 +30,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".main.base.BaseApplication"
@@ -42,12 +42,13 @@
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.fengqipu.mall.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <meta-data
             android:name="com.fengqipu.mall.tools.GlideConfigModule"
             android:value="GlideModule" />
@@ -85,7 +86,7 @@
         <activity android:name=".main.acty.index.zfb.ZFBPayActivity" />
 
         <!-- 引导页 -->
-        <activity android:name=".main.acty.index.WelcomeActivity"></activity>
+        <activity android:name=".main.acty.index.WelcomeActivity" />
         <activity android:name=".main.acty.index.GuideActy" />
         <!-- 加载页 -->
         <activity android:name=".main.acty.index.PageLoadingActivity" />
@@ -233,7 +234,8 @@
         <activity android:name=".main.acty.search.NewSearchActivity" />
         <activity android:name=".main.acty.search.SearchGoodsActivity" />
         <activity android:name=".main.acty.search.SearchShopsActivity" />
-        <activity android:name=".main.acty.huodong.HuoDongActivity"></activity>
+        <activity android:name=".main.acty.huodong.HuoDongActivity" />
+        <activity android:name=".main.acty.search.SearchCategoryActivity"></activity>
     </application>
 
 </manifest>

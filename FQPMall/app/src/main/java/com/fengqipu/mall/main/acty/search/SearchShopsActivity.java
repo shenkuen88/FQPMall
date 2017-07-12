@@ -1,5 +1,6 @@
 package com.fengqipu.mall.main.acty.search;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -64,7 +65,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
     TextView btnXl;
     @Bind(R.id.btn_xy)
     TextView btnXy;
-    @Bind(R.id.btn_sx)
+    @Bind(btn_sx)
     TextView btnSx;
     @Bind(R.id.my_listview)
     RefreshListView myListview;
@@ -73,8 +74,8 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
     String keyword = "";
     int searchType = 0;
 
-    int pageNum=1;
-    int pageSize=10;
+    int pageNum = 1;
+    int pageSize = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,12 +93,14 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initData() {
-        pageNum=1;
+        pageNum = 1;
         initBtmList();
     }
-    private String category2="";
+
+    private String category2 = "";
+
     private void initBtmList() {
-        isloading=true;
+        isloading = true;
 //        myLoading.setVisibility(View.GONE);
 //        myListview.loadComplete();
 //        GoodsBean g1 = new GoodsBean();
@@ -111,11 +114,12 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
 //        goodsList.add(g4);
 //        goodsList.add(g5);
 //        lAdapter.notifyDataSetChanged();
-        UserServiceImpl.instance().getSearchShopsList((searchType+1)+"",etSearch.getText().toString(),order + "", category2,pageNum,pageSize,SearchShopsResponse.class.getName());
+        UserServiceImpl.instance().getSearchShopsList((searchType + 1) + "", etSearch.getText().toString(), order + "", category2, pageNum, pageSize, SearchShopsResponse.class.getName());
     }
+
     private int order = 1;
-    int totalCount=0;
-    int lastVisibileItem=0;
+    int totalCount = 0;
+    int lastVisibileItem = 0;
 
     @Override
     public void initViewData() {
@@ -130,8 +134,8 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
                             R.drawable.default_bg);
                 }
                 MyGridView gridView = helper.getView(R.id.my_grid_view);
-                LinearLayout image_ll=helper.getView(R.id.image_ll);
-                if(item.getAdvPicUrlList()!=null&&item.getAdvPicUrlList().size()>0) {
+                LinearLayout image_ll = helper.getView(R.id.image_ll);
+                if (item.getAdvPicUrlList() != null && item.getAdvPicUrlList().size() > 0) {
                     image_ll.setVisibility(View.VISIBLE);
                     CommonAdapter<String> gadapter = new CommonAdapter<String>(SearchShopsActivity.this, item.getAdvPicUrlList(), R.layout.item_pic) {
                         @Override
@@ -145,7 +149,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
                         }
                     };
                     gridView.setAdapter(gadapter);
-                }else{
+                } else {
                     image_ll.setVisibility(View.GONE);
                 }
             }
@@ -161,9 +165,9 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onScrollStateChanged(AbsListView absListView, int scrollState) {
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && (lastVisibileItem + 1) == myListview.getCount())
-                if (pageNum * pageSize >= totalCount) return;
-                if(isloading)return;
-                pageNum=pageNum+1;
+                    if (pageNum * pageSize >= totalCount) return;
+                if (isloading) return;
+                pageNum = pageNum + 1;
                 initBtmList();
             }
 
@@ -183,7 +187,9 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
         }
         initData();
     }
-    private boolean isloading=false;
+
+    private boolean isloading = false;
+
     @Override
     public void initEvent() {
         btnZh.setOnClickListener(this);
@@ -227,7 +233,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
 
     private void searchKeyWord() {
         if (GeneralUtils.isNotNullOrZeroLenght(etSearch.getText().toString())) {
-            Global.addSearchHistory(searchType,etSearch.getText().toString());
+            Global.addSearchHistory(searchType, etSearch.getText().toString());
             initData();
         } else {
             ToastUtil.makeText(mContext, "请输入搜索内容");
@@ -279,6 +285,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
                 Drawable arraw = getResources().getDrawable(R.mipmap.icon_arrow_red);
                 arraw.setBounds(0, 0, arraw.getMinimumWidth(), arraw.getMinimumHeight());
                 btnSx.setCompoundDrawables(null, null, arraw, null);
+                startActivity(new Intent(SearchShopsActivity.this,SearchCategoryActivity.class));
                 break;
         }
     }
@@ -289,6 +296,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
         btnXy.setTextColor(Color.parseColor("#4A4A4A"));
         btnSx.setTextColor(Color.parseColor("#4A4A4A"));
     }
+
     @Override
     public void onEventMainThread(BaseResponse event) throws Exception {
         if (event instanceof NoticeEvent) {

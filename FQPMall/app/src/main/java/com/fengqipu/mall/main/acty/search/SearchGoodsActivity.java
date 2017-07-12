@@ -9,9 +9,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fengqipu.mall.R;
@@ -74,6 +76,19 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
     @Bind(R.id.scrollView)
     ScrollBottomScrollView scrollView;
 
+    @Bind(R.id.min_price)
+    EditText minPrice;
+    @Bind(R.id.max_price)
+    EditText maxPrice;
+    @Bind(R.id.fenlei_tv)
+    TextView fenleiTv;
+    @Bind(R.id.btn_cz)
+    Button btnCz;
+    @Bind(R.id.btn_confirm)
+    Button btnConfirm;
+    @Bind(R.id.sx_ll)
+    LinearLayout sxLl;
+
     private CommonAdapter<GoodsBean> lAdapter;
     private CommonAdapter<GoodsBean> gAdapter;
     private List<GoodsBean> goodsList = new ArrayList<>();
@@ -103,7 +118,7 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
         pageNum = 1;
         initBtmList();
     }
-
+    private String contentType="";
     private void initBtmList() {
 //        myLoading.setVisibility(View.GONE);
 //        myListview.loadComplete();
@@ -117,7 +132,7 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
 //        goodsList.add(g5);
 //        lAdapter.notifyDataSetChanged();
 //        gAdapter.notifyDataSetChanged();
-        UserServiceImpl.instance().getSearchGList(this, "1", etSearch.getText().toString(), order + "", jgtype + "", pageNum, pageSize, SearchGoodsResponse.class.getName());
+        UserServiceImpl.instance().getSearchGList(this, contentType, etSearch.getText().toString(), order + "", jgtype + "", pageNum, pageSize, SearchGoodsResponse.class.getName());
     }
 
     private int order = 1;
@@ -298,6 +313,13 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
                 Drawable nav_original2 = getResources().getDrawable(R.mipmap.price_original);
                 nav_original2.setBounds(0, 0, nav_original2.getMinimumWidth(), nav_original2.getMinimumHeight());
                 btnJg.setCompoundDrawables(null, null, nav_original2, null);
+                if(sxLl.getVisibility()==View.GONE){
+                    sxLl.setVisibility(View.VISIBLE);
+                }else{
+                    sxLl.setVisibility(View.GONE);
+                }
+                order = 1;
+                initData();
                 break;
         }
     }
