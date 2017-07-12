@@ -66,7 +66,10 @@ public class URLUtil
      * 查询内容评价列表
      */
     public static final String GET_COMMENT_LIST = SERVER_BASE + "appraise/list";
-
+    /**
+     * 查询内容评价列表
+     */
+    public static final String GET_HOTKEYWORD_LIST = SERVER_BASE + "hotKeywords/list";
     /**
      * 添加内容评价
      */
@@ -96,7 +99,10 @@ public class URLUtil
      * 根据关键词搜索
      */
     public static final String SEARCH_KEYWORD = SERVER_BASE + "content/search";
-
+    /**
+     * 根据关键词搜索企业
+     */
+    public static final String SEARCH_SHOPS_KEYWORD = SERVER_BASE + "shop/search";
     /**
      * 获取短信验证码
      */

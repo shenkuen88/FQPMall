@@ -220,7 +220,6 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
             @Override
             public void onScrollChange(View view, int i, int i1, int i2, int i3) {
                 float f = i3 / 300f;
-                Log.e("sub","f="+f);
                 if (f >= 1) {
                     headSmall.setVisibility(View.VISIBLE);
                     usercenterTitle.setVisibility(View.VISIBLE);

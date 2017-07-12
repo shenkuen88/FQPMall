@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="5dp"
                     android:gravity="center"
-                    android:text="信用"
+                    android:text="评价"
                     android:textColor="#4A4A4A"
                     android:textSize="16sp" />
             </LinearLayout>

@@ -24,6 +24,7 @@ import com.fengqipu.mall.bean.cart.GoodsBean;
 import com.fengqipu.mall.bean.search.SearchGoodsResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
+import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.base.BaseActivity;
@@ -204,6 +205,7 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
 
     private void searchKeyWord() {
         if (GeneralUtils.isNotNullOrZeroLenght(etSearch.getText().toString())) {
+            Global.addSearchHistory(searchType,etSearch.getText().toString());
             initData();
         } else {
             ToastUtil.makeText(mContext, "请输入搜索内容");

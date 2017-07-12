@@ -2,20 +2,28 @@ package com.fengqipu.mall.constant;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.bean.mine.LoginResult;
 import com.fengqipu.mall.bean.mine.UserBean;
+import com.fengqipu.mall.bean.search.HistorySearchBean;
 import com.fengqipu.mall.main.base.BaseApplication;
+import com.fengqipu.mall.network.GsonHelper;
 import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.CookieUtils;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.SharePref;
 import com.fengqipu.mall.tools.StringEncrypt;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
 
 import de.greenrobot.event.EventBus;
+
+import static com.fengqipu.mall.tools.SharePref.getString;
 
 /**
  * <全局静态缓存数据>
@@ -129,7 +137,7 @@ public class Global {
      * 上传图片的token
      */
     public static String getToken() {
-        return SharePref.getString(uptoken, "");
+        return getString(uptoken, "");
     }
 
     public static void saveToken(String upToken) {
@@ -139,7 +147,7 @@ public class Global {
      * 首页目前展示的Fragment
      */
     public static String getNowIndex() {
-        return SharePref.getString(home_fragment_index, "");
+        return getString(home_fragment_index, "");
     }
 
     public static void saveNowIndex(String upToken) {
@@ -162,7 +170,7 @@ public class Global {
      * 是否启动引导页
      */
     public static String getOrderId() {
-        return SharePref.getString(OPERATE_ORDER_ID, "");
+        return getString(OPERATE_ORDER_ID, "");
     }
 
     public static void saveOrderId(String orderId) {
@@ -173,8 +181,8 @@ public class Global {
      * 是否启动引导页
      */
     public static String getRefundMoney() {
-        if (GeneralUtils.isNotNullOrZeroLenght(SharePref.getString(REFUND_MAX_MONEY, "")) ){
-            return SharePref.getString(REFUND_MAX_MONEY, "");
+        if (GeneralUtils.isNotNullOrZeroLenght(getString(REFUND_MAX_MONEY, "")) ){
+            return getString(REFUND_MAX_MONEY, "");
         }else{
             return "0";
         }
@@ -189,7 +197,7 @@ public class Global {
      * 获取登录名
      */
     public static String getLoginName() {
-        return SharePref.getString(LOGIN_NAME, "");
+        return getString(LOGIN_NAME, "");
     }
 
     public static void saveLoginName(String username) {
@@ -200,7 +208,7 @@ public class Global {
      * 获取密码
      */
     public static String getXS_PASSWORD_WORD() {
-        return SharePref.getString(XS_PASSWORD_WORD, "");
+        return getString(XS_PASSWORD_WORD, "");
     }
 
     public static void saveXS_PASSWORD_WORD(String username) {
@@ -253,7 +261,7 @@ public class Global {
     }
 
     public static String getBirthday() {
-        return SharePref.getString(BIRTHDAY, "");
+        return getString(BIRTHDAY, "");
     }
 
 
@@ -261,7 +269,7 @@ public class Global {
      * 获取用户名
      */
     public static String getUserName() {
-        return SharePref.getString(LOGIN_USERNAME, "");
+        return getString(LOGIN_USERNAME, "");
     }
 
     public static void saveUserName(String username) {
@@ -272,7 +280,7 @@ public class Global {
      * 用户唯一标识，数据局中自增长序列
      */
     public static String getUserId() {
-        return SharePref.getString(USERID, "");
+        return getString(USERID, "");
     }
 
     public static void saveUserId(String username) {
@@ -283,7 +291,7 @@ public class Global {
      * 用户唯一标识，数据局中自增长序列
      */
     public static String getCommunityId() {
-        return SharePref.getString(COMMUBITY_ID, "1");
+        return getString(COMMUBITY_ID, "1");
     }
 
     public static void saveCommunityId(String username) {
@@ -294,7 +302,7 @@ public class Global {
      * 用户类型 1-老师；2-家长
      */
     public static String getuserType() {
-        return SharePref.getString(USERTYPE, "");
+        return getString(USERTYPE, "");
     }
 
     public static void saveuserType(String username) {
@@ -305,7 +313,7 @@ public class Global {
      * 密码
      */
     public static String getPassword() {
-        return SharePref.getString(PASSWORD, "");
+        return getString(PASSWORD, "");
     }
 
     public static void savePassword(String username) {
@@ -317,7 +325,7 @@ public class Global {
      * 昵称
      */
     public static String getNickName() {
-        return SharePref.getString(NICKNAME, "");
+        return getString(NICKNAME, "");
     }
 
     public static void saveNickname(String username) {
@@ -328,7 +336,7 @@ public class Global {
      * 头像
      */
     public static String getUserHeadUrl() {
-        return SharePref.getString(PORTRAIT, "");
+        return getString(PORTRAIT, "");
     }
 
     public static void saveUserHeadUrl(String username) {
@@ -338,7 +346,7 @@ public class Global {
      * 头像
      */
     public static String getThumUserHeadUrl() {
-        return SharePref.getString(THUM_PORTRAIT, "");
+        return getString(THUM_PORTRAIT, "");
     }
 
     public static void saveThumUserHeadUrl(String username) {
@@ -349,7 +357,7 @@ public class Global {
      * 电话
      */
     public static String getPhone() {
-        return SharePref.getString(PHONE, "");
+        return getString(PHONE, "");
     }
 
     public static void savePhone(String username) {
@@ -360,7 +368,7 @@ public class Global {
      * 性别
      */
     public static String getGender() {
-        return SharePref.getString(GENDER, "");
+        return getString(GENDER, "");
     }
 
     public static void saveGender(String mGENDER) {
@@ -371,7 +379,7 @@ public class Global {
      * 邮箱
      */
     public static String getEmail() {
-        return SharePref.getString(EMAIL, "");
+        return getString(EMAIL, "");
     }
 
     public static void saveEmail(String username) {
@@ -382,7 +390,7 @@ public class Global {
      * 地址
      */
     public static String getAddress() {
-        return SharePref.getString(ADDRESS, "");
+        return getString(ADDRESS, "");
     }
 
     public static void saveAddress(String username) {
@@ -393,7 +401,7 @@ public class Global {
      * 状态 1-待审核；2-审核通过 当userType为2时有效
      */
     public static String getStatus() {
-        return SharePref.getString(STATUS, "");
+        return getString(STATUS, "");
     }
 
     public static void saveStatus(String username) {
@@ -404,7 +412,7 @@ public class Global {
      * 创建时间 yyyyMMddDDMMSS
      */
     public static String getCreatetimestr() {
-        return SharePref.getString(CREATETIMESTR, "");
+        return getString(CREATETIMESTR, "");
     }
 
     public static void saveCreatetimestr(String username) {
@@ -442,6 +450,65 @@ public class Global {
         EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_USER_EXIT));
     }
 
+    public static void addSearchHistory(int searchType,String keyword){
+        ArrayList<HistorySearchBean> searchHistoryList=new ArrayList<>();
+        String hislistStr=SharePref.getString("SearchHistory", "");
+        if(!hislistStr.equals("")) {
+            final Type searchHistorytype = new TypeToken<ArrayList<HistorySearchBean>>() {
+            }.getType();
+            searchHistoryList=GsonHelper.fromJson(hislistStr,searchHistorytype);
+        }
+        if(searchHistoryList==null)searchHistoryList=new ArrayList<>();
+        if(searchHistoryList.size()>=6){
+            searchHistoryList.remove(0);
+        }
+        int index=-1;
+        for(int i=0;i<searchHistoryList.size();i++){
+            if(searchHistoryList.get(i).getKeyword().equals(keyword)){
+                index=i;
+            }
+        }
+        if(index!=-1){
+            searchHistoryList.remove(index);
+        }
+        searchHistoryList.add(new HistorySearchBean(searchType,keyword));
+        SharePref.saveString("SearchHistory", GsonHelper.toJson(searchHistoryList));
+    }
+    public static ArrayList<HistorySearchBean> getSearchHistory(){
+        ArrayList<HistorySearchBean> searchHistoryList=new ArrayList<>();
+        String hislistStr=SharePref.getString("SearchHistory", "");
+        if(!hislistStr.equals("")) {
+            final Type searchHistorytype = new TypeToken<ArrayList<HistorySearchBean>>() {
+            }.getType();
+            searchHistoryList=GsonHelper.fromJson(hislistStr,searchHistorytype);
+        }
+        if(searchHistoryList==null)searchHistoryList=new ArrayList<>();
+        return searchHistoryList;
+    }
+    public static void delSearchHistory(String keyword){
+        ArrayList<HistorySearchBean> searchHistoryList=new ArrayList<>();
+        String hislistStr=SharePref.getString("SearchHistory", "");
+        if(!hislistStr.equals("")) {
+            final Type searchHistorytype = new TypeToken<ArrayList<HistorySearchBean>>() {
+            }.getType();
+            searchHistoryList=GsonHelper.fromJson(hislistStr,searchHistorytype);
+        }
+        if(searchHistoryList==null)searchHistoryList=new ArrayList<>();
+        int index=-1;
+        for(int i=0;i<searchHistoryList.size();i++){
+            if(searchHistoryList.get(i).getKeyword().equals(keyword)){
+                index=i;
+            }
+        }
+        Log.e("sub","index="+index);
+        if(index!=-1){
+            searchHistoryList.remove(index);
+        }
+        SharePref.saveString("SearchHistory", GsonHelper.toJson(searchHistoryList));
+    }
+    public static void delAllSearchHistory(){
+       SharePref.saveString("SearchHistory", "");
+    }
     /**
      * <退出应用>
      */
@@ -478,7 +545,7 @@ public class Global {
     }
 
     public static String getlangitude() {
-        return SharePref.getString(Constants.LANGITUDE, "");
+        return getString(Constants.LANGITUDE, "");
     }
 
     public static void savelatitude(String name) {
@@ -486,7 +553,7 @@ public class Global {
     }
 
     public static String getlatitude() {
-        return SharePref.getString(Constants.LATITUDE, "");
+        return getString(Constants.LATITUDE, "");
     }
 
     public static void saveCity(String name) {
@@ -494,7 +561,7 @@ public class Global {
     }
 
     public static String getCity() {
-        return SharePref.getString(Constants.CITY_NAME, "");
+        return getString(Constants.CITY_NAME, "");
     }
 
     public static void saveDistrict(String name) {
@@ -502,6 +569,6 @@ public class Global {
     }
 
     public static String getDistrict() {
-        return SharePref.getString(Constants.DISTRICT_NAME, "");
+        return getString(Constants.DISTRICT_NAME, "");
     }
 }

@@ -25,6 +25,7 @@ import com.fengqipu.mall.bean.cart.GoodsBean;
 import com.fengqipu.mall.bean.search.SearchShopsResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
+import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.base.BaseActivity;
@@ -94,7 +95,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
         pageNum=1;
         initBtmList();
     }
-
+    private String category2="";
     private void initBtmList() {
         isloading=true;
 //        myLoading.setVisibility(View.GONE);
@@ -110,8 +111,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
 //        goodsList.add(g4);
 //        goodsList.add(g5);
 //        lAdapter.notifyDataSetChanged();
-        UserServiceImpl.instance().getSearchGList(this,"2",etSearch.getText().toString(),order + "", "",pageNum,pageSize,SearchShopsResponse.class.getName());
-
+        UserServiceImpl.instance().getSearchShopsList((searchType+1)+"",etSearch.getText().toString(),order + "", category2,pageNum,pageSize,SearchShopsResponse.class.getName());
     }
     private int order = 1;
     int totalCount=0;
@@ -215,6 +215,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
 
     private void searchKeyWord() {
         if (GeneralUtils.isNotNullOrZeroLenght(etSearch.getText().toString())) {
+            Global.addSearchHistory(searchType,etSearch.getText().toString());
             initData();
         } else {
             ToastUtil.makeText(mContext, "请输入搜索内容");

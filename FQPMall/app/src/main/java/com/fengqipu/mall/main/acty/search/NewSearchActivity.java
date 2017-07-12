@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,13 +21,22 @@ import com.fengqipu.mall.R;
 import com.fengqipu.mall.adapter.CommonAdapter;
 import com.fengqipu.mall.adapter.ViewHolder;
 import com.fengqipu.mall.bean.BaseResponse;
+import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
-import com.fengqipu.mall.bean.search.SearchBean;
+import com.fengqipu.mall.bean.search.HistorySearchBean;
+import com.fengqipu.mall.bean.search.HotSearchResponse;
+import com.fengqipu.mall.constant.Constants;
+import com.fengqipu.mall.constant.ErrorCode;
+import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.base.BaseActivity;
+import com.fengqipu.mall.network.GsonHelper;
+import com.fengqipu.mall.network.UserServiceImpl;
+import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.DialogUtil;
 import com.fengqipu.mall.tools.GeneralUtils;
+import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
 import com.fengqipu.mall.view.MyGridView;
 
@@ -55,10 +65,10 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
     @Bind(R.id.btn_qkls)
     LinearLayout btnQkls;
 
-    private CommonAdapter<SearchBean> rmAdapter;
-    private CommonAdapter<SearchBean> lsAdapter;
-    private List<SearchBean> rmList=new ArrayList<>();
-    private List<SearchBean> lsList=new ArrayList<>();
+    private CommonAdapter<String> rmAdapter;
+    private CommonAdapter<HistorySearchBean> lsAdapter;
+    private List<String> rmList=new ArrayList<>();
+    private List<HistorySearchBean> lsList=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,41 +81,91 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void initView() {
-        rmAdapter=new CommonAdapter<SearchBean>(this,rmList,R.layout.item_search_tag) {
+        rmAdapter=new CommonAdapter<String>(this,rmList,R.layout.item_search_tag) {
             @Override
-            public void convert(ViewHolder helper, SearchBean item) {
-
+            public void convert(ViewHolder helper, String item) {
+                TextView comment_name_tv=helper.getView(R.id.comment_name_tv);
+                comment_name_tv.setText(item);
             }
         };
         gridviewRmss.setAdapter(rmAdapter);
-        lsAdapter=new CommonAdapter<SearchBean>(this,lsList,R.layout.item_search_tag) {
+        gridviewRmss.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void convert(ViewHolder helper, SearchBean item) {
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item=(String) adapterView.getItemAtPosition(i);
+                searchKeyWord(searchtype,item);
+            }
+        });
+        lsAdapter=new CommonAdapter<HistorySearchBean>(this,lsList,R.layout.item_search_tag) {
+            @Override
+            public void convert(ViewHolder helper, HistorySearchBean item) {
+                TextView comment_name_tv=helper.getView(R.id.comment_name_tv);
+                comment_name_tv.setText(item.getKeyword());
             }
         };
         gridviewLsss.setAdapter(lsAdapter);
+        gridviewLsss.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                HistorySearchBean item=(HistorySearchBean)adapterView.getItemAtPosition(i);
+                searchKeyWord(item.getSearchType(),item.getKeyword());
+            }
+        });
         gridviewLsss.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                SearchBean item=(SearchBean)adapterView.getItemAtPosition(i);
+                HistorySearchBean item=(HistorySearchBean)adapterView.getItemAtPosition(i);
+                delitem=item;
                 DialogUtil.showNoTipTwoBnttonDialog(mContext
-                        , "您确定要删除"+item.getName()+"吗?"
+                        , "您确定要删除"+item.getKeyword()+"吗?"
                         , "取消"
                         , "确定"
-                        , NotiTag.TAG_DEL_GOODS_CANCEL, NotiTag.TAG_DEL_GOODS_OK);
+                        , NotiTag.TAG_DEL_GOODS_CANCEL, "TAG_DEL_GOODS_OK_ITEM");
                 return false;
             }
         });
     }
+    HistorySearchBean delitem;
     @Override
     public void onEventMainThread(BaseResponse event) {
         if (event instanceof NoticeEvent) {
             String tag = ((NoticeEvent) event).getTag();
             if (NotiTag.TAG_DEL_GOODS_OK.equals(tag)) {
-
+                Global.delAllSearchHistory();
+                initHistorySearch();
+            }
+            if ("TAG_DEL_GOODS_OK_ITEM".equals(tag)) {
+                Log.e("sub","del="+delitem.getKeyword());
+                if(delitem!=null){
+                    Global.delSearchHistory(delitem.getKeyword());
+                    initHistorySearch();
+                }
+            }
+            if(NotiTag.TAG_DEL_GOODS_CANCEL.equals(tag)){
+                delitem=null;
+            }
+        }else if (event instanceof NetResponseEvent) {
+            NetLoadingDialog.getInstance().dismissDialog();
+            String tag = ((NetResponseEvent) event).getTag();
+            String result = ((NetResponseEvent) event).getResult();
+            if (tag.equals(HotSearchResponse.class.getName())) {
+                HotSearchResponse  hotSearchResponse= GsonHelper.toType(result, HotSearchResponse.class);
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    CMLog.e(Constants.HTTP_TAG, result);
+                    if (Constants.SUCESS_CODE.equals(hotSearchResponse.getResultCode())) {
+                        rmList.clear();
+                        rmList.addAll(hotSearchResponse.getWordsList());
+                        rmAdapter.setData(rmList);
+                        rmAdapter.notifyDataSetChanged();
+                    } else {
+                        ErrorCode.doCode(this, hotSearchResponse.getResultCode(), hotSearchResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(this);
+                }
             }
         }
+
     }
     @Override
     public void initViewData() {
@@ -123,20 +183,36 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                 searchTv.setText("商品");
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initData();
     }
 
     private void initData() {
-        SearchBean s1=new SearchBean();
-        SearchBean s2=new SearchBean();
-        SearchBean s3=new SearchBean();
-        SearchBean s4=new SearchBean();
-        rmList.add(s1);rmList.add(s2);rmList.add(s3);rmList.add(s4);
-        lsList.add(s1);lsList.add(s2);lsList.add(s3);lsList.add(s4);
-        rmAdapter.notifyDataSetChanged();
-        lsAdapter.notifyDataSetChanged();
+//        SearchBean s1=new SearchBean();
+//        SearchBean s2=new SearchBean();
+//        SearchBean s3=new SearchBean();
+//        SearchBean s4=new SearchBean();
+//        rmList.add(s1);rmList.add(s2);rmList.add(s3);rmList.add(s4);
+//        rmAdapter.notifyDataSetChanged();
+        initHotSearch();
+        initHistorySearch();
 //        CommonMethod.setListViewHeightBasedOnChildren(gridviewRmss);
 //        CommonMethod.setListViewHeightBasedOnChildren(gridviewLsss);
+    }
+
+    private void initHotSearch() {
+        UserServiceImpl.instance().getHotKeywords((searchtype+1)+"",HotSearchResponse.class.getName());
+    }
+
+    private void initHistorySearch() {
+        ArrayList<HistorySearchBean> searchHislist=Global.getSearchHistory();
+        lsList.clear();
+        lsList.addAll(searchHislist);
+        lsAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -151,7 +227,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
             @Override
             public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
                 if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
-                    searchKeyWord();
+                    searchKeyWord(searchtype,etSearch.getText().toString());
                 }
                 return false;
             }
@@ -177,20 +253,21 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
             }
         });
     }
-    private void searchKeyWord(){
-        if (GeneralUtils.isNotNullOrZeroLenght(etSearch.getText().toString())){
+    private void searchKeyWord(int searchtype,String keyword){
+        if (GeneralUtils.isNotNullOrZeroLenght(keyword)){
+            Global.addSearchHistory(searchtype,keyword);
             if(searchtype==2){
                 Intent intent = new Intent(mContext, SearchGoodsActivity.class);
-                intent.putExtra(IntentCode.SEARCH_KEYORD,etSearch.getText().toString());
+                intent.putExtra(IntentCode.SEARCH_KEYORD,keyword);
                 startActivity(intent);
             }else if(searchtype==1){
                 Intent intent = new Intent(mContext, SearchShopsActivity.class);
-                intent.putExtra(IntentCode.SEARCH_KEYORD,etSearch.getText().toString());
+                intent.putExtra(IntentCode.SEARCH_KEYORD,keyword);
                 intent.putExtra("SearchType",searchtype);
                 startActivity(intent);
             }else{
                 Intent intent = new Intent(mContext, SearchShopsActivity.class);
-                intent.putExtra(IntentCode.SEARCH_KEYORD,etSearch.getText().toString());
+                intent.putExtra(IntentCode.SEARCH_KEYORD,keyword);
                 intent.putExtra("SearchType",searchtype);
                 startActivity(intent);
             }
@@ -210,7 +287,7 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                         , NotiTag.TAG_DEL_GOODS_CANCEL, NotiTag.TAG_DEL_GOODS_OK);
                 break;
             case R.id.btn_ss:
-                searchKeyWord();
+                searchKeyWord(searchtype,etSearch.getText().toString());
                 break;
             case R.id.iv_search_clear:
                 etSearch.setText("");
@@ -227,18 +304,21 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
                 searchTv.setText("企业");
                 searchtype=0;
                 popupWindow.dismiss();
+                initHotSearch();
                 break;
             case R.id.pw_shop_tv:
                 etSearch.setHint("搜您想要的商铺");
                 searchTv.setText("商铺");
                 searchtype=1;
                 popupWindow.dismiss();
+                initHotSearch();
                 break;
             case R.id.pw_goods_tv:
                 etSearch.setHint("搜您想要的商品");
                 searchTv.setText("商品");
                 searchtype=2;
                 popupWindow.dismiss();
+                initHotSearch();
                 break;
         }
     }

@@ -316,7 +316,7 @@ public class UserServiceImpl
     }
 
     /**
-     * 搜索企业商品
+     * 搜索商品
      */
     public void getSearchGList(Context context,String contentType,String keyword,String order,String sort, int pageNo, int pageSize, String tag)
     {
@@ -336,7 +336,37 @@ public class UserServiceImpl
         new NetWork().
                 startPost(URLUtil.SEARCH_KEYWORD, param, tag);
     }
-
+    /**
+     * 搜索商品
+     * 类型
+     1-	商品
+     2-	企业
+     3-	商铺
+     */
+    public void getHotKeywords(String type, String tag)
+    {
+        Map<String, String> param=new HashMap<String, String>();
+        param.put("type",type);
+        new NetWork().
+                startPost(URLUtil.GET_HOTKEYWORD_LIST, param, tag);
+    }
+    /**
+     * 搜索商品
+     */
+    public void getSearchShopsList(String type,String keyword,String order,String category2, int pageNo, int pageSize, String tag)
+    {
+        Map<String, String> param=new HashMap<String, String>();
+        param.put("type",type);
+        param.put("category2",category2);
+        param.put("keyword",keyword);
+        param.put("pageNo",pageNo+"");
+        param.put("pageSize",pageSize+"");
+        if(!order.equals("")){
+            param.put("order",order+"");
+        }
+        new NetWork().
+                startPost(URLUtil.SEARCH_SHOPS_KEYWORD, param, tag);
+    }
     /**
      * 上传图片
      */
