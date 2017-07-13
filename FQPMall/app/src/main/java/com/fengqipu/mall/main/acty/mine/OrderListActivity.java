@@ -1,5 +1,6 @@
 package com.fengqipu.mall.main.acty.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -63,10 +64,10 @@ public class OrderListActivity extends BaseActivity {
     public void initEvent() {
 
     }
-
+    HeadView headView;
     private void initTitle() {
         View view = findViewById(R.id.common_back);
-        HeadView headView = new HeadView((ViewGroup) view);
+        headView = new HeadView((ViewGroup) view);
         headView.setLeftImage(R.mipmap.app_title_back);
         if(orderstate!=5){
             headView.setTitleText("我的订单");
@@ -143,7 +144,9 @@ public class OrderListActivity extends BaseActivity {
             if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 finish();
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag)) {
-
+                if(headView.getTvTitle().getText().toString().equals("我的订单")){
+                    startActivity(new Intent(OrderListActivity.this,OrderSearchActivity.class));
+                }
             }
         }
     }
