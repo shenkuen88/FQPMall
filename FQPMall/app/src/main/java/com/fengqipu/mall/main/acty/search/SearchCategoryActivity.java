@@ -1,10 +1,8 @@
 package com.fengqipu.mall.main.acty.search;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,6 +13,7 @@ import com.fengqipu.mall.adapter.ViewHolder;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
+import com.fengqipu.mall.bean.category.Category;
 import com.fengqipu.mall.bean.category.CategoryResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
@@ -29,21 +28,19 @@ import com.fengqipu.mall.tools.CommonMethod;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
-import com.fengqipu.mall.tools.V;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.greenrobot.event.EventBus;
 
 public class SearchCategoryActivity extends BaseActivity {
 
     @Bind(R.id.my_listview)
     ListView myListview;
-    private CommonAdapter<CategoryResponse.Category> mAdapter;
-    private List<CategoryResponse.Category> mlist = new ArrayList<>();
+    private CommonAdapter<Category> mAdapter;
+    private List<Category> mlist = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,32 +55,34 @@ public class SearchCategoryActivity extends BaseActivity {
     @Override
     public void initView() {
         initTitle();
-        mAdapter = new CommonAdapter<CategoryResponse.Category>(SearchCategoryActivity.this, mlist, R.layout.item_search_category) {
+        mAdapter = new CommonAdapter<Category>(SearchCategoryActivity.this, mlist, R.layout.item_search_category) {
             @Override
-            public void convert(ViewHolder helper, CategoryResponse.Category item) {
+            public void convert(ViewHolder helper,final Category item) {
                 TextView tv_name = helper.getView(R.id.tv_name);
                 tv_name.setText(item.getCategoryName());
                 ImageView iv_pic = helper.getView(R.id.iv_pic);
+                if(item.getCategoryName().equals("全部分类")){
+                    iv_pic.setVisibility(View.GONE);
+                }
                 ListView sub_listview = helper.getView(R.id.sub_listview);
-                List<CategoryResponse.Category> sitems = categoryResponse.getSubCategoryListMap().get(item.getId());
+                List<Category> sitems = categoryResponse.getSubCategoryListMap().get(item.getId());
                 if (sitems != null) {
-                    CommonAdapter<CategoryResponse.Category> subAdpater = new CommonAdapter<CategoryResponse.Category>(SearchCategoryActivity.this, sitems, R.layout.item_search_category_sub) {
+                    CommonAdapter<Category> subAdpater = new CommonAdapter<Category>(SearchCategoryActivity.this, sitems, R.layout.item_search_category_sub) {
                         @Override
-                        public void convert(ViewHolder helper, CategoryResponse.Category item) {
+                        public void convert(ViewHolder helper,final Category item) {
                             helper.setText(R.id.tv_name, item.getCategoryName());
+                            helper.getConvertView().setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+//                                    EventBus.getDefault().post(new NoticeEvent("SearchCategory",item.getId()));
+                                    SearchShopsActivity.category2=item.getId();
+                                    finish();
+                                }
+                            });
                         }
                     };
                     sub_listview.setAdapter(subAdpater);
                     CommonMethod.setListViewHeightBasedOnChildren(sub_listview);
-                    sub_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            CategoryResponse.Category item = (CategoryResponse.Category) adapterView.getItemAtPosition(i);
-                            EventBus.getDefault().post(new NoticeEvent("SearchCategory",item.getId()));
-                            finish();
-
-                        }
-                    });
                 }
                 sub_listview.setVisibility(View.GONE);
                 iv_pic.setImageResource(R.mipmap.arrow_down);
@@ -91,34 +90,26 @@ public class SearchCategoryActivity extends BaseActivity {
                     sub_listview.setVisibility(View.VISIBLE);
                     iv_pic.setImageResource(R.mipmap.arrow_up);
                 }
+                helper.getConvertView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(item.getCategoryName().equals("全部分类")){
+//                            EventBus.getDefault().post(new NoticeEvent("SearchCategory",item.getId()));
+                            SearchShopsActivity.category2="";
+                            finish();
+                        }else {
+                            if (selid.equals(item.getId())) {
+                                selid = "";
+                            } else {
+                                selid = item.getId();
+                            }
+                            myListview.setAdapter(mAdapter);
+                        }
+                    }
+                });
             }
         };
         myListview.setAdapter(mAdapter);
-        myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                CategoryResponse.Category item = (CategoryResponse.Category) adapterView.getItemAtPosition(i);
-                if (selid.equals(item.getId())) {
-                    selid = "";
-                } else {
-                    selid = item.getId();
-                }
-                myListview.setAdapter(mAdapter);
-            }
-        });
-        View mHeaderView = LayoutInflater.from(SearchCategoryActivity.this).inflate(R.layout.item_search_category, null);
-        TextView tv_name = V.f(mHeaderView, R.id.tv_name);
-        tv_name.setText("全部分类");
-        ImageView iv_pic = V.f(mHeaderView, R.id.iv_pic);
-        iv_pic.setVisibility(View.GONE);
-        mHeaderView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EventBus.getDefault().post(new NoticeEvent("SearchCategory",""));
-                finish();
-            }
-        });
-        myListview.addHeaderView(mHeaderView);
     }
 
     private void initTitle() {
@@ -159,6 +150,10 @@ public class SearchCategoryActivity extends BaseActivity {
                     CMLog.e(Constants.HTTP_TAG, result);
                     if (Constants.SUCESS_CODE.equals(categoryResponse.getResultCode())) {
                         mlist.clear();
+                        Category category=new Category();
+                        category.setId("");
+                        category.setCategoryName("全部分类");
+                        mlist.add(category);
                         mlist.addAll(categoryResponse.getParentCategoryList());
                         mAdapter.setData(mlist);
                         mAdapter.notifyDataSetChanged();

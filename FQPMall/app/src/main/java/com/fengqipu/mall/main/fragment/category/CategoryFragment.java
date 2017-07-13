@@ -18,6 +18,7 @@ import com.fengqipu.mall.adapter.CommonAdapter;
 import com.fengqipu.mall.adapter.ViewHolder;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
+import com.fengqipu.mall.bean.category.Category;
 import com.fengqipu.mall.bean.category.CategoryResponse;
 import com.fengqipu.mall.bean.category.LeftBean;
 import com.fengqipu.mall.bean.category.RightBean;
@@ -214,7 +215,7 @@ public class CategoryFragment extends BaseFragment {
         if(categoryResponse.getSubCategoryListMap().get(cid)!=null) {
             for (int i = 0; i < categoryResponse.getSubCategoryListMap().get(cid).size(); i++) {
                 List<RightBean.SubRightBean> relist = new ArrayList<RightBean.SubRightBean>();
-                CategoryResponse.Category item = categoryResponse.getSubCategoryListMap().get(cid).get(i);
+                Category item = categoryResponse.getSubCategoryListMap().get(cid).get(i);
                 if (item != null) {
                     List<CategoryResponse.ContentType> subitems = categoryResponse.getContentTypeListMap().get(item.getId());
                     if (subitems != null) {
@@ -305,7 +306,7 @@ public class CategoryFragment extends BaseFragment {
                     categoryResponse = GsonHelper.toType(result, CategoryResponse.class);
                     if (Constants.SUCESS_CODE.equals(categoryResponse.getResultCode())) {
                         List<LeftBean> tolLeftList = new ArrayList<LeftBean>();
-                        for (CategoryResponse.Category item : categoryResponse.getParentCategoryList()) {
+                        for (Category item : categoryResponse.getParentCategoryList()) {
 //
                             LeftBean leftBean = new LeftBean("", item.getId(), item.getCategoryName(),item.getCoverRequestUrl() , item.getLink());
                             tolLeftList.add(leftBean);

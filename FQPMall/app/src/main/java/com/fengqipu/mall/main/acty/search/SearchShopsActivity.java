@@ -82,8 +82,12 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_shops);
         ButterKnife.bind(this);
-        keyword = getIntent().getStringExtra(IntentCode.SEARCH_KEYORD);
-        searchType = getIntent().getIntExtra("SearchType", 0);
+        try {
+            keyword = getIntent().getStringExtra(IntentCode.SEARCH_KEYORD);
+            searchType = getIntent().getIntExtra("SearchType", 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         initAll();
     }
 
@@ -97,7 +101,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
         initBtmList();
     }
 
-    private String category2 = "";
+    public static String category2 = "";
 
     private void initBtmList() {
         isloading = true;
@@ -185,6 +189,11 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
         } else {
             etSearch.setHint("搜您想要的商铺");
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initData();
     }
 
@@ -304,15 +313,11 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
             if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
             }
-            if("SearchCategory".equals(tag)){
-                String str=((NoticeEvent) event).getText();
-                if(!str.equals("")){
-                    category2=str;
-                }else{
-                    category2="";
-                }
-                initData();
-            }
+//            if("SearchCategory".equals(tag)){
+//                String str=((NoticeEvent) event).getText();
+//                category2=str;
+//                initData();
+//            }
         } else if (event instanceof NetResponseEvent) {
             NetLoadingDialog.getInstance().dismissDialog();
             String tag = ((NetResponseEvent) event).getTag();

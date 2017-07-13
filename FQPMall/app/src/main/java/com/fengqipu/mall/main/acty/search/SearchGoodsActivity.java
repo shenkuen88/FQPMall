@@ -22,7 +22,6 @@ import com.fengqipu.mall.adapter.ViewHolder;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
-import com.fengqipu.mall.bean.cart.GoodsBean;
 import com.fengqipu.mall.bean.search.SearchGoodsResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
@@ -34,6 +33,7 @@ import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.network.GsonHelper;
 import com.fengqipu.mall.network.UserServiceImpl;
 import com.fengqipu.mall.tools.CMLog;
+import com.fengqipu.mall.tools.CommonMethod;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
@@ -89,9 +89,9 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
     @Bind(R.id.sx_ll)
     LinearLayout sxLl;
 
-    private CommonAdapter<GoodsBean> lAdapter;
-    private CommonAdapter<GoodsBean> gAdapter;
-    private List<GoodsBean> goodsList = new ArrayList<>();
+    private CommonAdapter<SearchGoodsResponse.ContentListBean> lAdapter;
+    private CommonAdapter<SearchGoodsResponse.ContentListBean> gAdapter;
+    private List<SearchGoodsResponse.ContentListBean> goodsList = new ArrayList<>();
     String keyword = "";
     int searchType = 0;
 
@@ -139,16 +139,39 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void initViewData() {
-        lAdapter = new CommonAdapter<GoodsBean>(this, goodsList, R.layout.item_his_g) {
+        lAdapter = new CommonAdapter<SearchGoodsResponse.ContentListBean>(this, goodsList, R.layout.item_his_g) {
             @Override
-            public void convert(ViewHolder helper, GoodsBean item) {
-
+            public void convert(ViewHolder helper, SearchGoodsResponse.ContentListBean item) {
+                helper.setText(R.id.goods_info, item.getContentName());
+                helper.setText(R.id.goods_price, "￥" + item.getPrice());
+                helper.setText(R.id.goods_time,""+item.getCreateTime());
+                if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrl1RequestUrl())) {
+                    ImageView img = helper.getView(R.id.img);
+//                            ImageLoaderUtil.getInstance().initImage(mContext, item.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
+                    GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl1RequestUrl(), img, R.drawable.default_head);
+                }
             }
         };
-        gAdapter = new CommonAdapter<GoodsBean>(this, goodsList, R.layout.index_btm_grid) {
+        gAdapter = new CommonAdapter<SearchGoodsResponse.ContentListBean>(this, goodsList, R.layout.index_btm_grid) {
             @Override
-            public void convert(ViewHolder helper, GoodsBean item) {
-
+            public void convert(ViewHolder helper, SearchGoodsResponse.ContentListBean item) {
+                ImageView img = helper.getView(R.id.img);
+                TextView title = helper.getView(R.id.title);
+                TextView location = helper.getView(R.id.location);
+                TextView xl = helper.getView(R.id.xl);
+                TextView price = helper.getView(R.id.price);
+//                TextView hpd=helper.getView(R.id.hpd);
+                if (item.getPicUrl1RequestUrl() != null && !item.getPicUrl1RequestUrl().equals("")) {
+                    GeneralUtils.setImageViewWithUrl(SearchGoodsActivity.this, item.getPicUrl1RequestUrl(), img, R.drawable.default_bg);
+                }
+                title.setText("" + item.getContentName());
+                location.setText("" + item.getShopProvince() + " " + item.getShopCity());
+                if (item.getMonthSales() != null && !item.getMonthSales().equals("")) {
+                    xl.setText("月销量" + item.getMonthSales() + "笔");
+                } else {
+                    xl.setText("月销量0笔");
+                }
+                price.setText("￥" + item.getPrice());
             }
         };
         myListview.setAdapter(lAdapter);
@@ -351,16 +374,16 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
                             goodsList.clear();
                         }
                         isloading = false;
-//                        totalCount = goodsEnterpriseResponse.getTotalCount();
-//                        if (goodsEnterpriseResponse.getContentList() != null && goodsEnterpriseResponse.getContentList().size() > 0) {
-//                            goodsList.addAll(goodsEnterpriseResponse.getContentList());
-//                            gAdapter.setData(goodsList);
-//                            lAdapter.setData(goodsList);
-//                            gAdapter.notifyDataSetChanged();
-//                            lAdapter.notifyDataSetChanged();
-//                            CommonMethod.setListViewHeightBasedOnChildren(myListview);
-//                            CommonMethod.setListViewHeightBasedOnChildren(myGridview);
-//                        }
+                        totalCount = searchGoodsResponse.getTotalCount();
+                        if (searchGoodsResponse.getContentList() != null && searchGoodsResponse.getContentList().size() > 0) {
+                            goodsList.addAll(searchGoodsResponse.getContentList());
+                            gAdapter.setData(goodsList);
+                            lAdapter.setData(goodsList);
+                            gAdapter.notifyDataSetChanged();
+                            lAdapter.notifyDataSetChanged();
+                            CommonMethod.setListViewHeightBasedOnChildren(myListview);
+                            CommonMethod.setListViewHeightBasedOnChildren(myGridview);
+                        }
                     } else {
                         ErrorCode.doCode(this, searchGoodsResponse.getResultCode(), searchGoodsResponse.getDesc());
                     }

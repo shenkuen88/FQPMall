@@ -233,9 +233,11 @@
         <activity android:name=".main.acty.mine.OneButtonShopActivity" />
         <activity android:name=".main.acty.search.NewSearchActivity" />
         <activity android:name=".main.acty.search.SearchGoodsActivity" />
-        <activity android:name=".main.acty.search.SearchShopsActivity" />
+        <activity android:name=".main.acty.search.SearchShopsActivity"
+            android:launchMode="singleInstance"/>
         <activity android:name=".main.acty.huodong.HuoDongActivity" />
-        <activity android:name=".main.acty.search.SearchCategoryActivity"></activity>
+        <activity android:name=".main.acty.search.SearchCategoryActivity"
+            android:launchMode="singleInstance"></activity>
     </application>
 
 </manifest>
