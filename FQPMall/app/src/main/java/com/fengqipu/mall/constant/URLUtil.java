@@ -301,6 +301,11 @@ public class URLUtil
      * 收藏内容
      */
     public static final String AddFavour = SERVER_BASE + "favorite/add";
+    /**
+     * 热门城市
+     */
+    public static final String HOTCITY = SERVER_BASE + "address/hot";
+
 
     /**
      * 意见反馈

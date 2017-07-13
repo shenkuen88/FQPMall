@@ -1,11 +1,18 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="horizontal">
+    >
+    <com.fengqipu.mall.view.MyScrollView1
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_weight="6"
         android:layout_height="match_parent"
         android:orientation="vertical">
     <LinearLayout
@@ -74,7 +81,7 @@
             android:background="@color/line"></View>
 
         <RelativeLayout
-            android:id="@+id/nick_rl"
+            android:id="@+id/fenlei_rl"
             style="@style/mine_top_select_rl"
             android:layout_below="@+id/user_name_rl">
 
@@ -106,13 +113,14 @@
         android:textColor="#4a4a4a"
         android:textSize="16sp" />
     <TextView
+        android:layout_marginTop="5dp"
         android:layout_width="80dp"
         android:layout_height="35dp"
         android:layout_marginLeft="15dp"
         android:gravity="center"
         android:text="上海"
         android:background="@drawable/price_rec"
-        android:textColor="#4a4a4a"
+        android:textColor="#979797"
         android:layout_marginBottom="10dp"
         android:textSize="16sp" />
     <View
@@ -127,24 +135,26 @@
         android:text="城市"
         android:textColor="#4a4a4a"
         android:textSize="16sp" />
-    <GridView
+    <com.fengqipu.mall.view.MyGridView
         android:layout_marginTop="5dp"
         android:id="@+id/my_grid_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:background="@color/white"
+        android:horizontalSpacing="7dp"
+        android:verticalSpacing="7dp"
         android:gravity="center"
         android:numColumns="3"
-        android:stretchMode="columnWidth"></GridView>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/line"></View>
+        android:stretchMode="columnWidth"></com.fengqipu.mall.view.MyGridView>
+    </LinearLayout>
+    </com.fengqipu.mall.view.MyScrollView1>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_gravity="bottom"
         android:background="@color/white"
         android:gravity="center"
         android:orientation="horizontal">
@@ -173,5 +183,4 @@
             android:textColor="@color/white"
             android:textSize="@dimen/pxtosp26" />
     </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+</FrameLayout>

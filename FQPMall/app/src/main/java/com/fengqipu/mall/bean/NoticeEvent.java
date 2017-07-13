@@ -22,7 +22,6 @@ public class NoticeEvent extends BaseResponse {
         this.setTag(tag);
         this.setText(text);
     }
-
     public NoticeEvent(String tag, int position, String text) {
         this.setTag(tag);
         this.setPosition(position);

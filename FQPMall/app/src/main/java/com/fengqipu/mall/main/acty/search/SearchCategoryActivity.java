@@ -34,6 +34,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
 public class SearchCategoryActivity extends BaseActivity {
 
@@ -74,8 +75,7 @@ public class SearchCategoryActivity extends BaseActivity {
                             helper.getConvertView().setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-//                                    EventBus.getDefault().post(new NoticeEvent("SearchCategory",item.getId()));
-                                    SearchShopsActivity.category2=item.getId();
+                                    EventBus.getDefault().post(new NoticeEvent("SearchCategory",item.getId(),item.getCategoryName()));
                                     finish();
                                 }
                             });
@@ -94,8 +94,7 @@ public class SearchCategoryActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         if(item.getCategoryName().equals("全部分类")){
-//                            EventBus.getDefault().post(new NoticeEvent("SearchCategory",item.getId()));
-                            SearchShopsActivity.category2="";
+                            EventBus.getDefault().post(new NoticeEvent("SearchCategory",item.getId(),item.getCategoryName()));
                             finish();
                         }else {
                             if (selid.equals(item.getId())) {

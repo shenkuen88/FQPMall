@@ -57,6 +57,11 @@ public class UserServiceImpl
         param.put("objectID",sid);
         new NetWork().startPost(URLUtil.AddFavour, param, tag);
     }
+    //获取热门城市
+    public void getHotCity(String tag) {
+        Map<String, String> param = new HashMap<String, String>();
+        new NetWork().startPost(URLUtil.HOTCITY, param, tag);
+    }
     /**
      * 获取Banner
      * 业务类型0-首页  1-在线教育  2-母婴儿童   3装修
@@ -318,9 +323,21 @@ public class UserServiceImpl
     /**
      * 搜索商品
      */
-    public void getSearchGList(Context context,String contentType,String keyword,String order,String sort, int pageNo, int pageSize, String tag)
+    public void getSearchGList(String city,String minPirce,String maxPrice,String category2,String contentType,String keyword,String order,String sort, int pageNo, int pageSize, String tag)
     {
         Map<String, String> param=new HashMap<String, String>();
+        if(!city.equals("")) {
+            param.put("city", city);
+        }
+        if(!minPirce.equals("")) {
+            param.put("minPirce", minPirce);
+        }
+        if(!maxPrice.equals("")){
+            param.put("maxPrice", maxPrice);
+        }
+        if(!category2.equals("")){
+            param.put("category2", category2);
+        }
         param.put("contentType",contentType);
         param.put("keyword",keyword);
         param.put("pageNo",pageNo+"");

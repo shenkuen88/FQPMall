@@ -120,10 +120,13 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
 //        goodsList.add(g5);
 //        lAdapter.notifyDataSetChanged();
 //        gAdapter.notifyDataSetChanged();
-        UserServiceImpl.instance().getSearchGList(this, contentType, etSearch.getText().toString(), order + "", jgtype + "", pageNum, pageSize, SearchGoodsResponse.class.getName());
+        UserServiceImpl.instance().getSearchGList(selCityName,minPrice,maxPrice, category2,contentType, etSearch.getText().toString(), order + "", jgtype + "", pageNum, pageSize, SearchGoodsResponse.class.getName());
     }
 
     private int order = 1;
+    String minPrice="";
+    String maxPrice="";
+    String selCityName="";
 
     @Override
     public void initViewData() {
@@ -197,6 +200,12 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
             ivSearchClear.setVisibility(View.VISIBLE);
         }
         initData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UserServiceImpl.instance().getHotCity(CityResponse.class.getName());
     }
 
     @Override
@@ -336,10 +345,36 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
                 Drawable nav_original2 = getResources().getDrawable(R.mipmap.price_original);
                 nav_original2.setBounds(0, 0, nav_original2.getMinimumWidth(), nav_original2.getMinimumHeight());
                 btnJg.setCompoundDrawables(null, null, nav_original2, null);
-                if(shaiXuanDialog==null) {
-                    shaiXuanDialog = new ShaiXuanDialog(SearchGoodsActivity.this, new CityResponse());
+                if(shaiXuanDialog==null&&cityResponse!=null) {
+                    shaiXuanDialog = new ShaiXuanDialog(SearchGoodsActivity.this, cityResponse);
                 }
-                shaiXuanDialog.show();
+                if(shaiXuanDialog!=null){
+                    shaiXuanDialog.show();
+                    shaiXuanDialog.setBtnCzListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            shaiXuanDialog.minPrice.setText("");
+                            shaiXuanDialog.maxPrice.setText("");
+                            shaiXuanDialog.fenleiTv.setText("全部");
+                            category2="";
+                            minPrice="";
+                            maxPrice="";
+                            shaiXuanDialog.selID="";
+                            shaiXuanDialog.selName="";
+                            shaiXuanDialog.mAdapter.notifyDataSetChanged();
+                        }
+                    });
+                    shaiXuanDialog.setBtnConfirmListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            minPrice=shaiXuanDialog.minPrice.getText().toString();
+                            maxPrice=shaiXuanDialog.maxPrice.getText().toString();
+                            selCityName=shaiXuanDialog.selName;
+                            initData();
+                            shaiXuanDialog.dismiss();
+                        }
+                    });
+                }
                 break;
         }
     }
@@ -350,13 +385,22 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
         btnJg.setTextColor(Color.parseColor("#4A4A4A"));
         btnSx.setTextColor(Color.parseColor("#4A4A4A"));
     }
-
+    CityResponse cityResponse;
+    private String category2="";
     @Override
     public void onEventMainThread(BaseResponse event) throws Exception {
         if (event instanceof NoticeEvent) {
             String tag = ((NoticeEvent) event).getTag();
             if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
+            }
+            if("SearchCategory".equals(tag)){
+                String str=((NoticeEvent) event).getUrl1();
+                String str2=((NoticeEvent) event).getUrl2();
+                category2=str;
+                if(shaiXuanDialog!=null){
+                    shaiXuanDialog.fenleiTv.setText(str2+"");
+                }
             }
         } else if (event instanceof NetResponseEvent) {
             NetLoadingDialog.getInstance().dismissDialog();
@@ -365,7 +409,6 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
             if (tag.equals(SearchGoodsResponse.class.getName())) {
                 SearchGoodsResponse searchGoodsResponse = GsonHelper.toType(result, SearchGoodsResponse.class);
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
-                    CMLog.e(Constants.HTTP_TAG, result);
                     if (Constants.SUCESS_CODE.equals(searchGoodsResponse.getResultCode())) {
                         if (pageNum == 1) {
                             goodsList.clear();
@@ -383,6 +426,18 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
                         }
                     } else {
                         ErrorCode.doCode(this, searchGoodsResponse.getResultCode(), searchGoodsResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(this);
+                }
+            }
+            if (tag.equals(CityResponse.class.getName())) {
+                cityResponse = GsonHelper.toType(result, CityResponse.class);
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    CMLog.e(Constants.HTTP_TAG, result);
+                    if (Constants.SUCESS_CODE.equals(cityResponse.getResultCode())) {
+                    } else {
+                        ErrorCode.doCode(this, cityResponse.getResultCode(), cityResponse.getDesc());
                     }
                 } else {
                     ToastUtil.showError(this);
