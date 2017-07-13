@@ -1,5 +1,6 @@
 package com.fengqipu.mall.main.acty.search;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,11 +10,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fengqipu.mall.R;
@@ -22,12 +21,15 @@ import com.fengqipu.mall.adapter.ViewHolder;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
+import com.fengqipu.mall.bean.search.CityResponse;
 import com.fengqipu.mall.bean.search.SearchGoodsResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
+import com.fengqipu.mall.dialog.ShaiXuanDialog;
+import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.network.GsonHelper;
@@ -75,20 +77,6 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
     GridView myGridview;
     @Bind(R.id.scrollView)
     ScrollBottomScrollView scrollView;
-
-    @Bind(R.id.min_price)
-    EditText minPrice;
-    @Bind(R.id.max_price)
-    EditText maxPrice;
-    @Bind(R.id.fenlei_tv)
-    TextView fenleiTv;
-    @Bind(R.id.btn_cz)
-    Button btnCz;
-    @Bind(R.id.btn_confirm)
-    Button btnConfirm;
-    @Bind(R.id.sx_ll)
-    LinearLayout sxLl;
-
     private CommonAdapter<SearchGoodsResponse.ContentListBean> lAdapter;
     private CommonAdapter<SearchGoodsResponse.ContentListBean> gAdapter;
     private List<SearchGoodsResponse.ContentListBean> goodsList = new ArrayList<>();
@@ -179,7 +167,19 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
         myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                SearchGoodsResponse.ContentListBean item=(SearchGoodsResponse.ContentListBean)adapterView.getItemAtPosition(i);
+                Intent intent=new Intent(SearchGoodsActivity.this, GoodsDetailActivity.class);
+                intent.putExtra("contentID",item.getId());
+                startActivity(intent);
+            }
+        });
+        myGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                SearchGoodsResponse.ContentListBean item=(SearchGoodsResponse.ContentListBean)adapterView.getItemAtPosition(i);
+                Intent intent=new Intent(SearchGoodsActivity.this, GoodsDetailActivity.class);
+                intent.putExtra("contentID",item.getId());
+                startActivity(intent);
             }
         });
         scrollView.setScrollBottomListener(new ScrollBottomScrollView.ScrollBottomListener() {
@@ -336,17 +336,14 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
                 Drawable nav_original2 = getResources().getDrawable(R.mipmap.price_original);
                 nav_original2.setBounds(0, 0, nav_original2.getMinimumWidth(), nav_original2.getMinimumHeight());
                 btnJg.setCompoundDrawables(null, null, nav_original2, null);
-                if(sxLl.getVisibility()==View.GONE){
-                    sxLl.setVisibility(View.VISIBLE);
-                }else{
-                    sxLl.setVisibility(View.GONE);
+                if(shaiXuanDialog==null) {
+                    shaiXuanDialog = new ShaiXuanDialog(SearchGoodsActivity.this, new CityResponse());
                 }
-                order = 1;
-                initData();
+                shaiXuanDialog.show();
                 break;
         }
     }
-
+    ShaiXuanDialog shaiXuanDialog;
     private void initTopBtn() {
         btnZh.setTextColor(Color.parseColor("#4A4A4A"));
         btnXl.setTextColor(Color.parseColor("#4A4A4A"));

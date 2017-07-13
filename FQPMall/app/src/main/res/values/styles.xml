@@ -1,5 +1,7 @@
 <resources>
-
+    <style name="RightDialog" parent="@style/CustomProgressDialog">
+        <item name="android:windowAnimationStyle">@style/popupright_in_out</item>
+    </style>
     <style name="BottomDialog" parent="@style/CustomProgressDialog">
         <item name="android:windowAnimationStyle">@style/popup_in_out</item>
     </style>
@@ -18,6 +20,10 @@
     <style name="popup_in_out" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/anim_down_in</item>
         <item name="android:windowExitAnimation">@anim/anim_down_out</item>
+    </style>
+    <style name="popupright_in_out" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/anim_down_right_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_down_right_out</item>
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

@@ -28,6 +28,7 @@ import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.network.GsonHelper;
@@ -162,7 +163,10 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
         myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                SearchShopsResponse.ShopListBean item=(SearchShopsResponse.ShopListBean)adapterView.getItemAtPosition(i);
+                Intent intent=new Intent(SearchShopsActivity.this, EnterpriseActivity.class);
+                intent.putExtra("sid",item.getId());
+                startActivity(intent);
             }
         });
         myListview.setOnScrollListener(new AbsListView.OnScrollListener() {

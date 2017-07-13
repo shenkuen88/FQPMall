@@ -1,0 +1,177 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="6"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:text="价格区间"
+            android:textColor="#4a4a4a"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/min_price"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:background="@drawable/price_rec"
+                android:gravity="center"
+                android:hint="最低价"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="#4a4a4a"
+                android:textColorHint="@color/gray"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="30dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/line"></View>
+
+            <EditText
+                android:id="@+id/max_price"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:background="@drawable/price_rec"
+                android:gravity="center"
+                android:hint="最高价"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textColor="#4a4a4a"
+                android:textColorHint="@color/gray"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line"></View>
+
+        <RelativeLayout
+            android:id="@+id/nick_rl"
+            style="@style/mine_top_select_rl"
+            android:layout_below="@+id/user_name_rl">
+
+            <TextView
+                style="@style/account_manage_tv"
+                android:text="分类" />
+
+            <TextView
+                android:id="@+id/fenlei_tv"
+                style="@style/mine_right_arrow_tv"
+                android:drawablePadding="@dimen/pxtodp20"
+                android:drawableRight="@mipmap/listright_arrow"
+                android:text="全部" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line"></View>
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="当前城市"
+        android:textColor="#4a4a4a"
+        android:textSize="16sp" />
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center"
+        android:text="上海"
+        android:background="@drawable/price_rec"
+        android:textColor="#4a4a4a"
+        android:layout_marginBottom="10dp"
+        android:textSize="16sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line"></View>
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="城市"
+        android:textColor="#4a4a4a"
+        android:textSize="16sp" />
+    <GridView
+        android:layout_marginTop="5dp"
+        android:id="@+id/my_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:gravity="center"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"></GridView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line"></View>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_cz"
+            android:layout_width="78dp"
+            android:layout_height="@dimen/pxtodp60"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/pxtodp22"
+            android:layout_toLeftOf="@+id/buy_bn"
+            android:background="@drawable/yellow_rec_normal"
+            android:text="重置"
+            android:textColor="@color/white"
+            android:textSize="@dimen/pxtosp26" />
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="78dp"
+            android:layout_height="@dimen/pxtodp60"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/pxtodp22"
+            android:background="@drawable/pink_button"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="@dimen/pxtosp26" />
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
