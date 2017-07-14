@@ -4,6 +4,92 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/bottom_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/money_dialog_background"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/pxtodp20"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="@color/money_dialog_background"
+                android:gravity="center"
+                android:paddingLeft="@dimen/pxtodp24"
+                android:paddingRight="@dimen/pxtodp24"
+                android:text="取消"
+                android:textColor="@color/title_black"
+                android:textSize="@dimen/pxtosp32" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@color/money_dialog_background"
+                android:gravity="center"
+                android:paddingLeft="@dimen/pxtodp24"
+                android:paddingRight="@dimen/pxtodp24"
+                android:text="地区选择"
+                android:textColor="@color/register_text"
+                android:textSize="@dimen/pxtosp36"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/btn_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@color/money_dialog_background"
+                android:gravity="center"
+                android:paddingLeft="@dimen/pxtodp24"
+                android:paddingRight="@dimen/pxtodp24"
+                android:text="确定"
+                android:textColor="@color/title_black"
+                android:textSize="@dimen/pxtosp32" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:background="@color/money_dialog_background"
+            android:orientation="horizontal">
+
+            <com.fengqipu.mall.view.wheel.widget.WheelView
+                android:id="@+id/id_province"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/money_dialog_background"></com.fengqipu.mall.view.wheel.widget.WheelView>
+
+            <com.fengqipu.mall.view.wheel.widget.WheelView
+                android:id="@+id/id_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/money_dialog_background"></com.fengqipu.mall.view.wheel.widget.WheelView>
+
+            <com.fengqipu.mall.view.wheel.widget.WheelView
+                android:id="@+id/id_district"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/money_dialog_background"></com.fengqipu.mall.view.wheel.widget.WheelView>
+        </LinearLayout>
+
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -281,90 +367,4 @@
 
         </ScrollView>
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/bottom_ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/money_dialog_background"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/pxtodp20"
-        android:visibility="gone">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/btn_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:background="@color/money_dialog_background"
-                android:gravity="center"
-                android:paddingLeft="@dimen/pxtodp24"
-                android:paddingRight="@dimen/pxtodp24"
-                android:text="取消"
-                android:textColor="@color/title_black"
-                android:textSize="@dimen/pxtosp32" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@color/money_dialog_background"
-                android:gravity="center"
-                android:paddingLeft="@dimen/pxtodp24"
-                android:paddingRight="@dimen/pxtodp24"
-                android:text="地区选择"
-                android:textColor="@color/register_text"
-                android:textSize="@dimen/pxtosp36"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/btn_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="@color/money_dialog_background"
-                android:gravity="center"
-                android:paddingLeft="@dimen/pxtodp24"
-                android:paddingRight="@dimen/pxtodp24"
-                android:text="确定"
-                android:textColor="@color/title_black"
-                android:textSize="@dimen/pxtosp32" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:background="@color/money_dialog_background"
-            android:orientation="horizontal">
-
-            <com.fengqipu.mall.view.wheel.widget.WheelView
-                android:id="@+id/id_province"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/money_dialog_background"></com.fengqipu.mall.view.wheel.widget.WheelView>
-
-            <com.fengqipu.mall.view.wheel.widget.WheelView
-                android:id="@+id/id_city"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/money_dialog_background"></com.fengqipu.mall.view.wheel.widget.WheelView>
-
-            <com.fengqipu.mall.view.wheel.widget.WheelView
-                android:id="@+id/id_district"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/money_dialog_background"></com.fengqipu.mall.view.wheel.widget.WheelView>
-        </LinearLayout>
-
-    </LinearLayout>
 </FrameLayout>

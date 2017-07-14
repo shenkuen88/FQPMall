@@ -1,14 +1,23 @@
 package com.fengqipu.mall.main.acty.mine;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.fengqipu.mall.R;
@@ -18,18 +27,26 @@ import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.bean.mine.AddReceiveAddressResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
+import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.HeadView;
 import com.fengqipu.mall.network.GsonHelper;
 import com.fengqipu.mall.tools.CMLog;
+import com.fengqipu.mall.tools.FileSystemManager;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
+import com.fengqipu.mall.view.photopicker.model.ImageItem;
+import com.fengqipu.mall.view.photopicker.view.ImageBucketChooseActivity;
 import com.fengqipu.mall.view.wheel.cascade.activity.LocationBaseActivity;
 import com.fengqipu.mall.view.wheel.widget.OnWheelChangedListener;
 import com.fengqipu.mall.view.wheel.widget.WheelView;
 import com.fengqipu.mall.view.wheel.widget.adapters.ArrayWheelAdapter;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -61,6 +78,10 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
     WheelView idDistrict;
     @Bind(R.id.bottom_ll)
     LinearLayout bottomLl;
+    @Bind(R.id.ll_2)
+    LinearLayout ll2;
+    @Bind(R.id.ll_3)
+    LinearLayout ll3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,9 +123,12 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
         idProvince.addChangingListener(this);
         idCity.addChangingListener(this);
         idDistrict.addChangingListener(this);
+        ivYyzz.setOnClickListener(this);
+        ivSfz1.setOnClickListener(this);
+        ivSfz2.setOnClickListener(this);
     }
-    private void setUpData()
-    {
+
+    private void setUpData() {
         initProvinceDatas();
         idProvince.setViewAdapter(new ArrayWheelAdapter<String>(mContext, mProvinceDatas));
         idProvince.setVisibleItems(7);
@@ -116,50 +140,43 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
     }
 
     @Override
-    public void onChanged(WheelView wheel, int oldValue, int newValue)
-    {
-        if (wheel == idProvince)
-        {
+    public void onChanged(WheelView wheel, int oldValue, int newValue) {
+        if (wheel == idProvince) {
             updateCities();
-        }
-        else if (wheel == idCity)
-        {
+        } else if (wheel == idCity) {
             updateAreas();
-        }
-        else if (wheel == idDistrict)
-        {
+        } else if (wheel == idDistrict) {
             mCurrentDistrictName = mDistrictDatasMap.get(mCurrentCityName)[newValue];
             mCurrentZipCode = mZipcodeDatasMap.get(mCurrentDistrictName);
         }
     }
 
-    private void updateAreas()
-    {
+    private void updateAreas() {
         int pCurrent = idCity.getCurrentItem();
         mCurrentCityName = mCitisDatasMap.get(mCurrentProviceName)[pCurrent];
         String[] areas = mDistrictDatasMap.get(mCurrentCityName);
 
-        if (areas == null)
-        {
+        if (areas == null) {
             areas = new String[]{""};
         }
         idDistrict.setViewAdapter(new ArrayWheelAdapter<String>(this, areas));
         idDistrict.setCurrentItem(0);
     }
 
-    private void updateCities()
-    {
+    private void updateCities() {
         int pCurrent = idProvince.getCurrentItem();
         mCurrentProviceName = mProvinceDatas[pCurrent];
         String[] cities = mCitisDatasMap.get(mCurrentProviceName);
-        if (cities == null)
-        {
+        if (cities == null) {
             cities = new String[]{""};
         }
         idCity.setViewAdapter(new ArrayWheelAdapter<String>(this, cities));
         idCity.setCurrentItem(0);
         updateAreas();
     }
+
+    int posType = 0;
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -173,6 +190,47 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
             case R.id.tv_address:
                 bottomLl.setVisibility(View.VISIBLE);
                 hideKeyboardd();
+                break;
+            case R.id.iv_yyzz:
+                posType = 0;
+                //权限
+                checkPermission(new CheckPermListener() {
+                                    @Override
+                                    public void superPermission() {
+                                        new PopupWindows(mContext, ll2);
+                                    }
+                                }, R.string.permission_photo,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE);
+                break;
+            case R.id.iv_sfz1:
+                posType = 1;
+                //权限
+                checkPermission(new CheckPermListener() {
+                                    @Override
+                                    public void superPermission() {
+                                        new PopupWindows(mContext, ll3);
+                                    }
+                                }, R.string.permission_photo,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE);
+
+                break;
+            case R.id.iv_sfz2:
+                posType = 2;
+                //权限
+                checkPermission(new CheckPermListener() {
+                                    @Override
+                                    public void superPermission() {
+                                        new PopupWindows(mContext, ll3);
+                                    }
+                                }, R.string.permission_photo,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE);
+
                 break;
             default:
                 break;
@@ -189,6 +247,126 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                 e.printStackTrace();
             } finally {
             }
+        }
+    }
+
+    private static final int TAKE_PICTURE = 0x000000;
+
+    private String path = "";
+
+    public void takePhoto() {
+        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File vFile = new File(FileSystemManager.getImgPath(mContext), String.valueOf(System.currentTimeMillis())
+                + ".jpg");
+        if (!vFile.exists()) {
+            File vDirPath = vFile.getParentFile();
+            vDirPath.mkdirs();
+        } else {
+            if (vFile.exists()) {
+                vFile.delete();
+            }
+        }
+//        path = vFile.getPath();
+//        Uri cameraUri = Uri.fromFile(vFile);
+//        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
+//        startActivityForResult(openCameraIntent, TAKE_PICTURE);
+
+        Uri imageUri = FileProvider.getUriForFile(OneButtonShopActivity.this, "com.fengqipu.mall.fileprovider", vFile);//通过FileProvider创建一个content类型的Uri
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);//设置Action为拍照
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
+//                    Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    imageUri = Uri.fromFile(new File(photoSavePath, photoSaveName));
+//                    openCameraIntent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
+//                    openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent, TAKE_PICTURE);
+    }
+
+    public class PopupWindows extends PopupWindow {
+
+        public PopupWindows(final Context mContext, View parent) {
+
+            View view = View.inflate(mContext, R.layout.item_popupwindow, null);
+            view.startAnimation(AnimationUtils.loadAnimation(mContext,
+                    R.anim.fade_ins));
+            LinearLayout ll_popup = (LinearLayout) view
+                    .findViewById(R.id.ll_popup);
+            ll_popup.startAnimation(AnimationUtils.loadAnimation(mContext,
+                    R.anim.push_bottom_in_2));
+
+            setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+            setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+            setFocusable(true);
+            setOutsideTouchable(true);
+            setContentView(view);
+            showAtLocation(parent, Gravity.BOTTOM, 0, 0);
+            update();
+
+            Button bt1 = (Button) view
+                    .findViewById(R.id.item_popupwindows_camera);
+            Button bt2 = (Button) view
+                    .findViewById(R.id.item_popupwindows_Photo);
+            Button bt3 = (Button) view
+                    .findViewById(R.id.item_popupwindows_cancel);
+            bt1.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    takePhoto();
+                    dismiss();
+                }
+            });
+            bt2.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext,
+                            ImageBucketChooseActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    intent.putExtra(IntentCode.EXTRA_CAN_ADD_IMAGE_SIZE,
+                            getAvailableSize());
+                    startActivity(intent);
+                    finish();
+                    dismiss();
+                }
+            });
+            bt3.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+
+        }
+    }
+
+    public static List<ImageItem> mDataList = new ArrayList<ImageItem>();
+
+    private int getAvailableSize() {
+        int availSize = 4 - mDataList.size();
+        if (availSize >= 0) {
+            return availSize;
+        }
+        return 0;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case TAKE_PICTURE:
+                if (mDataList.size() < Constants.MAX_IMAGE_SIZE
+                        && resultCode == -1 && !TextUtils.isEmpty(path)) {
+                    ImageItem item = new ImageItem();
+                    item.sourcePath = path;
+                    mDataList.add(item);
+                    switch (posType) {
+                        case 0:
+                            GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, item.getSourcePath(), ivYyzz, R.mipmap.btn_pic1);
+                            break;
+                        case 1:
+                            GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, item.getSourcePath(), ivSfz1, R.mipmap.btn_pic2);
+                            break;
+                        case 2:
+                            GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, item.getSourcePath(), ivSfz2, R.mipmap.btn_pic3);
+                            break;
+                    }
+                }
+                break;
         }
     }
 
