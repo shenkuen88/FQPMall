@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,26 +26,22 @@ import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.bean.mine.AddReceiveAddressResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
-import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.HeadView;
 import com.fengqipu.mall.network.GsonHelper;
+import com.fengqipu.mall.tools.BitmapUtil;
 import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.FileSystemManager;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
-import com.fengqipu.mall.view.photopicker.model.ImageItem;
-import com.fengqipu.mall.view.photopicker.view.ImageBucketChooseActivity;
 import com.fengqipu.mall.view.wheel.cascade.activity.LocationBaseActivity;
 import com.fengqipu.mall.view.wheel.widget.OnWheelChangedListener;
 import com.fengqipu.mall.view.wheel.widget.WheelView;
 import com.fengqipu.mall.view.wheel.widget.adapters.ArrayWheelAdapter;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -197,7 +192,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                 checkPermission(new CheckPermListener() {
                                     @Override
                                     public void superPermission() {
-                                        new PopupWindows(mContext, ll2);
+                                        new MyPopupWindows(mContext, ll2);
                                     }
                                 }, R.string.permission_photo,
                         Manifest.permission.CAMERA,
@@ -210,7 +205,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                 checkPermission(new CheckPermListener() {
                                     @Override
                                     public void superPermission() {
-                                        new PopupWindows(mContext, ll3);
+                                        new MyPopupWindows(mContext, ll3);
                                     }
                                 }, R.string.permission_photo,
                         Manifest.permission.CAMERA,
@@ -224,7 +219,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                 checkPermission(new CheckPermListener() {
                                     @Override
                                     public void superPermission() {
-                                        new PopupWindows(mContext, ll3);
+                                        new MyPopupWindows(mContext, ll3);
                                     }
                                 }, R.string.permission_photo,
                         Manifest.permission.CAMERA,
@@ -251,8 +246,6 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
     }
 
     private static final int TAKE_PICTURE = 0x000000;
-
-    private String path = "";
 
     public void takePhoto() {
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -282,12 +275,13 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
 //                    openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PICTURE);
     }
+    public class MyPopupWindows extends PopupWindow
+    {
 
-    public class PopupWindows extends PopupWindow {
+        public MyPopupWindows(final Context mContext, View parent)
+        {
 
-        public PopupWindows(final Context mContext, View parent) {
-
-            View view = View.inflate(mContext, R.layout.item_popupwindow, null);
+            View view = View.inflate(mContext, R.layout.item_popupwindow_img, null);
             view.startAnimation(AnimationUtils.loadAnimation(mContext,
                     R.anim.fade_ins));
             LinearLayout ll_popup = (LinearLayout) view
@@ -309,65 +303,128 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                     .findViewById(R.id.item_popupwindows_Photo);
             Button bt3 = (Button) view
                     .findViewById(R.id.item_popupwindows_cancel);
-            bt1.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    takePhoto();
+            bt3.setOnClickListener(new View.OnClickListener()
+            {
+                public void onClick(View v)
+                {
                     dismiss();
                 }
             });
-            bt2.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext,
-                            ImageBucketChooseActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    intent.putExtra(IntentCode.EXTRA_CAN_ADD_IMAGE_SIZE,
-                            getAvailableSize());
-                    startActivity(intent);
-                    finish();
+            bt2.setOnClickListener(new View.OnClickListener()
+            {
+                public void onClick(View v)
+                {
                     dismiss();
+                    Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                    openAlbumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                    startActivityForResult(openAlbumIntent, PHOTOZOOM);
                 }
             });
-            bt3.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
+            bt1.setOnClickListener(new View.OnClickListener()
+            {
+                public void onClick(View v)
+                {
                     dismiss();
+                    photoSaveName = String.valueOf(System.currentTimeMillis()) + ".png";
+                    File file=new File(photoSavePath+photoSaveName);
+                    if (!file.getParentFile().exists())file.getParentFile().mkdirs();
+                    Uri imageUri = FileProvider.getUriForFile(OneButtonShopActivity.this, "com.fengqipu.mall.fileprovider", file);//通过FileProvider创建一个content类型的Uri
+                    Intent intent = new Intent();
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
+                    intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);//设置Action为拍照
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
+//                    Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                    imageUri = Uri.fromFile(new File(photoSavePath, photoSaveName));
+//                    openCameraIntent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
+//                    openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                    startActivityForResult(intent, PHOTOTAKE);
                 }
             });
-
         }
     }
+    //拍照上传
+    public static final int PHOTOZOOM = 0; // 相册
 
-    public static List<ImageItem> mDataList = new ArrayList<ImageItem>();
+    public static final int PHOTOTAKE = 1; //拍照
 
-    private int getAvailableSize() {
-        int availSize = 4 - mDataList.size();
-        if (availSize >= 0) {
-            return availSize;
+    public static final int IMAGE_COMPLETE = 2; // 结果
+
+    private String photoSavePath;//保存路径
+
+    private String photoSaveName;//图片名
+
+    private String path;//图片全路径，也是上传的图片路径
+
+    private String yyzzPic="";
+    private String sfz1="";
+    private String sfz2="";
+    /**
+     * 图片选择及拍照结果
+     */
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode != RESULT_OK)
+        {
+            return;
         }
-        return 0;
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case TAKE_PICTURE:
-                if (mDataList.size() < Constants.MAX_IMAGE_SIZE
-                        && resultCode == -1 && !TextUtils.isEmpty(path)) {
-                    ImageItem item = new ImageItem();
-                    item.sourcePath = path;
-                    mDataList.add(item);
-                    switch (posType) {
-                        case 0:
-                            GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, item.getSourcePath(), ivYyzz, R.mipmap.btn_pic1);
-                            break;
-                        case 1:
-                            GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, item.getSourcePath(), ivSfz1, R.mipmap.btn_pic2);
-                            break;
-                        case 2:
-                            GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, item.getSourcePath(), ivSfz2, R.mipmap.btn_pic3);
-                            break;
-                    }
+        Uri uri = null;
+        switch (requestCode)
+        {
+            case PHOTOZOOM://相册
+                if (data == null)
+                {
+                    return;
+                }
+                uri = data.getData();
+                path = BitmapUtil.getPath(mContext, uri);
+                if (!GeneralUtils.isNetworkConnected(mContext))
+                {
+                    ToastUtil.showError(mContext);
+                    return;
+                }
+                switch (posType) {
+                    case 0:
+                        yyzzPic=path;
+                        GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivYyzz, R.mipmap.btn_pic1);
+                        break;
+                    case 1:
+                        sfz1=path;
+                        GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivSfz1, R.mipmap.btn_pic2);
+                        break;
+                    case 2:
+                        sfz2=path;
+                        GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivSfz2, R.mipmap.btn_pic3);
+                        break;
                 }
                 break;
+            case PHOTOTAKE://拍照
+                path = photoSavePath + photoSaveName;
+                if (!GeneralUtils.isNetworkConnected(mContext))
+                {
+                    ToastUtil.showError(mContext);
+                    return;
+                }
+                switch (posType) {
+                    case 0:
+                        yyzzPic=path;
+                        GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivYyzz, R.mipmap.btn_pic1);
+                        break;
+                    case 1:
+                        sfz1=path;
+                        GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivSfz1, R.mipmap.btn_pic2);
+                        break;
+                    case 2:
+                        sfz2=path;
+                        GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivSfz2, R.mipmap.btn_pic3);
+                        break;
+                }
+                break;
+            default:
+                break;
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
