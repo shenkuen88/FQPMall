@@ -27,12 +27,14 @@ import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
 import com.fengqipu.mall.view.wheel.cascade.activity.LocationBaseActivity;
+import com.fengqipu.mall.view.wheel.widget.OnWheelChangedListener;
 import com.fengqipu.mall.view.wheel.widget.WheelView;
+import com.fengqipu.mall.view.wheel.widget.adapters.ArrayWheelAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class OneButtonShopActivity extends LocationBaseActivity implements View.OnClickListener {
+public class OneButtonShopActivity extends LocationBaseActivity implements View.OnClickListener, OnWheelChangedListener {
     @Bind(R.id.btn_ljkd)
     Button btnLjkd;
     @Bind(R.id.iv_yyzz)
@@ -83,7 +85,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
 
     @Override
     public void initViewData() {
-
+        setUpData();
     }
 
     @Override
@@ -97,9 +99,67 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
         btnConfirm.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
         tvAddress.setOnClickListener(this);
-
+        idProvince.addChangingListener(this);
+        idCity.addChangingListener(this);
+        idDistrict.addChangingListener(this);
+    }
+    private void setUpData()
+    {
+        initProvinceDatas();
+        idProvince.setViewAdapter(new ArrayWheelAdapter<String>(mContext, mProvinceDatas));
+        idProvince.setVisibleItems(7);
+        idCity.setVisibleItems(7);
+        idDistrict.setVisibleItems(7);
+        updateCities();
+        updateAreas();
+        idProvince.setCurrentItem(2);
     }
 
+    @Override
+    public void onChanged(WheelView wheel, int oldValue, int newValue)
+    {
+        if (wheel == idProvince)
+        {
+            updateCities();
+        }
+        else if (wheel == idCity)
+        {
+            updateAreas();
+        }
+        else if (wheel == idDistrict)
+        {
+            mCurrentDistrictName = mDistrictDatasMap.get(mCurrentCityName)[newValue];
+            mCurrentZipCode = mZipcodeDatasMap.get(mCurrentDistrictName);
+        }
+    }
+
+    private void updateAreas()
+    {
+        int pCurrent = idCity.getCurrentItem();
+        mCurrentCityName = mCitisDatasMap.get(mCurrentProviceName)[pCurrent];
+        String[] areas = mDistrictDatasMap.get(mCurrentCityName);
+
+        if (areas == null)
+        {
+            areas = new String[]{""};
+        }
+        idDistrict.setViewAdapter(new ArrayWheelAdapter<String>(this, areas));
+        idDistrict.setCurrentItem(0);
+    }
+
+    private void updateCities()
+    {
+        int pCurrent = idProvince.getCurrentItem();
+        mCurrentProviceName = mProvinceDatas[pCurrent];
+        String[] cities = mCitisDatasMap.get(mCurrentProviceName);
+        if (cities == null)
+        {
+            cities = new String[]{""};
+        }
+        idCity.setViewAdapter(new ArrayWheelAdapter<String>(this, cities));
+        idCity.setCurrentItem(0);
+        updateAreas();
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -160,4 +220,6 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
             }
         }
     }
+
+
 }
