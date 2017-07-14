@@ -183,7 +183,7 @@ public class UserServiceImpl
     }
 
     /**
-     * 添加商品的内容评价 母婴 装修  视频
+     * 添加商品的内容评价
      */
     public void addProductComment(String orderID, String anonymous, String score,
                                   String text, String picUrl1, String picUrl2, String picUrl3, String picUrl4, String tag)
