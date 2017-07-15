@@ -23,25 +23,30 @@ import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
-import com.fengqipu.mall.bean.mine.AddReceiveAddressResponse;
+import com.fengqipu.mall.bean.mine.UploadFileResponse;
+import com.fengqipu.mall.bean.shop.OneButtonShopResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.HeadView;
 import com.fengqipu.mall.network.GsonHelper;
+import com.fengqipu.mall.network.UserServiceImpl;
 import com.fengqipu.mall.tools.BitmapUtil;
 import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.FileSystemManager;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
+import com.fengqipu.mall.view.citylist.utils.ToastUtils;
 import com.fengqipu.mall.view.wheel.cascade.activity.LocationBaseActivity;
 import com.fengqipu.mall.view.wheel.widget.OnWheelChangedListener;
 import com.fengqipu.mall.view.wheel.widget.WheelView;
 import com.fengqipu.mall.view.wheel.widget.adapters.ArrayWheelAdapter;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -121,6 +126,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
         ivYyzz.setOnClickListener(this);
         ivSfz1.setOnClickListener(this);
         ivSfz2.setOnClickListener(this);
+        btnLjkd.setOnClickListener(this);
     }
 
     private void setUpData() {
@@ -175,6 +181,38 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.btn_ljkd:
+                if(etShopname.getText().toString().equals("")){
+                    ToastUtils.showToast(OneButtonShopActivity.this,"请填写商店名称!");
+                    return;
+                }
+                if(tvAddress.getText().toString().equals("")){
+                    ToastUtils.showToast(OneButtonShopActivity.this,"请选择省市区!");
+                    return;
+                }
+                if(etAdressDetail.getText().toString().equals("")){
+                    ToastUtils.showToast(OneButtonShopActivity.this,"请填写详细地址!");
+                    return;
+                }
+                if(yyzzPic.equals("")){
+                    ToastUtils.showToast(OneButtonShopActivity.this,"请上传营业执照!");
+                    return;
+                }
+                if(sfz1.equals("")){
+                    ToastUtils.showToast(OneButtonShopActivity.this,"请上传身份证正面照!");
+                    return;
+                }
+                if(sfz2.equals("")){
+                    ToastUtils.showToast(OneButtonShopActivity.this,"请上传身份证反面照!");
+                    return;
+                }
+                //马上开店
+                List<File> files=new ArrayList<>();
+                files.add(new File(yyzzPic));
+                files.add(new File(sfz1));
+                files.add(new File(sfz2));
+                UserServiceImpl.instance().uploadPic(files, UploadFileResponse.class.getName());
+                break;
             case R.id.btn_confirm:
                 tvAddress.setText(mCurrentProviceName + " " + mCurrentCityName + " " + mCurrentDistrictName);
                 bottomLl.setVisibility(View.GONE);
@@ -441,13 +479,40 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
             String tag = ((NetResponseEvent) event).getTag();
             String result = ((NetResponseEvent) event).getResult();
             NetLoadingDialog.getInstance().dismissDialog();
-            if (tag.equals(AddReceiveAddressResponse.class.getName())) {
+            if (tag.equals(UploadFileResponse.class.getName())) {
+                CMLog.e(Constants.HTTP_TAG, result);
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
-                    CMLog.e(Constants.HTTP_TAG, result);
-                    AddReceiveAddressResponse mAddReceiveAddressResponse = GsonHelper.toType(result, AddReceiveAddressResponse.class);
-                    if (Constants.SUCESS_CODE.equals(mAddReceiveAddressResponse.getResultCode())) {
+                    UploadFileResponse uploadFileResponse = GsonHelper.toType(result, UploadFileResponse.class);
+                    if (Constants.SUCESS_CODE.equals(uploadFileResponse.getResultCode())) {
+                        String url1 = "", url2 = "", url3 = "";
+                        for (int i = 0; i < uploadFileResponse.getUrlList().size(); i++) {
+                            if (i == 0) {
+                                url1 = uploadFileResponse.getUrlList().get(i);
+                            } else if (i == 1) {
+                                url2 = uploadFileResponse.getUrlList().get(i);
+                            } else if (i == 2) {
+                                url3 = uploadFileResponse.getUrlList().get(i);
+                            }
+                        }
+                        UserServiceImpl.instance().addShop(
+                                etShopname.getText().toString()
+                                ,mCurrentProviceName,mCurrentCityName,mCurrentDistrictName
+                                ,etAdressDetail.getText().toString(),url1,url2,url3, OneButtonShopResponse.class.getName());
                     } else {
-                        ErrorCode.doCode(mContext, mAddReceiveAddressResponse.getResultCode(), mAddReceiveAddressResponse.getDesc());
+                        ErrorCode.doCode(mContext, uploadFileResponse.getResultCode(), uploadFileResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(mContext);
+                }
+            }
+            if (tag.equals(OneButtonShopResponse.class.getName())) {
+                CMLog.e(Constants.HTTP_TAG, result);
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    OneButtonShopResponse oneButtonShopResponse = GsonHelper.toType(result, OneButtonShopResponse.class);
+                    if (Constants.SUCESS_CODE.equals(oneButtonShopResponse.getResultCode())) {
+                        ToastUtils.showToast(mContext,"提交开店申请成功");
+                    } else {
+                        ErrorCode.doCode(mContext, oneButtonShopResponse.getResultCode(), oneButtonShopResponse.getDesc());
                     }
                 } else {
                     ToastUtil.showError(mContext);

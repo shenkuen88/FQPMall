@@ -21,6 +21,10 @@ public class URLUtil
      * 应用初始化
      */
     public static final String INIT_APP = SERVER_BASE + "app/init";
+    /**
+     * 应用初始化
+     */
+    public static final String ONEBUTTONSHOP = SERVER_BASE + "shop/apply";
 
     /**
      * 获取Banner

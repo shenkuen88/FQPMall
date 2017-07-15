@@ -29,6 +29,8 @@ public class UserServiceImpl
     private static Context mContext;
 
 
+
+
     private static class UserServiceImplServiceHolder
     {
         private static UserServiceImpl userServiceImplSingleton = new UserServiceImpl();
@@ -49,6 +51,23 @@ public class UserServiceImpl
         param.put("gpsLong", Global.getlangitude());
         param.put("gpsLati", Global.getlatitude());
         new NetWork().startPost(URLUtil.INIT_APP, param, tag);
+    }
+
+    public void addShop(String s, String mCurrentProviceName, String mCurrentCityName
+            , String mCurrentDistrictName, String s1, String url1, String url2, String url3,String tag) {
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("shopName", s);
+        param.put("province", mCurrentProviceName);
+        param.put("city", mCurrentCityName);
+        param.put("area", mCurrentDistrictName);
+        param.put("addressDetail", s1);
+        param.put("businessLicenseFile", url1);
+        param.put("legalPersonIDCardAFile", url2);
+        param.put("legalPersonIDCardBFile", url3);
+        param.put("gpsLong", Global.getlangitude());
+        param.put("gpsLati", Global.getlatitude());
+        new NetWork().startPost(URLUtil.ONEBUTTONSHOP, param, tag);
+
     }
     public void addFavour(Context mContext,String type, String sid, String tag) {
         //商品 1 企业 商铺 2
