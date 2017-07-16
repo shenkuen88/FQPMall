@@ -1,1 +1,1 @@
-include ':app', ':ptr-lib', ':ImageUploadlibrary', ':easeui'
+include ':app', ':ptr-lib', ':easeui'

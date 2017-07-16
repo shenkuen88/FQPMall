@@ -27,6 +27,7 @@ import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.tools.CommonMethod;
 import com.fengqipu.mall.tools.GeneralUtils;
+import com.fengqipu.mall.tools.ShareSDKMethod;
 import com.fengqipu.mall.view.MyGridView;
 import com.fengqipu.mall.view.MyScrollView1;
 import com.fengqipu.mall.view.RefreshListView;
@@ -83,6 +84,8 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
     TextView tvCommentcount;
     @Bind(R.id.btn_comment)
     LinearLayout btnComment;
+    @Bind(R.id.share_goods)
+    LinearLayout shareGoods;
 
     private CommonAdapter<GoodsCommentResponse.AppraiseListBean> mAdapter;
     private List<GoodsCommentResponse.AppraiseListBean> comentList = new ArrayList<>();
@@ -142,21 +145,21 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
         mAdapter = new CommonAdapter<GoodsCommentResponse.AppraiseListBean>(goodsDetailActivity, comentList, R.layout.item_product_comment) {
             @Override
             public void convert(ViewHolder helper, GoodsCommentResponse.AppraiseListBean item) {
-                ImageView comment_head_iv=helper.getView(R.id.comment_head_iv);
+                ImageView comment_head_iv = helper.getView(R.id.comment_head_iv);
                 if (item.getUserPortrait() != null && !item.getUserPortrait().equals("")) {
                     GeneralUtils.setImageViewWithUrl(goodsDetailActivity, item.getUserPortrait(), comment_head_iv, R.drawable.default_head);
                 }
-                TextView comment_name_tv=helper.getView(R.id.comment_name_tv);
-                comment_name_tv.setText(item.getUserNickName()+"");
-                TextView comment_content_tv=helper.getView(R.id.comment_content_tv);
-                comment_content_tv.setText(item.getText()+"");
-                TextView comment_time_tv=helper.getView(R.id.comment_time_tv);
+                TextView comment_name_tv = helper.getView(R.id.comment_name_tv);
+                comment_name_tv.setText(item.getUserNickName() + "");
+                TextView comment_content_tv = helper.getView(R.id.comment_content_tv);
+                comment_content_tv.setText(item.getText() + "");
+                TextView comment_time_tv = helper.getView(R.id.comment_time_tv);
                 comment_time_tv.setText(item.getCreateTimeShow());
-                MyGridView my_grid_view=helper.getView(R.id.my_grid_view);
-                CommonAdapter<String> gadapter=new CommonAdapter<String>(goodsDetailActivity,item.getPicUrlList(),R.layout.item_pic) {
+                MyGridView my_grid_view = helper.getView(R.id.my_grid_view);
+                CommonAdapter<String> gadapter = new CommonAdapter<String>(goodsDetailActivity, item.getPicUrlList(), R.layout.item_pic) {
                     @Override
                     public void convert(ViewHolder helper, String item) {
-                        ImageView iv_pic=helper.getView(R.id.iv_pic);
+                        ImageView iv_pic = helper.getView(R.id.iv_pic);
                         if (item != null && !item.equals("")) {
                             GeneralUtils.setImageViewWithUrl(goodsDetailActivity, item, iv_pic, R.drawable.default_bg);
                         }
@@ -186,6 +189,12 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
             @Override
             public void onClick(View view) {
                 goodsDetailActivity.chang2Comment();
+            }
+        });
+        shareGoods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShareSDKMethod.showShare(goodsDetailActivity);
             }
         });
     }
@@ -363,34 +372,34 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                 }
                 tvLocation.setText("发货地:" + goodsDetailResponse.getContent().getShopProvince() + goodsDetailResponse.getContent().getShopCity());
                 try {
-                    String str="";
-                    if(goodsDetailResponse.getContentStyleList().get(0).getStyle()!=null
-                            &&!goodsDetailResponse.getContentStyleList().get(0).getStyle().equals("")){
-                        str= goodsDetailResponse.getContentStyleList().get(0).getStyle();
-                        goodsDetailActivity.style=goodsDetailResponse.getContentStyleList().get(0).getStyle();
+                    String str = "";
+                    if (goodsDetailResponse.getContentStyleList().get(0).getStyle() != null
+                            && !goodsDetailResponse.getContentStyleList().get(0).getStyle().equals("")) {
+                        str = goodsDetailResponse.getContentStyleList().get(0).getStyle();
+                        goodsDetailActivity.style = goodsDetailResponse.getContentStyleList().get(0).getStyle();
                     }
-                    if(goodsDetailResponse.getContentStyleList().get(0).getColor()!=null
-                            &&!goodsDetailResponse.getContentStyleList().get(0).getColor().equals("")){
-                        str=str+"、"+goodsDetailResponse.getContentStyleList().get(0).getColor();
-                        goodsDetailActivity.color=goodsDetailResponse.getContentStyleList().get(0).getColor();
+                    if (goodsDetailResponse.getContentStyleList().get(0).getColor() != null
+                            && !goodsDetailResponse.getContentStyleList().get(0).getColor().equals("")) {
+                        str = str + "、" + goodsDetailResponse.getContentStyleList().get(0).getColor();
+                        goodsDetailActivity.color = goodsDetailResponse.getContentStyleList().get(0).getColor();
                     }
-                    str= str+ "、1件";
+                    str = str + "、1件";
                     tvGg.setText(str);
-                    price.setText("￥"+goodsDetailResponse.getContentStyleList().get(0).getPrice());
-                    goodsDetailActivity.curprice=goodsDetailResponse.getContentStyleList().get(0).getPrice();
+                    price.setText("￥" + goodsDetailResponse.getContentStyleList().get(0).getPrice());
+                    goodsDetailActivity.curprice = goodsDetailResponse.getContentStyleList().get(0).getPrice();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
             if (tag.equals("GUIGEREFRESH")) {
                 if (goodsDetailActivity.guiGeBtmDialog != null) {
-                    String[] strs=goodsDetailActivity.guiGeBtmDialog.tv_guige.getText().toString().split("、");
+                    String[] strs = goodsDetailActivity.guiGeBtmDialog.tv_guige.getText().toString().split("、");
                     try {
-                        if(strs.length==3) {
+                        if (strs.length == 3) {
                             goodsDetailActivity.style = strs[0];
                             goodsDetailActivity.color = strs[1];
                             goodsDetailActivity.num = Integer.getInteger(strs[2].replace("件", ""));
-                        }else{
+                        } else {
                             goodsDetailActivity.style = strs[0];
                             goodsDetailActivity.num = Integer.getInteger(strs[1].replace("件", ""));
                         }
@@ -399,13 +408,13 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                     }
                     tvGg.setText(goodsDetailActivity.guiGeBtmDialog.tv_guige.getText().toString());
                     price.setText(goodsDetailActivity.guiGeBtmDialog.gg_price.getText().toString());
-                    goodsDetailActivity.curprice=Double.valueOf(goodsDetailActivity.guiGeBtmDialog.gg_price.getText().toString().replace("￥",""));
+                    goodsDetailActivity.curprice = Double.valueOf(goodsDetailActivity.guiGeBtmDialog.gg_price.getText().toString().replace("￥", ""));
                 }
             }
             if (tag.equals("COMMENTREFRESH")) {
                 tvCommentcount.setText("其他小伙伴怎么说(" + goodsDetailActivity.goodsCommentResponse.getTotalCount() + ")");
-                if(goodsDetailActivity.goodsCommentResponse.getAppraiseList()!=null
-                        &&goodsDetailActivity.goodsCommentResponse.getAppraiseList().size()>0){
+                if (goodsDetailActivity.goodsCommentResponse.getAppraiseList() != null
+                        && goodsDetailActivity.goodsCommentResponse.getAppraiseList().size() > 0) {
                     comentList.clear();
                     myListview.loadComplete();
                     comentList.add(goodsDetailActivity.goodsCommentResponse.getAppraiseList().get(0));

@@ -33,7 +33,6 @@ import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.bean.conmunity.PublicTZResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
-import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.acty.MainActivity;
@@ -52,19 +51,11 @@ import com.fengqipu.mall.view.photopicker.adapter.ImagePublishAdapter;
 import com.fengqipu.mall.view.photopicker.model.ImageItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.qiniu.android.http.ResponseInfo;
-import com.qiniu.android.storage.UpCompletionHandler;
-import com.qiniu.android.storage.UploadManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import de.greenrobot.event.EventBus;
 
 
 
@@ -79,7 +70,6 @@ public class PublishActivity extends BaseActivity {
     private String contentStr = "";
     private String titleStr = "";
     private List<String> upimg_key_list = new ArrayList<>();
-    private UploadManager uploadManager;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +92,7 @@ public class PublishActivity extends BaseActivity {
             if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 DialogUtil.showNoTipTwoBnttonDialog(mContext, "是否放弃编辑?", "放弃", "继续编辑", NotiTag.TAG_DIALOG_LEFT1, NotiTag.TAG_DIALOG_RIGHT1);
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
-                upLoadAllPics();
+//                upLoadAllPics();
             } else if (NotiTag.equalsTags(mContext, tag, NotiTag.TAG_UPLOAD_PICS_SUCCESS)) {
                 if (GeneralUtils.isNotNullOrZeroLenght(titleEt.getText().toString()) || upimg_key_list.size() > 0) {
                     UserServiceImpl.instance().publicCommunity("1", titleEt.getText().toString(),
@@ -136,52 +126,52 @@ public class PublishActivity extends BaseActivity {
         }
     }
 
-    private void upLoadAllPics() {
-        NetLoadingDialog.getInstance().loading(mContext);
-        if (mDataList.size() == 0) {
-            UserServiceImpl.instance().publicCommunity("1", titleEt.getText().toString(),
-                    contentEt.getText().toString(), PublicTZResponse.class.getName());
-        } else {
-            uploadManager = new UploadManager();
-            for (int i = 0; i < mDataList.size(); i++) {
-                if (GeneralUtils.isNotNullOrZeroLenght(mDataList.get(i).getSourcePath())) {
-                    getUpimg(mDataList.get(i).getSourcePath());
-                }
-            }
-        }
-    }
-
-    public void getUpimg(final String imagePath) {
-        new Thread() {
-            public void run() {
-                // 图片上传到七牛 重用 uploadManager。一般地，只需要创建一个 uploadManager 对象
-                uploadManager.put(imagePath, "article_" + java.util.UUID.randomUUID().toString() + ".png", Global.getToken(),
-                        new UpCompletionHandler() {
-                            @Override
-                            public void complete(String key, ResponseInfo info, JSONObject res) {
-                                // res 包含hash、key等信息，具体字段取决于上传策略的设置。
-//                                CMLog.e(Constants.HTTP_TAG, key + ",\r\n " + info + ",\r\n "
-//                                        + res);
-                                try {
-                                    // 七牛返回的文件名
-                                    String upimg = res.getString("key");
-                                    upimg_key_list.add(upimg);//将七牛返回图片的文件名添加到list集合中
-                                    if (upimg_key_list.size() == mDataList
-                                            .size()) {
-                                        EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_UPLOAD_PICS_SUCCESS));
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                        , null);
-
-            }
-        }
-                .
-                        start();
-    }
+//    private void upLoadAllPics() {
+//        NetLoadingDialog.getInstance().loading(mContext);
+//        if (mDataList.size() == 0) {
+//            UserServiceImpl.instance().publicCommunity("1", titleEt.getText().toString(),
+//                    contentEt.getText().toString(), PublicTZResponse.class.getName());
+//        } else {
+//            uploadManager = new UploadManager();
+//            for (int i = 0; i < mDataList.size(); i++) {
+//                if (GeneralUtils.isNotNullOrZeroLenght(mDataList.get(i).getSourcePath())) {
+//                    getUpimg(mDataList.get(i).getSourcePath());
+//                }
+//            }
+//        }
+//    }
+//
+//    public void getUpimg(final String imagePath) {
+//        new Thread() {
+//            public void run() {
+//                // 图片上传到七牛 重用 uploadManager。一般地，只需要创建一个 uploadManager 对象
+//                uploadManager.put(imagePath, "article_" + java.util.UUID.randomUUID().toString() + ".png", Global.getToken(),
+//                        new UpCompletionHandler() {
+//                            @Override
+//                            public void complete(String key, ResponseInfo info, JSONObject res) {
+//                                // res 包含hash、key等信息，具体字段取决于上传策略的设置。
+////                                CMLog.e(Constants.HTTP_TAG, key + ",\r\n " + info + ",\r\n "
+////                                        + res);
+//                                try {
+//                                    // 七牛返回的文件名
+//                                    String upimg = res.getString("key");
+//                                    upimg_key_list.add(upimg);//将七牛返回图片的文件名添加到list集合中
+//                                    if (upimg_key_list.size() == mDataList
+//                                            .size()) {
+//                                        EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_UPLOAD_PICS_SUCCESS));
+//                                    }
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        }
+//                        , null);
+//
+//            }
+//        }
+//                .
+//                        start();
+//    }
 
     private void initTitle() {
         View view = findViewById(R.id.common_back);

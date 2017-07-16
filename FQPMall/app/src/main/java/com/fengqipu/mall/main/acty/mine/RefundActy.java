@@ -55,7 +55,6 @@ import com.fengqipu.mall.view.photopicker.view.ImageBucketChooseActivity;
 import com.fengqipu.mall.view.photopicker.view.ImageZoomActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.qiniu.android.storage.UploadManager;
 
 import java.io.File;
 import java.io.Serializable;
@@ -65,8 +64,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static com.fengqipu.mall.main.acty.mine.AccountManageActy.PHOTOTAKE;
 
 /**
  * Created by huqing on 2016/7/20.
@@ -98,8 +95,6 @@ public class RefundActy extends BaseActivity implements View.OnClickListener {
     private TextView tvMax;
 
     private String orderId;
-
-    private UploadManager uploadManager;
 
     private List<String> uploadUrlList = new ArrayList<>();
 

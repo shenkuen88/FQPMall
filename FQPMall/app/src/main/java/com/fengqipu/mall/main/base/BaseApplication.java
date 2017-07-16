@@ -1,7 +1,7 @@
 package com.fengqipu.mall.main.base;
 
 import android.app.Activity;
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -10,7 +10,6 @@ import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.tools.GeneralUtils;
-import com.hyphenate.easeui.EaseUI;
 
 import org.apache.http.client.CookieStore;
 
@@ -24,7 +23,7 @@ import de.greenrobot.event.EventBus;
  *
  * @author wangtao
  */
-public class BaseApplication extends Application {
+public class BaseApplication extends MultiDexApplication {
     /**
      * 导航栏高度
      */
@@ -85,7 +84,7 @@ public class BaseApplication extends Application {
 
         Global.saveOpenApp(true);
         DEVICE_TOKEN = GeneralUtils.getDeviceId(this);
-        EaseUI.getInstance().init(this, null);
+//        EaseUI.getInstance().init(this, null);
     }
 
     public static synchronized BaseApplication getInstance() {

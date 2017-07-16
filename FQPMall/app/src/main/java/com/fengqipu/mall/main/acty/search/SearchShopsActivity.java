@@ -99,6 +99,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
 
     private void initData() {
         pageNum = 1;
+        NetLoadingDialog.getInstance().loading(SearchShopsActivity.this);
         initBtmList();
     }
 
@@ -293,11 +294,11 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
                 initData();
                 break;
             case btn_sx://筛选
-                initTopBtn();
-                btnSx.setTextColor(getResources().getColor(R.color.app_color));
-                Drawable arraw = getResources().getDrawable(R.mipmap.icon_arrow_red);
-                arraw.setBounds(0, 0, arraw.getMinimumWidth(), arraw.getMinimumHeight());
-                btnSx.setCompoundDrawables(null, null, arraw, null);
+//                initTopBtn();
+//                btnSx.setTextColor(getResources().getColor(R.color.app_color));
+//                Drawable arraw = getResources().getDrawable(R.mipmap.icon_arrow_red);
+//                arraw.setBounds(0, 0, arraw.getMinimumWidth(), arraw.getMinimumHeight());
+//                btnSx.setCompoundDrawables(null, null, arraw, null);
                 startActivity(new Intent(SearchShopsActivity.this,SearchCategoryActivity.class));
                 break;
         }

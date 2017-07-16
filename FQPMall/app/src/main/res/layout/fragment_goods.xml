@@ -66,6 +66,7 @@
                             android:background="@color/white_grey"></View>
 
                         <LinearLayout
+                            android:id="@+id/share_goods"
                             android:layout_width="32dp"
                             android:layout_height="50dp"
                             android:layout_marginRight="10dp"

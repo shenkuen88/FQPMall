@@ -53,7 +53,6 @@ import com.fengqipu.mall.view.photopicker.view.ImageBucketChooseActivity;
 import com.fengqipu.mall.view.photopicker.view.ImageZoomActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.qiniu.android.storage.UploadManager;
 
 import java.io.File;
 import java.io.Serializable;
@@ -76,7 +75,6 @@ public class PublicCommentActy extends BaseActivity {
     private String contentId = "1";
     private CheckBox cb;
     private RatingBar rb;
-    private UploadManager uploadManager;
     private List<String> uploadUrlList = new ArrayList<>();
 
 

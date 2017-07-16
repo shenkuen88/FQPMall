@@ -104,6 +104,7 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
 
     private void initData() {
         pageNum = 1;
+        NetLoadingDialog.getInstance().loading(SearchGoodsActivity.this);
         initBtmList();
     }
     private String contentType="";
@@ -336,15 +337,15 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
                 initData();
                 break;
             case btn_sx://筛选
-                initTopBtn();
-                btnSx.setTextColor(getResources().getColor(R.color.app_color));
-                Drawable arraw = getResources().getDrawable(R.mipmap.icon_arrow_red);
-                arraw.setBounds(0, 0, arraw.getMinimumWidth(), arraw.getMinimumHeight());
-                btnSx.setCompoundDrawables(null, null, arraw, null);
-                jgtype = 0;
-                Drawable nav_original2 = getResources().getDrawable(R.mipmap.price_original);
-                nav_original2.setBounds(0, 0, nav_original2.getMinimumWidth(), nav_original2.getMinimumHeight());
-                btnJg.setCompoundDrawables(null, null, nav_original2, null);
+//                initTopBtn();
+//                btnSx.setTextColor(getResources().getColor(R.color.app_color));
+//                Drawable arraw = getResources().getDrawable(R.mipmap.icon_arrow_red);
+//                arraw.setBounds(0, 0, arraw.getMinimumWidth(), arraw.getMinimumHeight());
+//                btnSx.setCompoundDrawables(null, null, arraw, null);
+//                jgtype = 0;
+//                Drawable nav_original2 = getResources().getDrawable(R.mipmap.price_original);
+//                nav_original2.setBounds(0, 0, nav_original2.getMinimumWidth(), nav_original2.getMinimumHeight());
+//                btnJg.setCompoundDrawables(null, null, nav_original2, null);
                 if(shaiXuanDialog==null&&cityResponse!=null) {
                     shaiXuanDialog = new ShaiXuanDialog(SearchGoodsActivity.this, cityResponse);
                 }
