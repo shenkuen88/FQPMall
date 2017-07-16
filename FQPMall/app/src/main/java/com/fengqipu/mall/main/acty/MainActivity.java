@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (event instanceof NoticeEvent) {
             String tag = ((NoticeEvent) event).getTag();
             //关闭页面
-            if (tag.equals(NotiTag.TAG_LOCATION_SUCCESS)) {
+            if (tag.equals(NotiTag.TAG_LOCATION_SUCCESS)&& BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 if (mLocationClient != null) {
                     mLocationClient.stop();
                 }

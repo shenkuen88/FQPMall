@@ -19,6 +19,7 @@ import com.fengqipu.mall.R;
 import com.fengqipu.mall.adapter.CommonAdapter;
 import com.fengqipu.mall.adapter.ViewHolder;
 import com.fengqipu.mall.bean.search.CityResponse;
+import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.main.acty.search.SearchCategoryActivity;
 import com.fengqipu.mall.tools.V;
 import com.fengqipu.mall.view.MyGridView;
@@ -47,6 +48,7 @@ public class ShaiXuanDialog extends Dialog {
     public CommonAdapter<CityResponse.HotAddressBean> mAdapter;
     public String selID="";
     public String selName="";
+    private TextView tv_cur_city;
 
     public ShaiXuanDialog(final Activity ctx, View view, int style, final CityResponse cityResponse) {
         super(view.getContext(), style);
@@ -80,6 +82,14 @@ public class ShaiXuanDialog extends Dialog {
         btnConfirm= V.f(view,R.id.btn_confirm);
         my_grid_view= V.f(view,R.id.my_grid_view);
         fenlei_rl=V.f(view,R.id.fenlei_rl);
+        tv_cur_city=V.f(view,R.id.tv_cur_city);
+        String curCity="";
+        try {
+            curCity=Global.getCity().replace("市","");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        tv_cur_city.setText(curCity);
         fenlei_rl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

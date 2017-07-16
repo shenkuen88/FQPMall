@@ -7,8 +7,10 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.fengqipu.mall.bean.NoticeEvent;
+import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.NotiTag;
+import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.mob.MobSDK;
 
@@ -159,8 +161,8 @@ public class BaseApplication extends MultiDexApplication {
             Global.savelangitude(location.getLongitude() + "");//经度
             Global.savelatitude(location.getLatitude() + "");//纬度
             //发个通知
-            EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_LOCATION_SUCCESS));
-//            CMLog.e(Constants.HTTP_TAG, sb.toString());
+            EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_LOCATION_SUCCESS,location.getAddrStr()));
+            CMLog.e(Constants.HTTP_TAG, sb.toString());
         }
     }
 

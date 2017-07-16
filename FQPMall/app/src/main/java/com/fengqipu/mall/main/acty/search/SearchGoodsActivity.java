@@ -15,6 +15,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.adapter.CommonAdapter;
 import com.fengqipu.mall.adapter.ViewHolder;
@@ -388,12 +390,38 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
     }
     CityResponse cityResponse;
     private String category2="";
+    private LocationClient mLocationClient;//定位SDK的核心类
+
+    private void startLocation() {
+        if (((BaseApplication) getApplication()).mLocationClient != null) {
+            mLocationClient = ((BaseApplication) getApplication()).mLocationClient;
+            InitLocation();//初始化
+            mLocationClient.start();
+        }
+    }
+
+    /**
+     * 定位初始化设置
+     */
+    private void InitLocation() {
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//设置高精度定位定位模式
+        option.setCoorType("bd09ll");//设置百度经纬度坐标系格式
+        option.setScanSpan(1000);//设置发起定位请求的间隔时间为1000ms
+        option.setIsNeedAddress(true);//反编译获得具体位置，只有网络定位才可以
+        mLocationClient.setLocOption(option);
+    }
     @Override
     public void onEventMainThread(BaseResponse event) throws Exception {
         if (event instanceof NoticeEvent) {
             String tag = ((NoticeEvent) event).getTag();
             if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
+            }
+            if (tag.equals(NotiTag.TAG_LOCATION_SUCCESS)&& BaseApplication.currentActivity.equals(this.getClass().getName())) {
+                if (mLocationClient != null) {
+                    mLocationClient.stop();
+                }
             }
             if("SearchCategory".equals(tag)){
                 String str=((NoticeEvent) event).getUrl1();

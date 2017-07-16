@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
@@ -82,6 +84,8 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
     LinearLayout ll2;
     @Bind(R.id.ll_3)
     LinearLayout ll3;
+    @Bind(R.id.iv_location)
+    ImageView ivLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +131,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
         ivSfz1.setOnClickListener(this);
         ivSfz2.setOnClickListener(this);
         btnLjkd.setOnClickListener(this);
+        ivLocation.setOnClickListener(this);
     }
 
     private void setUpData() {
@@ -181,33 +186,36 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.iv_location:
+                startLocation();
+                break;
             case R.id.btn_ljkd:
-                if(etShopname.getText().toString().equals("")){
-                    ToastUtils.showToast(OneButtonShopActivity.this,"请填写商店名称!");
+                if (etShopname.getText().toString().equals("")) {
+                    ToastUtils.showToast(OneButtonShopActivity.this, "请填写商店名称!");
                     return;
                 }
-                if(tvAddress.getText().toString().equals("")){
-                    ToastUtils.showToast(OneButtonShopActivity.this,"请选择省市区!");
+                if (tvAddress.getText().toString().equals("")) {
+                    ToastUtils.showToast(OneButtonShopActivity.this, "请选择省市区!");
                     return;
                 }
-                if(etAdressDetail.getText().toString().equals("")){
-                    ToastUtils.showToast(OneButtonShopActivity.this,"请填写详细地址!");
+                if (etAdressDetail.getText().toString().equals("")) {
+                    ToastUtils.showToast(OneButtonShopActivity.this, "请填写详细地址!");
                     return;
                 }
-                if(yyzzPic.equals("")){
-                    ToastUtils.showToast(OneButtonShopActivity.this,"请上传营业执照!");
+                if (yyzzPic.equals("")) {
+                    ToastUtils.showToast(OneButtonShopActivity.this, "请上传营业执照!");
                     return;
                 }
-                if(sfz1.equals("")){
-                    ToastUtils.showToast(OneButtonShopActivity.this,"请上传身份证正面照!");
+                if (sfz1.equals("")) {
+                    ToastUtils.showToast(OneButtonShopActivity.this, "请上传身份证正面照!");
                     return;
                 }
-                if(sfz2.equals("")){
-                    ToastUtils.showToast(OneButtonShopActivity.this,"请上传身份证反面照!");
+                if (sfz2.equals("")) {
+                    ToastUtils.showToast(OneButtonShopActivity.this, "请上传身份证反面照!");
                     return;
                 }
                 //马上开店
-                List<File> files=new ArrayList<>();
+                List<File> files = new ArrayList<>();
                 files.add(new File(yyzzPic));
                 files.add(new File(sfz1));
                 files.add(new File(sfz2));
@@ -313,11 +321,10 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
 //                    openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PICTURE);
     }
-    public class MyPopupWindows extends PopupWindow
-    {
 
-        public MyPopupWindows(final Context mContext, View parent)
-        {
+    public class MyPopupWindows extends PopupWindow {
+
+        public MyPopupWindows(final Context mContext, View parent) {
 
             View view = View.inflate(mContext, R.layout.item_popupwindow_img, null);
             view.startAnimation(AnimationUtils.loadAnimation(mContext,
@@ -341,31 +348,25 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                     .findViewById(R.id.item_popupwindows_Photo);
             Button bt3 = (Button) view
                     .findViewById(R.id.item_popupwindows_cancel);
-            bt3.setOnClickListener(new View.OnClickListener()
-            {
-                public void onClick(View v)
-                {
+            bt3.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
                     dismiss();
                 }
             });
-            bt2.setOnClickListener(new View.OnClickListener()
-            {
-                public void onClick(View v)
-                {
+            bt2.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
                     dismiss();
                     Intent openAlbumIntent = new Intent(Intent.ACTION_GET_CONTENT);
                     openAlbumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                     startActivityForResult(openAlbumIntent, PHOTOZOOM);
                 }
             });
-            bt1.setOnClickListener(new View.OnClickListener()
-            {
-                public void onClick(View v)
-                {
+            bt1.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
                     dismiss();
                     photoSaveName = String.valueOf(System.currentTimeMillis()) + ".png";
-                    File file=new File(photoSavePath+photoSaveName);
-                    if (!file.getParentFile().exists())file.getParentFile().mkdirs();
+                    File file = new File(photoSavePath + photoSaveName);
+                    if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
                     Uri imageUri = FileProvider.getUriForFile(OneButtonShopActivity.this, "com.fengqipu.mall.fileprovider", file);//通过FileProvider创建一个content类型的Uri
                     Intent intent = new Intent();
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
@@ -380,6 +381,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
             });
         }
     }
+
     //拍照上传
     public static final int PHOTOZOOM = 0; // 相册
 
@@ -393,68 +395,63 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
 
     private String path;//图片全路径，也是上传的图片路径
 
-    private String yyzzPic="";
-    private String sfz1="";
-    private String sfz2="";
+    private String yyzzPic = "";
+    private String sfz1 = "";
+    private String sfz2 = "";
+
     /**
      * 图片选择及拍照结果
      */
     @SuppressWarnings("deprecation")
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (resultCode != RESULT_OK)
-        {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) {
             return;
         }
         Uri uri = null;
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case PHOTOZOOM://相册
-                if (data == null)
-                {
+                if (data == null) {
                     return;
                 }
                 uri = data.getData();
                 path = BitmapUtil.getPath(mContext, uri);
-                if (!GeneralUtils.isNetworkConnected(mContext))
-                {
+                if (!GeneralUtils.isNetworkConnected(mContext)) {
                     ToastUtil.showError(mContext);
                     return;
                 }
                 switch (posType) {
                     case 0:
-                        yyzzPic=path;
+                        yyzzPic = path;
                         GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivYyzz, R.mipmap.btn_pic1);
                         break;
                     case 1:
-                        sfz1=path;
+                        sfz1 = path;
                         GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivSfz1, R.mipmap.btn_pic2);
                         break;
                     case 2:
-                        sfz2=path;
+                        sfz2 = path;
                         GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivSfz2, R.mipmap.btn_pic3);
                         break;
                 }
                 break;
             case PHOTOTAKE://拍照
                 path = photoSavePath + photoSaveName;
-                if (!GeneralUtils.isNetworkConnected(mContext))
-                {
+                if (!GeneralUtils.isNetworkConnected(mContext)) {
                     ToastUtil.showError(mContext);
                     return;
                 }
                 switch (posType) {
                     case 0:
-                        yyzzPic=path;
+                        yyzzPic = path;
                         GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivYyzz, R.mipmap.btn_pic1);
                         break;
                     case 1:
-                        sfz1=path;
+                        sfz1 = path;
                         GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivSfz1, R.mipmap.btn_pic2);
                         break;
                     case 2:
-                        sfz2=path;
+                        sfz2 = path;
                         GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivSfz2, R.mipmap.btn_pic3);
                         break;
                 }
@@ -465,6 +462,28 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    private LocationClient mLocationClient;//定位SDK的核心类
+
+    private void startLocation() {
+        if (((BaseApplication) getApplication()).mLocationClient != null) {
+            mLocationClient = ((BaseApplication) getApplication()).mLocationClient;
+            InitLocation();//初始化
+            mLocationClient.start();
+        }
+    }
+
+    /**
+     * 定位初始化设置
+     */
+    private void InitLocation() {
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//设置高精度定位定位模式
+        option.setCoorType("bd09ll");//设置百度经纬度坐标系格式
+        option.setScanSpan(1000);//设置发起定位请求的间隔时间为1000ms
+        option.setIsNeedAddress(true);//反编译获得具体位置，只有网络定位才可以
+        mLocationClient.setLocOption(option);
+    }
+
     @Override
     public void onEventMainThread(BaseResponse event) {
         if (event instanceof NoticeEvent) {
@@ -472,6 +491,13 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
             //关闭页面
             if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 finish();
+            }
+            if (tag.equals(NotiTag.TAG_LOCATION_SUCCESS)&& BaseApplication.currentActivity.equals(this.getClass().getName())) {
+                if (mLocationClient != null) {
+                    mLocationClient.stop();
+                }
+                String addressDetail = ((NoticeEvent) event).getText();
+                etAdressDetail.setText(addressDetail);
             }
         }
         if (event instanceof NetResponseEvent) {
@@ -496,8 +522,8 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                         }
                         UserServiceImpl.instance().addShop(
                                 etShopname.getText().toString()
-                                ,mCurrentProviceName,mCurrentCityName,mCurrentDistrictName
-                                ,etAdressDetail.getText().toString(),url1,url2,url3, OneButtonShopResponse.class.getName());
+                                , mCurrentProviceName, mCurrentCityName, mCurrentDistrictName
+                                , etAdressDetail.getText().toString(), url1, url2, url3, OneButtonShopResponse.class.getName());
                     } else {
                         ErrorCode.doCode(mContext, uploadFileResponse.getResultCode(), uploadFileResponse.getDesc());
                     }
@@ -510,7 +536,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     OneButtonShopResponse oneButtonShopResponse = GsonHelper.toType(result, OneButtonShopResponse.class);
                     if (Constants.SUCESS_CODE.equals(oneButtonShopResponse.getResultCode())) {
-                        ToastUtils.showToast(mContext,"提交开店申请成功");
+                        ToastUtils.showToast(mContext, "提交开店申请成功");
                     } else {
                         ErrorCode.doCode(mContext, oneButtonShopResponse.getResultCode(), oneButtonShopResponse.getDesc());
                     }
