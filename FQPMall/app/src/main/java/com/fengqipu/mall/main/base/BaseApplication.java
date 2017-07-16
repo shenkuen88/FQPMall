@@ -10,6 +10,7 @@ import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.tools.GeneralUtils;
+import com.hyphenate.easeui.EaseUI;
 
 import org.apache.http.client.CookieStore;
 
@@ -84,6 +85,7 @@ public class BaseApplication extends Application {
 
         Global.saveOpenApp(true);
         DEVICE_TOKEN = GeneralUtils.getDeviceId(this);
+        EaseUI.getInstance().init(this, null);
     }
 
     public static synchronized BaseApplication getInstance() {
