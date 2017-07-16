@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fengqipu.mall.R;
@@ -29,10 +30,27 @@ import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.StringEncrypt;
 import com.fengqipu.mall.tools.ToastUtil;
 
+import java.util.HashMap;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.tencent.qq.QQ;
+import cn.sharesdk.wechat.friends.Wechat;
 import de.greenrobot.event.EventBus;
 
 public class LoginActy extends BaseActivity implements View.OnClickListener {
 
+    @Bind(R.id.tab1)
+    ImageView tab1;
+    @Bind(R.id.tab1_txt)
+    TextView tab1Txt;
+    @Bind(R.id.tab2)
+    ImageView tab2;
+    @Bind(R.id.tab2_txt)
+    TextView tab2Txt;
     private Button commitBn;
     private EditText nameET, psdET;
     private TextView forgetTv, registTv;
@@ -43,6 +61,7 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         dialog = new ProgressDialog(mContext);
         setContentView(R.layout.activity_login_acty);
+        ButterKnife.bind(this);
         initAll();
     }
 
@@ -80,6 +99,11 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
         commitBn.setOnClickListener(this);
         registTv.setOnClickListener(this);
         forgetTv.setOnClickListener(this);
+        tab1.setOnClickListener(this);
+        tab1Txt.setOnClickListener(this);
+        tab2.setOnClickListener(this);
+        tab2Txt.setOnClickListener(this);
+
     }
 
     @Override
@@ -89,7 +113,7 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
             if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 finish();
             }
-            if(NotiTag.TAG_LOGIN_SUCCESS.equals(tag)){
+            if (NotiTag.TAG_LOGIN_SUCCESS.equals(tag)) {
                 finish();
             }
         }
@@ -124,6 +148,43 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tab1:
+            case R.id.tab1_txt:
+                Platform wechat= ShareSDK.getPlatform(QQ.NAME);
+                wechat.setPlatformActionListener(new PlatformActionListener() {
+                    @Override
+                    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                    }
+
+                    @Override
+                    public void onError(Platform platform, int i, Throwable throwable) {
+                    }
+
+                    @Override
+                    public void onCancel(Platform platform, int i) {
+
+                    }
+                });
+                wechat.authorize();
+                break;
+            case R.id.tab2:
+            case R.id.tab2_txt:
+                Platform wechat2= ShareSDK.getPlatform(Wechat.NAME);
+                wechat2.setPlatformActionListener(new PlatformActionListener() {
+                    @Override
+                    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                    }
+
+                    @Override
+                    public void onError(Platform platform, int i, Throwable throwable) {
+                    }
+
+                    @Override
+                    public void onCancel(Platform platform, int i) {
+                    }
+                });
+                wechat2.authorize();
+                break;
             case R.id.app_login_bn:
                 if (GeneralUtils.isNotNullOrZeroLenght(psdET.getText().toString())) {
                     if (GeneralUtils.isNotNullOrZeroLenght(nameET.getText().toString())) {

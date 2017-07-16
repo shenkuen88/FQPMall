@@ -10,6 +10,7 @@ import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.tools.GeneralUtils;
+import com.mob.MobSDK;
 
 import org.apache.http.client.CookieStore;
 
@@ -28,7 +29,6 @@ public class BaseApplication extends MultiDexApplication {
      * 导航栏高度
      */
     public static int statusBarHeight = 0;
-
     /**
      * cookie缓存
      */
@@ -84,6 +84,7 @@ public class BaseApplication extends MultiDexApplication {
 
         Global.saveOpenApp(true);
         DEVICE_TOKEN = GeneralUtils.getDeviceId(this);
+        MobSDK.init(this, null, null);
 //        EaseUI.getInstance().init(this, null);
     }
 
