@@ -45,6 +45,7 @@ import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
+import com.hyphenate.helpdesk.easeui.util.IntentBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,7 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 import static com.fengqipu.mall.R.id.collect_tv;
+
 
 public class GoodsDetailActivity extends BaseActivity implements View.OnClickListener {
 
@@ -137,6 +139,12 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.search_tv:
 
+                break;
+            case R.id.service_tv:
+                Intent intent=new IntentBuilder(GoodsDetailActivity.this)
+                .setServiceIMNumber("kefuchannelimid_021199") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
+                    .build();
+                startActivity(intent);
                 break;
             case collect_tv:
                 UserServiceImpl.instance().addFavour(this,"1",contentID, AddGoodsFavourResponse.class.getName());

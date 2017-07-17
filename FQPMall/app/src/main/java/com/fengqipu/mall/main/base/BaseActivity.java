@@ -15,11 +15,15 @@ import android.widget.LinearLayout;
 
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.BaseResponse;
+import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.tools.ACache;
 import com.fengqipu.mall.tools.DisplayUtil;
 import com.fengqipu.mall.tools.FileSystemManager;
 import com.fengqipu.mall.tools.SystemBarTintManager;
 import com.fengqipu.mall.tools.permission.PermissionActivity;
+import com.hyphenate.chat.ChatClient;
+import com.hyphenate.helpdesk.Error;
+import com.hyphenate.helpdesk.callback.Callback;
 
 import de.greenrobot.event.EventBus;
 
@@ -130,6 +134,53 @@ public abstract class BaseActivity extends PermissionActivity {
     protected void onResume() {
         super.onResume();
         BaseApplication.currentActivity = this.getClass().getName();
+        if(ChatClient.getInstance().isLoggedInBefore()){
+            //已经登录，可以直接进入会话界面
+        }else{
+            //未登录，需要登录后，再进入会话界面
+            ChatClient.getInstance().createAccount(Global.getUserName(), Global.getUserName()
+                    , new Callback(){
+                        @Override
+                        public void onSuccess() {
+                            ChatClient.getInstance().login(Global.getUserName(), Global.getUserName(), new Callback(){
+                                @Override
+                                public void onSuccess() {
+                                }
+
+                                @Override
+                                public void onError(int i, String s) {
+                                }
+
+                                @Override
+                                public void onProgress(int i, String s) {
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError(int i, String s) {
+                            if(i== Error.USER_ALREADY_EXIST){
+                                ChatClient.getInstance().login(Global.getUserName(), Global.getUserName(), new Callback(){
+                                    @Override
+                                    public void onSuccess() {
+                                    }
+
+                                    @Override
+                                    public void onError(int i, String s) {
+                                    }
+
+                                    @Override
+                                    public void onProgress(int i, String s) {
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onProgress(int i, String s) {
+                        }
+                    });
+        }
     }
 
     @Override

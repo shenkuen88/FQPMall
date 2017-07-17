@@ -194,7 +194,12 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
         shareGoods.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShareSDKMethod.showShare(goodsDetailActivity);
+                if(goodsDetailActivity.goodsDetailResponse!=null) {
+                    ShareSDKMethod.showShare(goodsDetailActivity,
+                            goodsDetailActivity.goodsDetailResponse.getContent().getContentName()
+                    ,goodsDetailActivity.goodsDetailResponse.getContent().getDescriptionLink()
+                            ,goodsDetailActivity.goodsDetailResponse.getContent().getDescriptionLink());
+                }
             }
         });
     }

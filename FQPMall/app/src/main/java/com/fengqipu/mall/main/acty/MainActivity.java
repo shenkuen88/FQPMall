@@ -40,6 +40,8 @@ import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.SharePref;
 import com.fengqipu.mall.tools.StringEncrypt;
 import com.fengqipu.mall.tools.ToastUtil;
+import com.hyphenate.chat.ChatClient;
+import com.hyphenate.helpdesk.callback.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -355,6 +357,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (event.getDownTime() - downTime <= 2000) {
+                ChatClient.getInstance().logout(true, new Callback(){
+                    @Override
+                    public void onSuccess() {
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+                    }
+
+                    @Override
+                    public void onProgress(int i, String s) {
+                    }
+                });
                 BaseApplication.getInstance().onTerminate();
             } else {
                 ToastUtil.makeText(this, getResources().getString(R.string.exit_tips));

@@ -23,3 +23,18 @@
 -dontwarn com.mob.**
 -dontwarn cn.sharesdk.**
 -dontwarn **.R$*
+#环信客服
+-keep class com.hyphenate.** {*;}
+-dontwarn  com.hyphenate.**
+
+#如添加华为push
+# Huawei push
+-keep class com.huawei.android.pushagent.** {*;}
+-keep class com.huawei.android.pushselfshow.** {*;}
+-keep class com.huawei.android.microkernel.** {*;}
+-keep class com.baidu.mapapi.** {*;}
+-keep class com.hianalytics.android.** {*;}
+-dontwarn com.huawei.android.pushagent.**
+-dontwarn com.huawei.android.pushselfshow.**
+-dontwarn com.huawei.android.microkernel.**
+-dontwarn com.github.mikephil.charting.data.**

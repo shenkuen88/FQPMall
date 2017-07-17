@@ -1,1 +1,1 @@
-include ':app', ':ptr-lib', ':easeui'
+include ':app', ':ptr-lib', ':kefu-easeui'

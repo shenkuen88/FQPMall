@@ -12,6 +12,8 @@ import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.GeneralUtils;
+import com.hyphenate.chat.ChatClient;
+import com.hyphenate.helpdesk.easeui.UIProvider;
 import com.mob.MobSDK;
 
 import org.apache.http.client.CookieStore;
@@ -87,6 +89,17 @@ public class BaseApplication extends MultiDexApplication {
         Global.saveOpenApp(true);
         DEVICE_TOKEN = GeneralUtils.getDeviceId(this);
         MobSDK.init(this, null, null);
+        ChatClient.Options options = new ChatClient.Options();
+        options.setAppkey("1180170717178776#kefuchannelapp44668");//必填项，appkey获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“AppKey”
+        options.setTenantId("44668");//必填项，tenantId获取地址：kefu.easemob.com，“管理员模式 > 设置 > 企业信息”页面的“租户ID”
+
+        // Kefu SDK 初始化
+        if (!ChatClient.getInstance().init(this, options)){
+            return;
+        }
+        // Kefu EaseUI的初始化
+        UIProvider.getInstance().init(this);
+
 //        EaseUI.getInstance().init(this, null);
     }
 
