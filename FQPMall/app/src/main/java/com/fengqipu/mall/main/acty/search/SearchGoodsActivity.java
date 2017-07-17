@@ -349,7 +349,7 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
 //                nav_original2.setBounds(0, 0, nav_original2.getMinimumWidth(), nav_original2.getMinimumHeight());
 //                btnJg.setCompoundDrawables(null, null, nav_original2, null);
                 if(shaiXuanDialog==null&&cityResponse!=null) {
-                    shaiXuanDialog = new ShaiXuanDialog(SearchGoodsActivity.this, cityResponse);
+                    shaiXuanDialog = new ShaiXuanDialog(SearchGoodsActivity.this, cityResponse,0);
                 }
                 if(shaiXuanDialog!=null){
                     shaiXuanDialog.show();

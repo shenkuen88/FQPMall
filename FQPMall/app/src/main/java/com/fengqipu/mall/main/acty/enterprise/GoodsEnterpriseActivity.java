@@ -17,10 +17,12 @@ import com.fengqipu.mall.adapter.ViewHolder;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
+import com.fengqipu.mall.bean.search.CityResponse;
 import com.fengqipu.mall.bean.shop.GoodsEnterpriseResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.NotiTag;
+import com.fengqipu.mall.dialog.ShaiXuanDialog;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
@@ -109,6 +111,7 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
 
     private void initData() {
         pageNum = 1;
+        NetLoadingDialog.getInstance().loading(this);
         initBtmList();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -122,6 +125,9 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
 
     }
 
+    private String city="";
+    private String minPrice="";
+    private String maxPrice="";
 
     private void initBtmList() {
 //        myLoading.setVisibility(View.GONE);
@@ -136,7 +142,7 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
 //        goodsList.add(g5);
 //        lAdapter.notifyDataSetChanged();
 //        gAdapter.notifyDataSetChanged();
-        UserServiceImpl.instance().getShopsGList(this, contentType, category2, model, order + "", jgtype + "", pageNum, pageSize, GoodsEnterpriseResponse.class.getName());
+        UserServiceImpl.instance().getShopsGList(city,minPrice,maxPrice, contentType, category2, model, order + "", jgtype + "", pageNum, pageSize, GoodsEnterpriseResponse.class.getName());
     }
 
     @Override
@@ -261,7 +267,7 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
 
     int jgtype = 0;
     private int order = 1;
-
+    ShaiXuanDialog shaiXuanDialog;
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -328,19 +334,48 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
                 initData();
                 break;
             case btn_sx://筛选
-                initTopBtn();
-                btnSx.setTextColor(getResources().getColor(R.color.app_color));
-                Drawable arraw = getResources().getDrawable(R.mipmap.icon_arrow_red);
-                arraw.setBounds(0, 0, arraw.getMinimumWidth(), arraw.getMinimumHeight());
-                btnSx.setCompoundDrawables(null, null, arraw, null);
-                jgtype = 0;
-                Drawable nav_original2 = getResources().getDrawable(R.mipmap.price_original);
-                nav_original2.setBounds(0, 0, nav_original2.getMinimumWidth(), nav_original2.getMinimumHeight());
-                btnJg.setCompoundDrawables(null, null, nav_original2, null);
+//                initTopBtn();
+//                btnSx.setTextColor(getResources().getColor(R.color.app_color));
+//                Drawable arraw = getResources().getDrawable(R.mipmap.icon_arrow_red);
+//                arraw.setBounds(0, 0, arraw.getMinimumWidth(), arraw.getMinimumHeight());
+//                btnSx.setCompoundDrawables(null, null, arraw, null);
+//                jgtype = 0;
+//                Drawable nav_original2 = getResources().getDrawable(R.mipmap.price_original);
+//                nav_original2.setBounds(0, 0, nav_original2.getMinimumWidth(), nav_original2.getMinimumHeight());
+//                btnJg.setCompoundDrawables(null, null, nav_original2, null);
+                if(shaiXuanDialog==null&&cityResponse!=null) {
+                    shaiXuanDialog = new ShaiXuanDialog(GoodsEnterpriseActivity.this, cityResponse,1);
+                }
+                if(shaiXuanDialog!=null){
+                    shaiXuanDialog.show();
+                    shaiXuanDialog.setBtnCzListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            shaiXuanDialog.minPrice.setText("");
+                            shaiXuanDialog.maxPrice.setText("");
+                            shaiXuanDialog.fenleiTv.setText("全部");
+                            category2="";
+                            minPrice="";
+                            maxPrice="";
+                            shaiXuanDialog.selID="";
+                            shaiXuanDialog.selName="";
+                            shaiXuanDialog.mAdapter.notifyDataSetChanged();
+                        }
+                    });
+                    shaiXuanDialog.setBtnConfirmListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            minPrice=shaiXuanDialog.minPrice.getText().toString();
+                            maxPrice=shaiXuanDialog.maxPrice.getText().toString();
+                            city=shaiXuanDialog.selName;
+                            initData();
+                            shaiXuanDialog.dismiss();
+                        }
+                    });
+                }
                 break;
         }
     }
-
     private void initTopBtn() {
         btnZh.setTextColor(Color.parseColor("#4A4A4A"));
         btnXl.setTextColor(Color.parseColor("#4A4A4A"));
@@ -386,6 +421,18 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
                     ToastUtil.showError(this);
                 }
             }
+            if (tag.equals(CityResponse.class.getName())) {
+                cityResponse = GsonHelper.toType(result, CityResponse.class);
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    CMLog.e(Constants.HTTP_TAG, result);
+                    if (Constants.SUCESS_CODE.equals(cityResponse.getResultCode())) {
+                    } else {
+                        ErrorCode.doCode(this, cityResponse.getResultCode(), cityResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(this);
+                }
+            }
         }
     }
 
@@ -397,10 +444,11 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
         headView.setRightImage(R.mipmap.btn_information_sort);
     }
 
-
+    CityResponse cityResponse;
     @Override
     public void onResume() {
         super.onResume();
+        UserServiceImpl.instance().getHotCity(CityResponse.class.getName());
     }
 
     @Override

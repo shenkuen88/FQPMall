@@ -31,12 +31,12 @@ import com.fengqipu.mall.view.MyGridView;
 public class ShaiXuanDialog extends Dialog {
     private String TAG = "ShaiXuanDialog";
 
-    public ShaiXuanDialog(Activity ctx, CityResponse cityResponse) {
-        this(ctx, ctx.getLayoutInflater().inflate(R.layout.sel_shaixuan_layout, null), cityResponse);
+    public ShaiXuanDialog(Activity ctx, CityResponse cityResponse,int type) {
+        this(ctx, ctx.getLayoutInflater().inflate(R.layout.sel_shaixuan_layout, null), cityResponse,type);
     }
 
-    public ShaiXuanDialog(Activity ctx, View view, CityResponse cityResponse) {
-        this(ctx, view, R.style.RightDialog, cityResponse);
+    public ShaiXuanDialog(Activity ctx, View view, CityResponse cityResponse,int type) {
+        this(ctx, view, R.style.RightDialog, cityResponse,type);
     }
     public EditText minPrice;
     public EditText maxPrice;
@@ -50,7 +50,7 @@ public class ShaiXuanDialog extends Dialog {
     public String selName="";
     private TextView tv_cur_city;
 
-    public ShaiXuanDialog(final Activity ctx, View view, int style, final CityResponse cityResponse) {
+    public ShaiXuanDialog(final Activity ctx, View view, int style, final CityResponse cityResponse,int type) {
         super(view.getContext(), style);
         // // 透明背景
         // Drawable myDrawable =
@@ -82,6 +82,9 @@ public class ShaiXuanDialog extends Dialog {
         btnConfirm= V.f(view,R.id.btn_confirm);
         my_grid_view= V.f(view,R.id.my_grid_view);
         fenlei_rl=V.f(view,R.id.fenlei_rl);
+        if(type==1){
+            fenlei_rl.setVisibility(View.GONE);
+        }
         tv_cur_city=V.f(view,R.id.tv_cur_city);
         String curCity="";
         try {

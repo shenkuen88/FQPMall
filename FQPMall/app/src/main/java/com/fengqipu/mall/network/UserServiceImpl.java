@@ -321,9 +321,18 @@ public class UserServiceImpl
     /**
      * 搜索企业商品
      */
-    public void getShopsGList(Context context,String contentType,String category2,String model,String order,String sort, int pageNo, int pageSize, String tag)
+    public void getShopsGList(String city,String minPirce,String maxPrice,String contentType,String category2,String model,String order,String sort, int pageNo, int pageSize, String tag)
     {
         Map<String, String> param=new HashMap<String, String>();
+        if(!city.equals("")) {
+            param.put("city", city);
+        }
+        if(!minPirce.equals("")) {
+            param.put("minPrice", minPirce);
+        }
+        if(!maxPrice.equals("")){
+            param.put("maxPrice", maxPrice);
+        }
         param.put("contentType",contentType);
         param.put("category2",category2);
         param.put("model",model);
@@ -342,14 +351,14 @@ public class UserServiceImpl
     /**
      * 搜索商品
      */
-    public void getSearchGList(String city,String minPirce,String maxPrice,String category2,String contentType,String keyword,String order,String sort, int pageNo, int pageSize, String tag)
+    public void getSearchGList(String city,String minPrice,String maxPrice,String category2,String contentType,String keyword,String order,String sort, int pageNo, int pageSize, String tag)
     {
         Map<String, String> param=new HashMap<String, String>();
         if(!city.equals("")) {
             param.put("city", city);
         }
-        if(!minPirce.equals("")) {
-            param.put("minPirce", minPirce);
+        if(!minPrice.equals("")) {
+            param.put("minPrice", minPrice);
         }
         if(!maxPrice.equals("")){
             param.put("maxPrice", maxPrice);
