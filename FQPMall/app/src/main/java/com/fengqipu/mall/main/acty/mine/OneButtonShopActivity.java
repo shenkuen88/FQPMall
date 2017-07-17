@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,12 +116,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
 
     @Override
     public void initEvent() {
-        tvAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        tvAddress.setOnClickListener(this);
         btnConfirm.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
         tvAddress.setOnClickListener(this);
@@ -229,6 +225,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                 bottomLl.setVisibility(View.GONE);
                 break;
             case R.id.tv_address:
+                Log.e("sub","tv_address");
                 bottomLl.setVisibility(View.VISIBLE);
                 hideKeyboardd();
                 break;
@@ -493,6 +490,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                 finish();
             }
             if (tag.equals(NotiTag.TAG_LOCATION_SUCCESS)&& BaseApplication.currentActivity.equals(this.getClass().getName())) {
+                Log.e("sub","OBSHOP TAG_LOCATION_SUCCESS");
                 if (mLocationClient != null) {
                     mLocationClient.stop();
                 }
