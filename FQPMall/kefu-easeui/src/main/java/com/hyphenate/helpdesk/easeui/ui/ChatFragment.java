@@ -18,6 +18,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -27,15 +28,19 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hyphenate.chat.ChatClient;
 import com.hyphenate.chat.ChatManager;
 import com.hyphenate.chat.Conversation;
 import com.hyphenate.chat.Message;
 import com.hyphenate.helpdesk.R;
+import com.hyphenate.helpdesk.callback.Callback;
 import com.hyphenate.helpdesk.easeui.UIProvider;
 import com.hyphenate.helpdesk.easeui.emojicon.Emojicon;
 import com.hyphenate.helpdesk.easeui.provider.CustomChatRowProvider;
@@ -52,9 +57,13 @@ import com.hyphenate.helpdesk.easeui.widget.ExtendMenu.EaseChatExtendMenuItemCli
 import com.hyphenate.helpdesk.easeui.widget.MessageList;
 import com.hyphenate.helpdesk.easeui.widget.MessageList.MessageListItemClickListener;
 import com.hyphenate.helpdesk.model.AgentIdentityInfo;
+import com.hyphenate.helpdesk.model.ContentFactory;
 import com.hyphenate.helpdesk.model.QueueIdentityInfo;
 import com.hyphenate.helpdesk.model.VisitorInfo;
+import com.hyphenate.helpdesk.model.VisitorTrack;
 import com.hyphenate.util.PathUtil;
+
+import org.json.JSONArray;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -100,11 +109,13 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
     protected static final int ITEM_PICTURE = 2;
     protected static final int ITEM_VIDEO = 3;
     protected static final int ITEM_FILE = 4;
+    private static final int ITEM_MAP = 11;
+    private static final int REQUEST_CODE_SELECT_MAP = 11;
 
-    protected int[] itemStrings = {R.string.attach_take_pic, R.string.attach_picture, R.string.attach_video, R.string.attach_file};
-    protected int[] itemdrawables = {R.drawable.hd_chat_takepic_selector, R.drawable.hd_chat_image_selector, R.drawable.hd_chat_video_selector, R.drawable.hd_chat_file_selector};
+    protected int[] itemStrings = {R.string.attach_take_pic, R.string.attach_picture, R.string.attach_location};
+    protected int[] itemdrawables = {R.drawable.hd_chat_takepic_selector, R.drawable.hd_chat_image_selector, R.drawable.hd_chat_location_selector};
 
-    protected int[] itemIds = {ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_VIDEO, ITEM_FILE};
+    protected int[] itemIds = {ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_MAP};
     private boolean isMessageListInited;
     protected MyMenuItemClickListener extendMenuItemClickListener;
     private VisitorInfo visitorInfo;
@@ -115,8 +126,20 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.hd_fragment_chat, container, false);
+        View view = inflater.inflate(R.layout.hd_fragment_chat, container, false);
+        tol_layout = (LinearLayout) view.findViewById(R.id.tol_layout);
+        img = (ImageView) view.findViewById(R.id.img);
+        goods_name = (TextView) view.findViewById(R.id.goods_name);
+        goods_price = (TextView) view.findViewById(R.id.goods_price);
+        goods_num = (TextView) view.findViewById(R.id.goods_num);
+        return view;
     }
+
+    private String name, price, desc, imageurl, desurl;
+    private String goodsinfo;
+    private LinearLayout tol_layout;
+    private ImageView img;
+    private TextView goods_name, goods_price, goods_num;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -132,10 +155,12 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
         agentIdentityInfo = fragmentArgs.getParcelable(Config.EXTRA_AGENT_INFO);
         visitorInfo = fragmentArgs.getParcelable(Config.EXTRA_VISITOR_INFO);
 
-        titleName = fragmentArgs.getString(Config.EXTRA_TITLE_NAME);
+        goodsinfo = fragmentArgs.getString(Config.EXTRA_TITLE_NAME);
+        Log.e("sub", "goodsinfo1=" + goodsinfo);
+        titleName = "客服聊天";
         //在父类中调用了initView和setUpView两个方法
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             cameraFilePath = savedInstanceState.getString("cameraFilePath");
         }
         ChatClient.getInstance().chatManager().bindChatUI(toChatUsername);
@@ -150,7 +175,6 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
 
             }
         });
-        ChatClient.getInstance().chatManager().addAgentInputListener(agentInputListener);
     }
 
     /**
@@ -200,29 +224,78 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
         ChatClient.getInstance().chatManager().addVisitorWaitListener(new ChatManager.VisitorWaitListener() {
             @Override
             public void waitCount(final int num) {
-                if (getActivity() == null){
+                if (getActivity() == null) {
                     return;
                 }
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (num > 0){
+                        if (num > 0) {
                             tvTipWaitCount.setVisibility(View.VISIBLE);
                             tvTipWaitCount.setText(getString(R.string.current_wait_count, num));
-                        }else{
+                        } else {
                             tvTipWaitCount.setVisibility(View.GONE);
                         }
                     }
                 });
             }
         });
+        ChatClient.getInstance().chatManager().addAgentInputListener(agentInputListener);
+        try {
+            JSONArray ja=new JSONArray(goodsinfo);
+            name = ja.get(0).toString();
+            price = ja.get(1).toString();
+            desc = ja.get(2).toString();
+            imageurl = ja.get(3).toString();
+            desurl = ja.get(4).toString();
+            if (name != null && !name.equals("")) {
+                VisitorTrack track = ContentFactory.createVisitorTrack(null);
+                track.title(name)  //显示标题
+                        .price("￥" + price) //显示价格
+                        .desc(desc) //描述
+                        .imageUrl(imageurl)//显示图片
+                        .itemUrl(desurl); //点击会跳转到哪
+                Message message = Message.createTxtSendMessage("正在询问的商品", toChatUsername);
+                message.addContent(track);
+//                message.setAttribute("nickname",name);
+//                message.setAttribute("avatar",imageurl);
+                ChatClient.getInstance().getChat().sendMessage(message, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                tol_layout.setVisibility(View.VISIBLE);
+                                Glide.with(getActivity())
+                                        .load(imageurl)
+                                        .into(img);
+                                goods_name.setText(name);
+                                goods_price.setText("￥" + price);
+                                goods_num.setText("1件");
+                            }
+                        });
 
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+                    }
+
+                    @Override
+                    public void onProgress(int i, String s) {
+
+                    }
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     ChatManager.AgentInputListener agentInputListener = new ChatManager.AgentInputListener() {
         @Override
         public void onInputState(final String input) {
-            if (getActivity() == null){
+            if (getActivity() == null) {
                 return;
             }
             getActivity().runOnUiThread(new Runnable() {
@@ -264,7 +337,7 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
 
             @Override
             public void onClick(View v) {
-                if(getActivity() != null){
+                if (getActivity() != null) {
                     getActivity().finish();
                 }
             }
@@ -294,6 +367,7 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
         for (int i = 0; i < itemStrings.length; i++) {
             inputMenu.registerExtendMenuItem(itemStrings[i], itemdrawables[i], itemIds[i], extendMenuItemClickListener);
         }
+
     }
 
     protected void onConversationInit() {
@@ -325,7 +399,7 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (!inputMenu.isVoiceRecording()){//录音时，点击列表不做操作
+                if (!inputMenu.isVoiceRecording()) {//录音时，点击列表不做操作
                     hideKeyboard();
                     inputMenu.hideExtendMenuContainer();
                 }
@@ -532,6 +606,13 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
                     //demo这里是通过系统api选择文件，实际app中最好是做成qq那种选择发送文件
                     selectFileFromLocal();
                     break;
+                case ITEM_MAP: //地图
+                    try {
+                        startActivityForResult(new Intent(getActivity(), Class.forName("com.fengqipu.mall.main.acty.BaiduMapActivity")), REQUEST_CODE_SELECT_MAP);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    break;
                 default:
                     break;
             }
@@ -637,7 +718,7 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (cameraFilePath != null){
+        if (cameraFilePath != null) {
             outState.putString("cameraFile", cameraFilePath);
         }
     }
@@ -788,7 +869,7 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
     // 发送消息方法
     //=============================================
     protected void sendTextMessage(String content) {
-        if (content != null && content.length() > 1500){
+        if (content != null && content.length() > 1500) {
             Toast.makeText(getContext(), R.string.message_content_beyond_limit, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -798,7 +879,7 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
     }
 
     protected void sendVoiceMessage(String filePath, int length) {
-        if (TextUtils.isEmpty(filePath)){
+        if (TextUtils.isEmpty(filePath)) {
             return;
         }
         Message message = Message.createVoiceSendMessage(filePath, length, toChatUsername);
@@ -807,11 +888,11 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
     }
 
     protected void sendImageMessage(String imagePath) {
-        if (TextUtils.isEmpty(imagePath)){
+        if (TextUtils.isEmpty(imagePath)) {
             return;
         }
         File imageFile = new File(imagePath);
-        if (imageFile == null || !imageFile.exists()){
+        if (imageFile == null || !imageFile.exists()) {
             return;
         }
 
@@ -826,7 +907,7 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
         ChatClient.getInstance().chatManager().sendMessage(message);
     }
 
-    protected void sendLocationMessage(double latitude, double longitude, String locationAddress, String toChatUsername){
+    protected void sendLocationMessage(double latitude, double longitude, String locationAddress, String toChatUsername) {
         Message message = Message.createLocationSendMessage(latitude, longitude, locationAddress, toChatUsername);
         attachMessageAttrs(message);
         ChatClient.getInstance().chatManager().sendMessage(message);
@@ -839,14 +920,14 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
     }
 
 
-    public void attachMessageAttrs(Message message){
-        if (visitorInfo != null){
+    public void attachMessageAttrs(Message message) {
+        if (visitorInfo != null) {
             message.addContent(visitorInfo);
         }
-        if (queueIdentityInfo != null){
+        if (queueIdentityInfo != null) {
             message.addContent(queueIdentityInfo);
         }
-        if (agentIdentityInfo != null){
+        if (agentIdentityInfo != null) {
             message.addContent(agentIdentityInfo);
         }
 
@@ -857,7 +938,6 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
         super.onPause();
         MediaManager.pause();
     }
-
 
 
 }

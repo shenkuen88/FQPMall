@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_top_bar"
-    android:background="@color/top_bar_normal_bg"
+    android:layout_height="45dp"
+    android:background="#ffffff"
     android:gravity="center_vertical" >
 
     <RelativeLayout
@@ -25,9 +25,9 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/left_layout"
+        android:layout_centerInParent="true"
         android:layout_centerVertical="true"
-        android:textColor="@color/main_text_color"
+        android:textColor="#4a4a4a"
         android:textSize="@dimen/title_text_size" />
 
     <RelativeLayout
@@ -42,6 +42,7 @@
             android:layout_width="@dimen/title_customer_icon_size"
             android:layout_height="@dimen/title_customer_icon_size"
             android:layout_centerInParent="true"
+            android:visibility="invisible"
             android:scaleType="centerInside" />
     </RelativeLayout>
 

@@ -219,6 +219,7 @@
         当前应用缺少必要权限。\n请点击"设置"-"权限"-打开所需权限。\n最后点击两次后退按钮，即可返回。
     </string>
     <string name="ask_again">请给予应用必要权限，让程序可正常工作。</string>
-
-
+    <string name="network_error">网络错误!</string>
+    <string name="please_check">key检查出错!请在 AndroidManifest.xml 中检查key</string>
+    <string name="Making_sure_your_location">正在确定你的位置...</string>
 </resources>

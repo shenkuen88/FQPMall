@@ -17,7 +17,6 @@ import com.hyphenate.chat.Message;
 import com.hyphenate.helpdesk.Error;
 import com.hyphenate.helpdesk.R;
 import com.hyphenate.helpdesk.callback.Callback;
-import com.hyphenate.helpdesk.easeui.UIProvider;
 import com.hyphenate.helpdesk.easeui.adapter.MessageAdapter;
 import com.hyphenate.helpdesk.easeui.util.UserUtil;
 import com.hyphenate.helpdesk.easeui.widget.MessageList;
@@ -117,11 +116,11 @@ public abstract class ChatRow extends LinearLayout {
         }
         //设置头像和nick
 
-        UIProvider.UserProfileProvider userInfoProvider = UIProvider.getInstance().getUserProfileProvider();
-
-        if (userInfoProvider != null) {
-            userInfoProvider.setNickAndAvatar(context, message, userAvatarView, usernickView);
-        }else{
+//        UIProvider.UserProfileProvider userInfoProvider = UIProvider.getInstance().getUserProfileProvider();
+//
+//        if (userInfoProvider != null) {
+//            userInfoProvider.setNickAndAvatar(context, message, userAvatarView, usernickView);
+//        }else{
             if (message.direct() == Message.Direct.RECEIVE) {
                 if (usernickView != null){
                     UserUtil.setAgentNickAndAvatar(context, message, userAvatarView, usernickView);
@@ -129,7 +128,7 @@ public abstract class ChatRow extends LinearLayout {
             } else {
                 UserUtil.setCurrentUserNickAndAvatar(context, userAvatarView, usernickView);
             }
-        }
+//        }
 
 
         if (adapter instanceof MessageAdapter) {
@@ -138,16 +137,18 @@ public abstract class ChatRow extends LinearLayout {
                     userAvatarView.setVisibility(View.VISIBLE);
                 }
                 else{
-                    userAvatarView.setVisibility(View.GONE);
+                    userAvatarView.setVisibility(View.VISIBLE);
                 }
             }
 
 
             if (usernickView != null) {
-                if (((MessageAdapter) adapter).isShowUserNick() && message.direct() == Message.Direct.RECEIVE)
+                if (((MessageAdapter) adapter).isShowUserNick() && message.direct() == Message.Direct.RECEIVE) {
                     usernickView.setVisibility(View.VISIBLE);
-                else
-                    usernickView.setVisibility(View.GONE);
+                }
+                else {
+                    usernickView.setVisibility(View.VISIBLE);
+                }
             }
             if (bubbleLayout != null) {
                 if (message.direct() == Message.Direct.SEND) {
