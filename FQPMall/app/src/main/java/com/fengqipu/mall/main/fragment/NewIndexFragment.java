@@ -30,6 +30,7 @@ import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
+import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.MainActivity;
 import com.fengqipu.mall.main.acty.enterprise.EnterpriseListActivity;
 import com.fengqipu.mall.main.acty.huodong.HuoDongActivity;
@@ -275,6 +276,13 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
         btnKx.setOnClickListener(this);
         btnYjkd.setOnClickListener(this);
         searchLayout.setOnClickListener(this);
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(mainActivity, ConversationListActivity.class);
+                startActivity(intent);
+            }
+        });
         bannerFirstInit();
         initData();
     }

@@ -29,6 +29,9 @@ import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.StringEncrypt;
 import com.fengqipu.mall.tools.ToastUtil;
+import com.hyphenate.chat.ChatClient;
+import com.hyphenate.helpdesk.Error;
+import com.hyphenate.helpdesk.callback.Callback;
 
 import java.util.HashMap;
 
@@ -132,6 +135,53 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
                         //发个通知，让其他页面知道已经退出了
                         EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_LOGIN_SUCCESS));
                         MainActivity.getUpLoadImageUrl();
+                        if(ChatClient.getInstance().isLoggedInBefore()){
+                            //已经登录，可以直接进入会话界面
+                        }else{
+                            //未登录，需要登录后，再进入会话界面
+                            ChatClient.getInstance().createAccount(Global.getUserName(), Global.getUserName()
+                                    , new Callback(){
+                                        @Override
+                                        public void onSuccess() {
+                                            ChatClient.getInstance().login(Global.getUserName(), Global.getUserName(), new Callback(){
+                                                @Override
+                                                public void onSuccess() {
+                                                }
+
+                                                @Override
+                                                public void onError(int i, String s) {
+                                                }
+
+                                                @Override
+                                                public void onProgress(int i, String s) {
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onError(int i, String s) {
+                                            if(i== Error.USER_ALREADY_EXIST){
+                                                ChatClient.getInstance().login(Global.getUserName(), Global.getUserName(), new Callback(){
+                                                    @Override
+                                                    public void onSuccess() {
+                                                    }
+
+                                                    @Override
+                                                    public void onError(int i, String s) {
+                                                    }
+
+                                                    @Override
+                                                    public void onProgress(int i, String s) {
+                                                    }
+                                                });
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onProgress(int i, String s) {
+                                        }
+                                    });
+                        }
                         finish();
                     } else {
                         ErrorCode.doCode(this, loginResponse.getResultCode(), loginResponse.getDesc());

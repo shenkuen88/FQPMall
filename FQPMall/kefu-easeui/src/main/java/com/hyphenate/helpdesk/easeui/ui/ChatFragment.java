@@ -527,6 +527,17 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
                         e.printStackTrace();
                     }
                 }
+            }else if (requestCode == REQUEST_CODE_SELECT_MAP) {
+                Log.e("sub","REQUEST_CODE_SELECT_MAP");
+                double latitude = data.getDoubleExtra("latitude", 0);
+                double longitude = data.getDoubleExtra("longitude", 0);
+                String locationAddress = data.getStringExtra("address");
+                if (locationAddress != null && !locationAddress.equals("")) {
+                    Log.e("sub","toChatUsername"+toChatUsername);
+                    sendLocationMessage(latitude, longitude, locationAddress, toChatUsername);
+                } else {
+                    Toast.makeText(getActivity(), "不能获取您的位置!", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

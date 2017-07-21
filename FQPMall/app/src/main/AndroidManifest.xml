@@ -39,8 +39,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
 
-
-
     <!-- GCM required, remember replace "com.fengqipu.mall" to your own package -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
@@ -56,6 +54,7 @@
         android:protectionLevel="signatureOrSystem" />
     <!-- 其中的com.fengqipu.mall需要换为自己的包名 -->
     <uses-permission android:name="com.fengqipu.mall.permission.MIPUSH_RECEIVE" />
+
     <application
         android:name=".main.base.BaseApplication"
         android:allowBackup="true"
@@ -65,13 +64,14 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.mob.tools.MobUIShell"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <data android:scheme="tencent100371282" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -79,24 +79,27 @@
             <!-- 调用新浪原生SDK，需要注册的回调activity -->
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
-            <!--集成line客户端登录授权，需要添如下格式的过滤器-->
+            <!-- 集成line客户端登录授权，需要添如下格式的过滤器 -->
             <intent-filter>
                 <data android:scheme="line.1477692153" />
-                <action android:name="android.intent.action.VIEW"/>
+
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
         <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
-        <meta-data android:name="Mob-AppKey" android:value="1f748c1775440"/>
-        <meta-data android:name="Mob-AppSecret" android:value="b932da705a5d1bdeadfbac61c7e4e031"/>
-
-
-
+        <meta-data
+            android:name="Mob-AppKey"
+            android:value="1f748c1775440" />
+        <meta-data
+            android:name="Mob-AppSecret"
+            android:value="b932da705a5d1bdeadfbac61c7e4e031" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -163,9 +166,7 @@
         </activity>
         <activity
             android:name=".main.acty.BaiduMapActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <!-- 引导页 -->
 
 
@@ -304,26 +305,26 @@
         <activity
             android:name=".main.acty.search.SearchCategoryActivity"
             android:launchMode="singleInstance" />
-        <activity android:name=".main.acty.mine.OrderSearchActivity"></activity>
+        <activity android:name=".main.acty.mine.OrderSearchActivity" />
 
-
-
-
-        <!-- huawei push 第三方相关 :接收Push消息（注册、Push消息、Push连接状态、标签，LBS上报结果）广播  -->
-        <receiver android:name="com.hyphenate.chat.EMHuaweiPushReceiver" >
+        <!-- huawei push 第三方相关 :接收Push消息（注册、Push消息、Push连接状态、标签，LBS上报结果）广播 -->
+        <receiver android:name="com.hyphenate.chat.EMHuaweiPushReceiver">
             <intent-filter>
+
                 <!-- 必须，用于接收token -->
                 <action android:name="com.huawei.android.push.intent.REGISTRATION" />
                 <!-- 必须，用于接收消息 -->
                 <action android:name="com.huawei.android.push.intent.RECEIVE" />
             </intent-filter>
             />
-            <meta-data android:name="CS_cloud_ablitity" android:value="successRateAnalytics"/>
+            <meta-data
+                android:name="CS_cloud_ablitity"
+                android:value="successRateAnalytics" />
         </receiver>
-        <!-- PushSDK:PushSDK接收外部请求事件入口-->
+        <!-- PushSDK:PushSDK接收外部请求事件入口 -->
         <receiver
             android:name="com.huawei.android.pushagent.PushEventReceiver"
-            android:process=":pushservice" >
+            android:process=":pushservice">
             <intent-filter>
                 <action android:name="com.huawei.android.push.intent.REFRESH_PUSH_CHANNEL" />
                 <action android:name="com.huawei.intent.action.PUSH" />
@@ -331,11 +332,12 @@
                 <action android:name="com.huawei.android.push.PLUGIN" />
             </intent-filter>
         </receiver>
-        <!-- PushSDK:Push服务-->
+        <!-- PushSDK:Push服务 -->
         <service
             android:name="com.huawei.android.pushagent.PushService"
-            android:process=":pushservice" >
-        </service>
+            android:process=":pushservice"></service>
+
+        <activity android:name=".main.acty.ConversationListActivity"></activity>
     </application>
 
 </manifest>

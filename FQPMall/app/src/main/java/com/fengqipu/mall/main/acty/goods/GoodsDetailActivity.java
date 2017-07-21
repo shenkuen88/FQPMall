@@ -145,32 +145,35 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
 
                 break;
             case R.id.service_tv:
-                UIProvider.getInstance().setUserProfileProvider(new UIProvider.UserProfileProvider() {
-                    @Override
-                    public void setNickAndAvatar(Context context, Message message, ImageView userAvatarView, TextView usernickView) {
+                if(GeneralUtils.isLogin()) {
+                    UIProvider.getInstance().setUserProfileProvider(new UIProvider.UserProfileProvider() {
+                        @Override
+                        public void setNickAndAvatar(Context context, Message message, ImageView userAvatarView, TextView usernickView) {
 
-                    }
-                });
-                List<String> strs=new ArrayList<>();
-                strs.add(goodsDetailResponse.getContent().getContentName());
-                strs.add(goodsDetailResponse.getContent().getPrice()+"");
-                strs.add(goodsDetailResponse.getContent().getDescription()+"");
-                strs.add(goodsDetailResponse.getContent().getPicUrl1RequestUrl()+"");
-                strs.add(goodsDetailResponse.getContent().getDescriptionLink()+"");
-                Intent intent=new IntentBuilder(GoodsDetailActivity.this)
-                .setServiceIMNumber("kefuchannelimid_021199") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
-                        .setTitleName(GsonHelper.toJson(strs))
-                        .setVisitorInfo(ContentFactory.createVisitorInfo(null)
-                                .companyName("")
-                                .email(Global.getEmail())
-                                .qq("")
-                                .name(Global.getUserName())
-                                .nickName(Global.getNickName())
-                                .phone(Global.getPhone()))
-                        .setShowUserNick(true)
-                        .build();
-                startActivity(intent);
-
+                        }
+                    });
+                    List<String> strs = new ArrayList<>();
+                    strs.add(goodsDetailResponse.getContent().getContentName());
+                    strs.add(goodsDetailResponse.getContent().getPrice() + "");
+                    strs.add(goodsDetailResponse.getContent().getDescription() + "");
+                    strs.add(goodsDetailResponse.getContent().getPicUrl1RequestUrl() + "");
+                    strs.add(goodsDetailResponse.getContent().getDescriptionLink() + "");
+                    Intent intent = new IntentBuilder(GoodsDetailActivity.this)
+                            .setServiceIMNumber("kefuchannelimid_021199") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
+                            .setTitleName(GsonHelper.toJson(strs))
+                            .setVisitorInfo(ContentFactory.createVisitorInfo(null)
+                                    .companyName("")
+                                    .email(Global.getEmail())
+                                    .qq("")
+                                    .name(Global.getUserName())
+                                    .nickName(Global.getNickName())
+                                    .phone(Global.getPhone()))
+                            .setShowUserNick(true)
+                            .build();
+                    startActivity(intent);
+                }else{
+                    startActivity(new Intent(GoodsDetailActivity.this,LoginActy.class));
+                }
                 break;
             case collect_tv:
                 UserServiceImpl.instance().addFavour(this,"1",contentID, AddGoodsFavourResponse.class.getName());
@@ -310,6 +313,9 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
             if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 finish();
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
+            }
+            if (NotiTag.TAG_LOGIN_SUCCESS.equals(tag)) {
+               initData();
             }
         } else if (event instanceof NetResponseEvent) {
             NetLoadingDialog.getInstance().dismissDialog();
