@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +77,7 @@ public class ConversationListFragment extends Fragment {
 //						.build();
 //				startActivity(intent);
 				Intent intent = new IntentBuilder(getActivity())
-						.setServiceIMNumber("kefuchannelimid_021199") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
+						.setServiceIMNumber(conversation.conversationId()) //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
 						.setTitleName("")
 						.setVisitorInfo(ContentFactory.createVisitorInfo(null)
 								.companyName("")
@@ -216,22 +217,24 @@ public class ConversationListFragment extends Fragment {
 	}
 
 	public void refresh(){
+		Log.e("sub","refresh()");
 		loadConversationList();
-		adapter.notifyDataSetChanged();
-
 	}
 
 	private void loadConversationList(){
 		Hashtable<String, Conversation> allConversations =
 				ChatClient.getInstance().chatManager().getAllConversations();
+		Log.e("sub","allConversations="+allConversations.size());
 		synchronized (conversationList){
 			conversationList.clear();
 			for (String conversationId : allConversations.keySet()){
 				Conversation item = allConversations.get(conversationId);
-				if (item.getOfficialAccount() != null){
+//				if (item.getOfficialAccount() != null){
 					conversationList.add(item);
-				}
+//				}
 			}
+			Log.e("sub","conversationList="+conversationList.size());
+			adapter.notifyDataSetChanged();
 		}
 
 

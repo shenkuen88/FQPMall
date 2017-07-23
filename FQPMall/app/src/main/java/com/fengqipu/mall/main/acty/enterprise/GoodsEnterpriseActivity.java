@@ -23,7 +23,9 @@ import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.dialog.ShaiXuanDialog;
+import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
+import com.fengqipu.mall.main.acty.huodong.HuoDongActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.HeadView;
@@ -390,6 +392,7 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
             if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 finish();
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
+                startActivity(new Intent(GoodsEnterpriseActivity.this, ConversationListActivity.class));
             }
         } else if (event instanceof NetResponseEvent) {
             NetLoadingDialog.getInstance().dismissDialog();

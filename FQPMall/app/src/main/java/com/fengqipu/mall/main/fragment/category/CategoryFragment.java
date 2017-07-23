@@ -26,6 +26,7 @@ import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
+import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.MainActivity;
 import com.fengqipu.mall.main.acty.index.ColumnListActy;
 import com.fengqipu.mall.main.acty.search.NewSearchActivity;
@@ -42,6 +43,7 @@ import com.fengqipu.mall.view.MyGridView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
@@ -53,6 +55,8 @@ public class CategoryFragment extends BaseFragment {
     private static CategoryFragment instance;
     View headView;
     ImageView ivBanner;
+    @Bind(R.id.btn_info)
+    ImageView btnInfo;
     private MainActivity mainActivity;
 
     public static CategoryFragment newInstance() {
@@ -103,7 +107,7 @@ public class CategoryFragment extends BaseFragment {
         mainActivity = (MainActivity) getActivity();
         fview = inflater.inflate(R.layout.fragment_fen_lei, container, false);
         headView = inflater.inflate(R.layout.header, null);
-        ivBanner= V.f(headView,R.id.iv_banner);
+        ivBanner = V.f(headView, R.id.iv_banner);
         initAll();
         ButterKnife.bind(this, fview);
         return fview;
@@ -212,7 +216,7 @@ public class CategoryFragment extends BaseFragment {
 //        NetLoadingDialog.getInstance().loading(mainActivity);
 //        UserServiceImpl.instance().getCategoryRight(mainActivity,"1", cid, CategoryRightResponse.class.getName());
         rightList.clear();
-        if(categoryResponse.getSubCategoryListMap().get(cid)!=null) {
+        if (categoryResponse.getSubCategoryListMap().get(cid) != null) {
             for (int i = 0; i < categoryResponse.getSubCategoryListMap().get(cid).size(); i++) {
                 List<RightBean.SubRightBean> relist = new ArrayList<RightBean.SubRightBean>();
                 Category item = categoryResponse.getSubCategoryListMap().get(cid).get(i);
@@ -240,8 +244,8 @@ public class CategoryFragment extends BaseFragment {
         search_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(mainActivity, NewSearchActivity.class);
-                intent.putExtra("searchtype",2);
+                Intent intent = new Intent(mainActivity, NewSearchActivity.class);
+                intent.putExtra("searchtype", 2);
                 startActivity(intent);
             }
         });
@@ -254,7 +258,7 @@ public class CategoryFragment extends BaseFragment {
                 leftAdapter.notifyDataSetChanged();
                 cid = left.getId();
                 String img = left.getPic();
-                Log.e("sub","img="+img);
+                Log.e("sub", "img=" + img);
                 try {
                     if (GeneralUtils.isNotNullOrZeroLenght(img)) {
                         GeneralUtils.setImageViewWithUrl(mainActivity, img, ivBanner, R.drawable.default_head);
@@ -284,8 +288,16 @@ public class CategoryFragment extends BaseFragment {
                 getRightData();
             }
         });
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mainActivity, ConversationListActivity.class));
+            }
+        });
     }
+
     private CategoryResponse categoryResponse;
+
     @Override
     public void onEventMainThread(BaseResponse event) {
         if (event instanceof NetResponseEvent) {
@@ -308,7 +320,7 @@ public class CategoryFragment extends BaseFragment {
                         List<LeftBean> tolLeftList = new ArrayList<LeftBean>();
                         for (Category item : categoryResponse.getParentCategoryList()) {
 //
-                            LeftBean leftBean = new LeftBean("", item.getId(), item.getCategoryName(),item.getCoverRequestUrl() , item.getLink());
+                            LeftBean leftBean = new LeftBean("", item.getId(), item.getCategoryName(), item.getCoverRequestUrl(), item.getLink());
                             tolLeftList.add(leftBean);
                         }
                         leftAdapter.setData(tolLeftList);

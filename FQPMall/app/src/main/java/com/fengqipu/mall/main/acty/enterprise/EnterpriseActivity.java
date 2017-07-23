@@ -21,8 +21,10 @@ import com.fengqipu.mall.bean.shop.AddShopResponse;
 import com.fengqipu.mall.bean.shop.ShopDetailResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
+import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
+import com.fengqipu.mall.main.acty.mine.LoginActy;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.CommonWebViewActivity;
@@ -41,6 +43,8 @@ import com.fengqipu.mall.view.banner.demo.LocalImageHolderView;
 import com.fengqipu.mall.view.banner.demo.NetworkImageHolderView;
 import com.fengqipu.mall.view.banner.holder.CBViewHolderCreator;
 import com.fengqipu.mall.view.banner.listener.OnItemClickListener;
+import com.hyphenate.helpdesk.easeui.util.IntentBuilder;
+import com.hyphenate.helpdesk.model.ContentFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +112,7 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
     @Override
     public void initEvent() {
         tvGz.setOnClickListener(this);
+        btnZxkf.setOnClickListener(this);
     }
 
     @Override
@@ -118,6 +123,25 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
                 NetLoadingDialog.getInstance().loading(mContext);
                 UserServiceImpl.instance().addFavour(this,"2", sid, AddShopResponse.class.getName());
             break;
+            case R.id.btn_zxkf:
+                if (GeneralUtils.isLogin()) {
+                    Intent intent = new IntentBuilder(EnterpriseActivity.this)
+                            .setServiceIMNumber("kefuchannelimid_021199") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
+                            .setTitleName("")
+                            .setVisitorInfo(ContentFactory.createVisitorInfo(null)
+                                    .companyName("")
+                                    .email(Global.getEmail())
+                                    .qq("")
+                                    .name(Global.getUserName())
+                                    .nickName(Global.getNickName())
+                                    .phone(Global.getPhone()))
+                            .setShowUserNick(true)
+                            .build();
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(EnterpriseActivity.this, LoginActy.class));
+                }
+                break;
         }
     }
 

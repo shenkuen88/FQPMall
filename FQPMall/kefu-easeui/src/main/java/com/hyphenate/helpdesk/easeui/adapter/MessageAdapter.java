@@ -25,6 +25,7 @@ import com.hyphenate.helpdesk.easeui.widget.chatrow.ChatRowImage;
 import com.hyphenate.helpdesk.easeui.widget.chatrow.ChatRowLocation;
 import com.hyphenate.helpdesk.easeui.widget.chatrow.ChatRowRobotMenu;
 import com.hyphenate.helpdesk.easeui.widget.chatrow.ChatRowText;
+import com.hyphenate.helpdesk.easeui.widget.chatrow.ChatRowTrack;
 import com.hyphenate.helpdesk.easeui.widget.chatrow.ChatRowTransferToKefu;
 import com.hyphenate.helpdesk.easeui.widget.chatrow.ChatRowVideo;
 import com.hyphenate.helpdesk.easeui.widget.chatrow.ChatRowVoice;
@@ -259,7 +260,9 @@ public class MessageAdapter extends BaseAdapter {
                     return new ChatRowTransferToKefu(context, message, position, this);
                 } else if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_BIG_EXPRESSION, false)) {
                     chatRow = new ChatRowBigExpression(context, message, position, this);
-                } else {
+                }if (MessageHelper.getVisitorTrack(message) != null) {
+                    chatRow = new ChatRowTrack(context, message, position, this);
+                }else {
                     chatRow = new ChatRowText(context, message, position, this);
                 }
                 break;

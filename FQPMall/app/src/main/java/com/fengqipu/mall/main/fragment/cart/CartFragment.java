@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.dialog.GWCGuiGeBtmDialog;
+import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.index.ConfirmOrderActivity;
 import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.main.base.HeadView;
@@ -73,6 +75,8 @@ public class CartFragment extends BaseFragment {
     TextView id_tv_edit_all;
     @Bind(R.id.refreshLayout)
     PtrClassicFrameLayout refreshLayout;
+    @Bind(R.id.btn_info)
+    ImageView btnInfo;
     private HeadView headView;
     private View mView;
     TextView id_tv_totalCount_jiesuan, id_tv_delete_all;
@@ -281,6 +285,13 @@ public class CartFragment extends BaseFragment {
             setupViewsShow(false);
         }
 
+        btnInfo.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), ConversationListActivity.class));
+            }
+        });
+
     /*    *//**
          * 第一个参数  应用程序接口 this
          * 第二个父列List<?extends Map<String,Object>>集合 为父列提供数据
@@ -389,9 +400,10 @@ public class CartFragment extends BaseFragment {
 //            childMapList_list.add(childMapList);
 //        }
     }
-    public String styleStr="";
-    public String colorStr="";
-    public String priceStr="";
+
+    public String styleStr = "";
+    public String colorStr = "";
+    public String priceStr = "";
 
     @Override
     public void onEventMainThread(BaseResponse event) {
@@ -409,7 +421,7 @@ public class CartFragment extends BaseFragment {
                     //网络数据(一般不用去做处理)
                 }
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
-                    Log.e("sub",result);
+                    Log.e("sub", result);
                     CartResponse cartResponse = GsonHelper.toType(result, CartResponse.class);
                     if (Constants.SUCESS_CODE.equals(cartResponse.getResultCode())) {
                         parentMapList.clear();
@@ -425,14 +437,14 @@ public class CartFragment extends BaseFragment {
                             for (int j = 0; j < map.getValue().size(); j++) {
                                 CartResponse.CartRecord c = map.getValue().get(j);
                                 Map<String, Object> childMap = new HashMap<String, Object>();
-                                DecimalFormat df   = new DecimalFormat("######0.0");
-                                Double price=0d;
+                                DecimalFormat df = new DecimalFormat("######0.0");
+                                Double price = 0d;
                                 try {
-                                    price=Double.valueOf(df.format(Double.valueOf(c.getPrice())));
+                                    price = Double.valueOf(df.format(Double.valueOf(c.getPrice())));
                                 } catch (NumberFormatException e) {
                                     e.printStackTrace();
                                 }
-                                GoodsBean goodsBean = new GoodsBean(c.getCreateTime(), c.getUserID(), c.getPicUrlRequestUrl(),price ,
+                                GoodsBean goodsBean = new GoodsBean(c.getCreateTime(), c.getUserID(), c.getPicUrlRequestUrl(), price,
                                         c.getStyle(), c.getCount(), c.getShopID(),
                                         c.getContentName(), c.getShopName(),
                                         c.getId(), c.getContentID(),
@@ -479,9 +491,9 @@ public class CartFragment extends BaseFragment {
                 GWCGoodsDetailResponse goodsDetailResponse = GsonHelper.toType(result, GWCGoodsDetailResponse.class);
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     if (Constants.SUCESS_CODE.equals(goodsDetailResponse.getResultCode())) {
-                        myBaseExpandableListAdapter.showdialog=true;
-                        final GoodsBean goodsBean=myBaseExpandableListAdapter.curgoodsBean;
-                        final GWCGuiGeBtmDialog guiGeBtmDialog=new GWCGuiGeBtmDialog(getActivity(),goodsDetailResponse,goodsBean.getStyle(),goodsBean.getColor());
+                        myBaseExpandableListAdapter.showdialog = true;
+                        final GoodsBean goodsBean = myBaseExpandableListAdapter.curgoodsBean;
+                        final GWCGuiGeBtmDialog guiGeBtmDialog = new GWCGuiGeBtmDialog(getActivity(), goodsDetailResponse, goodsBean.getStyle(), goodsBean.getColor());
 //                        GuiGeBtmDialog guiGeBtmDialog=new GuiGeBtmDialog(getActivity(),goodsDetailResponse);
                         guiGeBtmDialog.show();
                         guiGeBtmDialog.setConfimClickListener(new OnClickListener() {
@@ -490,12 +502,12 @@ public class CartFragment extends BaseFragment {
                                 List<CartResponse.CartRecord> clist = new ArrayList<CartResponse.CartRecord>();
                                 clist.add(new CartResponse.CartRecord(goodsBean.getRecordID(), goodsBean.getShopID(), goodsBean.getUserID()
                                         , goodsBean.getContentID(), goodsBean.getObjectName(), goodsBean.getPicUrl()
-                                        , goodsBean.getCount(), guiGeBtmDialog.stylestr, guiGeBtmDialog.colorstr, guiGeBtmDialog.gg_price.getText().toString().trim().replace("￥","")+ ""
+                                        , goodsBean.getCount(), guiGeBtmDialog.stylestr, guiGeBtmDialog.colorstr, guiGeBtmDialog.gg_price.getText().toString().trim().replace("￥", "") + ""
                                         , goodsBean.getCreateTime(), goodsBean.getPicUrl(), goodsBean.getShopName()));
                                 UserServiceImpl.instance().setCartNum(clist, CartGuiGeResponse.class.getName());
-                                styleStr=guiGeBtmDialog.stylestr;
-                                colorStr=guiGeBtmDialog.colorstr;
-                                priceStr=guiGeBtmDialog.gg_price.getText().toString().trim().replace("￥","");
+                                styleStr = guiGeBtmDialog.stylestr;
+                                colorStr = guiGeBtmDialog.colorstr;
+                                priceStr = guiGeBtmDialog.gg_price.getText().toString().trim().replace("￥", "");
                                 guiGeBtmDialog.dismiss();
 
                             }
@@ -512,7 +524,7 @@ public class CartFragment extends BaseFragment {
                     CartGuiGeResponse cartGuiGeResponse = GsonHelper.toType(result, CartGuiGeResponse.class);
                     if (Constants.SUCESS_CODE.equals(cartGuiGeResponse.getResultCode())) {
 //                        initCartData();
-                        GoodsBean goodsBean=myBaseExpandableListAdapter.curgoodsBean;
+                        GoodsBean goodsBean = myBaseExpandableListAdapter.curgoodsBean;
                         goodsBean.setStyle(styleStr);
                         goodsBean.setColor(colorStr);
                         goodsBean.setPrice(Double.valueOf(priceStr));

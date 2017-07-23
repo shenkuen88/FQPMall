@@ -156,7 +156,6 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
         visitorInfo = fragmentArgs.getParcelable(Config.EXTRA_VISITOR_INFO);
 
         goodsinfo = fragmentArgs.getString(Config.EXTRA_TITLE_NAME);
-        Log.e("sub", "goodsinfo1=" + goodsinfo);
         titleName = "客服聊天";
         //在父类中调用了initView和setUpView两个方法
         super.onActivityCreated(savedInstanceState);
@@ -242,6 +241,7 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
         });
         ChatClient.getInstance().chatManager().addAgentInputListener(agentInputListener);
         try {
+            tol_layout.setVisibility(View.GONE);
             JSONArray ja=new JSONArray(goodsinfo);
             name = ja.get(0).toString();
             price = ja.get(1).toString();

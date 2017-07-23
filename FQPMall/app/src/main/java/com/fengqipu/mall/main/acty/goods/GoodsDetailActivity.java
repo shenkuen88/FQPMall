@@ -33,6 +33,7 @@ import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.dialog.GuiGeBtmDialog;
 import com.fengqipu.mall.dialog.SucDialog;
+import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.index.ConfirmOrderActivity;
 import com.fengqipu.mall.main.acty.mine.LoginActy;
 import com.fengqipu.mall.main.base.BaseActivity;
@@ -69,8 +70,6 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
     ViewPager mContainer;
     @Bind(R.id.iv_back)
     ImageView ivBack;
-    @Bind(R.id.iv_info)
-    ImageView ivInfo;
     @Bind(R.id.shop_tv)
     TextView shopTv;
     @Bind(collect_tv)
@@ -81,6 +80,8 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
     Button btnAddgwc;
     @Bind(R.id.btn_buy)
     Button btnBuy;
+    @Bind(R.id.btn_info)
+    ImageView btnInfo;
 
     private String contentID = "";
     //sel_btm_layout  gwc_canshu_item gwc_cs_item
@@ -123,7 +124,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void initEvent() {
         ivBack.setOnClickListener(this);
-        ivInfo.setOnClickListener(this);
+        btnInfo.setOnClickListener(this);
         shopTv.setOnClickListener(this);
         collectTv.setOnClickListener(this);
         serviceTv.setOnClickListener(this);
@@ -137,7 +138,9 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.iv_info:break;
+            case R.id.btn_info:
+                startActivity(new Intent(GoodsDetailActivity.this, ConversationListActivity.class));
+                break;
             case R.id.shop_tv:
 
                 break;
@@ -145,13 +148,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
 
                 break;
             case R.id.service_tv:
-                if(GeneralUtils.isLogin()) {
-                    UIProvider.getInstance().setUserProfileProvider(new UIProvider.UserProfileProvider() {
-                        @Override
-                        public void setNickAndAvatar(Context context, Message message, ImageView userAvatarView, TextView usernickView) {
-
-                        }
-                    });
+                if (GeneralUtils.isLogin()) {
                     List<String> strs = new ArrayList<>();
                     strs.add(goodsDetailResponse.getContent().getContentName());
                     strs.add(goodsDetailResponse.getContent().getPrice() + "");
@@ -171,45 +168,46 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                             .setShowUserNick(true)
                             .build();
                     startActivity(intent);
-                }else{
-                    startActivity(new Intent(GoodsDetailActivity.this,LoginActy.class));
+                } else {
+                    startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
                 }
                 break;
             case collect_tv:
-                UserServiceImpl.instance().addFavour(this,"1",contentID, AddGoodsFavourResponse.class.getName());
+                UserServiceImpl.instance().addFavour(this, "1", contentID, AddGoodsFavourResponse.class.getName());
                 break;
             case R.id.btn_addgwc:
-                if(GeneralUtils.isLogin()){
-                    UserServiceImpl.instance().addToBuyCar(contentID,num,style,color,AddGWCResponse.class.getName());
-                }else {
+                if (GeneralUtils.isLogin()) {
+                    UserServiceImpl.instance().addToBuyCar(contentID, num, style, color, AddGWCResponse.class.getName());
+                } else {
                     startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
                 }
                 break;
             case R.id.btn_buy:
-                if(GeneralUtils.isLogin()){
+                if (GeneralUtils.isLogin()) {
                     change2Buy();
-                }else {
+                } else {
                     startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
                 }
                 break;
         }
     }
-    public String style="";
-    public String color="";
-    public int num=1;
-    public double curprice=0;
 
-    public void change2Buy(){
+    public String style = "";
+    public String color = "";
+    public int num = 1;
+    public double curprice = 0;
+
+    public void change2Buy() {
         ArrayList<StoreGoodsBean> shopList = new ArrayList<StoreGoodsBean>();
-        StoreGoodsBean storeGoodsBean=new StoreGoodsBean();
-        StoreBean storeBean=new StoreBean(goodsDetailResponse.getContent().getShopID(),goodsDetailResponse.getContent().getShopName(),false,false);
+        StoreGoodsBean storeGoodsBean = new StoreGoodsBean();
+        StoreBean storeBean = new StoreBean(goodsDetailResponse.getContent().getShopID(), goodsDetailResponse.getContent().getShopName(), false, false);
         storeGoodsBean.setStoreBean(storeBean);
-        List<GoodsBean> goodsBeens=new ArrayList<GoodsBean>();
-        GoodsBean goodsBean = new GoodsBean(goodsDetailResponse.getContent().getCreateTime(), Global.getUserId()+"", goodsDetailResponse.getContent().getPicUrl1RequestUrl(), curprice,
+        List<GoodsBean> goodsBeens = new ArrayList<GoodsBean>();
+        GoodsBean goodsBean = new GoodsBean(goodsDetailResponse.getContent().getCreateTime(), Global.getUserId() + "", goodsDetailResponse.getContent().getPicUrl1RequestUrl(), curprice,
                 style, num, goodsDetailResponse.getContent().getShopID(),
                 goodsDetailResponse.getContent().getContentName(), goodsDetailResponse.getContent().getShopName(),
                 goodsDetailResponse.getContent().getId(), goodsDetailResponse.getContent().getId(),
-                color+"", GoodsBean.STATUS_VALID, false, false);
+                color + "", GoodsBean.STATUS_VALID, false, false);
         goodsBeens.add(goodsBean);
         storeGoodsBean.setGoodsBeanList(goodsBeens);
         shopList.add(storeGoodsBean);
@@ -271,9 +269,9 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
         guiGeBtmDialog.setGwcClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(GeneralUtils.isLogin()){
-                    UserServiceImpl.instance().addToBuyCar(contentID,num,style,color,AddGWCResponse.class.getName());
-                }else {
+                if (GeneralUtils.isLogin()) {
+                    UserServiceImpl.instance().addToBuyCar(contentID, num, style, color, AddGWCResponse.class.getName());
+                } else {
                     startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
                 }
 
@@ -282,9 +280,9 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
         guiGeBtmDialog.setBuyClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(GeneralUtils.isLogin()){
+                if (GeneralUtils.isLogin()) {
                     change2Buy();
-                }else {
+                } else {
                     startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
                 }
             }
@@ -315,7 +313,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
             }
             if (NotiTag.TAG_LOGIN_SUCCESS.equals(tag)) {
-               initData();
+                initData();
             }
         } else if (event instanceof NetResponseEvent) {
             NetLoadingDialog.getInstance().dismissDialog();
@@ -337,15 +335,15 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
             if (tag.equals(GoodsDetailResponse.class.getName())) {
                 goodsDetailResponse = GsonHelper.toType(result, GoodsDetailResponse.class);
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
-                    Log.e("sub",result);
+                    Log.e("sub", result);
                     if (Constants.SUCESS_CODE.equals(goodsDetailResponse.getResultCode())) {
                         EventBus.getDefault().post(new NoticeEvent("REFRESH"));
-                        if(goodsDetailResponse.getIsFavorite()==1){
+                        if (goodsDetailResponse.getIsFavorite() == 1) {
                             Drawable top = getResources().getDrawable(R.mipmap.star_chedked_new);
-                            collectTv.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
-                        }else{
+                            collectTv.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
+                        } else {
                             Drawable top = getResources().getDrawable(R.mipmap.star_check);
-                            collectTv.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                            collectTv.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
                         }
                     } else {
                         ErrorCode.doCode(this, goodsDetailResponse.getResultCode(), goodsDetailResponse.getDesc());
@@ -358,10 +356,10 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 AddGoodsFavourResponse addGoodsFavourResponse = GsonHelper.toType(result, AddGoodsFavourResponse.class);
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     if (Constants.SUCESS_CODE.equals(addGoodsFavourResponse.getResultCode())) {
-                        SucDialog sucDialog=new SucDialog(this,"收藏成功");
+                        SucDialog sucDialog = new SucDialog(this, "收藏成功");
                         sucDialog.show();
                         Drawable top = getResources().getDrawable(R.mipmap.star_chedked_new);
-                        collectTv.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
+                        collectTv.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
                     } else {
                         ErrorCode.doCode(this, addGoodsFavourResponse.getResultCode(), addGoodsFavourResponse.getDesc());
                     }
@@ -373,7 +371,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 AddGWCResponse addGWCResponse = GsonHelper.toType(result, AddGWCResponse.class);
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     if (Constants.SUCESS_CODE.equals(addGWCResponse.getResultCode())) {
-                        SucDialog sucDialog=new SucDialog(this,"加入购物车成功");
+                        SucDialog sucDialog = new SucDialog(this, "加入购物车成功");
                         sucDialog.show();
                     } else {
                         ErrorCode.doCode(this, addGWCResponse.getResultCode(), addGWCResponse.getDesc());

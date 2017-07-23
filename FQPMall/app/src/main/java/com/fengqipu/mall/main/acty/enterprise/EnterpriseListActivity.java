@@ -23,6 +23,7 @@ import com.fengqipu.mall.bean.category.RightBean;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
+import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.index.ColumnListActy;
 import com.fengqipu.mall.main.acty.index.SearchActy;
 import com.fengqipu.mall.main.acty.search.NewSearchActivity;
@@ -60,11 +61,10 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
     ListView rightList;
     @Bind(R.id.iv_back)
     ImageView ivBack;
-    @Bind(R.id.iv_info)
-    ImageView ivInfo;
-
     View headView;
     ImageView ivBanner;
+    @Bind(R.id.btn_info)
+    ImageView btnInfo;
 
     private CommonAdapter<LeftBean> leftAdapter;
     private CommonAdapter<RightBean> rightAdapter;
@@ -92,7 +92,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
             edSs.setHint("搜你想要的商铺");
         }
         headView = getLayoutInflater().inflate(R.layout.header, null);
-        ivBanner= V.f(headView,R.id.iv_banner);
+        ivBanner = V.f(headView, R.id.iv_banner);
     }
 
     @Override
@@ -138,7 +138,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                 CommonAdapter<RightBean.SubRightBean> gAdapter
                         = new CommonAdapter<RightBean.SubRightBean>(EnterpriseListActivity.this, item.getList(), R.layout.item_shops) {
                     @Override
-                    public void convert(ViewHolder helper,final RightBean.SubRightBean item) {
+                    public void convert(ViewHolder helper, final RightBean.SubRightBean item) {
                         helper.setText(R.id.comment_name_tv, item.getName());
                         helper.setText(R.id.comment_content_tv, item.getInfo());
                         ImageView comment_head_iv = helper.getView(R.id.comment_head_iv);
@@ -205,11 +205,11 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
         searchLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(EnterpriseListActivity.this, NewSearchActivity.class);
+                Intent intent = new Intent(EnterpriseListActivity.this, NewSearchActivity.class);
                 if (categorytype.equals("2")) {
-                    intent.putExtra("searchtype",0);
+                    intent.putExtra("searchtype", 0);
                 } else {
-                    intent.putExtra("searchtype",1);
+                    intent.putExtra("searchtype", 1);
                 }
                 startActivity(intent);
             }
@@ -253,6 +253,12 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
             }
         });
         ivBack.setOnClickListener(this);
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(EnterpriseListActivity.this, ConversationListActivity.class));
+            }
+        });
     }
 
     @Override

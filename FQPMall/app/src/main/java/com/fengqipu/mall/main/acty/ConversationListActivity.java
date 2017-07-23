@@ -31,6 +31,7 @@ public class ConversationListActivity extends BaseActivity {
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ConversationListFragment conversationListFragment=new ConversationListFragment();
         ft.add(R.id.main_content_frame, conversationListFragment);
+        ft.commit();
     }
     private void initTitle() {
         View view = findViewById(R.id.common_back);

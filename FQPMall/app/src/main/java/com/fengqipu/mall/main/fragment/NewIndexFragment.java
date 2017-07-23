@@ -279,8 +279,7 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(mainActivity, ConversationListActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(mainActivity, ConversationListActivity.class));
             }
         });
         bannerFirstInit();
