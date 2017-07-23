@@ -1,6 +1,5 @@
 package com.fengqipu.mall.main.acty.goods;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -47,8 +46,6 @@ import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
-import com.hyphenate.chat.Message;
-import com.hyphenate.helpdesk.easeui.UIProvider;
 import com.hyphenate.helpdesk.easeui.util.IntentBuilder;
 import com.hyphenate.helpdesk.model.ContentFactory;
 
