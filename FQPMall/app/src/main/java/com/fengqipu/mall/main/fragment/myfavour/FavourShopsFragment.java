@@ -1,5 +1,6 @@
 package com.fengqipu.mall.main.fragment.myfavour;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.adapter.CommonAdapter;
@@ -24,6 +26,7 @@ import com.fengqipu.mall.bean.mine.DelFavourResponse;
 import com.fengqipu.mall.bean.mine.ShopFavourResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
 import com.fengqipu.mall.main.acty.mine.NewMyFavourActivity;
 import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.network.GsonHelper;
@@ -115,7 +118,8 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
         lAdapter = new CommonAdapter<ShopFavourResponse.FavoriteListBean>(newMyFavourActivity, goodsList, R.layout.item_shops) {
             @Override
             public void convert(ViewHolder helper,final ShopFavourResponse.FavoriteListBean item) {
-                helper.setText(R.id.comment_name_tv, item.getObjectName());
+                TextView comment_name_tv=helper.getView(R.id.comment_name_tv);
+                comment_name_tv.setText(item.getObjectName());
                 ImageView comment_head_iv = helper.getView(R.id.comment_head_iv);
                 if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrlRequestUrl())) {
                     GeneralUtils.setImageViewWithUrl(newMyFavourActivity, item.getPicUrlRequestUrl(),
@@ -142,6 +146,22 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
                 }else{
                     image_ll.setVisibility(View.GONE);
                 }
+                comment_name_tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(newMyFavourActivity, EnterpriseActivity.class);
+                        intent.putExtra("sid", item.getObjectID());
+                        startActivity(intent);
+                    }
+                });
+                comment_head_iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(newMyFavourActivity, EnterpriseActivity.class);
+                        intent.putExtra("sid", item.getObjectID());
+                        startActivity(intent);
+                    }
+                });
             }
         };
 //        myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

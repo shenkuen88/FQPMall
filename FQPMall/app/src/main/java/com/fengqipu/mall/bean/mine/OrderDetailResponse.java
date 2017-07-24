@@ -36,6 +36,17 @@ public class OrderDetailResponse extends BaseResponse{
      */
 
     private OrderBean order;
+
+    private ShopBean shop;
+
+    public ShopBean getShop() {
+        return shop;
+    }
+
+    public void setShop(ShopBean shop) {
+        this.shop = shop;
+    }
+
     /**
      * recordID : 31
      * orderID : 31
@@ -576,6 +587,433 @@ public class OrderDetailResponse extends BaseResponse{
 
         public void setExpressName(String expressName) {
             this.expressName = expressName;
+        }
+    }
+
+    public class ShopBean {
+
+        /**
+         * id : 3
+         * type : 2
+         * shopCode : 17001
+         * keyword : null
+         * shopName : 商铺1
+         * notice : null
+         * picUrl :
+         * advPicUrl1 : null
+         * advPicUrl2 : null
+         * advPicUrl3 : null
+         * province : 320000
+         * city : 320800
+         * area : 320802
+         * addressDetail : 苏果超市
+         * gpsLong : 119.063206
+         * gpsLati : 33.596983
+         * category1 : null
+         * category2 : 5
+         * description :  <p>发</p>
+         * phone : 15052923299
+         * businessLicenseFile :
+         * legalPersonIDCardAFile :
+         * legalPersonIDCardBFile :
+         * legalPerson : 法人1
+         * bank :
+         * bankCode :
+         * score : 0
+         * favoriteCount : 0
+         * viewCount : 0
+         * delFlag : 0
+         * status : 2
+         * suspend : 0
+         * maintainer : 1
+         * userID : null
+         * createAdmin : 1
+         * createTime : 2017-06-15
+         * picUrlRequestUrl :
+         * descriptionLink : http://116.62.116.15/api/h5/detail?type=4&id=3
+         * advPicUrl2RequestUrl :
+         * advPicUrlList : []
+         * advPicUrl3RequestUrl :
+         * advPicUrl1RequestUrl :
+         */
+
+        private String id;
+        private int type;
+        private String shopCode;
+        private String keyword;
+        private String shopName;
+        private String notice;
+        private String picUrl;
+        private String advPicUrl1;
+        private String advPicUrl2;
+        private String advPicUrl3;
+        private String province;
+        private String city;
+        private String area;
+        private String addressDetail;
+        private String gpsLong;
+        private String gpsLati;
+        private String category1;
+        private String category2;
+        private String description;
+        private String phone;
+        private String businessLicenseFile;
+        private String legalPersonIDCardAFile;
+        private String legalPersonIDCardBFile;
+        private String legalPerson;
+        private String bank;
+        private String bankCode;
+        private int score;
+        private int favoriteCount;
+        private int viewCount;
+        private int delFlag;
+        private int status;
+        private int suspend;
+        private String maintainer;
+        private String userID;
+        private String createAdmin;
+        private String createTime;
+        private String picUrlRequestUrl;
+        private String descriptionLink;
+        private String advPicUrl2RequestUrl;
+        private String advPicUrl3RequestUrl;
+        private String advPicUrl1RequestUrl;
+        private List<String> advPicUrlList;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public String getShopCode() {
+            return shopCode;
+        }
+
+        public void setShopCode(String shopCode) {
+            this.shopCode = shopCode;
+        }
+
+        public String getKeyword() {
+            return keyword;
+        }
+
+        public void setKeyword(String keyword) {
+            this.keyword = keyword;
+        }
+
+        public String getShopName() {
+            return shopName;
+        }
+
+        public void setShopName(String shopName) {
+            this.shopName = shopName;
+        }
+
+        public String getNotice() {
+            return notice;
+        }
+
+        public void setNotice(String notice) {
+            this.notice = notice;
+        }
+
+        public String getPicUrl() {
+            return picUrl;
+        }
+
+        public void setPicUrl(String picUrl) {
+            this.picUrl = picUrl;
+        }
+
+        public String getAdvPicUrl1() {
+            return advPicUrl1;
+        }
+
+        public void setAdvPicUrl1(String advPicUrl1) {
+            this.advPicUrl1 = advPicUrl1;
+        }
+
+        public String getAdvPicUrl2() {
+            return advPicUrl2;
+        }
+
+        public void setAdvPicUrl2(String advPicUrl2) {
+            this.advPicUrl2 = advPicUrl2;
+        }
+
+        public String getAdvPicUrl3() {
+            return advPicUrl3;
+        }
+
+        public void setAdvPicUrl3(String advPicUrl3) {
+            this.advPicUrl3 = advPicUrl3;
+        }
+
+        public String getProvince() {
+            return province;
+        }
+
+        public void setProvince(String province) {
+            this.province = province;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getArea() {
+            return area;
+        }
+
+        public void setArea(String area) {
+            this.area = area;
+        }
+
+        public String getAddressDetail() {
+            return addressDetail;
+        }
+
+        public void setAddressDetail(String addressDetail) {
+            this.addressDetail = addressDetail;
+        }
+
+        public String getGpsLong() {
+            return gpsLong;
+        }
+
+        public void setGpsLong(String gpsLong) {
+            this.gpsLong = gpsLong;
+        }
+
+        public String getGpsLati() {
+            return gpsLati;
+        }
+
+        public void setGpsLati(String gpsLati) {
+            this.gpsLati = gpsLati;
+        }
+
+        public String getCategory1() {
+            return category1;
+        }
+
+        public void setCategory1(String category1) {
+            this.category1 = category1;
+        }
+
+        public String getCategory2() {
+            return category2;
+        }
+
+        public void setCategory2(String category2) {
+            this.category2 = category2;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getBusinessLicenseFile() {
+            return businessLicenseFile;
+        }
+
+        public void setBusinessLicenseFile(String businessLicenseFile) {
+            this.businessLicenseFile = businessLicenseFile;
+        }
+
+        public String getLegalPersonIDCardAFile() {
+            return legalPersonIDCardAFile;
+        }
+
+        public void setLegalPersonIDCardAFile(String legalPersonIDCardAFile) {
+            this.legalPersonIDCardAFile = legalPersonIDCardAFile;
+        }
+
+        public String getLegalPersonIDCardBFile() {
+            return legalPersonIDCardBFile;
+        }
+
+        public void setLegalPersonIDCardBFile(String legalPersonIDCardBFile) {
+            this.legalPersonIDCardBFile = legalPersonIDCardBFile;
+        }
+
+        public String getLegalPerson() {
+            return legalPerson;
+        }
+
+        public void setLegalPerson(String legalPerson) {
+            this.legalPerson = legalPerson;
+        }
+
+        public String getBank() {
+            return bank;
+        }
+
+        public void setBank(String bank) {
+            this.bank = bank;
+        }
+
+        public String getBankCode() {
+            return bankCode;
+        }
+
+        public void setBankCode(String bankCode) {
+            this.bankCode = bankCode;
+        }
+
+        public int getScore() {
+            return score;
+        }
+
+        public void setScore(int score) {
+            this.score = score;
+        }
+
+        public int getFavoriteCount() {
+            return favoriteCount;
+        }
+
+        public void setFavoriteCount(int favoriteCount) {
+            this.favoriteCount = favoriteCount;
+        }
+
+        public int getViewCount() {
+            return viewCount;
+        }
+
+        public void setViewCount(int viewCount) {
+            this.viewCount = viewCount;
+        }
+
+        public int getDelFlag() {
+            return delFlag;
+        }
+
+        public void setDelFlag(int delFlag) {
+            this.delFlag = delFlag;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public int getSuspend() {
+            return suspend;
+        }
+
+        public void setSuspend(int suspend) {
+            this.suspend = suspend;
+        }
+
+        public String getMaintainer() {
+            return maintainer;
+        }
+
+        public void setMaintainer(String maintainer) {
+            this.maintainer = maintainer;
+        }
+
+        public String getUserID() {
+            return userID;
+        }
+
+        public void setUserID(String userID) {
+            this.userID = userID;
+        }
+
+        public String getCreateAdmin() {
+            return createAdmin;
+        }
+
+        public void setCreateAdmin(String createAdmin) {
+            this.createAdmin = createAdmin;
+        }
+
+        public String getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(String createTime) {
+            this.createTime = createTime;
+        }
+
+        public String getPicUrlRequestUrl() {
+            return picUrlRequestUrl;
+        }
+
+        public void setPicUrlRequestUrl(String picUrlRequestUrl) {
+            this.picUrlRequestUrl = picUrlRequestUrl;
+        }
+
+        public String getDescriptionLink() {
+            return descriptionLink;
+        }
+
+        public void setDescriptionLink(String descriptionLink) {
+            this.descriptionLink = descriptionLink;
+        }
+
+        public String getAdvPicUrl2RequestUrl() {
+            return advPicUrl2RequestUrl;
+        }
+
+        public void setAdvPicUrl2RequestUrl(String advPicUrl2RequestUrl) {
+            this.advPicUrl2RequestUrl = advPicUrl2RequestUrl;
+        }
+
+        public String getAdvPicUrl3RequestUrl() {
+            return advPicUrl3RequestUrl;
+        }
+
+        public void setAdvPicUrl3RequestUrl(String advPicUrl3RequestUrl) {
+            this.advPicUrl3RequestUrl = advPicUrl3RequestUrl;
+        }
+
+        public String getAdvPicUrl1RequestUrl() {
+            return advPicUrl1RequestUrl;
+        }
+
+        public void setAdvPicUrl1RequestUrl(String advPicUrl1RequestUrl) {
+            this.advPicUrl1RequestUrl = advPicUrl1RequestUrl;
+        }
+
+        public List<String> getAdvPicUrlList() {
+            return advPicUrlList;
+        }
+
+        public void setAdvPicUrlList(List<String> advPicUrlList) {
+            this.advPicUrlList = advPicUrlList;
         }
     }
 }

@@ -33,6 +33,7 @@ import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.dialog.GuiGeBtmDialog;
 import com.fengqipu.mall.dialog.SucDialog;
 import com.fengqipu.mall.main.acty.ConversationListActivity;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
 import com.fengqipu.mall.main.acty.index.ConfirmOrderActivity;
 import com.fengqipu.mall.main.acty.mine.LoginActy;
 import com.fengqipu.mall.main.base.BaseActivity;
@@ -139,7 +140,9 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 startActivity(new Intent(GoodsDetailActivity.this, ConversationListActivity.class));
                 break;
             case R.id.shop_tv:
-
+                Intent intent2=new Intent(GoodsDetailActivity.this, EnterpriseActivity.class);
+                intent2.putExtra("sid",goodsDetailResponse.getContent().getShopID());
+                startActivity(intent2);
                 break;
             case R.id.search_tv:
 

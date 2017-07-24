@@ -13,7 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/pxtodp1"
         android:background="@color/line" />
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <android.support.design.widget.TabLayout
         android:id="@+id/mTabs"
         android:layout_width="match_parent"
@@ -23,6 +25,12 @@
         app:tabIndicatorColor="@color/order_sel_col"
         app:tabSelectedTextColor="@color/order_sel_col"
         app:tabTextColor="@color/order_nol_col" />
+        <View
+            android:layout_width="1px"
+            android:layout_height="56dp"
+            android:layout_gravity="center"
+            android:background="@color/line"></View>
+    </FrameLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/pxtodp1"

@@ -1,5 +1,6 @@
 package com.fengqipu.mall.main.fragment.myfavour;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.fengqipu.mall.bean.mine.DelFavourResponse;
 import com.fengqipu.mall.bean.mine.GoodsFavourResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
+import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.mine.NewMyFavourActivity;
 import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.network.GsonHelper;
@@ -111,15 +113,23 @@ public class FavourGoodsFragment extends BaseFragment implements View.OnClickLis
 //        });
         lAdapter = new CommonAdapter<GoodsFavourResponse.FavoriteListBean>(newMyFavourActivity, goodsList, R.layout.item_his_g) {
             @Override
-            public void convert(ViewHolder helper, GoodsFavourResponse.FavoriteListBean item) {
+            public void convert(ViewHolder helper, final GoodsFavourResponse.FavoriteListBean item) {
                 helper.setText(R.id.goods_info, item.getObjectName());
                 helper.setText(R.id.goods_price, "￥" + item.getPrice());
                 helper.getView(R.id.goods_time).setVisibility(View.GONE);
+                ImageView img = helper.getView(R.id.img);
                 if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrlRequestUrl())) {
-                    ImageView img = helper.getView(R.id.img);
 //                            ImageLoaderUtil.getInstance().initImage(mContext, item.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
                     GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrlRequestUrl(), img, R.drawable.default_head);
                 }
+                img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(newMyFavourActivity, GoodsDetailActivity.class);
+                        intent.putExtra("contentID",item.getObjectID());
+                        startActivity(intent);
+                    }
+                });
             }
         };
         myListview.setOnScrollListener(new AbsListView.OnScrollListener() {

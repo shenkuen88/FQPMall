@@ -1,5 +1,6 @@
 package com.fengqipu.mall.main.fragment.enterprise;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -7,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,10 +19,14 @@ import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.bean.shop.PromotionShopListResponse;
+import com.fengqipu.mall.bean.shop.ZongHeShopListResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
+import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
+import com.fengqipu.mall.main.acty.enterprise.GoodsEnterpriseActivity;
+import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.network.GsonHelper;
@@ -138,6 +144,26 @@ public class PromotionFragment extends BaseFragment implements View.OnClickListe
             }
         };
         myGridview.setAdapter(gAdapter);
+        myGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ZongHeShopListResponse.ContentListBean item = (ZongHeShopListResponse.ContentListBean) adapterView.getItemAtPosition(i);
+                if(Global.getuserType().equals("1")) {
+                    Intent intent = new Intent(enterpriseActivity, GoodsEnterpriseActivity.class);
+                    intent.putExtra("contentID",item.getId());
+                    intent.putExtra("contentType", item.getContentType());
+                    intent.putExtra("category2", item.getCategory2());
+                    intent.putExtra("model", item.getModel());
+                    intent.putExtra("picurl", item.getPicUrl1RequestUrl());
+                    intent.putExtra("name", item.getContentName());
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(enterpriseActivity, GoodsDetailActivity.class);
+                    intent.putExtra("contentID",item.getId());
+                    startActivity(intent);
+                }
+            }
+        });
         scrollView.setScrollBottomListener(new ScrollBottomScrollView.ScrollBottomListener() {
             @Override
             public void scrollBottom() {
@@ -179,7 +205,7 @@ public class PromotionFragment extends BaseFragment implements View.OnClickListe
 //        goodsList.add(g4);
 //        goodsList.add(g5);
 //        gAdapter.notifyDataSetChanged();
-
+        NetLoadingDialog.getInstance().loading(enterpriseActivity);
         UserServiceImpl.instance().getShopsList(enterpriseActivity, enterpriseActivity.sid, "2", "", "", pageNum, pageSize, PromotionShopListResponse.class.getName());
     }
 

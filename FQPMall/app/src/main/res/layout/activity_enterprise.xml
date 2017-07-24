@@ -89,8 +89,8 @@
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
                 android:text="已关注"
-                android:textColor="@color/deep_gray"
-                android:background="@drawable/white_rec_click"
+                android:textColor="@color/white"
+                android:background="@drawable/yollew_rec_click"
                 android:textSize="15sp" />
                 <TextView
                     android:id="@+id/tv_gz_num"

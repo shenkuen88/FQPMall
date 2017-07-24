@@ -28,8 +28,9 @@ import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.MainActivity;
-import com.fengqipu.mall.main.acty.index.ColumnListActy;
+import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.search.NewSearchActivity;
+import com.fengqipu.mall.main.acty.search.SearchGoodsActivity;
 import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.main.base.CommonWebViewActivity;
 import com.fengqipu.mall.network.GsonHelper;
@@ -108,8 +109,8 @@ public class CategoryFragment extends BaseFragment {
         fview = inflater.inflate(R.layout.fragment_fen_lei, container, false);
         headView = inflater.inflate(R.layout.header, null);
         ivBanner = V.f(headView, R.id.iv_banner);
-        initAll();
         ButterKnife.bind(this, fview);
+        initAll();
         return fview;
     }
 
@@ -191,10 +192,8 @@ public class CategoryFragment extends BaseFragment {
                 btn_more.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), ColumnListActy.class);
-                        intent.putExtra(IntentCode.SEARCH_KEYORD, item.getId());
-                        intent.putExtra(IntentCode.SEARCH_TITLE, item.getName());
-                        intent.putExtra(IntentCode.EXTRA_SERVICETYPE, item.getType());
+                        Intent intent = new Intent(getActivity(), SearchGoodsActivity.class);
+                        intent.putExtra(IntentCode.SEARCH_KEYORD, item.getName());
                         getActivity().startActivity(intent);
                     }
                 });
@@ -202,7 +201,9 @@ public class CategoryFragment extends BaseFragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         RightBean.SubRightBean subRightBean = (RightBean.SubRightBean) parent.getItemAtPosition(position);
-
+                        Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                        intent.putExtra("contentID", item.getId());
+                        getActivity().startActivity(intent);
                     }
                 });
             }

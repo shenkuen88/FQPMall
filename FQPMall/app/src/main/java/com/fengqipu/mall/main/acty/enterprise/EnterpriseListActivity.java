@@ -24,9 +24,9 @@ import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.main.acty.ConversationListActivity;
-import com.fengqipu.mall.main.acty.index.ColumnListActy;
 import com.fengqipu.mall.main.acty.index.SearchActy;
 import com.fengqipu.mall.main.acty.search.NewSearchActivity;
+import com.fengqipu.mall.main.acty.search.SearchShopsActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.CommonWebViewActivity;
 import com.fengqipu.mall.network.GsonHelper;
@@ -177,10 +177,9 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                 btn_more.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(EnterpriseListActivity.this, ColumnListActy.class);
-                        intent.putExtra(IntentCode.SEARCH_KEYORD, item.getId());
-                        intent.putExtra(IntentCode.SEARCH_TITLE, item.getName());
-                        intent.putExtra(IntentCode.EXTRA_SERVICETYPE, item.getType());
+                        Intent intent = new Intent(EnterpriseListActivity.this, SearchShopsActivity.class);
+                        intent.putExtra(IntentCode.SEARCH_KEYORD, item.getName());
+                        intent.putExtra("SearchType", (Integer.valueOf(categorytype)-1));
                         EnterpriseListActivity.this.startActivity(intent);
                     }
                 });

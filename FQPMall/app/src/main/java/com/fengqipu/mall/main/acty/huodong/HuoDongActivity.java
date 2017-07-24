@@ -1,6 +1,7 @@
 package com.fengqipu.mall.main.acty.huodong;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,8 +144,13 @@ public class HuoDongActivity extends BaseActivity implements View.OnClickListene
                 goods_info.setText(item.getContentName() + "");
                 goods_price.setText("￥" + item.getPrice() + "");
                 goods_old_price.setText("￥" + item.getOriginalPrice() + "");
+                goods_old_price.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG ); //中间横线
+                String num=item.getSales();
+                if(num==null||num.equals("")){
+                    num="0";
+                }
                 goods_xl.setText("销量" + item.getSales() + "件");
-                btn_msq.setOnClickListener(new View.OnClickListener() {
+                helper.getConvertView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(HuoDongActivity.this, GoodsDetailActivity.class);

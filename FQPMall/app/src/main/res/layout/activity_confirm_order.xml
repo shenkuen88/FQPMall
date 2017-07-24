@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/app_add_friend_dialog_bg"
+    android:layout_marginBottom="@dimen/pxtodp98"
     android:orientation="vertical">
 
     <include
@@ -17,48 +22,6 @@
         android:layout_below="@+id/common_back"
         android:layout_marginBottom="@dimen/pxtodp24"
         android:background="@drawable/line_view" />
-
-    <RelativeLayout
-        android:id="@+id/submit_rl"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/pxtodp98"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white_color"
-        android:paddingLeft="@dimen/pxtodp30">
-
-        <TextView
-            android:id="@+id/need_pay_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="应付金额"
-            android:textColor="@color/register_black_text"
-            android:textSize="@dimen/pxtosp36" />
-
-        <TextView
-            android:id="@+id/should_pay_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/pxtodp10"
-            android:layout_toRightOf="@+id/need_pay_tv"
-            android:text="--"
-            android:textColor="@color/app_color"
-            android:textSize="@dimen/pxtosp36"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/submit_order_bn"
-            android:layout_width="@dimen/pxtodp220"
-            android:layout_height="@dimen/pxtodp60"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/pxtodp30"
-            android:background="@drawable/pink_button"
-            android:text="提交订单"
-            android:textColor="@color/white_color"
-            android:textSize="@dimen/pxtosp26" />
-    </RelativeLayout>
 
     <com.fengqipu.mall.view.MyScrollView1
         android:layout_width="match_parent"
@@ -321,4 +284,46 @@
         </LinearLayout>
     </com.fengqipu.mall.view.MyScrollView1>
 </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/submit_rl"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_height="@dimen/pxtodp98"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white_color"
+        android:paddingLeft="@dimen/pxtodp30">
 
+        <TextView
+            android:id="@+id/need_pay_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="应付金额"
+            android:textColor="@color/register_black_text"
+            android:textSize="@dimen/pxtosp36" />
+
+        <TextView
+            android:id="@+id/should_pay_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/pxtodp10"
+            android:layout_toRightOf="@+id/need_pay_tv"
+            android:text="--"
+            android:textColor="@color/app_color"
+            android:textSize="@dimen/pxtosp36"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/submit_order_bn"
+            android:layout_width="@dimen/pxtodp220"
+            android:layout_height="@dimen/pxtodp60"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/pxtodp30"
+            android:background="@drawable/pink_button"
+            android:text="提交订单"
+            android:textColor="@color/white_color"
+            android:textSize="@dimen/pxtosp26" />
+    </RelativeLayout>
+</FrameLayout>

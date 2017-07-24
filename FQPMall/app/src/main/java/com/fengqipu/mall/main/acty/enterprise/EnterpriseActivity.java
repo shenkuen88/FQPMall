@@ -1,8 +1,13 @@
 package com.fengqipu.mall.main.acty.enterprise;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -113,8 +118,26 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
     public void initEvent() {
         tvGz.setOnClickListener(this);
         btnZxkf.setOnClickListener(this);
+        btnYjbh.setOnClickListener(this);
     }
-
+    /**
+     * 调用拨号功能
+     * @param phone 电话号码
+     */
+    private void call(String phone) {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        startActivity(intent);
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -123,6 +146,12 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
                 NetLoadingDialog.getInstance().loading(mContext);
                 UserServiceImpl.instance().addFavour(this,"2", sid, AddShopResponse.class.getName());
             break;
+            case R.id.btn_yjbh:
+                String phone =shopDetailResponse.getShop().getPhone();
+                if(phone!=null&&!phone.equals("")){
+                    call(phone);
+                }
+                break;
             case R.id.btn_zxkf:
                 if (GeneralUtils.isLogin()) {
                     Intent intent = new IntentBuilder(EnterpriseActivity.this)
@@ -178,15 +207,19 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
                         tvShopname.setText(shopDetailResponse.getShop().getShopName() + "");
                         tvNotice.setText(shopDetailResponse.getShop().getNotice() + "");
                         tvGz.setText("+关注");
+                        tvGz.setBackground(getResources().getDrawable(R.drawable.yollew_rec_click));
+                        tvGz.setTextColor(Color.parseColor("#ffffff"));
                         if (shopDetailResponse.getIsFavorite().equals("1")) {
                             tvGz.setText("已关注");
+                            tvGz.setBackground(getResources().getDrawable(R.drawable.white_rec_click));
+                            tvGz.setTextColor(Color.parseColor("#394257"));
                         }
                         if(GeneralUtils.isLogin()){
                             tvGz.setVisibility(View.VISIBLE);
                         }else{
                             tvGz.setVisibility(View.GONE);
                         }
-                        tvGzNum.setText(shopDetailResponse.getShop().getFavoriteCount()+"");
+                        tvGzNum.setText(shopDetailResponse.getShop().getFavoriteCount()+"人");
                         btnQyjs.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -213,6 +246,8 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
                     CMLog.e(Constants.HTTP_TAG, result);
                     if (Constants.SUCESS_CODE.equals(shopDetailResponse.getResultCode())) {
                         tvGz.setText("已关注");
+                        tvGz.setBackground(getResources().getDrawable(R.drawable.white_rec_click));
+                        tvGz.setTextColor(Color.parseColor("#394257"));
                     } else {
                         ErrorCode.doCode(this, shopDetailResponse.getResultCode(), shopDetailResponse.getDesc());
                     }

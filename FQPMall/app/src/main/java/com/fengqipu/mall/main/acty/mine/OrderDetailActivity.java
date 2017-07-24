@@ -1,9 +1,13 @@
 package com.fengqipu.mall.main.acty.mine;
 
+import android.Manifest;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -43,6 +47,8 @@ import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
 import com.fengqipu.mall.tools.V;
+import com.hyphenate.helpdesk.easeui.util.IntentBuilder;
+import com.hyphenate.helpdesk.model.ContentFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +61,14 @@ public class OrderDetailActivity extends BaseActivity {
     View llViewLine;
     @Bind(R.id.ll_view)
     LinearLayout llView;
+    @Bind(R.id.iv_lxmj)
+    ImageView ivLxmj;
+    @Bind(R.id.tv_lxmj)
+    TextView tvLxmj;
+    @Bind(R.id.iv_bddh)
+    ImageView ivBddh;
+    @Bind(R.id.tv_bddh)
+    TextView tvBddh;
     private String state = "1";
     private String orderId = "";
     LinearLayout btn_sqth;//申请退货
@@ -264,10 +278,10 @@ public class OrderDetailActivity extends BaseActivity {
                 btn_sqsh.setVisibility(View.VISIBLE);
                 break;
         }
-        if(btn_sqth.getVisibility()==View.GONE&&btn_sqsh.getVisibility()==View.GONE){
+        if (btn_sqth.getVisibility() == View.GONE && btn_sqsh.getVisibility() == View.GONE) {
             llView.setVisibility(View.GONE);
             llViewLine.setVisibility(View.GONE);
-        }else{
+        } else {
             llView.setVisibility(View.VISIBLE);
             llViewLine.setVisibility(View.VISIBLE);
         }
@@ -354,8 +368,89 @@ public class OrderDetailActivity extends BaseActivity {
                         , NotiTag.TAG_DEL_GOODS_CANCEL, NotiTag.TAG_DEL_GOODS_OK);
             }
         });
+        ivLxmj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (GeneralUtils.isLogin()) {
+                    Intent intent = new IntentBuilder(OrderDetailActivity.this)
+                            .setServiceIMNumber("kefuchannelimid_021199") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
+                            .setTitleName("")
+                            .setVisitorInfo(ContentFactory.createVisitorInfo(null)
+                                    .companyName("")
+                                    .email(Global.getEmail())
+                                    .qq("")
+                                    .name(Global.getUserName())
+                                    .nickName(Global.getNickName())
+                                    .phone(Global.getPhone()))
+                            .setShowUserNick(true)
+                            .build();
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(OrderDetailActivity.this, LoginActy.class));
+                }
+            }
+        });
+        tvLxmj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (GeneralUtils.isLogin()) {
+                    Intent intent = new IntentBuilder(OrderDetailActivity.this)
+                            .setServiceIMNumber("kefuchannelimid_021199") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
+                            .setTitleName("")
+                            .setVisitorInfo(ContentFactory.createVisitorInfo(null)
+                                    .companyName("")
+                                    .email(Global.getEmail())
+                                    .qq("")
+                                    .name(Global.getUserName())
+                                    .nickName(Global.getNickName())
+                                    .phone(Global.getPhone()))
+                            .setShowUserNick(true)
+                            .build();
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(OrderDetailActivity.this, LoginActy.class));
+                }
+            }
+        });
+        ivBddh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phone =orderDetailResponse.getShop().getPhone();
+                if(phone!=null&&!phone.equals("")){
+                    call(phone);
+                }
+
+            }
+        });
+        tvBddh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phone =orderDetailResponse.getShop().getPhone();
+                if(phone!=null&&!phone.equals("")){
+                    call(phone);
+                }
+            }
+        });
     }
 
+    /**
+     * 调用拨号功能
+     * @param phone 电话号码
+     */
+    private void call(String phone) {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        startActivity(intent);
+    }
     private void initTitle() {
         View view = findViewById(R.id.common_back);
         HeadView headView = new HeadView((ViewGroup) view);
@@ -365,7 +460,7 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private OrderDetailResponse.OrderBean item;
-
+    OrderDetailResponse orderDetailResponse;
     @Override
     public void onEventMainThread(BaseResponse event) {
         if (event instanceof NoticeEvent) {
@@ -395,7 +490,7 @@ public class OrderDetailActivity extends BaseActivity {
                     //网络数据(一般不用去做处理)
                 }
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
-                    final OrderDetailResponse orderDetailResponse = GsonHelper.toType(result, OrderDetailResponse.class);
+                    orderDetailResponse = GsonHelper.toType(result, OrderDetailResponse.class);
                     if (Constants.SUCESS_CODE.equals(orderDetailResponse.getResultCode())) {
                         if (orderDetailResponse.getOrder() != null) {
                             olist.clear();

@@ -133,6 +133,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void convert(ViewHolder helper, SearchShopsResponse.ShopListBean item) {
                 helper.setText(R.id.comment_name_tv, item.getShopName());
+                helper.getView(R.id.tv_jindian).setVisibility(View.VISIBLE);
                 ImageView comment_head_iv = helper.getView(R.id.comment_head_iv);
                 if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrlRequestUrl())) {
                     GeneralUtils.setImageViewWithUrl(SearchShopsActivity.this, item.getPicUrlRequestUrl(),

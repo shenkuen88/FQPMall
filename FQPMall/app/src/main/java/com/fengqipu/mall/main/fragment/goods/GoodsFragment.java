@@ -1,6 +1,5 @@
 package com.fengqipu.mall.main.fragment.goods;
 
-import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,7 +8,6 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,7 +17,6 @@ import com.fengqipu.mall.adapter.CommonAdapter;
 import com.fengqipu.mall.adapter.ViewHolder;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NoticeEvent;
-import com.fengqipu.mall.bean.cart.GoodsBean;
 import com.fengqipu.mall.bean.goods.GoodsCommentResponse;
 import com.fengqipu.mall.bean.goods.GoodsDetailResponse;
 import com.fengqipu.mall.bean.index.BannerListBean;
@@ -169,14 +166,14 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
             }
         };
         myListview.setAdapter(mAdapter);
-        myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                GoodsBean item = (GoodsBean) adapterView.getItemAtPosition(i);
-                Intent intent = new Intent(goodsDetailActivity, GoodsDetailActivity.class);
-                startActivity(intent);
-            }
-        });
+//        myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                GoodsBean item = (GoodsBean) adapterView.getItemAtPosition(i);
+//                Intent intent = new Intent(goodsDetailActivity, GoodsDetailActivity.class);
+//                startActivity(intent);
+//            }
+//        });
         bannerFirstInit();
 //        initData();
         tvGg.setOnClickListener(new View.OnClickListener() {
@@ -369,7 +366,11 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                 price.setText("￥" + goodsDetailResponse.getContent().getPrice());
                 orPrice.setText("￥" + goodsDetailResponse.getContent().getOriginalPrice());
                 orPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                alreadySale.setText("已成交" + goodsDetailResponse.getContent().getSales() + "件");
+                String num=goodsDetailResponse.getContent().getSales();
+                if(num==null||num.equals("")){
+                    num="0";
+                }
+                alreadySale.setText("已成交" + num + "件");
                 if (goodsDetailResponse.getFreight() == 0) {
                     tvFreight.setText("免运费");
                 } else {

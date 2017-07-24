@@ -25,7 +25,6 @@ import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.dialog.ShaiXuanDialog;
 import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
-import com.fengqipu.mall.main.acty.huodong.HuoDongActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.HeadView;
@@ -52,6 +51,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 
 import static com.fengqipu.mall.R.id.btn_list_type;
 import static com.fengqipu.mall.R.id.btn_sx;
+import static com.fengqipu.mall.R.id.index_banner;
 
 /*
  *企业商品页面
@@ -77,7 +77,7 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
     PtrClassicFrameLayout refreshLayout;
     @Bind(R.id.scrollView)
     ScrollBottomScrollView scrollView;
-    @Bind(R.id.index_banner)
+    @Bind(index_banner)
     ImageView indexBanner;
     @Bind(R.id.content_name)
     TextView contentName;
@@ -96,6 +96,7 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
     String model;
     String picurl;
     String name;
+    String contentID;
 
 
     @Override
@@ -108,6 +109,7 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
         model = getIntent().getStringExtra("model");
         picurl = getIntent().getStringExtra("picurl");
         name = getIntent().getStringExtra("name");
+        contentID = getIntent().getStringExtra("contentID");
         initAll();
     }
 
@@ -255,6 +257,14 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
                 initBtmList();
             }
         });
+        indexBanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(GoodsEnterpriseActivity.this, GoodsDetailActivity.class);
+                intent.putExtra("contentID",contentID);
+                startActivity(intent);
+            }
+        });
         initData();
     }
 
@@ -384,7 +394,7 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
         btnJg.setTextColor(Color.parseColor("#4A4A4A"));
         btnSx.setTextColor(Color.parseColor("#4A4A4A"));
     }
-
+    GoodsEnterpriseResponse goodsEnterpriseResponse;
     @Override
     public void onEventMainThread(BaseResponse event) throws Exception {
         if (event instanceof NoticeEvent) {
@@ -399,7 +409,7 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
             String tag = ((NetResponseEvent) event).getTag();
             String result = ((NetResponseEvent) event).getResult();
             if (tag.equals(GoodsEnterpriseResponse.class.getName())) {
-                GoodsEnterpriseResponse goodsEnterpriseResponse = GsonHelper.toType(result, GoodsEnterpriseResponse.class);
+                goodsEnterpriseResponse = GsonHelper.toType(result, GoodsEnterpriseResponse.class);
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     CMLog.e(Constants.HTTP_TAG, result);
                     if (Constants.SUCESS_CODE.equals(goodsEnterpriseResponse.getResultCode())) {

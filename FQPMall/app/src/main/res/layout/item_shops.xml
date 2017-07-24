@@ -35,8 +35,23 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/comment_head_iv"
-        android:text="@string/no_data_show_short_text"
+        android:text=""
         android:textColor="@color/txt_nol_col"
+        android:textSize="@dimen/pxtodp30" />
+    <TextView
+        android:id="@+id/tv_jindian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/comment_head_iv"
+        android:text="进店"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:visibility="gone"
+        android:background="@drawable/pink_rec_3"
+        android:textColor="@color/app_color"
         android:textSize="@dimen/pxtodp30" />
 <LinearLayout
     android:id="@+id/comment_content_ll"

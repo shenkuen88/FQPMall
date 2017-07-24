@@ -184,6 +184,7 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
                 ZongHeShopListResponse.ContentListBean item = (ZongHeShopListResponse.ContentListBean) adapterView.getItemAtPosition(i);
                 if(Global.getuserType().equals("1")) {
                     Intent intent = new Intent(enterpriseActivity, GoodsEnterpriseActivity.class);
+                    intent.putExtra("contentID",item.getId());
                     intent.putExtra("contentType", item.getContentType());
                     intent.putExtra("category2", item.getCategory2());
                     intent.putExtra("model", item.getModel());
@@ -203,6 +204,7 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
                 ZongHeShopListResponse.ContentListBean item = (ZongHeShopListResponse.ContentListBean) adapterView.getItemAtPosition(i);
                 if(Global.getuserType().equals("1")) {
                     Intent intent = new Intent(enterpriseActivity, GoodsEnterpriseActivity.class);
+                    intent.putExtra("contentID",item.getId());
                     intent.putExtra("contentType", item.getContentType());
                     intent.putExtra("category2", item.getCategory2());
                     intent.putExtra("model", item.getModel());
@@ -260,8 +262,9 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
 //            goodsList.add(g3); goodsList.add(g4);
 //            goodsList.add(g5);
 //            lAdapter.notifyDataSetChanged();
-//            gAdapter.notifyDataSetChanged();enterpriseActivity.sid
-        UserServiceImpl.instance().getShopsList(enterpriseActivity, "3","1", order+"", jgtype+"", pageNum, pageSize, ZongHeShopListResponse.class.getName());
+//            gAdapter.notifyDataSetChanged();
+        NetLoadingDialog.getInstance().loading(enterpriseActivity);
+        UserServiceImpl.instance().getShopsList(enterpriseActivity, enterpriseActivity.sid,"1", order+"", jgtype+"", pageNum, pageSize, ZongHeShopListResponse.class.getName());
     }
 
     public float scaleWidth;
