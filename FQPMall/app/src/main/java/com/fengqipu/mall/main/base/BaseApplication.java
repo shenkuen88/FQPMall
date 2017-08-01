@@ -94,8 +94,12 @@ public class BaseApplication extends MultiDexApplication {
         options.setTenantId("44668");//必填项，tenantId获取地址：kefu.easemob.com，“管理员模式 > 设置 > 企业信息”页面的“租户ID”
 
         // Kefu SDK 初始化
-        if (!ChatClient.getInstance().init(this, options)){
-            return;
+        try {
+            if (!ChatClient.getInstance().init(this, options)){
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         // Kefu EaseUI的初始化
         UIProvider.getInstance().init(this);

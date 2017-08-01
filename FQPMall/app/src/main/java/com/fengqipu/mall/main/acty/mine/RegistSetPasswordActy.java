@@ -53,13 +53,17 @@ public class RegistSetPasswordActy extends BaseActivity implements View.OnClickL
     private MyTime myTime;
 
     private boolean change;
-
+    private String isThirdPart="0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist_set_password);
         phoneNum = getIntent().getStringExtra(IntentCode.REGISTER_PHONE);
+        isThirdPart=getIntent().getStringExtra("isThirdPart");
+        if(isThirdPart==null){
+            isThirdPart="0";
+        }
         initAll();
         startTime();
     }
@@ -68,7 +72,11 @@ public class RegistSetPasswordActy extends BaseActivity implements View.OnClickL
     private void initTitle() {
         View view = findViewById(R.id.common_back);
         HeadView headView = new HeadView((ViewGroup) view);
-        headView.setTitleText("手机快速注册");
+        if(isThirdPart.equals("0")) {
+            headView.setTitleText("手机快速注册");
+        }else{
+            headView.setTitleText("绑定手机号");
+        }
         headView.setLeftImage(R.mipmap.app_title_back);
         headView.setHiddenRight();
     }

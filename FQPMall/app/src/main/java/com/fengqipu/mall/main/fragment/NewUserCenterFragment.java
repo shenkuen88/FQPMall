@@ -250,7 +250,9 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
     }
 
     private void initBtmList() {
-        UserServiceImpl.instance().getUserCount(mainActivity,UserCountResponse.class.getName());
+        if(GeneralUtils.isLogin()) {
+            UserServiceImpl.instance().getUserCount(mainActivity, UserCountResponse.class.getName());
+        }
         UserServiceImpl.instance().getTuiJianList(mainActivity,"2",TuiJianResponse.class.getName());
     }
 

@@ -3,6 +3,7 @@ package com.fengqipu.mall.main.acty.mine;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.bean.mine.LoginResponse;
+import com.fengqipu.mall.bean.mine.SearchUserResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
@@ -190,24 +192,60 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
                     ToastUtil.showError(this);
                 }
             }
+            if (tag.equals(SearchUserResponse.class.getName())) {
+                Log.e("sub","SearchUserResponse="+result);
+                SearchUserResponse searchUserResponse = GsonHelper.toType(result, SearchUserResponse.class);
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    if (Constants.SUCESS_CODE.equals(searchUserResponse.getResultCode())) {
+//                        if(searchUserResponse.getUserList()==null||searchUserResponse.getUserList().size()==0){
+//
+//                        }
+                        if(searchUserResponse.getUser()==null){
+                            Intent intent=new Intent(LoginActy.this,RegistCodeActy.class);
+                            intent.putExtra("isThirdPart",sanUserID);
+                            startActivity(intent);
+                        }else{
+                            UserServiceImpl.instance().login(searchUserResponse.getUser().getUserName(), StringEncrypt.Encrypt(searchUserResponse.getUser().getPassword()),
+                                    LoginResponse.class.getName());
+                        }
+                    } else {
+                        ErrorCode.doCode(this, searchUserResponse.getResultCode(), searchUserResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(this);
+                }
+            }
         }
 
     }
-
-
+    private String sanNickName="";
+    private String sanIconUri="";
+    private String sanUserID="";
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tab1:
             case R.id.tab1_txt:
-                Platform wechat= ShareSDK.getPlatform(QQ.NAME);
-                wechat.setPlatformActionListener(new PlatformActionListener() {
+                Platform qq= ShareSDK.getPlatform(QQ.NAME);
+                qq.setPlatformActionListener(new PlatformActionListener() {
                     @Override
                     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                        Log.e("sub","qq onComplete");
+                        sanNickName= platform.getDb().getUserName();//获取用户名字
+                        sanIconUri= platform.getDb().getUserIcon(); //获取用户头像
+                        sanUserID =platform.getDb().getUserId();
+                        String toJSLogin = "{" +
+                                "  \"headimgurl\" : \"" + sanNickName + "\","
+                                + "  \"nickname\" : \"" + sanIconUri + "\","
+                                + "  \"sanUserID\" :  \""+ sanUserID + "\""
+                                + "}";
+                        Log.e("sub","qq="+toJSLogin);
+                        UserServiceImpl.instance().searchUser("2",sanUserID,SearchUserResponse.class.getName());
                     }
 
                     @Override
                     public void onError(Platform platform, int i, Throwable throwable) {
+                        Log.e("sub","qqonError="+i);
                     }
 
                     @Override
@@ -215,25 +253,40 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
 
                     }
                 });
-                wechat.authorize();
+                qq.authorize();
                 break;
             case R.id.tab2:
             case R.id.tab2_txt:
-                Platform wechat2= ShareSDK.getPlatform(Wechat.NAME);
-                wechat2.setPlatformActionListener(new PlatformActionListener() {
+                Log.e("sub","wechat");
+                Platform wechat= ShareSDK.getPlatform(Wechat.NAME);
+                wechat.setPlatformActionListener(new PlatformActionListener() {
                     @Override
                     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                        Log.e("sub","wechat onComplete");
+                        //获取资料
+                        sanNickName= platform.getDb().getUserName();//获取用户名字
+                        sanIconUri= platform.getDb().getUserIcon(); //获取用户头像
+                        sanUserID =platform.getDb().getUserId();
+                        String toJSLogin = "{" +
+                                "  \"headimgurl\" : \"" + sanNickName + "\","
+                                + "  \"nickname\" : \"" + sanIconUri + "\","
+                                + "  \"sanUserID\" :  \""+ sanUserID + "\""
+                                + "}";
+                        Log.e("sub", "wx="+toJSLogin);
+                        UserServiceImpl.instance().searchUser("2",sanUserID,SearchUserResponse.class.getName());
                     }
 
                     @Override
                     public void onError(Platform platform, int i, Throwable throwable) {
+                        Log.e("sub","wechatonError="+i);
                     }
 
                     @Override
                     public void onCancel(Platform platform, int i) {
+                        Log.e("sub","wechatonCancel="+i);
                     }
                 });
-                wechat2.authorize();
+                wechat.authorize();
                 break;
             case R.id.app_login_bn:
                 if (GeneralUtils.isNotNullOrZeroLenght(psdET.getText().toString())) {

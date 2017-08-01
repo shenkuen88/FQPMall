@@ -38,11 +38,15 @@ public class RegistCodeActy extends BaseActivity implements View.OnClickListener
 
 
     private TextView tvAggreement;
-
+    private String isThirdPart="0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist);
+        isThirdPart=getIntent().getStringExtra("isThirdPart");
+        if(isThirdPart==null){
+            isThirdPart="0";
+        }
         initAll();
     }
 
@@ -50,7 +54,11 @@ public class RegistCodeActy extends BaseActivity implements View.OnClickListener
     private void initTitle() {
         View view = findViewById(R.id.common_back);
         HeadView headView = new HeadView((ViewGroup) view);
-        headView.setTitleText("手机快速注册");
+        if(isThirdPart.equals("0")) {
+            headView.setTitleText("手机快速注册");
+        }else{
+            headView.setTitleText("绑定手机号");
+        }
         headView.setLeftImage(R.mipmap.app_title_back);
         headView.setHiddenRight();
     }
@@ -97,6 +105,9 @@ public class RegistCodeActy extends BaseActivity implements View.OnClickListener
                         //获取验证码成功后，跳转到注册页面
                         Intent intent = new Intent(mContext,RegistSetPasswordActy.class);
                         intent.putExtra(IntentCode.REGISTER_PHONE,formerPhone);
+                        if(!isThirdPart.equals("0")) {
+                            intent.putExtra("isThirdPart",isThirdPart);
+                        }
                         startActivity(intent);
                         finish();
                     } else {

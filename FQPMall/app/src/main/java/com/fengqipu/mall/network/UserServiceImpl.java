@@ -1255,4 +1255,19 @@ public class UserServiceImpl
         new NetWork()
                 .startPost(URLUtil.VIDEO_PL, param, tag);
     }
+
+    /**
+     * 查询是否有这个用户
+     * 1-	QQ登录
+     * 2-	微信登录
+     * 3-	手机号
+     */
+    public void searchUser(String type, String openID, String tag)
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("type", type);
+        param.put("openID", openID);
+        new NetWork()
+                .startPost(URLUtil.SEARCH_USER, param, tag);
+    }
 }

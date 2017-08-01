@@ -346,6 +346,9 @@ public class URLUtil
      */
     public static final String GETSIMILAR = SERVER_BASE + "content/similar";
 
-
+    /**
+     * 查询是否有这个用户
+     */
+    public static final String SEARCH_USER = SERVER_BASE + "user/get";
 
 }

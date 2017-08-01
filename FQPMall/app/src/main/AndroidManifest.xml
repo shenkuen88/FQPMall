@@ -279,8 +279,14 @@
         <!-- 支付成功 -->
         <activity android:name=".main.acty.mine.PaySucActivity" />
         <!-- 微信支付 -->
-        <activity android:name=".wxapi.WXEntryActivity" />
-        <activity android:name=".wxapi.WXPayEntryActivity" />
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"/>
+        <activity android:name=".wxapi.WXPayEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"/>
         <activity android:name=".main.acty.index.wx.PayActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
