@@ -1270,4 +1270,22 @@ public class UserServiceImpl
         new NetWork()
                 .startPost(URLUtil.SEARCH_USER, param, tag);
     }
+
+    /**
+     * 点赞
+     * type
+     * 1-	QQ登录
+     * 2-	微信登录
+     */
+    public void bindUser(String type, String openID,String userName,String password,String nickName,String portrait, String tag)
+    {
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("type", type);
+        param.put("openID", openID);
+        param.put("userName", userName);
+        param.put("password", password);
+        param.put("nickName", nickName);
+        param.put("portrait", portrait);
+        new NetWork().startPost(URLUtil.BIND_USER, param, tag);
+    }
 }

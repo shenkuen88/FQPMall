@@ -39,6 +39,9 @@ public class RegistCodeActy extends BaseActivity implements View.OnClickListener
 
     private TextView tvAggreement;
     private String isThirdPart="0";
+    private String type;
+    private String nickName;
+    private String portrait;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,18 @@ public class RegistCodeActy extends BaseActivity implements View.OnClickListener
         isThirdPart=getIntent().getStringExtra("isThirdPart");
         if(isThirdPart==null){
             isThirdPart="0";
+        }
+        type=getIntent().getStringExtra("type");
+        if(type==null){
+            type="0";
+        }
+        nickName=getIntent().getStringExtra("nickName");
+        if(nickName==null){
+            nickName="";
+        }
+        portrait=getIntent().getStringExtra("portrait");
+        if(portrait==null){
+            portrait="";
         }
         initAll();
     }
@@ -107,6 +122,9 @@ public class RegistCodeActy extends BaseActivity implements View.OnClickListener
                         intent.putExtra(IntentCode.REGISTER_PHONE,formerPhone);
                         if(!isThirdPart.equals("0")) {
                             intent.putExtra("isThirdPart",isThirdPart);
+                            intent.putExtra("type",type);
+                            intent.putExtra("nickName",nickName);
+                            intent.putExtra("portrait",portrait);
                         }
                         startActivity(intent);
                         finish();
@@ -128,7 +146,11 @@ public class RegistCodeActy extends BaseActivity implements View.OnClickListener
                 formerPhone = etPhone.getText().toString().trim();
                 if (formerPhone.length() >0) {
                     NetLoadingDialog.getInstance().loading(this);
-                    UserServiceImpl.instance().getYZMCode( "1", formerPhone, YZMResponse.class.getName());
+                    if(isThirdPart.equals("0")) {
+                        UserServiceImpl.instance().getYZMCode("1", formerPhone, YZMResponse.class.getName());
+                    }else{
+                        UserServiceImpl.instance().getYZMCode("5", formerPhone, YZMResponse.class.getName());
+                    }
                 } else {
                     ToastUtil.makeText(mContext, getString(R.string.app_input_error));
                 }

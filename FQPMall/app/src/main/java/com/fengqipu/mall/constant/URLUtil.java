@@ -350,5 +350,8 @@ public class URLUtil
      * 查询是否有这个用户
      */
     public static final String SEARCH_USER = SERVER_BASE + "user/get";
-
+    /**
+     * 第三方登录绑定帐号
+     */
+    public static final String BIND_USER = SERVER_BASE + "user/bind";
 }

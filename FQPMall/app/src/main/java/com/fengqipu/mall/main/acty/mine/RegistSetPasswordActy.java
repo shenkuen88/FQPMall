@@ -13,6 +13,7 @@ import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
+import com.fengqipu.mall.bean.mine.BindUserResponse;
 import com.fengqipu.mall.bean.mine.CheckYZMResponse;
 import com.fengqipu.mall.bean.mine.RegisterResponse;
 import com.fengqipu.mall.bean.mine.YZMResponse;
@@ -54,6 +55,9 @@ public class RegistSetPasswordActy extends BaseActivity implements View.OnClickL
 
     private boolean change;
     private String isThirdPart="0";
+    private String type;
+    private String nickName;
+    private String portrait;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,18 @@ public class RegistSetPasswordActy extends BaseActivity implements View.OnClickL
         isThirdPart=getIntent().getStringExtra("isThirdPart");
         if(isThirdPart==null){
             isThirdPart="0";
+        }
+        type=getIntent().getStringExtra("type");
+        if(type==null){
+            type="0";
+        }
+        nickName=getIntent().getStringExtra("nickName");
+        if(nickName==null){
+            nickName="";
+        }
+        portrait=getIntent().getStringExtra("portrait");
+        if(portrait==null){
+            portrait="";
         }
         initAll();
         startTime();
@@ -179,6 +195,20 @@ public class RegistSetPasswordActy extends BaseActivity implements View.OnClickL
                 } else {
                     ToastUtil.showError(mContext);
                 }
+            }else if (tag.equals(BindUserResponse.class.getName()) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    BindUserResponse bindUserResponse = GsonHelper.toType(result, BindUserResponse.class);
+                    if (Constants.SUCESS_CODE.equals(bindUserResponse.getResultCode())) {
+                        Global.saveLoginUserData(mContext, bindUserResponse.getUser());
+                        ToastUtil.makeText(mContext,"绑定成功");
+                        EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_LOGIN_SUCCESS));
+                        finish();
+                    } else {
+                        ErrorCode.doCode(mContext, bindUserResponse.getResultCode(), bindUserResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(mContext);
+                }
             }
 
         }
@@ -251,7 +281,11 @@ public class RegistSetPasswordActy extends BaseActivity implements View.OnClickL
                     //验证短信验证码
 //                    UserServiceImpl.instance().checkYZMCode(mContext, "1", phoneNum, etCode.getText().toString(), CheckYZMResponse.class.getName());
                     //注册
-                    UserServiceImpl.instance().register( phoneNum, psdAgainEt.getText().toString().trim(), etCode.getText().toString().trim(), RegisterResponse.class.getName());
+                    if(isThirdPart.equals("0")) {
+                        UserServiceImpl.instance().register(phoneNum, psdAgainEt.getText().toString().trim(), etCode.getText().toString().trim(), RegisterResponse.class.getName());
+                    }else{
+                        UserServiceImpl.instance().bindUser(type,isThirdPart,phoneNum,psdAgainEt.getText().toString().trim(),nickName,portrait,BindUserResponse.class.getName());
+                    }
 
                 }
                 break;

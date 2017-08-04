@@ -203,6 +203,9 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
                         if(searchUserResponse.getUser()==null){
                             Intent intent=new Intent(LoginActy.this,RegistCodeActy.class);
                             intent.putExtra("isThirdPart",sanUserID);
+                            intent.putExtra("type",type);
+                            intent.putExtra("nickName",sanNickName);
+                            intent.putExtra("portrait",sanIconUri);
                             startActivity(intent);
                         }else{
                             UserServiceImpl.instance().login(searchUserResponse.getUser().getUserName(), StringEncrypt.Encrypt(searchUserResponse.getUser().getPassword()),
@@ -218,6 +221,7 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
         }
 
     }
+    String type="";
     private String sanNickName="";
     private String sanIconUri="";
     private String sanUserID="";
@@ -231,12 +235,13 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
                         Log.e("sub","qq onComplete");
+                        type="1";
                         sanNickName= platform.getDb().getUserName();//获取用户名字
                         sanIconUri= platform.getDb().getUserIcon(); //获取用户头像
                         sanUserID =platform.getDb().getUserId();
                         String toJSLogin = "{" +
-                                "  \"headimgurl\" : \"" + sanNickName + "\","
-                                + "  \"nickname\" : \"" + sanIconUri + "\","
+                                "  \"headimgurl\" : \"" +  sanIconUri+ "\","
+                                + "  \"nickname\" : \"" + sanNickName + "\","
                                 + "  \"sanUserID\" :  \""+ sanUserID + "\""
                                 + "}";
                         Log.e("sub","qq="+toJSLogin);
@@ -263,13 +268,14 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
                         Log.e("sub","wechat onComplete");
+                        type="2";
                         //获取资料
                         sanNickName= platform.getDb().getUserName();//获取用户名字
                         sanIconUri= platform.getDb().getUserIcon(); //获取用户头像
                         sanUserID =platform.getDb().getUserId();
                         String toJSLogin = "{" +
-                                "  \"headimgurl\" : \"" + sanNickName + "\","
-                                + "  \"nickname\" : \"" + sanIconUri + "\","
+                                "  \"headimgurl\" : \"" +  sanIconUri+ "\","
+                                + "  \"nickname\" : \"" + sanNickName + "\","
                                 + "  \"sanUserID\" :  \""+ sanUserID + "\""
                                 + "}";
                         Log.e("sub", "wx="+toJSLogin);
