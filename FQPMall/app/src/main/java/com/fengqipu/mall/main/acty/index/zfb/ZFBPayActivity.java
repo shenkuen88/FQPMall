@@ -28,12 +28,12 @@ import java.util.Random;
 
 public class ZFBPayActivity extends FragmentActivity {
     // 商户PID
-    public static final String PARTNER = "2088421464062591";
+    public static final String PARTNER = "2088721461016800";
     // 商户收款账号
-    public static final String SELLER = "tengshiwenhua@aliyun.com";
+    public static final String SELLER = "lv@fengqipu.com";
 
     // 商户私钥，pkcs8格式
-    public static final String RSA_PRIVATE = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAL0XGkX6gEmdldLRnci0WszKDQci7ETHOpfBp+DZuVkzpJe3rnE8YipnkoBb05erkyx6FgtYFf+Jb06+F86l+5IvQaCEtlxgiWRBxYiOb4yJ6dIPMdMn+qjM9FcoYSx88HcsXHSmFtI3sLLiptONUXy9b82JzlhBepPwnRonlEHlAgMBAAECgYA5YzOUHWyl6u+3peqPKT2NfZzql4zBav27ZQjAUxPPoL7JVPPaZgsc94Yc8sGK/IWUMBFUrA0xGtLvQP4Ut4db1d0oB+nb6OyOujQorDD07wDHNCvHLIbYagw2KzMWJNu4cvGA0qB5Nc8+hFGSMfjNC82zlMbwBgWc4QJiIzAxwQJBAPnt07DcvxExkJzNNlRQ2l7o6rhkvdF0cwVo3QWGTxVJLothPz5tJxd0ha+CXvXiv8CCGFQfp7X2iuQNtNh2MP0CQQDBrvPP8FIiawI6FF5FA2vRF4chbRn3sSkg/R+VuTQNQDKV4ySr1eUD3KvNb7EDTX4lIJTE5t+JaN3LknhP1X0JAkEAp7pSDSm4GIPY90JJKcCxLGzHyUPil8S8xG6hlemS/UgFsohq9ywtxfHvHeAydnXcFge46Avuc5GnmHESYwq+yQJBAL9CkddcPO9p9nf+Fx1VhImlDzcN8t+q3a+K5j7G9cTECXAELvlVLmMC7dDfo9BcHN5y7xYF2uZpXOSjThWf/2kCQHDlVKR6CP5LhHRywllu0S+o6OwZ+FrqoTXc9bkHdpVr2tGx80ecKOi4uAFIj2OQW0qiCe3An8e8SepyesK5Nhc=";
+    public static final String RSA_PRIVATE = "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCiiHXNI1GLQ/794FxZVKzIamZ2zBSOasITL7lLYaqSA1lIsZakwLz5UEsqcT2QA6ZRlTlbPJbY9UV8w6GUy/1HjEXZN/1+S0Gck+/1gmKEK4FyqPwdhICPIXZPATZtMgc9t8CniqT2u/I2LGy+UvDqypSU7vSoQJ/XXFXw7/MS0USf/8ew9HkugGrOVe9rxP+kZ2lFQPDdpI1b/01colcrs4nAHcjIEU0UAVuzkoBMevQkrY9ZrOsWTc/awwkSpXVsKvbhpjqWYu/RX/t0uJW1vGyG5zkEl5ZcxjgFpHVeMJGcmLegvkF1UauTMaZCH745fBxF1p/3/CX4v4Dw9notAgMBAAECggEAQlNdfzECfcpprEB6bxnWyJJi7eeqG9QFDr9S5igc6yjirn+J8gGVHEhf5BoB/Vr/7BrxJQI8rJyqlpdewNHdsezUNChdEcS0KalVKuLiQP1f/eJnv8Pqkn4dQXBFPZpEyjLKM5SobOeVl/XZCnHeTnIM4BoDTQXSNJhBmejRUMPereb+Y88ZhsW7S/cHaow0y5iddVsD46TuZ6QAUcjqU+wSd1yPiFdJx2g08nyfeoNyegg9UkXDWY6EtCkapiEhjlkWHOj/G/QmXWYNcuZ2O/peDoNPJz/ybSHiOQYXMbwHlOa1rq6wd+jp+ljPtBbxDpxSNMnvvZKP63SHVGTaIQKBgQDQ4ZgF+imcNHjsb+YWnNoPOnc+ect3rYauWja6PqBVfpi9y3sYJE3uiI2GAJxH8fhV5qEcEEOvl6WyhV56zoiUO9nsdIZ2g99/LdRLLP51k1fOm3addjjuvyeMgQolUdsPIMAI4hYVX9Vu93BHYxj58Dn0/LE66MC70EPPR3ODpwKBgQDHMl3WSWL48q9VJ1ropRJOdBI797dlIyrLDY2vx09PlhHt2MU8uvpBYYub22FB24QaF89shhua6tfqdc5l1xsyrDHBFXNtVraSZRelUgcTUo4Gq3v2qMw4wkJmVxzMpGMNKFD2N4gYHEmZxcUacLDMC0FhPp2AjkC4+c39FSPeCwKBgQCFqncwC/+ol+Nx2cFxYvofmJhKAIJ1mTOASvaOhBjx3Ms9WQLyVfkQ1Y1K3QUk/PCfd7BNVxMZQH+mF7Z3+8ZmpU41A/Qvzv+sUNVzLd2/u4QLEGz9InQYQ3a5cLHfY9w8eAarKJJdJzBbjDfrVrza5CESZsm7GsqK5SEfeWewLQKBgQC/ECt7l8aL/NN6PRZwoazOfXzj8jYBl1q7ixOFMAp9zvcBiXOeTcYuoi6z3xgJgFHUaVQ2xueBj5JsvHStsEbRMuNCTZ36mTrjbn3gv64ztXKvKRrtO3kvU/02hoYEMAUmIK6PjDJI1hEuosjtFHwwKveaG+Ic5dVk147iGr3dgwKBgQDAjEqsztxFmYtrF6sMpwyZSiF2nn9W4NMF9IJo7B2UwZv69LswjHekK7s9ZAoy+fOcBFRevRVxV2tw9FH4pIXK3rxG2beBMnN8ORv14u9uyY/E14idXVKlCtvOtZP63fbh8bPU3elmLF681qmvAG1UIk2ozSCVHgBFNAoaBTFpNA==";
     // 支付宝公钥
 
     // 支付宝公钥
@@ -202,8 +202,8 @@ public class ZFBPayActivity extends FragmentActivity {
         orderInfo += "&total_fee=" + "\"" + price + "\"";
 
         // 服务器异步通知页面路径
-        orderInfo += "&notify_url=" + "\"" + mComplainResponse.getCallbackUrl() + "\"";
-//        orderInfo += "&notify_url=" + "\"" + "http://notify.msp.hk/notify.htm" + "\"";
+//        orderInfo += "&notify_url=" + "\"" + mComplainResponse.getCallbackUrl() + "\"";
+        orderInfo += "&notify_url=" + "\"" + "http://api.fengqipu.com/pay/alipayReturn" + "\"";
 
         // 服务接口名称， 固定值
         orderInfo += "&service=\"mobile.securitypay.pay\"";

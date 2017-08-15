@@ -299,7 +299,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 //                            Intent zfbIntent = new Intent(mContext, ZFBPayActivity.class);
 //                            zfbIntent.putExtra(IntentCode.ZFB_RESULT, result);
 //                            startActivity(zfbIntent);
-                            String orderInfo = getOrderInfo("中巢的商品", "中巢旗下的商品", mComplainResponse.getTotalPrice()+"");
+                            String orderInfo = getOrderInfo("商品", "旗下的商品", mComplainResponse.getTotalPrice()+"");
 
                             /**
                              * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！
