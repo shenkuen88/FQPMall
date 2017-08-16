@@ -79,6 +79,8 @@ public class OrderInfoUtil2_0 {
 		
 		keyValues.put("charset", "utf-8");
 
+		keyValues.put("notify_url", "http://api.fengqipu.com/pay/alipayReturn");
+
 		keyValues.put("method", "alipay.trade.app.pay");
 
 		keyValues.put("sign_type", rsa2 ? "RSA2" : "RSA");
