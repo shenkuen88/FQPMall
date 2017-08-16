@@ -16,6 +16,7 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
+import com.alipay.sdk.app.H5PayCallback;
 import com.alipay.sdk.app.PayTask;
 import com.alipay.sdk.util.H5PayResultModel;
 
@@ -70,7 +71,6 @@ public class H5PayDemoActivity extends Activity {
 
 		WebSettings settings = mWebView.getSettings();
 		settings.setRenderPriority(RenderPriority.HIGH);
-		settings.setSupportMultipleWindows(true);
 		settings.setJavaScriptEnabled(true);
 		settings.setSavePassword(false);
 		settings.setJavaScriptCanOpenWindowsAutomatically(true);
@@ -109,28 +109,31 @@ public class H5PayDemoActivity extends Activity {
 				return true;
 			}
 
+			/**
+			 * 推荐采用的新的二合一接口(payInterceptorWithUrl),只需调用一次
+			 */
 			final PayTask task = new PayTask(H5PayDemoActivity.this);
-			final String ex = task.fetchOrderInfoFromH5PayUrl(url);
-			if (!TextUtils.isEmpty(ex)) {
-				System.out.println("paytask:::::" + url);
-				new Thread(new Runnable() {
-					public void run() {
-						System.out.println("payTask:::" + ex);
-						final H5PayResultModel result = task.h5Pay(ex, true);
-						if (!TextUtils.isEmpty(result.getReturnUrl())) {
-							H5PayDemoActivity.this.runOnUiThread(new Runnable() {
-								
-								@Override
-								public void run() {
-									view.loadUrl(result.getReturnUrl());
-								}
-							});
-						}
+			boolean isIntercepted = task.payInterceptorWithUrl(url, true, new H5PayCallback() {
+				@Override
+				public void onPayResult(final H5PayResultModel result) {
+					final String url=result.getReturnUrl();
+					if(!TextUtils.isEmpty(url)){
+						H5PayDemoActivity.this.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								view.loadUrl(url);
+							}
+						});
 					}
-				}).start();
-			} else {
+				}
+			});
+
+			/**
+			 * 判断是否成功拦截
+			 * 若成功拦截，则无需继续加载该URL；否则继续加载
+			 */
+			if(!isIntercepted)
 				view.loadUrl(url);
-			}
 			return true;
 		}
 	}

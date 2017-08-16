@@ -128,8 +128,14 @@
 
 
         <!-- alipay sdk begin -->
-        <activityH5PayActivity
+        <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".main.acty.index.zfb.H5PayDemoActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
@@ -144,8 +150,6 @@
         </receiver>
 
         <!-- wx sdk end -->
-        <activity android:name=".main.acty.index.zfb.H5PayDemoActivity" />
-        <activity android:name=".main.acty.index.zfb.ZFBPayActivity" />
 
         <!-- 引导页 -->
         <activity android:name=".main.acty.index.WelcomeActivity" />
@@ -268,7 +272,6 @@
         <!-- 系统消息 -->
         <activity android:name=".main.acty.index.SystemNoticeActivity" />
         <!-- 消息列表 -->
-        <activity android:name=".main.acty.index.zfb.NoticeListActivity" />
         <!-- 产品通知消息 -->
         <activity android:name=".main.acty.index.ProductNoticeActivity" />
         <!-- 订单详情 -->
