@@ -121,11 +121,13 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_order);
         orderState = getIntent().getStringExtra(IntentCode.ORDER_STATE);
+        initAll();
+        initAdapter();
         Type type = new TypeToken<ArrayList<StoreGoodsBean>>() {
         }.getType();
         shopList = GsonHelper.fromJson(getIntent().getStringExtra(IntentCode.ORDER_GOODS_LIST), type);
-        initAll();
-        initAdapter();
+        adapter.setData(shopList);
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -146,49 +148,70 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                         = new CommonAdapter<GoodsBean>(mContext, goodList, R.layout.item_confirm_order_same_shop) {
                     @Override
                     public void convert(ViewHolder helper, GoodsBean item) {
-                        CMLog.e(Constants.HTTP_TAG, item.toString());
-                        orderContent = new OrderContent(item.getContentID(), item.getCount() + "", item.getStyle());
-                        if (orderList.size() > 0) {
-                            for (int i = 0; i < orderList.size(); i++) {
-                                OrderContent bean = orderList.get(i);
-                                if (
-                                    //orderList中无该orderContent
-                                        !(orderContent.getContentID().equals(bean.getContentID())
-                                                && orderContent.getStyle().equals(bean.getStyle())
-                                                && orderContent.getCount().equals(orderContent.getCount()))) {
-                                    orderList.add(orderContent);
-                                    return;
+                        try {
+                            orderContent = new OrderContent(item.getContentID(), item.getCount() + "", item.getStyle());
+                            if (orderList.size() > 0) {
+                                for (int i = 0; i < orderList.size(); i++) {
+                                    OrderContent bean = orderList.get(i);
+                                    if (
+                                        //orderList中无该orderContent
+                                            !(orderContent.getContentID().equals(bean.getContentID())
+                                                    && orderContent.getStyle().equals(bean.getStyle())
+                                                    && orderContent.getCount().equals(orderContent.getCount()))) {
+                                        orderList.add(orderContent);
+                                        return;
+                                    }
                                 }
+                            } else {
+                                orderList.add(orderContent);
                             }
-                        } else {
-                            orderList.add(orderContent);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                         //图标
-                        ImageView iv = helper.getView(R.id.good_iv);
-                        GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl(), iv,  R.drawable.default_bg);
+                        try {
+                            ImageView iv = helper.getView(R.id.good_iv);
+                            GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl(), iv,  R.drawable.default_bg);
+                        } catch (Exception e) {
+                        }
                         //数量
-                        helper.setText(R.id.num_tv, "×" + item.getCount());
+                        try {
+                            helper.setText(R.id.num_tv, "×" + item.getCount());
+                        } catch (Exception e) {
+                        }
                         //价格
-                        helper.setText(R.id.price_tv, "¥" + item.getPrice());
+                        try {
+                            helper.setText(R.id.price_tv, "¥" + item.getPrice());
+                        } catch (Exception e) {
+                        }
                         //名称
-                        helper.setText(R.id.name, item.getObjectName());
+                        try {
+                            helper.setText(R.id.name, item.getObjectName());
+                        } catch (Exception e) {
+                        }
                         //样式
-                        if(!item.getColor().equals("")){
-                            helper.setText(R.id.classify_tv, "分类:"+item.getStyle()+"、"+item.getColor());
-                        }else{
-                            helper.setText(R.id.classify_tv, "分类:"+item.getStyle());
+                        try {
+                            if(item.getColor()!=null&&!item.getColor().equals("")){
+                                helper.setText(R.id.classify_tv, "分类:"+item.getStyle()+"、"+item.getColor());
+                            }else{
+                                helper.setText(R.id.classify_tv, "分类:"+item.getStyle());
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                         totalPay = item.getCount() * item.getPrice();
                     }
                 };
                 lvGood.setAdapter(gAdapter);
-                tvOrderPay.setText("¥" + totalPay);
-                tvPay.setText("¥" + totalPay);
-                tvShouldPay.setText(totalPay + "元");
+                try {
+                    tvOrderPay.setText("¥" + totalPay);
+                    tvPay.setText("¥" + totalPay);
+                    tvShouldPay.setText(totalPay + "元");
+                } catch (Exception e) {
+                }
             }
         };
         lvOrder.setAdapter(adapter);
-
     }
 
     @Override
@@ -299,7 +322,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 //                            Intent zfbIntent = new Intent(mContext, ZFBPayActivity.class);
 //                            zfbIntent.putExtra(IntentCode.ZFB_RESULT, result);
 //                            startActivity(zfbIntent);
-                            String orderInfo = getOrderInfo("商品", "旗下的商品", mComplainResponse.getTotalPrice()+"");
+                            String orderInfo = getOrderInfo("丰其普商品", "丰其普旗下的商品", mComplainResponse.getTotalPrice()+"");
 
                             /**
                              * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！
@@ -501,6 +524,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+                    Log.e("sub","resultStatus="+resultStatus);
                     if (TextUtils.equals(resultStatus, "9000")) {
                         Toast.makeText(mContext, "支付成功", Toast.LENGTH_SHORT).show();
                         Intent intent  = new Intent(mContext, PaySucActivity.class);

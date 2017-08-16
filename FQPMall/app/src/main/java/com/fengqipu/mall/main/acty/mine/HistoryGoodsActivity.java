@@ -173,7 +173,7 @@ public class HistoryGoodsActivity extends BaseActivity {
                                     }
                                 }else {
                                     Intent intent = new Intent(HistoryGoodsActivity.this, GoodsDetailActivity.class);
-                                    intent.putExtra("contentID", item.getId());
+                                    intent.putExtra("contentID", item.getExtend1());
                                     startActivity(intent);
                                 }
                             }

@@ -154,7 +154,7 @@ public class OrderDetailResponse extends BaseResponse{
         private int payType;
         private String outerCode;
         private String originalPrice;
-        private int realPrice;
+        private double realPrice;
         private String freight;
         private int status;
         private String refundStatus;
@@ -257,11 +257,11 @@ public class OrderDetailResponse extends BaseResponse{
             this.originalPrice = originalPrice;
         }
 
-        public int getRealPrice() {
+        public double getRealPrice() {
             return realPrice;
         }
 
-        public void setRealPrice(int realPrice) {
+        public void setRealPrice(double realPrice) {
             this.realPrice = realPrice;
         }
 
@@ -394,7 +394,7 @@ public class OrderDetailResponse extends BaseResponse{
             private int count;
             private String style;
             private String color;
-            private int realPrice;
+            private double realPrice;
             private String createTime;
             private String picUrlRequestUrl;
 
@@ -462,11 +462,11 @@ public class OrderDetailResponse extends BaseResponse{
                 this.color = color;
             }
 
-            public int getRealPrice() {
+            public double getRealPrice() {
                 return realPrice;
             }
 
-            public void setRealPrice(int realPrice) {
+            public void setRealPrice(double realPrice) {
                 this.realPrice = realPrice;
             }
 

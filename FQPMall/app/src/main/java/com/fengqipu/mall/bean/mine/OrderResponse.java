@@ -79,12 +79,12 @@ public class OrderResponse extends BaseResponse implements Serializable{
          * deliveryTime : null
          * signTime : null
          * createTime : 2017-07-04
-         * deliveryTimeShow : 
+         * deliveryTimeShow :
          * endTimeShow : 2天0小时0分钟
          * createTimeStr : 20170704165850
          * createTimeShow : 20170704165850
          * shopName : 商铺1
-         * payTimeShow : 
+         * payTimeShow :
          */
 
         private String id;
@@ -96,7 +96,7 @@ public class OrderResponse extends BaseResponse implements Serializable{
         private int payType;
         private String outerCode;
         private String originalPrice;
-        private int realPrice;
+        private double realPrice;
         private String freight;
         private int status;
         private String refundStatus;
@@ -185,11 +185,11 @@ public class OrderResponse extends BaseResponse implements Serializable{
             this.originalPrice = originalPrice;
         }
 
-        public int getRealPrice() {
+        public double getRealPrice() {
             return realPrice;
         }
 
-        public void setRealPrice(int realPrice) {
+        public void setRealPrice(double realPrice) {
             this.realPrice = realPrice;
         }
 
@@ -335,7 +335,7 @@ public class OrderResponse extends BaseResponse implements Serializable{
             private int count;
             private String style;
             private String color;
-            private int realPrice;
+            private double realPrice;
             private String createTime;
             private String originalPrice;
             private String picUrlRequestUrl;
@@ -420,11 +420,11 @@ public class OrderResponse extends BaseResponse implements Serializable{
                 this.color = color;
             }
 
-            public int getRealPrice() {
+            public double getRealPrice() {
                 return realPrice;
             }
 
-            public void setRealPrice(int realPrice) {
+            public void setRealPrice(double realPrice) {
                 this.realPrice = realPrice;
             }
 

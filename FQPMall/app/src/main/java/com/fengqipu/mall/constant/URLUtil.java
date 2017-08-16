@@ -5,7 +5,7 @@ public class URLUtil
     /**
      * 测试环境
      */
-    public static final String SERVER_BASE = "http://116.62.116.15/api/";
+    public static final String SERVER_BASE = "http://api.fengqipu.com/";
 //    public static final String SERVER_BASE = "http://221.226.118.110:18080/api/";
 
     /**
