@@ -1,5 +1,7 @@
 package com.fengqipu.mall.main.acty.index.zfb.util;
 
+import android.util.Log;
+
 import com.fengqipu.mall.main.acty.index.zfb.SignUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -72,8 +74,8 @@ public class OrderInfoUtil2_0 {
 		Map<String, String> keyValues = new HashMap<String, String>();
 
 		keyValues.put("app_id", app_id);
-
-		keyValues.put("biz_content", "{\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\""+price+"\",\"subject\":\"商品\",\"body\":\"丰其普旗下商品\",\"out_trade_no\":\"" + orderID +  "\"}");
+		Log.e("sub","orderID="+orderID);
+		keyValues.put("biz_content", "{\"seller_id\":\"lv@fengqipu.com\",\"timeout_express\":\"30m\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\""+price+"\",\"subject\":\"商品\",\"body\":\"丰其普旗下商品\",\"out_trade_no\":\"" + orderID +  "\"}");
 		
 		keyValues.put("charset", "utf-8");
 
