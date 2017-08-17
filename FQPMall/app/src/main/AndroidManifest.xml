@@ -347,6 +347,8 @@
             android:process=":pushservice"></service>
 
         <activity android:name=".main.acty.ConversationListActivity"></activity>
+        <activity android:name=".main.acty.KuaiXiuActivity"
+            />
     </application>
 
 </manifest>
