@@ -1288,4 +1288,9 @@ public class UserServiceImpl
         param.put("portrait", portrait);
         new NetWork().startPost(URLUtil.BIND_USER, param, tag);
     }
+
+    public void getShopsLocation(String tag) {
+        Map<String, String> param = new HashMap<String, String>();
+        new NetWork().startPost(URLUtil.GET_SHOP_O2O, param, tag);
+    }
 }

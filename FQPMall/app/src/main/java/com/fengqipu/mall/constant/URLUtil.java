@@ -354,4 +354,8 @@ public class URLUtil
      * 第三方登录绑定帐号
      */
     public static final String BIND_USER = SERVER_BASE + "user/bind";
+    /**
+     * 获取快修地址
+     */
+    public static final String GET_SHOP_O2O = SERVER_BASE + "shop/o2o";
 }

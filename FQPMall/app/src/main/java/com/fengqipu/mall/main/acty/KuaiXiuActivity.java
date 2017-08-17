@@ -32,8 +32,21 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.fengqipu.mall.R;
+import com.fengqipu.mall.bean.BaseResponse;
+import com.fengqipu.mall.bean.NetResponseEvent;
+import com.fengqipu.mall.bean.NoticeEvent;
+import com.fengqipu.mall.bean.shop.ShopO2OResponse;
+import com.fengqipu.mall.constant.Constants;
+import com.fengqipu.mall.constant.ErrorCode;
+import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.base.HeadView;
+import com.fengqipu.mall.network.GsonHelper;
+import com.fengqipu.mall.network.UserServiceImpl;
+import com.fengqipu.mall.tools.GeneralUtils;
+import com.fengqipu.mall.tools.ToastUtil;
 import com.hyphenate.helpdesk.easeui.ui.BaseActivity;
+
+import de.greenrobot.event.EventBus;
 
 public class KuaiXiuActivity extends BaseActivity {
 
@@ -76,22 +89,17 @@ public class KuaiXiuActivity extends BaseActivity {
         headView.setLeftImage(R.mipmap.app_title_back);
         headView.setTitleText("快修");
         headView.setHiddenRight();
-        headView.getLeftView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         instance = this;
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
         //注意该方法要再setContentView方法之前实现
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_kuaixiu);
+        EventBus.getDefault().register(this);
         mMapView = (MapView) findViewById(R.id.bmapView);
         Intent intent = getIntent();
         double latitude = intent.getDoubleExtra("latitude", 0);
@@ -113,7 +121,8 @@ public class KuaiXiuActivity extends BaseActivity {
                     new BaiduMapOptions().mapStatus(new MapStatus.Builder()
                             .target(p).build()));
             showMap(latitude, longtitude, address);
-            showOtherMap(latitude, longtitude);
+            getShops();
+//            showOtherMap(latitude, longtitude);
         }
         // 注册 SDK 广播监听者
         IntentFilter iFilter = new IntentFilter();
@@ -209,6 +218,7 @@ public class KuaiXiuActivity extends BaseActivity {
             mLocClient.stop();
         mMapView.onDestroy();
         unregisterReceiver(mBaiduReceiver);
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
     private void initMapView() {
@@ -250,7 +260,8 @@ public class KuaiXiuActivity extends BaseActivity {
 //            mBaiduMap.addOverlay(ooA);
             MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
             mBaiduMap.animateMapStatus(u);
-            showOtherMap(lastLocation.getLatitude(), lastLocation.getLongitude());
+            getShops();
+//            showOtherMap(lastLocation.getLatitude(), lastLocation.getLongitude());
         }
 
         public void onReceivePoi(BDLocation poiLocation) {
@@ -272,5 +283,40 @@ public class KuaiXiuActivity extends BaseActivity {
         this.setResult(RESULT_OK, intent);
         finish();
         overridePendingTransition(R.anim.hd_slide_in_from_left, R.anim.hd_slide_out_to_right);
+    }
+    private void getShops(){
+        UserServiceImpl.instance().getShopsLocation(ShopO2OResponse.class.getName());
+    }
+
+    public void onEventMainThread(BaseResponse event) {
+        if (event instanceof NoticeEvent) {
+            String tag = ((NoticeEvent) event).getTag();
+            if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag)) {
+                finish();
+            }
+        }
+        if (event instanceof NetResponseEvent) {
+            String tag = ((NetResponseEvent) event).getTag();
+            String result = ((NetResponseEvent) event).getResult();
+            if (tag.equals(ShopO2OResponse.class.getName())) {
+                ShopO2OResponse shopO2OResponse = GsonHelper.toType(result, ShopO2OResponse.class);
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    if (Constants.SUCESS_CODE.equals(shopO2OResponse.getResultCode())) {
+                        if(shopO2OResponse.getShopList()!=null&&shopO2OResponse.getShopList().size()>0){
+                            for(ShopO2OResponse.Shop item:shopO2OResponse.getShopList()){
+                                if(item.getGpsLati()!=null&&item.getGpsLong()!=null
+                                        &&!item.getGpsLati().equals("")&&!item.getGpsLong().equals("")) {
+                                    showOtherMap(Double.valueOf(item.getGpsLati()), Double.valueOf(item.getGpsLong()));
+                                }
+                            }
+                        }
+                    } else {
+                        ErrorCode.doCode(this, shopO2OResponse.getResultCode(), shopO2OResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(this);
+                }
+            }
+        }
     }
 }
