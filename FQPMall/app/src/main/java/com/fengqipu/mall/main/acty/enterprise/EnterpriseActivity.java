@@ -120,8 +120,10 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
         btnZxkf.setOnClickListener(this);
         btnYjbh.setOnClickListener(this);
     }
+
     /**
      * 调用拨号功能
+     *
      * @param phone 电话号码
      */
     private void call(String phone) {
@@ -138,17 +140,23 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
         }
         startActivity(intent);
     }
+
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.tv_gz:
-                if(tvGz.getText().equals("已关注"))return;
-                NetLoadingDialog.getInstance().loading(mContext);
-                UserServiceImpl.instance().addFavour(this,"2", sid, AddShopResponse.class.getName());
-            break;
+                if (GeneralUtils.isLogin()) {
+                    if (tvGz.getText().equals("已关注")) return;
+                    NetLoadingDialog.getInstance().loading(mContext);
+                    UserServiceImpl.instance().addFavour(this, "2", sid, AddShopResponse.class.getName());
+                } else {
+                    startActivity(new Intent(this,LoginActy.class));
+                }
+
+                break;
             case R.id.btn_yjbh:
-                String phone =shopDetailResponse.getShop().getPhone();
-                if(phone!=null&&!phone.equals("")){
+                String phone = shopDetailResponse.getShop().getPhone();
+                if (phone != null && !phone.equals("")) {
                     call(phone);
                 }
                 break;
@@ -175,6 +183,7 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
     }
 
     ShopDetailResponse shopDetailResponse;
+
     @Override
     public void onEventMainThread(BaseResponse event) throws Exception {
         if (event instanceof NoticeEvent) {
@@ -206,6 +215,9 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
                         }
                         tvShopname.setText(shopDetailResponse.getShop().getShopName() + "");
                         tvNotice.setText(shopDetailResponse.getShop().getNotice() + "");
+                        if (shopDetailResponse.getShop().getNotice() == null || shopDetailResponse.getShop().getNotice().equals("")) {
+                            tvNotice.setVisibility(View.GONE);
+                        }
                         tvGz.setText("+关注");
                         tvGz.setBackground(getResources().getDrawable(R.drawable.yollew_rec_click));
                         tvGz.setTextColor(Color.parseColor("#ffffff"));
@@ -214,16 +226,16 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
                             tvGz.setBackground(getResources().getDrawable(R.drawable.white_rec_click));
                             tvGz.setTextColor(Color.parseColor("#394257"));
                         }
-                        if(GeneralUtils.isLogin()){
-                            tvGz.setVisibility(View.VISIBLE);
-                        }else{
-                            tvGz.setVisibility(View.GONE);
-                        }
-                        tvGzNum.setText(shopDetailResponse.getShop().getFavoriteCount()+"人");
+//                        if(GeneralUtils.isLogin()){
+//                            tvGz.setVisibility(View.VISIBLE);
+//                        }else{
+//                            tvGz.setVisibility(View.GONE);
+//                        }
+                        tvGzNum.setText(shopDetailResponse.getShop().getFavoriteCount() + "人");
                         btnQyjs.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if(shopDetailResponse.getShop().getDescriptionLink()!=null&&!shopDetailResponse.getShop().getDescriptionLink().equals("")) {
+                                if (shopDetailResponse.getShop().getDescriptionLink() != null && !shopDetailResponse.getShop().getDescriptionLink().equals("")) {
                                     Intent intentExplain = new Intent(EnterpriseActivity.this, CommonWebViewActivity.class);
                                     intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_TITLE, shopDetailResponse.getShop().getShopName());
                                     intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_URL, shopDetailResponse.getShop().getDescriptionLink());

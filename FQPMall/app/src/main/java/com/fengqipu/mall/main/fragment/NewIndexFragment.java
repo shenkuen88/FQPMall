@@ -39,6 +39,7 @@ import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.KuaiXiuActivity;
 import com.fengqipu.mall.main.acty.MainActivity;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
 import com.fengqipu.mall.main.acty.enterprise.EnterpriseListActivity;
 import com.fengqipu.mall.main.acty.huodong.HuoDongActivity;
 import com.fengqipu.mall.main.acty.mine.OneButtonShopActivity;
@@ -207,7 +208,7 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
         });
         mAdapter = new CommonAdapter<ShopListBean>(mainActivity, shopList, R.layout.index_btm_list) {
             @Override
-            public void convert(ViewHolder helper, ShopListBean item) {
+            public void convert(ViewHolder helper, final ShopListBean item) {
                 TextView tv_name = helper.getView(R.id.tv_name);
                 tv_name.setText(item.getShopName() + "");
                 TextView tv_notice = helper.getView(R.id.tv_notice);
@@ -253,6 +254,14 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                         e.printStackTrace();
                     }
                 }
+                helper.getConvertView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent=new Intent(getActivity(),EnterpriseActivity.class);
+                        intent.putExtra("sid",item.getId());
+                        startActivity(intent);
+                    }
+                });
             }
         };
         myListview.setAdapter(mAdapter);
