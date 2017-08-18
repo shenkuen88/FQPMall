@@ -282,6 +282,11 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
     private void initData() {
         changLoginOrLoginOut();
         initBtmList();
+        if(goodsList.size()>0){
+            btmLl.setVisibility(View.VISIBLE);
+        }else {
+            btmLl.setVisibility(View.GONE);
+        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -439,6 +444,11 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
                             goodsList.addAll(tuiJianResponse.getContentList());
                             mAdapter.setData(goodsList);
                             mAdapter.notifyDataSetChanged();
+                            if(goodsList.size()>0){
+                                btmLl.setVisibility(View.VISIBLE);
+                            }else {
+                                btmLl.setVisibility(View.GONE);
+                            }
                         }
                     } else {
                         ErrorCode.doCode(mainActivity, tuiJianResponse.getResultCode(), tuiJianResponse.getDesc());
