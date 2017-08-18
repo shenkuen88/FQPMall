@@ -224,7 +224,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                 String img = left.getPic();
                 try {
                     if (GeneralUtils.isNotNullOrZeroLenght(img)) {
-                        GeneralUtils.setImageViewWithUrl(EnterpriseListActivity.this, img, ivBanner, R.drawable.default_head);
+                        GeneralUtils.setImageViewWithUrl(EnterpriseListActivity.this, img, ivBanner, R.drawable.default_bg);
 //                        ivBanner.setVisibility(View.VISIBLE);
 //                        headView.setVisibility(View.VISIBLE);
                         rightList.removeHeaderView(headView);
@@ -335,7 +335,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                             String img = tolLeftList.get(t_position).getPic();
                             try {
                                 if (GeneralUtils.isNotNullOrZeroLenght(img)) {
-                                    GeneralUtils.setImageViewWithUrl(this, img, ivBanner, R.drawable.default_head);
+                                    GeneralUtils.setImageViewWithUrl(this, img, ivBanner, R.drawable.default_bg);
 //                                    ivBanner.setVisibility(View.VISIBLE);
 //                                    headView.setVisibility(View.VISIBLE);
                                     rightList.removeHeaderView(headView);
