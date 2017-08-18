@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -121,9 +122,13 @@ public class KuaiXiuActivity extends BaseActivity {
                     new BaiduMapOptions().mapStatus(new MapStatus.Builder()
                             .target(p).build()));
             showMap(latitude, longtitude, address);
-            getShops();
+            getShops(latitude+"", longtitude+"");
 //            showOtherMap(latitude, longtitude);
         }
+
+        // 设置地图的缩放级别
+        MapStatus mapStatus = new MapStatus.Builder().zoom(18).build();
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(mapStatus));
         // 注册 SDK 广播监听者
         IntentFilter iFilter = new IntentFilter();
         iFilter.addAction(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_ERROR);
@@ -131,8 +136,45 @@ public class KuaiXiuActivity extends BaseActivity {
         mBaiduReceiver = new BaiduSDKReceiver();
         registerReceiver(mBaiduReceiver, iFilter);
         initTitle();
-    }
+        mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
+            @Override
+            public void onMapStatusChangeStart(MapStatus mapStatus) {
 
+            }
+
+            @Override
+            public void onMapStatusChange(MapStatus mapStatus) {
+                searchMoveFinish(mapStatus);
+            }
+
+            @Override
+            public void onMapStatusChangeFinish(MapStatus mapStatus) {
+
+            }
+        });
+    }
+    double oldlong=0;
+    double oldlati=0;
+    private void searchMoveFinish(MapStatus status) {
+//        GeoCoder geoCoder = GeoCoder.newInstance();
+//        ReverseGeoCodeOption reverCoder = new ReverseGeoCodeOption();
+//        reverCoder.location(status.target);
+//        geoCoder.reverseGeoCode(reverCoder); //
+        if(oldlong==0&&oldlati==0){
+        }else{
+            //10000
+            if(getDistance(oldlati,oldlong,status.target.latitude,status.target.longitude)>=10000){
+                getShops(status.target.latitude+"",status.target.longitude+"");
+                oldlong=status.target.longitude;
+                oldlati=status.target.latitude;
+            }
+        }
+    }
+    public static double getDistance(double lat1, double lon1, double lat2, double lon2) {
+        float[] results = new float[1];
+        Location.distanceBetween(lat1, lon1, lat2, lon2, results);
+        return results[0];
+    }
     private void showMap(double latitude, double longtitude, String address) {
         LatLng llA = new LatLng(latitude, longtitude);
         CoordinateConverter converter= new CoordinateConverter();
@@ -260,7 +302,7 @@ public class KuaiXiuActivity extends BaseActivity {
 //            mBaiduMap.addOverlay(ooA);
             MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
             mBaiduMap.animateMapStatus(u);
-            getShops();
+            getShops(lastLocation.getLatitude()+"", lastLocation.getLongitude()+"");
 //            showOtherMap(lastLocation.getLatitude(), lastLocation.getLongitude());
         }
 
@@ -268,6 +310,7 @@ public class KuaiXiuActivity extends BaseActivity {
             if (poiLocation == null) {
                 return;
             }
+            Log.e("sub","onReceivePoi="+poiLocation.getLongitude()+","+poiLocation.getLatitude());
         }
     }
 
@@ -284,8 +327,8 @@ public class KuaiXiuActivity extends BaseActivity {
         finish();
         overridePendingTransition(R.anim.hd_slide_in_from_left, R.anim.hd_slide_out_to_right);
     }
-    private void getShops(){
-        UserServiceImpl.instance().getShopsLocation(ShopO2OResponse.class.getName());
+    private void getShops(String gpsLati,String gpsLong){
+        UserServiceImpl.instance().getShopsLocation(gpsLong,gpsLati,ShopO2OResponse.class.getName());
     }
 
     public void onEventMainThread(BaseResponse event) {
