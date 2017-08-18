@@ -27,6 +27,7 @@ import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.OverlayOptions;
@@ -35,11 +36,10 @@ import com.baidu.mapapi.utils.CoordinateConverter;
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
-import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.bean.shop.ShopO2OResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
-import com.fengqipu.mall.constant.NotiTag;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
 import com.fengqipu.mall.main.base.HeadView;
 import com.fengqipu.mall.network.GsonHelper;
 import com.fengqipu.mall.network.UserServiceImpl;
@@ -90,6 +90,12 @@ public class KuaiXiuActivity extends BaseActivity {
         headView.setLeftImage(R.mipmap.app_title_back);
         headView.setTitleText("快修");
         headView.setHiddenRight();
+        headView.getLeftView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -152,6 +158,17 @@ public class KuaiXiuActivity extends BaseActivity {
 
             }
         });
+        mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Bundle bundle = marker.getExtraInfo();
+                String id = (String) bundle.getSerializable("ID");
+                Intent intent = new Intent(KuaiXiuActivity.this, EnterpriseActivity.class);
+                intent.putExtra("sid", id);
+                startActivity(intent);
+                return false;
+            }
+        });
     }
     double oldlong=0;
     double oldlati=0;
@@ -188,15 +205,20 @@ public class KuaiXiuActivity extends BaseActivity {
         MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
         mBaiduMap.animateMapStatus(u);
     }
-    private void showOtherMap(double latitude, double longtitude) {
+    private void showOtherMap(double latitude, double longtitude,String id) {
         LatLng llA = new LatLng(latitude, longtitude);
         CoordinateConverter converter= new CoordinateConverter();
         converter.coord(llA);
         converter.from(CoordinateConverter.CoordType.COMMON);
         LatLng convertLatLng = converter.convert();
-        OverlayOptions ooA = new MarkerOptions().position(convertLatLng).icon(BitmapDescriptorFactory
-                .fromResource(R.mipmap.map_tag))
-                .zIndex(4).draggable(true);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("ID", id);
+        OverlayOptions ooA = new MarkerOptions()
+                .position(convertLatLng)
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.map_tag))
+                .zIndex(4)
+                .extraInfo(bundle)
+                .draggable(true);
         mBaiduMap.addOverlay(ooA);
 //        MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
 //        mBaiduMap.animateMapStatus(u);
@@ -318,26 +340,11 @@ public class KuaiXiuActivity extends BaseActivity {
         finish();
     }
 
-    public void sendLocation(View view) {
-        Intent intent = this.getIntent();
-        intent.putExtra("latitude", lastLocation.getLatitude());
-        intent.putExtra("longitude", lastLocation.getLongitude());
-        intent.putExtra("address", lastLocation.getAddrStr());
-        this.setResult(RESULT_OK, intent);
-        finish();
-        overridePendingTransition(R.anim.hd_slide_in_from_left, R.anim.hd_slide_out_to_right);
-    }
     private void getShops(String gpsLati,String gpsLong){
         UserServiceImpl.instance().getShopsLocation(gpsLong,gpsLati,ShopO2OResponse.class.getName());
     }
 
     public void onEventMainThread(BaseResponse event) {
-        if (event instanceof NoticeEvent) {
-            String tag = ((NoticeEvent) event).getTag();
-            if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag)) {
-                finish();
-            }
-        }
         if (event instanceof NetResponseEvent) {
             String tag = ((NetResponseEvent) event).getTag();
             String result = ((NetResponseEvent) event).getResult();
@@ -349,7 +356,7 @@ public class KuaiXiuActivity extends BaseActivity {
                             for(ShopO2OResponse.Shop item:shopO2OResponse.getShopList()){
                                 if(item.getGpsLati()!=null&&item.getGpsLong()!=null
                                         &&!item.getGpsLati().equals("")&&!item.getGpsLong().equals("")) {
-                                    showOtherMap(Double.valueOf(item.getGpsLati()), Double.valueOf(item.getGpsLong()));
+                                    showOtherMap(Double.valueOf(item.getGpsLati()), Double.valueOf(item.getGpsLong()),item.getId());
                                 }
                             }
                         }

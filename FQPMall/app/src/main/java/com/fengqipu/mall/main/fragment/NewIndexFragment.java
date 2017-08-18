@@ -26,6 +26,7 @@ import com.fengqipu.mall.bean.index.IndexBannerResponse;
 import com.fengqipu.mall.bean.index.NoticeListBean;
 import com.fengqipu.mall.bean.index.ShopListBean;
 import com.fengqipu.mall.bean.index.ShopsPromoteResponse;
+import com.fengqipu.mall.bean.shop.AlreadyAppliedResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
@@ -55,6 +56,7 @@ import com.fengqipu.mall.view.banner.demo.LocalImageHolderView;
 import com.fengqipu.mall.view.banner.demo.NetworkImageHolderView;
 import com.fengqipu.mall.view.banner.holder.CBViewHolderCreator;
 import com.fengqipu.mall.view.banner.listener.OnItemClickListener;
+import com.fengqipu.mall.view.citylist.utils.ToastUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -455,7 +457,7 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                 startActivity(new Intent(mainActivity, KuaiXiuActivity.class));
                 break;
             case R.id.btn_yjkd:
-                GeneralUtils.toActyOtherwiseLogin(getActivity(), OneButtonShopActivity.class);
+                UserServiceImpl.instance().checkAlreadyApplied(AlreadyAppliedResponse.class.getName());
                 break;
             case R.id.search_layout:
                 Intent intent3=new Intent(mainActivity, NewSearchActivity.class);
@@ -543,7 +545,26 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                     ToastUtil.showError(getActivity());
                 }
             }
+            if (tag.equals(AlreadyAppliedResponse.class.getName())) {
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    AlreadyAppliedResponse alreadyAppliedResponse = GsonHelper.toType(result, AlreadyAppliedResponse.class);
+                    if (Constants.SUCESS_CODE.equals(alreadyAppliedResponse.getResultCode())) {
+                        CMLog.e(Constants.HTTP_TAG, result);
+                        if(alreadyAppliedResponse.getStatus()==1){
+                            GeneralUtils.toActyOtherwiseLogin(getActivity(), OneButtonShopActivity.class);
+                        }else if(alreadyAppliedResponse.getStatus()==2){
+                            ToastUtils.showToast(getActivity(),"开店审核中");
+                        }else if(alreadyAppliedResponse.getStatus()==3){
+                            ToastUtils.showToast(getActivity(),"您的店铺已经审核通过");
+                        }
 
+                    } else {
+                        ErrorCode.doCode(getActivity(), alreadyAppliedResponse.getResultCode(), alreadyAppliedResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(getActivity());
+                }
+            }
         }
     }
 

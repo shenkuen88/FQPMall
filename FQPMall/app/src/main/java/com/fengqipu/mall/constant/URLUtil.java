@@ -358,4 +358,8 @@ public class URLUtil
      * 获取快修地址
      */
     public static final String GET_SHOP_O2O = SERVER_BASE + "shop/o2o";
+    /**
+     * 检测是否已经一键开店过
+     */
+    public static final String Already_Applied = SERVER_BASE + "shop/status";
 }

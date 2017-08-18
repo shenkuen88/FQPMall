@@ -1291,10 +1291,15 @@ public class UserServiceImpl
 
     public void getShopsLocation(String gpsLong,String gpsLati,String tag) {
         Map<String, String> param = new HashMap<String, String>();
+        param.put("gpsLong",gpsLong);
+        param.put("gpsLati",gpsLati);
+        new NetWork().startPost(URLUtil.GET_SHOP_O2O, param, tag);
+    }
+
+    public void checkAlreadyApplied(String tag) {
+        Map<String, String> param = new HashMap<String, String>();
 //        param.put("gpsLong",gpsLong);
 //        param.put("gpsLati",gpsLati);
-        param.put("gpsLong","118.803651");
-        param.put("gpsLati","31.977547");
-        new NetWork().startPost(URLUtil.GET_SHOP_O2O, param, tag);
+        new NetWork().startPost(URLUtil.Already_Applied, param, tag);
     }
 }
