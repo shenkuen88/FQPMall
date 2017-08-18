@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/rl_back"
             android:layout_centerVertical="true"
-            android:text="@string/location_message"
+            android:text="当前位置"
             android:textColor="@color/main_text_color"
             android:textSize="@dimen/title_text_size" />
 
@@ -34,7 +34,7 @@
             android:background="@drawable/hd_common_tab_bg"
             android:enabled="false"
             android:onClick="sendLocation"
-            android:text="@string/button_send"
+            android:text="发送"
             android:textColor="@color/main_text_color"
             android:textSize="@dimen/main_content_text_size" />
 
