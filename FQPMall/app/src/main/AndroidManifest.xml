@@ -249,6 +249,7 @@
             android:name=".view.citylist.CityPickerActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".main.acty.index.zfb.NoticeListActivity"/>
         <!-- 分类 更多 -->
         <!-- 母婴 装修 在线教育 二级页面 -->
         <!-- 我的帖子 -->

@@ -149,7 +149,7 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
                 if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrl1RequestUrl())) {
                     ImageView img = helper.getView(R.id.img);
 //                            ImageLoaderUtil.getInstance().initImage(mContext, item.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
-                    GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl1RequestUrl(), img, R.drawable.default_head);
+                    GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl1RequestUrl(), img, R.drawable.default_bg);
                 }
             }
         };

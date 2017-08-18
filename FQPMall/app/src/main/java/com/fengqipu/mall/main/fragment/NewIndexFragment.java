@@ -216,28 +216,36 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                 ImageView iv2_pic2 = helper.getView(R.id.iv2_pic2);
                 ImageView iv2_pic3 = helper.getView(R.id.iv2_pic3);
                 if (item.getAdvPicUrlList().size() != 3) {
-                    helper.getView(R.id.layout1).setVisibility(View.VISIBLE);
-                    helper.getView(R.id.layout2).setVisibility(View.GONE);
-                    if (item.getAdvPicUrlList().get(0) != null && !item.getAdvPicUrlList().get(0).equals("")) {
-                        GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(0), iv_pic1, R.drawable.default_bg);
+                    try {
+                        helper.getView(R.id.layout1).setVisibility(View.VISIBLE);
+                        helper.getView(R.id.layout2).setVisibility(View.GONE);
+                        if (item.getAdvPicUrlList().get(0) != null && !item.getAdvPicUrlList().get(0).equals("")) {
+                            GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(0), iv_pic1, R.drawable.default_bg);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 } else {
-                    helper.getView(R.id.layout1).setVisibility(View.GONE);
-                    helper.getView(R.id.layout2).setVisibility(View.VISIBLE);
-                    if (item.getAdvPicUrlList().get(0) != null && !item.getAdvPicUrlList().get(0).equals("")) {
-                        GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(0), iv2_pic1, R.drawable.default_bg);
-                    } else {
-                        iv2_pic1.setVisibility(View.GONE);
-                    }
-                    if (item.getAdvPicUrlList().get(1) != null && !item.getAdvPicUrlList().get(1).equals("")) {
-                        GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(1), iv2_pic2, R.drawable.default_bg);
-                    } else {
-                        iv2_pic2.setVisibility(View.GONE);
-                    }
-                    if (item.getAdvPicUrlList().get(2) != null && !item.getAdvPicUrlList().get(2).equals("")) {
-                        GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(2), iv2_pic3, R.drawable.default_bg);
-                    } else {
-                        iv2_pic3.setVisibility(View.GONE);
+                    try {
+                        helper.getView(R.id.layout1).setVisibility(View.GONE);
+                        helper.getView(R.id.layout2).setVisibility(View.VISIBLE);
+                        if (item.getAdvPicUrlList().get(0) != null && !item.getAdvPicUrlList().get(0).equals("")) {
+                            GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(0), iv2_pic1, R.drawable.default_bg);
+                        } else {
+                            iv2_pic1.setVisibility(View.GONE);
+                        }
+                        if (item.getAdvPicUrlList().get(1) != null && !item.getAdvPicUrlList().get(1).equals("")) {
+                            GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(1), iv2_pic2, R.drawable.default_bg);
+                        } else {
+                            iv2_pic2.setVisibility(View.GONE);
+                        }
+                        if (item.getAdvPicUrlList().get(2) != null && !item.getAdvPicUrlList().get(2).equals("")) {
+                            GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(2), iv2_pic3, R.drawable.default_bg);
+                        } else {
+                            iv2_pic3.setVisibility(View.GONE);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }

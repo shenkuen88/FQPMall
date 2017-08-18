@@ -202,7 +202,8 @@ public class HuoDongActivity extends BaseActivity implements View.OnClickListene
         View view = findViewById(R.id.common_back);
         HeadView headView = new HeadView((ViewGroup) view);
         headView.setLeftImage(R.mipmap.app_title_back);
-        headView.setTitleText("限时抢购");
+//        headView.setTitleText("限时抢购");
+        headView.setTitleText(activityListBean.getActivityName());
         headView.setRightImage(R.mipmap.btn_information_sort);
     }
 
