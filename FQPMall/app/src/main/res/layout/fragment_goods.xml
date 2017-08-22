@@ -158,7 +158,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_weight="1"
-                            android:text="发货地:江苏南京"
+                            android:text="发货地:"
                             android:textColor="@color/gray"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -188,7 +188,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingLeft="20dp"
-                        android:text="27寸、白色、1件"
+                        android:text=""
                         android:textColor="@color/deep_gray"
                         android:textSize="15sp" />
 

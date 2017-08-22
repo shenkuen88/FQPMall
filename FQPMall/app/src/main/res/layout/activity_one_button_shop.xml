@@ -274,6 +274,7 @@
                     android:layout_marginLeft="@dimen/pxtodp40"
                     android:layout_marginRight="@dimen/pxtodp40"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/pink_button"
                     android:text="马上开店"
                     android:textColor="@color/white"

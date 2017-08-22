@@ -13,7 +13,6 @@ import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.constant.URLUtil;
 import com.fengqipu.mall.tools.GeneralUtils;
-import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.WebViewUtil;
 
 
@@ -135,12 +134,12 @@ public class CommonWebViewActivity extends BaseActivity
             {
                 showError = true;
                 viewError.setVisibility(View.VISIBLE);
-                NetLoadingDialog.getInstance().dismissDialog();
+//                NetLoadingDialog.getInstance().dismissDialog();
             }
             if (NotiTag.TAG_WEB_VIEW_START.equals(tag))
             {
-                NetLoadingDialog.getInstance().dismissDialog();
-                NetLoadingDialog.getInstance().loading(this);
+//                NetLoadingDialog.getInstance().dismissDialog();
+//                NetLoadingDialog.getInstance().loading(this);
             }
             if (NotiTag.TAG_WEB_VIEW_FINISH.equals(tag))
             {
@@ -149,7 +148,7 @@ public class CommonWebViewActivity extends BaseActivity
                     viewError.setVisibility(View.GONE);
                 }
                 showError = false;
-                NetLoadingDialog.getInstance().dismissDialog();
+//                NetLoadingDialog.getInstance().dismissDialog();
                 if (clear)
                 {
                     webView.clearHistory();

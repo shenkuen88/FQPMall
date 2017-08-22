@@ -42,6 +42,7 @@ import com.fengqipu.mall.main.acty.MainActivity;
 import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
 import com.fengqipu.mall.main.acty.enterprise.EnterpriseListActivity;
 import com.fengqipu.mall.main.acty.huodong.HuoDongActivity;
+import com.fengqipu.mall.main.acty.mine.LoginActy;
 import com.fengqipu.mall.main.acty.mine.OneButtonShopActivity;
 import com.fengqipu.mall.main.acty.search.NewSearchActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
@@ -483,7 +484,11 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                 }
                 break;
             case R.id.btn_yjkd:
-                UserServiceImpl.instance().checkAlreadyApplied(AlreadyAppliedResponse.class.getName());
+                if(GeneralUtils.isLogin()) {
+                    UserServiceImpl.instance().checkAlreadyApplied(AlreadyAppliedResponse.class.getName());
+                }else{
+                    startActivity(new Intent(getActivity(), LoginActy.class));
+                }
                 break;
             case R.id.search_layout:
                 Intent intent3=new Intent(mainActivity, NewSearchActivity.class);

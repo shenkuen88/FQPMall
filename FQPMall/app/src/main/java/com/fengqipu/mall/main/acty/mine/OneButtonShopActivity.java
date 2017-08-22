@@ -535,6 +535,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                     OneButtonShopResponse oneButtonShopResponse = GsonHelper.toType(result, OneButtonShopResponse.class);
                     if (Constants.SUCESS_CODE.equals(oneButtonShopResponse.getResultCode())) {
                         ToastUtils.showToast(mContext, "提交开店申请成功");
+                        finish();
                     } else {
                         ErrorCode.doCode(mContext, oneButtonShopResponse.getResultCode(), oneButtonShopResponse.getDesc());
                     }
