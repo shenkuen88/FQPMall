@@ -246,7 +246,7 @@ public class OrderSearchActivity extends BaseActivity implements View.OnClickLis
                         shopList.add(storeGoodsBean);
                         Intent intent = new Intent(mContext, ConfirmOrderActivity.class);
                         intent.putExtra(IntentCode.ORDER_GOODS_LIST, GsonHelper.toJson(shopList));
-                        intent.putExtra(IntentCode.ORDER_STATE, "0");//0 新生成订单，代付款订单 传订单号
+                        intent.putExtra(IntentCode.ORDER_STATE, "1");//0 新生成订单，代付款订单 传订单号
                         startActivity(intent);
 
                     }
