@@ -126,22 +126,16 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_confirm_order);
         orderState = getIntent().getStringExtra(IntentCode.ORDER_STATE);
         initAll();
-        initAdapter();
-        Type type = new TypeToken<ArrayList<StoreGoodsBean>>() {
-        }.getType();
-        shopList = GsonHelper.fromJson(getIntent().getStringExtra(IntentCode.ORDER_GOODS_LIST), type);
-        adapter.setData(shopList);
-        adapter.notifyDataSetChanged();
     }
 
 
     private void initAdapter() {
+        Log.e("sub","initAdapter");
         adapter = new CommonAdapter<StoreGoodsBean>(mContext, shopList, R.layout.item_confirm_order) {
             @Override
             public void convert(ViewHolder helper, final StoreGoodsBean item) {
                 StoreBean shopBean = item.getStoreBean();
                 helper.setText(R.id.title_tv, shopBean.getName());//店名
-                List<GoodsBean> goodList = item.getGoodsBeanList();
                 MyListView lvGood = helper.getView(R.id.good_lv);
                 helper.setText(R.id.yf_tv, "0");//运费
                 //订单金额
@@ -149,21 +143,19 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 //应付金额
                 TextView tvPay = helper.getView(R.id.total_tv);
                 CommonAdapter<GoodsBean> gAdapter
-                        = new CommonAdapter<GoodsBean>(mContext, goodList, R.layout.item_confirm_order_same_shop) {
+                        = new CommonAdapter<GoodsBean>(mContext, item.getGoodsBeanList(), R.layout.item_confirm_order_same_shop) {
                     @Override
                     public void convert(ViewHolder helper, GoodsBean item) {
                         try {
-                            orderContent = new OrderContent(item.getContentID(), item.getCount() + "", item.getStyle());
+                            orderContent = new OrderContent(item.getContentID()+"", item.getCount() + "", item.getStyle()+"");
                             if (orderList.size() > 0) {
                                 for (int i = 0; i < orderList.size(); i++) {
                                     OrderContent bean = orderList.get(i);
-                                    if (
-                                        //orderList中无该orderContent
+                                    if (//orderList中无该orderContent
                                             !(orderContent.getContentID().equals(bean.getContentID())
                                                     && orderContent.getStyle().equals(bean.getStyle())
                                                     && orderContent.getCount().equals(orderContent.getCount()))) {
                                         orderList.add(orderContent);
-                                        return;
                                     }
                                 }
                             } else {
@@ -212,6 +204,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                     tvPay.setText("¥" + totalPay);
                     tvShouldPay.setText(totalPay + "元");
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         };
@@ -286,7 +279,12 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void initViewData() {
-
+        initAdapter();
+        Type type = new TypeToken<ArrayList<StoreGoodsBean>>() {
+        }.getType();
+        shopList = GsonHelper.fromJson(getIntent().getStringExtra(IntentCode.ORDER_GOODS_LIST), type);
+        adapter.setData(shopList);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
