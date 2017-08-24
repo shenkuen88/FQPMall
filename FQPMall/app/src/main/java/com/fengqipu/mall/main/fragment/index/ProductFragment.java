@@ -330,7 +330,7 @@ public class ProductFragment extends BaseFragment implements View.OnClickListene
      */
     private void bannerFirstInit() {
         //第一次展示默认本地图片
-        localImages.add(R.drawable.default_bg);//默认图片
+        localImages.add(R.drawable.bg_banner_classification);//默认图片
         banner.setPages(
                 new CBViewHolderCreator<LocalImageHolderView>() {
                     @Override

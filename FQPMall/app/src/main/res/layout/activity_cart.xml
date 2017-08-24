@@ -19,7 +19,7 @@
             android:layout_width="@dimen/pxtodp200"
             android:layout_height="@dimen/pxtodp200"
             android:layout_centerHorizontal="true"
-            android:background="@mipmap/no_car_icon" />
+            android:background="@drawable/bg_icon_shoppingcart" />
 
         <TextView
             android:id="@+id/id_rl_cart_is_empty_text"

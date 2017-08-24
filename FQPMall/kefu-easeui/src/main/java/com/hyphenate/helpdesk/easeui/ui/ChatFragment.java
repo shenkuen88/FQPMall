@@ -268,6 +268,7 @@ public class ChatFragment extends BaseFragment implements ChatManager.MessageLis
                                 tol_layout.setVisibility(View.VISIBLE);
                                 Glide.with(getActivity())
                                         .load(imageurl)
+                                        .placeholder(R.drawable.bg_image_classification)
                                         .into(img);
                                 goods_name.setText(name);
                                 goods_price.setText("￥" + price);

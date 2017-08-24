@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,13 +38,15 @@ import butterknife.ButterKnife;
 public class LogisticsActivity extends BaseActivity {
     @Bind(R.id.img_head)
     ImageView imgHead;
+    @Bind(R.id.emtry_ll)
+    LinearLayout emtryLl;
     private HeadView headView;
     private String orderID = "1";
     private ListView my_listview;
     private CommonAdapter<LogisticsResponse.DeliveryRecordListBean> mAdapter;
     private List<LogisticsResponse.DeliveryRecordListBean> llist = new ArrayList<LogisticsResponse.DeliveryRecordListBean>();
     private TextView wl_state, wl_ly, wl_id, wl_phone;
-    String headPic="";
+    String headPic = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +74,8 @@ public class LogisticsActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        if(!headPic.equals("")){
-            GeneralUtils.setImageViewWithUrl(this,headPic,imgHead,R.drawable.default_bg);
+        if (!headPic.equals("")) {
+            GeneralUtils.setImageViewWithUrl(this, headPic, imgHead, R.drawable.default_bg);
         }
         initTitle();
     }
@@ -100,6 +103,7 @@ public class LogisticsActivity extends BaseActivity {
             }
         };
         my_listview.setAdapter(mAdapter);
+        my_listview.setEmptyView(emtryLl);
         getData();
     }
 

@@ -59,6 +59,10 @@ import in.srain.cube.views.ptr.PtrHandler;
 
 @SuppressLint("ValidFragment")
 public class MyOrderFragment extends BaseFragment {
+    LinearLayout emptyLl;
+    ImageView emtryIv;
+    TextView emtryTv;
+
     public MyOrderFragment() {
     }
 
@@ -72,7 +76,7 @@ public class MyOrderFragment extends BaseFragment {
     private int num = 5;
     private int tolcount = 0;
     private int orderstate;//0全部1待付款2待发货3待收货4待评价 6.退款
-    private LinearLayout no_order;
+//    private LinearLayout no_order;
     private ListView order_list;
     private CommonAdapter<OrderResponse.OrderListBean> orderAdapter;
     private List<OrderResponse.OrderListBean> olist = new ArrayList<OrderResponse.OrderListBean>();
@@ -91,18 +95,15 @@ public class MyOrderFragment extends BaseFragment {
 
     private void initView(View rootView) {
         order_list = V.f(rootView, R.id.order_list);
-        initEmtyView(rootView);
+        emptyLl = V.f(rootView, R.id.emtry_ll);
+        emtryIv = V.f(rootView, R.id.emtry_iv);
+        emtryTv = V.f(rootView, R.id.emtry_tv);
         pull_to_refresh = V.f(rootView, R.id.pull_to_refresh);
     }
 
-    //初始化空View
-    private void initEmtyView(View rootView) {
-        no_order = V.f(rootView, R.id.no_order);
-        ImageView tips_pic = V.f(rootView, R.id.tips_pic);
-        TextView tips = V.f(no_order, R.id.tips);
-        tips.setText("您的订单还是空的~");
-    }
+
     private OrderResponse.OrderListBean delOrder;
+
     //初始化listview
     private void initViewData() {
         orderAdapter = new CommonAdapter<OrderResponse.OrderListBean>(orderListActivity, olist, R.layout.item_my_order) {
@@ -116,7 +117,7 @@ public class MyOrderFragment extends BaseFragment {
                 LinearLayout btn_pj = helper.getView(R.id.btn_pj);//评价
                 LinearLayout btn_zxs = helper.getView(R.id.btn_zxs);//找相似
                 LinearLayout btn_qkqx = helper.getView(R.id.btn_qkqx);//钱款去向
-                LinearLayout btn_qxdd= helper.getView(R.id.btn_qxdd);//取消订单
+                LinearLayout btn_qxdd = helper.getView(R.id.btn_qxdd);//取消订单
 
                 helper.setText(R.id.store_nam, item.getShopName());
 //                helper.setText(R.id.all_num, "共" + item.get() + "件商品");
@@ -182,16 +183,16 @@ public class MyOrderFragment extends BaseFragment {
                         btn_pj.setVisibility(View.GONE);
                         btn_zxs.setVisibility(View.GONE);
                         btn_qkqx.setVisibility(View.GONE);
-                        String str="";
-                        switch (item.getRefundStatus()){
+                        String str = "";
+                        switch (item.getRefundStatus()) {
                             case "1":
-                                str="待处理";
+                                str = "待处理";
                                 break;
                             case "2":
-                                str="退款成功";
+                                str = "退款成功";
                                 break;
                             case "3":
-                                str="退款拒绝";
+                                str = "退款拒绝";
                                 break;
                         }
                         helper.setText(R.id.state, str);
@@ -205,32 +206,32 @@ public class MyOrderFragment extends BaseFragment {
                         if (GeneralUtils.isNotNullOrZeroLenght(mItem.getPicUrl())) {
                             ImageView img = helper.getView(R.id.img);
 //                            ImageLoaderUtil.getInstance().initImage(orderListActivity, mItem.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
-                            GeneralUtils.setImageViewWithUrl(getActivity(), mItem.getPicUrlRequestUrl(), img, R.drawable.default_bg);
+                            GeneralUtils.setImageViewWithUrl(getActivity(), mItem.getPicUrlRequestUrl(), img, R.drawable.bg_image_classification);
                         }
                         helper.setText(R.id.goods_info, mItem.getContentName());
                         helper.setText(R.id.goods_price, "￥" + mItem.getRealPrice());
                         TextView or_price = helper.getView(R.id.or_price);
-                        if(mItem.getOriginalPrice()==null||mItem.getOriginalPrice().equals("")){
+                        if (mItem.getOriginalPrice() == null || mItem.getOriginalPrice().equals("")) {
                             or_price.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             or_price.setVisibility(View.VISIBLE);
                             or_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                             or_price.setText("￥" + mItem.getOriginalPrice());
                         }
-                        if(mItem.getColor()!=null&&!mItem.getColor().equals("")){
-                            helper.setText(R.id.goods_type, "分类:"+mItem.getStyle()+"、"+mItem.getColor());
-                        }else {
+                        if (mItem.getColor() != null && !mItem.getColor().equals("")) {
+                            helper.setText(R.id.goods_type, "分类:" + mItem.getStyle() + "、" + mItem.getColor());
+                        } else {
                             helper.setText(R.id.goods_type, "分类:" + mItem.getStyle());
                         }
                         helper.setText(R.id.goods_num_x, "X" + mItem.getCount());
                         helper.getView(R.id.good_ll).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(item.getStatus()==5)return;
-                                Intent intent=new Intent(getActivity(), OrderDetailActivity.class);
-                                intent.putExtra(IntentCode.ORDER_GOODS_LIST,(Serializable) item);
-                                intent.putExtra(IntentCode.ORDER_STATE,item.getStatus()+"");
-                                intent.putExtra(IntentCode.C_ORDER_ID,item.getId());
+                                if (item.getStatus() == 5) return;
+                                Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+                                intent.putExtra(IntentCode.ORDER_GOODS_LIST, (Serializable) item);
+                                intent.putExtra(IntentCode.ORDER_STATE, item.getStatus() + "");
+                                intent.putExtra(IntentCode.C_ORDER_ID, item.getId());
                                 startActivity(intent);
                             }
                         });
@@ -252,16 +253,16 @@ public class MyOrderFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         ArrayList<StoreGoodsBean> shopList = new ArrayList<StoreGoodsBean>();
-                        StoreGoodsBean storeGoodsBean=new StoreGoodsBean();
-                        StoreBean storeBean=new StoreBean(item.getShopID(),item.getShopName(),false,false);
+                        StoreGoodsBean storeGoodsBean = new StoreGoodsBean();
+                        StoreBean storeBean = new StoreBean(item.getShopID(), item.getShopName(), false, false);
                         storeGoodsBean.setStoreBean(storeBean);
-                        List<GoodsBean> goodsBeens=new ArrayList<GoodsBean>();
-                        for(OrderResponse.OrderListBean.OrderContentListBean it:item.getOrderContentList()){
-                            GoodsBean goodsBean = new GoodsBean(it.getCreateTime(), Global.getUserId()+"", it.getPicUrlRequestUrl(), it.getRealPrice(),
+                        List<GoodsBean> goodsBeens = new ArrayList<GoodsBean>();
+                        for (OrderResponse.OrderListBean.OrderContentListBean it : item.getOrderContentList()) {
+                            GoodsBean goodsBean = new GoodsBean(it.getCreateTime(), Global.getUserId() + "", it.getPicUrlRequestUrl(), it.getRealPrice(),
                                     it.getStyle(), it.getCount(), item.getShopID(),
                                     it.getContentName(), item.getShopName(),
                                     it.getId(), it.getContentID(),
-                                    it.getColor()+"", GoodsBean.STATUS_VALID, false, false);
+                                    it.getColor() + "", GoodsBean.STATUS_VALID, false, false);
                             goodsBeens.add(goodsBean);
                         }
                         storeGoodsBean.setGoodsBeanList(goodsBeens);
@@ -279,7 +280,7 @@ public class MyOrderFragment extends BaseFragment {
                         Intent intent = new Intent(getActivity(), PublicCommentActy.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         intent.putExtra(IntentCode.COMMUNITY_PUBLIC, "1");
-                        intent.putExtra(IntentCode.C_ORDER_ID,item.getId());
+                        intent.putExtra(IntentCode.C_ORDER_ID, item.getId());
                         Global.saveOrderId(item.getId());
                         startActivity(intent);
                     }
@@ -288,26 +289,26 @@ public class MyOrderFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         NetLoadingDialog.getInstance().loading(mContext);
-                        UserServiceImpl.instance().upDateOrder(item.getId(),"1", UpdataOrderResponse.class.getName());
+                        UserServiceImpl.instance().upDateOrder(item.getId(), "1", UpdataOrderResponse.class.getName());
                     }
                 });
                 btn_sqth.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent=new Intent(getActivity(), RefundActy.class);
+                        Intent intent = new Intent(getActivity(), RefundActy.class);
                         intent.putExtra(IntentCode.COMMUNITY_PUBLIC, "1");
-                        intent.putExtra(IntentCode.C_ORDER_ID,item.getId());
+                        intent.putExtra(IntentCode.C_ORDER_ID, item.getId());
                         Global.saveOrderId(item.getId());
                         //最多退款金额
-                        Global.saveRefundMoney(item.getRealPrice()+"");
+                        Global.saveRefundMoney(item.getRealPrice() + "");
                         startActivity(intent);
                     }
                 });
                 btn_qxdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        delOrder=item;
-                        DialogUtil.showNoTipTwoBnttonDialog(mContext,"确定要删除该订单吗？","取消","确定"
+                        delOrder = item;
+                        DialogUtil.showNoTipTwoBnttonDialog(mContext, "确定要删除该订单吗？", "取消", "确定"
                                 , NotiTag.TAG_DEL_GOODS_CANCEL, NotiTag.TAG_DEL_GOODS_OK);
                     }
                 });
@@ -315,17 +316,17 @@ public class MyOrderFragment extends BaseFragment {
                     @Override
                     public void onClick(View view) {
                         //提醒发货
-                        UserServiceImpl.instance().REMINDDELIVER(item.getId(),RemindDeliverResponse.class.getName());
+                        UserServiceImpl.instance().REMINDDELIVER(item.getId(), RemindDeliverResponse.class.getName());
                     }
                 });
                 helper.getView(R.id.tol_layout).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(item.getStatus()==5)return;
-                        Intent intent=new Intent(getActivity(), OrderDetailActivity.class);
-                        intent.putExtra(IntentCode.ORDER_GOODS_LIST,(Serializable) item);
-                        intent.putExtra(IntentCode.ORDER_STATE,item.getStatus()+"");
-                        intent.putExtra(IntentCode.C_ORDER_ID,item.getId());
+                        if (item.getStatus() == 5) return;
+                        Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+                        intent.putExtra(IntentCode.ORDER_GOODS_LIST, (Serializable) item);
+                        intent.putExtra(IntentCode.ORDER_STATE, item.getStatus() + "");
+                        intent.putExtra(IntentCode.C_ORDER_ID, item.getId());
                         startActivity(intent);
                     }
                 });
@@ -333,9 +334,37 @@ public class MyOrderFragment extends BaseFragment {
 
         };
         order_list.setAdapter(orderAdapter);
-        order_list.setEmptyView(no_order);
+        order_list.setEmptyView(emptyLl);
+        switch (orderstate) {//0全部1待付款2待发货3待收货4待评价 6.退款
+            case 0:
+                emtryIv.setImageResource(R.drawable.bg_icon_order);
+                emtryTv.setText("暂时还没有订单");
+                break;
+            case 1:
+                emtryIv.setImageResource(R.drawable.bg_icon_pendingpayment);
+                emtryTv.setText("没有要付款的商品");
+                break;
+            case 2:
+                emtryIv.setImageResource(R.drawable.bg_icon_shipmentpending);
+                emtryTv.setText("没有要发货的商品");
+                break;
+            case 3:
+                emtryIv.setImageResource(R.drawable.bg_icon_shipmentpending);
+                emtryTv.setText("没有待收货的商品");
+                break;
+            case 4:
+                emtryIv.setImageResource(R.drawable.bg_icon_evaluate);
+                emtryTv.setText("暂无待评价商品");
+                break;
+            case 6:
+                emtryIv.setImageResource(R.drawable.bg_icon_refund);
+                emtryTv.setText("暂时还没有退款/售后商品");
+                break;
+        }
     }
+
     private int lastVisibileItem;
+
     private void initEvent() {
         pull_to_refresh.setLastUpdateTimeRelateObject(this);
         pull_to_refresh.setResistance(1.7f);
@@ -374,8 +403,8 @@ public class MyOrderFragment extends BaseFragment {
                             isloading = true;
                             page++;
                             getOrderList("");
-                        }else {
-                            ToastUtil.makeText(getActivity(),"当前是最后一页");
+                        } else {
+                            ToastUtil.makeText(getActivity(), "当前是最后一页");
                         }
                     }
                 }
@@ -493,7 +522,7 @@ public class MyOrderFragment extends BaseFragment {
                     //网络数据(一般不用去做处理)
                 }
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
-                    Log.e("sub","result="+result);
+                    Log.e("sub", "result=" + result);
                     OrderResponse orderResponse = GsonHelper.toType(result, OrderResponse.class);
                     if (Constants.SUCESS_CODE.equals(orderResponse.getResultCode())) {
                         if (page == 1) {
@@ -516,7 +545,7 @@ public class MyOrderFragment extends BaseFragment {
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     UpdataOrderResponse updataOrderResponse = GsonHelper.toType(result, UpdataOrderResponse.class);
                     if (Constants.SUCESS_CODE.equals(updataOrderResponse.getResultCode())) {
-                        page=1;
+                        page = 1;
                         getOrderList("");
                     } else {
                         ErrorCode.doCode(getActivity(), updataOrderResponse.getResultCode(), updataOrderResponse.getDesc());
@@ -543,7 +572,7 @@ public class MyOrderFragment extends BaseFragment {
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     RemindDeliverResponse remindDeliverResponse = GsonHelper.toType(result, RemindDeliverResponse.class);
                     if (Constants.SUCESS_CODE.equals(remindDeliverResponse.getResultCode())) {
-                        ToastUtils.showToast(getActivity(),"提醒发货成功!");
+                        ToastUtils.showToast(getActivity(), "提醒发货成功!");
                     } else {
                         ErrorCode.doCode(getActivity(), remindDeliverResponse.getResultCode(), remindDeliverResponse.getDesc());
                     }
@@ -555,4 +584,8 @@ public class MyOrderFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 }

@@ -177,11 +177,12 @@
                     </LinearLayout>
                 </FrameLayout>
                 <ImageView
+                    android:id="@+id/iv_top"
                     android:layout_marginTop="7dp"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/pxtodp160"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/advertising"/>
+                    android:src="@drawable/bg_banner_homepage_two"/>
                 <LinearLayout
                     android:layout_marginTop="7dp"
                     android:layout_width="match_parent"
@@ -222,7 +223,7 @@
                             <ImageView
                                 android:layout_width="60dp"
                                 android:layout_height="70dp"
-                                android:src="@mipmap/pic1_sort"
+                                android:src="@drawable/bg_image_classification"
                                 android:layout_marginRight="16dp"
                                 android:id="@+id/imageView"
                                 android:layout_centerVertical="true"
@@ -262,7 +263,7 @@
                             <ImageView
                                 android:layout_width="60dp"
                                 android:layout_height="70dp"
-                                android:src="@mipmap/pic8_sort"
+                                android:src="@drawable/bg_image_classification"
                                 android:layout_marginRight="16dp"
                                 android:id="@+id/imageView2"
                                 android:layout_centerVertical="true"
@@ -308,7 +309,7 @@
                             <ImageView
                                 android:layout_width="60dp"
                                 android:layout_height="70dp"
-                                android:src="@mipmap/pic10_sort"
+                                android:src="@drawable/bg_image_classification"
                                 android:layout_marginRight="16dp"
                                 android:id="@+id/imageView3"
                                 android:layout_alignParentRight="true"
@@ -348,7 +349,7 @@
                             <ImageView
                                 android:layout_width="60dp"
                                 android:layout_height="70dp"
-                                android:src="@mipmap/pic7_sort"
+                                android:src="@drawable/bg_image_classification"
                                 android:layout_marginRight="16dp"
                                 android:id="@+id/imageView4"
                                 android:layout_alignParentRight="true"

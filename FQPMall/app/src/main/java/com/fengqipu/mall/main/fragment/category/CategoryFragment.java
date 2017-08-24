@@ -183,7 +183,7 @@ public class CategoryFragment extends BaseFragment {
 //                            ImageLoaderUtil.getInstance().initImage(mainActivity, item.getPic(), img, Constants.DEFAULT_IMAGE_F_LOAD);
                             GeneralUtils.setImageViewWithUrl(mainActivity, item.getPic(),
                                     img,
-                                    R.drawable.default_bg);
+                                    R.drawable.bg_image_classification);
                         }
                     }
                 };
@@ -262,7 +262,7 @@ public class CategoryFragment extends BaseFragment {
                 Log.e("sub", "img=" + img);
                 try {
                     if (GeneralUtils.isNotNullOrZeroLenght(img)) {
-                        GeneralUtils.setImageViewWithUrl(mainActivity, img, ivBanner, R.drawable.default_head);
+                        GeneralUtils.setImageViewWithUrl(mainActivity, img, ivBanner, R.drawable.bg_banner_classification);
 //                        ivBanner.setVisibility(View.VISIBLE);
 //                        headView.setVisibility(View.VISIBLE);
                         right_list.removeHeaderView(headView);
@@ -332,7 +332,7 @@ public class CategoryFragment extends BaseFragment {
                             String img = tolLeftList.get(t_position).getPic();
                             try {
                                 if (GeneralUtils.isNotNullOrZeroLenght(img)) {
-                                    GeneralUtils.setImageViewWithUrl(mainActivity, img, ivBanner, R.drawable.default_head);
+                                    GeneralUtils.setImageViewWithUrl(mainActivity, img, ivBanner, R.drawable.bg_banner_classification);
 //                                    ivBanner.setVisibility(View.VISIBLE);
 //                                    headView.setVisibility(View.VISIBLE);
                                     right_list.removeHeaderView(headView);

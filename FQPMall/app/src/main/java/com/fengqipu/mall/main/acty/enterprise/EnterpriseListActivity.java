@@ -145,7 +145,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                         if (GeneralUtils.isNotNullOrZeroLenght(item.getPic())) {
                             GeneralUtils.setImageViewWithUrl(EnterpriseListActivity.this, item.getPic(),
                                     comment_head_iv,
-                                    R.drawable.default_bg);
+                                    R.drawable.bg_image_classification);
                         }
                         GridView gridView = helper.getView(R.id.my_grid_view);
                         CommonAdapter<String> gadapter = new CommonAdapter<String>(EnterpriseListActivity.this, item.getPics(), R.layout.item_pic) {
@@ -155,7 +155,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                                 if (GeneralUtils.isNotNullOrZeroLenght(item)) {
                                     GeneralUtils.setImageViewWithUrl(EnterpriseListActivity.this, item,
                                             iv_pic,
-                                            R.drawable.default_bg);
+                                            R.drawable.bg_image_classification);
                                 }
                             }
                         };
@@ -224,7 +224,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                 String img = left.getPic();
                 try {
                     if (GeneralUtils.isNotNullOrZeroLenght(img)) {
-                        GeneralUtils.setImageViewWithUrl(EnterpriseListActivity.this, img, ivBanner, R.drawable.default_bg);
+                        GeneralUtils.setImageViewWithUrl(EnterpriseListActivity.this, img, ivBanner, R.drawable.bg_banner_classification);
 //                        ivBanner.setVisibility(View.VISIBLE);
 //                        headView.setVisibility(View.VISIBLE);
                         rightList.removeHeaderView(headView);
@@ -335,7 +335,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                             String img = tolLeftList.get(t_position).getPic();
                             try {
                                 if (GeneralUtils.isNotNullOrZeroLenght(img)) {
-                                    GeneralUtils.setImageViewWithUrl(this, img, ivBanner, R.drawable.default_bg);
+                                    GeneralUtils.setImageViewWithUrl(this, img, ivBanner, R.drawable.bg_banner_classification);
 //                                    ivBanner.setVisibility(View.VISIBLE);
 //                                    headView.setVisibility(View.VISIBLE);
                                     rightList.removeHeaderView(headView);

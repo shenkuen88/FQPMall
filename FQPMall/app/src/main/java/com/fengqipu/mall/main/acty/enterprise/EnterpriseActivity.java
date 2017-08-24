@@ -355,7 +355,7 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
 
     private void bannerFirstInit() {
         //第一次展示默认本地图片
-        localImages.add(R.drawable.default_bg);//默认图片
+        localImages.add(R.drawable.bg_banner_classification);//默认图片
         indexBanner.setPages(
                 new CBViewHolderCreator<LocalImageHolderView>() {
                     @Override

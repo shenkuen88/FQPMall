@@ -144,6 +144,8 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
     RelativeLayout rl3Huodong;
     @Bind(R.id.rl4_huodong)
     RelativeLayout rl4Huodong;
+    @Bind(R.id.iv_top)
+    ImageView ivTop;
     //    @Bind(R.id.my_loading)
 //    LinearLayout myLoading;
     private CommonAdapter<ShopListBean> mAdapter;
@@ -227,7 +229,7 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                         helper.getView(R.id.layout1).setVisibility(View.VISIBLE);
                         helper.getView(R.id.layout2).setVisibility(View.GONE);
                         if (item.getAdvPicUrlList().get(0) != null && !item.getAdvPicUrlList().get(0).equals("")) {
-                            GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(0), iv_pic1, R.drawable.default_bg);
+                            GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(0), iv_pic1, R.drawable.bg_image_classification);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -237,17 +239,17 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                         helper.getView(R.id.layout1).setVisibility(View.GONE);
                         helper.getView(R.id.layout2).setVisibility(View.VISIBLE);
                         if (item.getAdvPicUrlList().get(0) != null && !item.getAdvPicUrlList().get(0).equals("")) {
-                            GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(0), iv2_pic1, R.drawable.default_bg);
+                            GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(0), iv2_pic1, R.drawable.bg_image_classification);
                         } else {
                             iv2_pic1.setVisibility(View.GONE);
                         }
                         if (item.getAdvPicUrlList().get(1) != null && !item.getAdvPicUrlList().get(1).equals("")) {
-                            GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(1), iv2_pic2, R.drawable.default_bg);
+                            GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(1), iv2_pic2, R.drawable.bg_image_classification);
                         } else {
                             iv2_pic2.setVisibility(View.GONE);
                         }
                         if (item.getAdvPicUrlList().get(2) != null && !item.getAdvPicUrlList().get(2).equals("")) {
-                            GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(2), iv2_pic3, R.drawable.default_bg);
+                            GeneralUtils.setImageViewWithUrl(mainActivity, item.getAdvPicUrlList().get(2), iv2_pic3, R.drawable.bg_image_classification);
                         } else {
                             iv2_pic3.setVisibility(View.GONE);
                         }
@@ -258,8 +260,8 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                 helper.getConvertView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent=new Intent(getActivity(),EnterpriseActivity.class);
-                        intent.putExtra("sid",item.getId());
+                        Intent intent = new Intent(getActivity(), EnterpriseActivity.class);
+                        intent.putExtra("sid", item.getId());
                         startActivity(intent);
                     }
                 });
@@ -271,7 +273,7 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
             public void scrollBottom() {
                 if (isloading) return;
                 if (pageNum * pageSize >= tolalNum) return;
-                isloading=true;
+                isloading = true;
                 myListview.showload();
                 pageNum = pageNum + 1;
                 initBtmList();
@@ -320,7 +322,7 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
 
     private void bannerFirstInit() {
         //第一次展示默认本地图片
-        localImages.add(R.drawable.default_bg);//默认图片
+        localImages.add(R.drawable.bg_banner_classification);//默认图片
         indexBanner.setPages(
                 new CBViewHolderCreator<LocalImageHolderView>() {
                     @Override
@@ -477,29 +479,30 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                 mainActivity.startActivity(intent2);
                 break;
             case R.id.btn_kx:
-                if (Build.VERSION.SDK_INT>=23){
+                if (Build.VERSION.SDK_INT >= 23) {
                     showContacts();
-                }else {
+                } else {
                     startActivity(new Intent(mainActivity, KuaiXiuActivity.class));
                 }
                 break;
             case R.id.btn_yjkd:
-                if(GeneralUtils.isLogin()) {
+                if (GeneralUtils.isLogin()) {
                     UserServiceImpl.instance().checkAlreadyApplied(AlreadyAppliedResponse.class.getName());
-                }else{
+                } else {
                     startActivity(new Intent(getActivity(), LoginActy.class));
                 }
                 break;
             case R.id.search_layout:
-                Intent intent3=new Intent(mainActivity, NewSearchActivity.class);
-                intent3.putExtra("searchtype",0);
+                Intent intent3 = new Intent(mainActivity, NewSearchActivity.class);
+                intent3.putExtra("searchtype", 0);
                 startActivity(intent3);
                 break;
         }
     }
-    private static final int BAIDU_READ_PHONE_STATE =100;
 
-    public void showContacts(){
+    private static final int BAIDU_READ_PHONE_STATE = 100;
+
+    public void showContacts() {
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -507,11 +510,12 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                 || ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_PHONE_STATE)
                 != PackageManager.PERMISSION_GRANTED) {
             // 申请一个（或多个）权限，并提供用于回调返回的获取码（用户定义）
-                ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE}, BAIDU_READ_PHONE_STATE);
-        }else{
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_PHONE_STATE}, BAIDU_READ_PHONE_STATE);
+        } else {
             startActivity(new Intent(mainActivity, KuaiXiuActivity.class));
         }
     }
+
     //Android6.0申请权限的回调方法
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -531,6 +535,7 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                 break;
         }
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -570,7 +575,7 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
             //Banner图信息
             if (tag.equals(IndexBannerResponse.class.getName())) {
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
-                    IndexBannerResponse mIndexBannerResponse = GsonHelper.toType(result, IndexBannerResponse.class);
+                    final IndexBannerResponse mIndexBannerResponse = GsonHelper.toType(result, IndexBannerResponse.class);
                     if (Constants.SUCESS_CODE.equals(mIndexBannerResponse.getResultCode())) {
                         CMLog.e(Constants.HTTP_TAG, result);
                         SharePref.saveString(Constants.HOME_BANNER_RESULT, result);
@@ -579,6 +584,24 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                             initNotice(mIndexBannerResponse.getNoticeList());
                             initHuoDong(mIndexBannerResponse.getActivityList());
                         }
+                        if(mIndexBannerResponse.getTop()!=null){
+                            if(mIndexBannerResponse.getTop().getPicUrlRequestUrl()!=null
+                                    &&!mIndexBannerResponse.getTop().getPicUrlRequestUrl().equals("")) {
+                                GeneralUtils.setImageViewWithUrl(getActivity(),mIndexBannerResponse.getTop().getPicUrlRequestUrl(), ivTop, R.drawable.bg_banner_homepage_two);
+                            }
+                            if(mIndexBannerResponse.getTop().getId()!=null
+                                    &&!mIndexBannerResponse.getTop().getId().equals("")) {
+                                ivTop.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent intent2=new Intent(getActivity(), EnterpriseActivity.class);
+                                        intent2.putExtra("sid",mIndexBannerResponse.getTop().getId());
+                                        startActivity(intent2);
+                                    }
+                                });
+                            }
+                        }
+
                     } else {
                         ErrorCode.doCode(getActivity(), mIndexBannerResponse.getResultCode(), mIndexBannerResponse.getDesc());
                     }
@@ -614,12 +637,12 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                     AlreadyAppliedResponse alreadyAppliedResponse = GsonHelper.toType(result, AlreadyAppliedResponse.class);
                     if (Constants.SUCESS_CODE.equals(alreadyAppliedResponse.getResultCode())) {
                         CMLog.e(Constants.HTTP_TAG, result);
-                        if(alreadyAppliedResponse.getStatus()==1){
+                        if (alreadyAppliedResponse.getStatus() == 1) {
                             GeneralUtils.toActyOtherwiseLogin(getActivity(), OneButtonShopActivity.class);
-                        }else if(alreadyAppliedResponse.getStatus()==2){
-                            ToastUtils.showToast(getActivity(),"开店审核中");
-                        }else if(alreadyAppliedResponse.getStatus()==3){
-                            ToastUtils.showToast(getActivity(),"您的店铺已经审核通过");
+                        } else if (alreadyAppliedResponse.getStatus() == 2) {
+                            ToastUtils.showToast(getActivity(), "开店审核中");
+                        } else if (alreadyAppliedResponse.getStatus() == 3) {
+                            ToastUtils.showToast(getActivity(), "您的店铺已经审核通过");
                         }
 
                     } else {
@@ -636,16 +659,16 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
         for (ActivityListBean item : activityList) {
             switch (item.getPos()) {
                 case 1:
-                    initHDData(item,rlHuodong, tvHuodong, textView, imageView, R.mipmap.pic1_sort);
+                    initHDData(item, rlHuodong, tvHuodong, textView, imageView, R.drawable.bg_image_classification);
                     break;
                 case 2:
-                    initHDData(item,rl2Huodong, tvHuodong2, textView2, imageView2, R.mipmap.pic8_sort);
+                    initHDData(item, rl2Huodong, tvHuodong2, textView2, imageView2, R.drawable.bg_image_classification);
                     break;
                 case 3:
-                    initHDData(item,rl3Huodong, tvHuodong3, textView3, imageView3, R.mipmap.pic10_sort);
+                    initHDData(item, rl3Huodong, tvHuodong3, textView3, imageView3, R.drawable.bg_image_classification);
                     break;
                 case 4:
-                    initHDData(item,rl4Huodong,tvHuodong4, textView4, imageView4, R.mipmap.pic7_sort);
+                    initHDData(item, rl4Huodong, tvHuodong4, textView4, imageView4, R.drawable.bg_image_classification);
                     break;
             }
         }
