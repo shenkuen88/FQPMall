@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -181,6 +182,8 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
         };
         myListview.setAdapter(lAdapter);
         myGridview.setAdapter(gAdapter);
+        WindowManager wm = getActivity().getWindowManager();
+        emtryLl.setLayoutParams(new LinearLayout.LayoutParams(wm.getDefaultDisplay().getWidth(),wm.getDefaultDisplay().getHeight()/2));
         myListview.setEmptyView(emtryLl);
         myGridview.setEmptyView(emtryLl);
         myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

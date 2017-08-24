@@ -5,19 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <RelativeLayout
         android:id="@+id/id_rl_cart_is_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:gravity="center"
-        android:visibility="gone">
-
+        android:visibility="gone"
+        >
         <ImageView
             android:id="@+id/id_rl_cart_is_empty_image"
-            android:layout_width="@dimen/pxtodp200"
-            android:layout_height="@dimen/pxtodp200"
+            android:layout_width="180dp"
+            android:layout_height="200dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/bg_icon_shoppingcart" />
 
@@ -37,6 +36,7 @@
             android:layout_height="@dimen/pxtodp50"
             android:layout_below="@+id/id_rl_cart_is_empty_text" />
     </RelativeLayout>
+
 
     <!--android:background="@mipmap/channel_expandablelistview_bg"
      android:layout_below="@id/id_inc_top"  有点问题 why?
@@ -94,4 +94,5 @@
             android:layout_marginRight="10dp"
             android:src="@mipmap/btn_information_sort"/>
     </LinearLayout>
+
 </RelativeLayout>

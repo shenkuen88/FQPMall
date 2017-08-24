@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -149,6 +150,8 @@ public class OntheNewFragment extends BaseFragment implements View.OnClickListen
             }
         };
         myGridview.setAdapter(gAdapter);
+        WindowManager wm = getActivity().getWindowManager();
+        emtryLl.setLayoutParams(new LinearLayout.LayoutParams(wm.getDefaultDisplay().getWidth(),wm.getDefaultDisplay().getHeight()/2));
         myGridview.setEmptyView(emtryLl);
         myGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

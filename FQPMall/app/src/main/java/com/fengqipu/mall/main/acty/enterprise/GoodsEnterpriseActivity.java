@@ -157,7 +157,7 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
     @Override
     public void initViewData() {
         if (picurl != null && !picurl.equals("")) {
-            GeneralUtils.setImageViewWithUrl(mContext, picurl, indexBanner, R.drawable.default_bg);
+            GeneralUtils.setImageViewWithUrl(mContext, picurl, indexBanner, R.drawable.bg_banner_classification);
         }
         if (name != null && !name.equals("")) {
             contentName.setText(name+"");
@@ -200,7 +200,7 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
                 if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrl1RequestUrl())) {
                     ImageView img = helper.getView(R.id.img);
 //                            ImageLoaderUtil.getInstance().initImage(mContext, item.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
-                    GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl1RequestUrl(), img, R.drawable.default_head);
+                    GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl1RequestUrl(), img, R.drawable.bg_image_classification);
                 }
             }
         };
@@ -214,7 +214,7 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
                 TextView price = helper.getView(R.id.price);
 //                TextView hpd=helper.getView(R.id.hpd);
                 if (item.getPicUrl1RequestUrl() != null && !item.getPicUrl1RequestUrl().equals("")) {
-                    GeneralUtils.setImageViewWithUrl(GoodsEnterpriseActivity.this, item.getPicUrl1RequestUrl(), img, R.drawable.default_bg);
+                    GeneralUtils.setImageViewWithUrl(GoodsEnterpriseActivity.this, item.getPicUrl1RequestUrl(), img, R.drawable.bg_image_classification);
                 }
                 title.setText("" + item.getContentName());
                 location.setText("" + item.getShopProvince() + " " + item.getShopCity());

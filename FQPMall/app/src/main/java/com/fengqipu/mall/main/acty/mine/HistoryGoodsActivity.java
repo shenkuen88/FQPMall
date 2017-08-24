@@ -61,8 +61,9 @@ public class HistoryGoodsActivity extends BaseActivity {
     RelativeLayout idRlFoot;
     @Bind(R.id.all_ck_ll)
     LinearLayout allCkLl;
+    @Bind(R.id.emtry_ll)
+    LinearLayout emtryLl;
     private HeadView headView;
-    private LinearLayout no_history;//空页面
     //    private ListView his_goods_list;
     private RefreshListView his_goods_list;
     private CommonAdapter<HistoryGoodsResponse.UserOperationListBean> hisgoodsAdapter;
@@ -82,7 +83,6 @@ public class HistoryGoodsActivity extends BaseActivity {
     public void initView() {
         initTitle();
         his_goods_list = V.f(this, R.id.his_goods_list);
-        initEmtyView();
     }
 
     private List<String> ck_list = new ArrayList<>();
@@ -116,20 +116,20 @@ public class HistoryGoodsActivity extends BaseActivity {
                 new CommonAdapter<HistoryGoodsResponse.UserOperationListBean>(mContext, hglist, R.layout.item_his_history) {
                     @Override
                     public void convert(ViewHolder helper, final HistoryGoodsResponse.UserOperationListBean item) {
-                        final LinearLayout btn_ck_ll=helper.getView(R.id.btn_ck_ll);
+                        final LinearLayout btn_ck_ll = helper.getView(R.id.btn_ck_ll);
                         final CheckBox btn_ck = helper.getView(R.id.btn_ck);
                         if (isedit == 1) {
                             btn_ck_ll.setVisibility(View.VISIBLE);
                         } else {
                             btn_ck_ll.setVisibility(View.GONE);
                         }
-                        boolean ischeck=false;
-                        for(String s:ck_list){
-                            if (s.equals(item.getId())){
-                                ischeck=true;
+                        boolean ischeck = false;
+                        for (String s : ck_list) {
+                            if (s.equals(item.getId())) {
+                                ischeck = true;
                             }
                         }
-                        Log.e("sub","ischeck="+ischeck);
+                        Log.e("sub", "ischeck=" + ischeck);
                         btn_ck.setChecked(ischeck);
                         helper.setText(R.id.goods_info, item.getContentName());
                         helper.setText(R.id.goods_price, "￥" + item.getPrice());
@@ -158,7 +158,7 @@ public class HistoryGoodsActivity extends BaseActivity {
                         helper.getConvertView().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if(isedit == 1){
+                                if (isedit == 1) {
                                     if (btn_ck.isChecked()) {
                                         btn_ck.setChecked(false);
                                         ck_list.remove(item.getId());
@@ -171,7 +171,7 @@ public class HistoryGoodsActivity extends BaseActivity {
                                     } else {
                                         idCbSelectAll.setChecked(false);
                                     }
-                                }else {
+                                } else {
                                     Intent intent = new Intent(HistoryGoodsActivity.this, GoodsDetailActivity.class);
                                     intent.putExtra("contentID", item.getExtend1());
                                     startActivity(intent);
@@ -181,7 +181,7 @@ public class HistoryGoodsActivity extends BaseActivity {
                     }
                 };
         his_goods_list.setAdapter(hisgoodsAdapter);
-        his_goods_list.setEmptyView(no_history);
+        his_goods_list.setEmptyView(emtryLl);
 //        initLeftSlideList(his_goods_list);
         page = 1;
         getHistoryGoods();
@@ -215,12 +215,12 @@ public class HistoryGoodsActivity extends BaseActivity {
         allCkLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(idCbSelectAll.isChecked()){
+                if (idCbSelectAll.isChecked()) {
                     idCbSelectAll.setChecked(false);
                     ck_list.clear();
-                }else{
+                } else {
                     idCbSelectAll.setChecked(true);
-                    for(HistoryGoodsResponse.UserOperationListBean item:hglist){
+                    for (HistoryGoodsResponse.UserOperationListBean item : hglist) {
                         ck_list.add(item.getId());
                     }
                 }
@@ -230,18 +230,18 @@ public class HistoryGoodsActivity extends BaseActivity {
         idTvDeleteAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<String> operationIDs=new ArrayList<>();
-                if(tempDellist.size()>0)return;
+                List<String> operationIDs = new ArrayList<>();
+                if (tempDellist.size() > 0) return;
                 tempDellist.addAll(hglist);
-                for(HistoryGoodsResponse.UserOperationListBean g:hglist){
-                    if(ck_list.contains(g.getId())){
+                for (HistoryGoodsResponse.UserOperationListBean g : hglist) {
+                    if (ck_list.contains(g.getId())) {
                         tempDellist.remove(g);
                         operationIDs.add(g.getId());
                     }
                 }
-                if(operationIDs.size()==0){
+                if (operationIDs.size() == 0) {
                     tempDellist.clear();
-                    ToastUtils.showToast(HistoryGoodsActivity.this,"请选择您要删除的足迹!");
+                    ToastUtils.showToast(HistoryGoodsActivity.this, "请选择您要删除的足迹!");
                 }
                 UserServiceImpl.instance().DelHistoryGoods(operationIDs, "5", DelHistoryGoodsResponse.class.getName());
             }
@@ -331,15 +331,8 @@ public class HistoryGoodsActivity extends BaseActivity {
         headView.setRightText("清空");
     }
 
-    //初始化空View
-    private void initEmtyView() {
-        no_history = V.f(this, R.id.no_history);
-        ImageView tips_pic = V.f(this, R.id.tips_pic);
-        tips_pic.setImageResource(R.drawable.bg_icon_mytracks);
-        TextView tips = V.f(this, R.id.tips);
-        tips.setText("还没有留下您的足迹~");
-    }
-    private List<HistoryGoodsResponse.UserOperationListBean> tempDellist=new ArrayList<>();
+    private List<HistoryGoodsResponse.UserOperationListBean> tempDellist = new ArrayList<>();
+
     @Override
     public void onEventMainThread(BaseResponse event) {
         if (event instanceof NoticeEvent) {
@@ -367,7 +360,7 @@ public class HistoryGoodsActivity extends BaseActivity {
             if (tag.equals(HistoryGoodsResponse.class.getName())) {
                 isloading = false;
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
-                    Log.e("sub",result);
+                    Log.e("sub", result);
                     HistoryGoodsResponse historyGoodsResponse = GsonHelper.toType(result, HistoryGoodsResponse.class);
                     if (Constants.SUCESS_CODE.equals(historyGoodsResponse.getResultCode())) {
                         count = historyGoodsResponse.getTotalCount();
@@ -391,7 +384,7 @@ public class HistoryGoodsActivity extends BaseActivity {
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     DelHistoryGoodsResponse delHistoryGoodsResponse = GsonHelper.toType(result, DelHistoryGoodsResponse.class);
                     if (Constants.SUCESS_CODE.equals(delHistoryGoodsResponse.getResultCode())) {
-                        if (tempDellist.size()>0) {
+                        if (tempDellist.size() > 0) {
                             hglist.clear();
                             hglist.addAll(tempDellist);
                             tempDellist.clear();

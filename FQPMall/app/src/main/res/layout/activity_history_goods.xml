@@ -56,10 +56,24 @@
         android:overScrollMode="never"
         android:scrollbars="none">
     </com.fengqipu.mall.view.RefreshListView>
-    <include
-        android:id="@+id/no_history"
-        layout="@layout/listview_empty"
-        />
+        <LinearLayout
+            android:id="@+id/emtry_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@color/white"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/bg_icon_mytracks"/>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="还没有您的足迹~"
+                android:textColor="@color/gray"/>
+        </LinearLayout>
     </LinearLayout>
     <RelativeLayout
         android:id="@+id/id_rl_foot"
