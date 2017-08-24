@@ -18,6 +18,7 @@ import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.main.acty.index.zfb.NoticeListActivity;
 import com.fengqipu.mall.main.base.CommonWebViewActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PublicNoticeView extends LinearLayout {
@@ -54,7 +55,9 @@ public class PublicNoticeView extends LinearLayout {
         mScrollTitleView.findViewById(R.id.right_iv).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, NoticeListActivity.class));
+                if(noticeList1.size()>0) {
+                    mContext.startActivity(new Intent(mContext, NoticeListActivity.class));
+                }
             }
         });
         mViewFlipper.setInAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slide_in_bottom));
@@ -65,8 +68,11 @@ public class PublicNoticeView extends LinearLayout {
     /**
      * 网络请求内容后进行适配
      */
+    List<NoticeListBean> noticeList1 =new ArrayList<>();
     public void bindNotices(final List<NoticeListBean> noticeList) {
         mViewFlipper.removeAllViews();
+        noticeList1.clear();
+        noticeList1.addAll(noticeList);
         int i = 0;
         while (i < noticeList.size()) {
             RelativeLayout showView = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.item_notice_view, null);

@@ -70,6 +70,8 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
     TextView btnSx;
     @Bind(R.id.my_listview)
     RefreshListView myListview;
+    @Bind(R.id.emtry_ll)
+    LinearLayout emtryLl;
     private CommonAdapter<SearchShopsResponse.ShopListBean> lAdapter;
     private List<SearchShopsResponse.ShopListBean> goodsList = new ArrayList<>();
     String keyword = "";
@@ -138,7 +140,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
                 if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrlRequestUrl())) {
                     GeneralUtils.setImageViewWithUrl(SearchShopsActivity.this, item.getPicUrlRequestUrl(),
                             comment_head_iv,
-                            R.drawable.default_bg);
+                            R.drawable.bg_image_classification);
                 }
                 MyGridView gridView = helper.getView(R.id.my_grid_view);
                 LinearLayout image_ll = helper.getView(R.id.image_ll);
@@ -151,7 +153,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
                             if (GeneralUtils.isNotNullOrZeroLenght(item)) {
                                 GeneralUtils.setImageViewWithUrl(SearchShopsActivity.this, item,
                                         iv_pic,
-                                        R.drawable.default_bg);
+                                        R.drawable.bg_image_classification);
                             }
                         }
                     };
@@ -162,12 +164,13 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
             }
         };
         myListview.setAdapter(lAdapter);
+        myListview.setEmptyView(emtryLl);
         myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                SearchShopsResponse.ShopListBean item=(SearchShopsResponse.ShopListBean)adapterView.getItemAtPosition(i);
-                Intent intent=new Intent(SearchShopsActivity.this, EnterpriseActivity.class);
-                intent.putExtra("sid",item.getId());
+                SearchShopsResponse.ShopListBean item = (SearchShopsResponse.ShopListBean) adapterView.getItemAtPosition(i);
+                Intent intent = new Intent(SearchShopsActivity.this, EnterpriseActivity.class);
+                intent.putExtra("sid", item.getId());
                 startActivity(intent);
             }
         });
@@ -300,7 +303,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
 //                Drawable arraw = getResources().getDrawable(R.mipmap.icon_arrow_red);
 //                arraw.setBounds(0, 0, arraw.getMinimumWidth(), arraw.getMinimumHeight());
 //                btnSx.setCompoundDrawables(null, null, arraw, null);
-                startActivity(new Intent(SearchShopsActivity.this,SearchCategoryActivity.class));
+                startActivity(new Intent(SearchShopsActivity.this, SearchCategoryActivity.class));
                 break;
         }
     }
@@ -319,9 +322,9 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
             if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
             }
-            if("SearchCategory".equals(tag)){
-                String str=((NoticeEvent) event).getUrl1();
-                category2=str;
+            if ("SearchCategory".equals(tag)) {
+                String str = ((NoticeEvent) event).getUrl1();
+                category2 = str;
                 initData();
             }
         } else if (event instanceof NetResponseEvent) {

@@ -242,7 +242,7 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
                             initBanner(bannerListBeen);
                         }
                         if (shopDetailResponse.getShop().getPicUrlRequestUrl() != null && !shopDetailResponse.getShop().getPicUrlRequestUrl().equals("")) {
-                            GeneralUtils.setImageViewWithUrl(EnterpriseActivity.this, shopDetailResponse.getShop().getPicUrlRequestUrl(), ivImg, R.drawable.default_bg);
+                            GeneralUtils.setImageViewWithUrl(EnterpriseActivity.this, shopDetailResponse.getShop().getPicUrlRequestUrl(), ivImg, R.drawable.bg_image_classification);
                         }
                         tvShopname.setText(shopDetailResponse.getShop().getShopName() + "");
                         tvNotice.setText(shopDetailResponse.getShop().getNotice() + "");
@@ -355,7 +355,7 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
 
     private void bannerFirstInit() {
         //第一次展示默认本地图片
-        localImages.add(R.drawable.bg_banner_classification);//默认图片
+        localImages.add(R.drawable.bg_banner_enterprisedetails);//默认图片
         indexBanner.setPages(
                 new CBViewHolderCreator<LocalImageHolderView>() {
                     @Override

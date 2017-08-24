@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.location.LocationClient;
@@ -79,6 +80,8 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
     GridView myGridview;
     @Bind(R.id.scrollView)
     ScrollBottomScrollView scrollView;
+    @Bind(R.id.emtry_ll)
+    LinearLayout emtryLl;
     private CommonAdapter<SearchGoodsResponse.ContentListBean> lAdapter;
     private CommonAdapter<SearchGoodsResponse.ContentListBean> gAdapter;
     private List<SearchGoodsResponse.ContentListBean> goodsList = new ArrayList<>();
@@ -88,7 +91,7 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
     int pageNum = 1;
     int pageSize = 10;
     private boolean isloading = false;
-    int totalCount=0;
+    int totalCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +112,9 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
         NetLoadingDialog.getInstance().loading(SearchGoodsActivity.this);
         initBtmList();
     }
-    private String contentType="";
+
+    private String contentType = "";
+
     private void initBtmList() {
 //        myLoading.setVisibility(View.GONE);
 //        myListview.loadComplete();
@@ -123,13 +128,13 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
 //        goodsList.add(g5);
 //        lAdapter.notifyDataSetChanged();
 //        gAdapter.notifyDataSetChanged();
-        UserServiceImpl.instance().getSearchGList(selCityName,minPrice,maxPrice, category2,contentType, etSearch.getText().toString(), order + "", jgtype + "", pageNum, pageSize, SearchGoodsResponse.class.getName());
+        UserServiceImpl.instance().getSearchGList(selCityName, minPrice, maxPrice, category2, contentType, etSearch.getText().toString(), order + "", jgtype + "", pageNum, pageSize, SearchGoodsResponse.class.getName());
     }
 
     private int order = 1;
-    String minPrice="";
-    String maxPrice="";
-    String selCityName="";
+    String minPrice = "";
+    String maxPrice = "";
+    String selCityName = "";
 
     @Override
     public void initViewData() {
@@ -138,11 +143,11 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
             public void convert(ViewHolder helper, SearchGoodsResponse.ContentListBean item) {
                 helper.setText(R.id.goods_info, item.getContentName());
                 helper.setText(R.id.goods_price, "￥" + item.getPrice());
-                helper.setText(R.id.goods_time,""+item.getCreateTime());
+                helper.setText(R.id.goods_time, "" + item.getCreateTime());
                 if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrl1RequestUrl())) {
                     ImageView img = helper.getView(R.id.img);
 //                            ImageLoaderUtil.getInstance().initImage(mContext, item.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
-                    GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl1RequestUrl(), img, R.drawable.default_head);
+                    GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl1RequestUrl(), img, R.drawable.bg_image_classification);
                 }
             }
         };
@@ -156,7 +161,7 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
                 TextView price = helper.getView(R.id.price);
 //                TextView hpd=helper.getView(R.id.hpd);
                 if (item.getPicUrl1RequestUrl() != null && !item.getPicUrl1RequestUrl().equals("")) {
-                    GeneralUtils.setImageViewWithUrl(SearchGoodsActivity.this, item.getPicUrl1RequestUrl(), img, R.drawable.default_bg);
+                    GeneralUtils.setImageViewWithUrl(SearchGoodsActivity.this, item.getPicUrl1RequestUrl(), img, R.drawable.bg_image_classification);
                 }
                 title.setText("" + item.getContentName());
                 location.setText("" + item.getShopProvince() + " " + item.getShopCity());
@@ -170,21 +175,23 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
         };
         myListview.setAdapter(lAdapter);
         myGridview.setAdapter(gAdapter);
+        myListview.setEmptyView(emtryLl);
+        myGridview.setEmptyView(emtryLl);
         myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                SearchGoodsResponse.ContentListBean item=(SearchGoodsResponse.ContentListBean)adapterView.getItemAtPosition(i);
-                Intent intent=new Intent(SearchGoodsActivity.this, GoodsDetailActivity.class);
-                intent.putExtra("contentID",item.getId());
+                SearchGoodsResponse.ContentListBean item = (SearchGoodsResponse.ContentListBean) adapterView.getItemAtPosition(i);
+                Intent intent = new Intent(SearchGoodsActivity.this, GoodsDetailActivity.class);
+                intent.putExtra("contentID", item.getId());
                 startActivity(intent);
             }
         });
         myGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                SearchGoodsResponse.ContentListBean item=(SearchGoodsResponse.ContentListBean)adapterView.getItemAtPosition(i);
-                Intent intent=new Intent(SearchGoodsActivity.this, GoodsDetailActivity.class);
-                intent.putExtra("contentID",item.getId());
+                SearchGoodsResponse.ContentListBean item = (SearchGoodsResponse.ContentListBean) adapterView.getItemAtPosition(i);
+                Intent intent = new Intent(SearchGoodsActivity.this, GoodsDetailActivity.class);
+                intent.putExtra("contentID", item.getId());
                 startActivity(intent);
             }
         });
@@ -255,7 +262,7 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
 
     private void searchKeyWord() {
         if (GeneralUtils.isNotNullOrZeroLenght(etSearch.getText().toString())) {
-            Global.addSearchHistory(searchType,etSearch.getText().toString());
+            Global.addSearchHistory(searchType, etSearch.getText().toString());
             initData();
         } else {
             ToastUtil.makeText(mContext, "请输入搜索内容");
@@ -348,10 +355,10 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
 //                Drawable nav_original2 = getResources().getDrawable(R.mipmap.price_original);
 //                nav_original2.setBounds(0, 0, nav_original2.getMinimumWidth(), nav_original2.getMinimumHeight());
 //                btnJg.setCompoundDrawables(null, null, nav_original2, null);
-                if(shaiXuanDialog==null&&cityResponse!=null) {
-                    shaiXuanDialog = new ShaiXuanDialog(SearchGoodsActivity.this, cityResponse,0);
+                if (shaiXuanDialog == null && cityResponse != null) {
+                    shaiXuanDialog = new ShaiXuanDialog(SearchGoodsActivity.this, cityResponse, 0);
                 }
-                if(shaiXuanDialog!=null){
+                if (shaiXuanDialog != null) {
                     shaiXuanDialog.show();
                     shaiXuanDialog.setBtnCzListener(new View.OnClickListener() {
                         @Override
@@ -359,20 +366,20 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
                             shaiXuanDialog.minPrice.setText("");
                             shaiXuanDialog.maxPrice.setText("");
                             shaiXuanDialog.fenleiTv.setText("全部");
-                            category2="";
-                            minPrice="";
-                            maxPrice="";
-                            shaiXuanDialog.selID="";
-                            shaiXuanDialog.selName="";
+                            category2 = "";
+                            minPrice = "";
+                            maxPrice = "";
+                            shaiXuanDialog.selID = "";
+                            shaiXuanDialog.selName = "";
                             shaiXuanDialog.mAdapter.notifyDataSetChanged();
                         }
                     });
                     shaiXuanDialog.setBtnConfirmListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            minPrice=shaiXuanDialog.minPrice.getText().toString();
-                            maxPrice=shaiXuanDialog.maxPrice.getText().toString();
-                            selCityName=shaiXuanDialog.selName;
+                            minPrice = shaiXuanDialog.minPrice.getText().toString();
+                            maxPrice = shaiXuanDialog.maxPrice.getText().toString();
+                            selCityName = shaiXuanDialog.selName;
                             initData();
                             shaiXuanDialog.dismiss();
                         }
@@ -381,15 +388,18 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
                 break;
         }
     }
+
     ShaiXuanDialog shaiXuanDialog;
+
     private void initTopBtn() {
         btnZh.setTextColor(Color.parseColor("#4A4A4A"));
         btnXl.setTextColor(Color.parseColor("#4A4A4A"));
         btnJg.setTextColor(Color.parseColor("#4A4A4A"));
         btnSx.setTextColor(Color.parseColor("#4A4A4A"));
     }
+
     CityResponse cityResponse;
-    private String category2="";
+    private String category2 = "";
     private LocationClient mLocationClient;//定位SDK的核心类
 
     private void startLocation() {
@@ -411,6 +421,7 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
         option.setIsNeedAddress(true);//反编译获得具体位置，只有网络定位才可以
         mLocationClient.setLocOption(option);
     }
+
     @Override
     public void onEventMainThread(BaseResponse event) throws Exception {
         if (event instanceof NoticeEvent) {
@@ -418,17 +429,17 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
             if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
             }
-            if (tag.equals(NotiTag.TAG_LOCATION_SUCCESS)&& BaseApplication.currentActivity.equals(this.getClass().getName())) {
+            if (tag.equals(NotiTag.TAG_LOCATION_SUCCESS) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 if (mLocationClient != null) {
                     mLocationClient.stop();
                 }
             }
-            if("SearchCategory".equals(tag)){
-                String str=((NoticeEvent) event).getUrl1();
-                String str2=((NoticeEvent) event).getUrl2();
-                category2=str;
-                if(shaiXuanDialog!=null){
-                    shaiXuanDialog.fenleiTv.setText(str2+"");
+            if ("SearchCategory".equals(tag)) {
+                String str = ((NoticeEvent) event).getUrl1();
+                String str2 = ((NoticeEvent) event).getUrl2();
+                category2 = str;
+                if (shaiXuanDialog != null) {
+                    shaiXuanDialog.fenleiTv.setText(str2 + "");
                 }
             }
         } else if (event instanceof NetResponseEvent) {

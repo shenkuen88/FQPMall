@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fengqipu.mall.R;
@@ -46,6 +47,8 @@ public class CommentFragment extends BaseFragment implements View.OnClickListene
     PtrClassicFrameLayout refreshLayout;
     @Bind(R.id.tv_commentcount)
     TextView tvCommentcount;
+    @Bind(R.id.emtry_ll)
+    LinearLayout emtryLl;
 
 
     private CommonAdapter<GoodsCommentResponse.AppraiseListBean> mAdapter;
@@ -109,23 +112,23 @@ public class CommentFragment extends BaseFragment implements View.OnClickListene
         mAdapter = new CommonAdapter<GoodsCommentResponse.AppraiseListBean>(goodsDetailActivity, comentList, R.layout.item_product_comment) {
             @Override
             public void convert(ViewHolder helper, GoodsCommentResponse.AppraiseListBean item) {
-                ImageView comment_head_iv=helper.getView(R.id.comment_head_iv);
+                ImageView comment_head_iv = helper.getView(R.id.comment_head_iv);
                 if (item.getUserPortrait() != null && !item.getUserPortrait().equals("")) {
                     GeneralUtils.setImageViewWithUrl(goodsDetailActivity, item.getUserPortrait(), comment_head_iv, R.drawable.default_head);
                 }
-                TextView comment_name_tv=helper.getView(R.id.comment_name_tv);
-                comment_name_tv.setText(item.getUserNickName()+"");
-                TextView comment_content_tv=helper.getView(R.id.comment_content_tv);
-                comment_content_tv.setText(item.getText()+"");
-                TextView comment_time_tv=helper.getView(R.id.comment_time_tv);
+                TextView comment_name_tv = helper.getView(R.id.comment_name_tv);
+                comment_name_tv.setText(item.getUserNickName() + "");
+                TextView comment_content_tv = helper.getView(R.id.comment_content_tv);
+                comment_content_tv.setText(item.getText() + "");
+                TextView comment_time_tv = helper.getView(R.id.comment_time_tv);
                 comment_time_tv.setText(item.getCreateTimeShow());
-                MyGridView my_grid_view=helper.getView(R.id.my_grid_view);
-                CommonAdapter<String> gadapter=new CommonAdapter<String>(goodsDetailActivity,item.getPicUrlList(),R.layout.item_pic) {
+                MyGridView my_grid_view = helper.getView(R.id.my_grid_view);
+                CommonAdapter<String> gadapter = new CommonAdapter<String>(goodsDetailActivity, item.getPicUrlList(), R.layout.item_pic) {
                     @Override
                     public void convert(ViewHolder helper, String item) {
-                        ImageView iv_pic=helper.getView(R.id.iv_pic);
+                        ImageView iv_pic = helper.getView(R.id.iv_pic);
                         if (item != null && !item.equals("")) {
-                            GeneralUtils.setImageViewWithUrl(goodsDetailActivity, item, iv_pic, R.drawable.default_bg);
+                            GeneralUtils.setImageViewWithUrl(goodsDetailActivity, item, iv_pic, R.drawable.bg_image_classification);
                         }
                     }
                 };
@@ -148,6 +151,7 @@ public class CommentFragment extends BaseFragment implements View.OnClickListene
             }
         });
         myListview.setAdapter(mAdapter);
+        myListview.setEmptyView(emtryLl);
 //        myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -248,8 +252,8 @@ public class CommentFragment extends BaseFragment implements View.OnClickListene
             String tag = ((NoticeEvent) event).getTag();
             if (tag.equals("COMMENTREFRESH")) {
                 tvCommentcount.setText("其他小伙伴怎么说(" + goodsDetailActivity.goodsCommentResponse.getTotalCount() + ")");
-                if(goodsDetailActivity.goodsCommentResponse.getAppraiseList()!=null
-                        &&goodsDetailActivity.goodsCommentResponse.getAppraiseList().size()>0){
+                if (goodsDetailActivity.goodsCommentResponse.getAppraiseList() != null
+                        && goodsDetailActivity.goodsCommentResponse.getAppraiseList().size() > 0) {
                     comentList.clear();
                     myListview.loadComplete();
                     comentList.addAll(goodsDetailActivity.goodsCommentResponse.getAppraiseList());

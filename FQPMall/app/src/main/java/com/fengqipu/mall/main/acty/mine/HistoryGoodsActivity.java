@@ -335,9 +335,9 @@ public class HistoryGoodsActivity extends BaseActivity {
     private void initEmtyView() {
         no_history = V.f(this, R.id.no_history);
         ImageView tips_pic = V.f(this, R.id.tips_pic);
-        tips_pic.setImageResource(R.mipmap.collectx);
+        tips_pic.setImageResource(R.drawable.bg_icon_mytracks);
         TextView tips = V.f(this, R.id.tips);
-        tips.setText("暂无足迹~");
+        tips.setText("还没有留下您的足迹~");
     }
     private List<HistoryGoodsResponse.UserOperationListBean> tempDellist=new ArrayList<>();
     @Override

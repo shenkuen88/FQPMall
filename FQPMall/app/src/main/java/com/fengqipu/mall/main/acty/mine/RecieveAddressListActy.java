@@ -109,8 +109,8 @@ public class RecieveAddressListActy extends BaseActivity
         noAddressView = V.f(this, R.id.no_history);
         ImageView tips_pic = V.f(this, R.id.tips_pic);
         TextView tips = V.f(this, R.id.tips);
+        tips_pic.setImageResource(R.drawable.bg_icon_address);
         tips.setText("还未添加收货地址~");
-        noAddressView.setVisibility(View.GONE);
     }
 
     List<CheckBox> cbList = new ArrayList<>();
@@ -185,6 +185,7 @@ public class RecieveAddressListActy extends BaseActivity
                     }
                 };
         lvAddress.setAdapter(mAdapter);
+        lvAddress.setEmptyView(noAddressView);
         View bottom = LayoutInflater.from(mContext).inflate(R.layout.line_thin_view, null);
         lvAddress.addFooterView(bottom);
         initLeftSlideList(lvAddress);

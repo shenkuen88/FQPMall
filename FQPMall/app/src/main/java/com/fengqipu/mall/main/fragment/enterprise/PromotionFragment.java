@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fengqipu.mall.R;
@@ -61,13 +62,16 @@ public class PromotionFragment extends BaseFragment implements View.OnClickListe
     PtrClassicFrameLayout refreshLayout;
     @Bind(R.id.scrollView)
     ScrollBottomScrollView scrollView;
+    @Bind(R.id.emtry_ll)
+    LinearLayout emtryLl;
 
     private CommonAdapter<PromotionShopListResponse.ContentListBean> gAdapter;
     private List<PromotionShopListResponse.ContentListBean> goodsList = new ArrayList<>();
     int pageNum = 1;
     int pageSize = 10;
-    private boolean isloading=false;
-    private int tolalNum=0;
+    private boolean isloading = false;
+    private int tolalNum = 0;
+
     public PromotionFragment() {
         // Required empty public constructor
     }
@@ -144,22 +148,23 @@ public class PromotionFragment extends BaseFragment implements View.OnClickListe
             }
         };
         myGridview.setAdapter(gAdapter);
+        myGridview.setEmptyView(emtryLl);
         myGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ZongHeShopListResponse.ContentListBean item = (ZongHeShopListResponse.ContentListBean) adapterView.getItemAtPosition(i);
-                if(Global.getuserType().equals("1")) {
+                if (Global.getuserType().equals("1")) {
                     Intent intent = new Intent(enterpriseActivity, GoodsEnterpriseActivity.class);
-                    intent.putExtra("contentID",item.getId());
+                    intent.putExtra("contentID", item.getId());
                     intent.putExtra("contentType", item.getContentType());
                     intent.putExtra("category2", item.getCategory2());
                     intent.putExtra("model", item.getModel());
                     intent.putExtra("picurl", item.getPicUrl1RequestUrl());
                     intent.putExtra("name", item.getContentName());
                     startActivity(intent);
-                }else{
+                } else {
                     Intent intent = new Intent(enterpriseActivity, GoodsDetailActivity.class);
-                    intent.putExtra("contentID",item.getId());
+                    intent.putExtra("contentID", item.getId());
                     startActivity(intent);
                 }
             }
@@ -169,7 +174,7 @@ public class PromotionFragment extends BaseFragment implements View.OnClickListe
             public void scrollBottom() {
                 if (isloading) return;
                 if (pageNum * pageSize >= tolalNum) return;
-                isloading=true;
+                isloading = true;
                 pageNum = pageNum + 1;
                 initBtmList();
             }
@@ -179,7 +184,7 @@ public class PromotionFragment extends BaseFragment implements View.OnClickListe
 
     private void initData() {
         //请求底部列表接口
-        pageNum=1;
+        pageNum = 1;
         initBtmList();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -270,8 +275,8 @@ public class PromotionFragment extends BaseFragment implements View.OnClickListe
                         if (pageNum == 1) {
                             goodsList.clear();
                         }
-                        isloading=false;
-                        tolalNum=promotionShopListResponse.getTotalCount();
+                        isloading = false;
+                        tolalNum = promotionShopListResponse.getTotalCount();
                         if (promotionShopListResponse.getContentList() != null && promotionShopListResponse.getContentList().size() > 0) {
                             goodsList.addAll(promotionShopListResponse.getContentList());
                             gAdapter.setData(goodsList);

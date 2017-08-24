@@ -57,6 +57,8 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
     private static NewMyFavourActivity newMyFavourActivity;
     @Bind(R.id.my_listview)
     MySwipeMenuListView myListview;
+    @Bind(R.id.emtry_ll)
+    LinearLayout emtryLl;
 //    @Bind(R.id.refreshLayout)
 //    PtrClassicFrameLayout refreshLayout;
 
@@ -64,8 +66,9 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
     private List<ShopFavourResponse.FavoriteListBean> goodsList = new ArrayList<>();
     int pageNum = 1;
     int pageSize = 10;
-    int totalCount=0;
-    int lastVisibileItem=0;
+    int totalCount = 0;
+    int lastVisibileItem = 0;
+
     public FavourShopsFragment() {
         // Required empty public constructor
     }
@@ -117,8 +120,8 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
 //        });
         lAdapter = new CommonAdapter<ShopFavourResponse.FavoriteListBean>(newMyFavourActivity, goodsList, R.layout.item_shops) {
             @Override
-            public void convert(ViewHolder helper,final ShopFavourResponse.FavoriteListBean item) {
-                TextView comment_name_tv=helper.getView(R.id.comment_name_tv);
+            public void convert(ViewHolder helper, final ShopFavourResponse.FavoriteListBean item) {
+                TextView comment_name_tv = helper.getView(R.id.comment_name_tv);
                 comment_name_tv.setText(item.getObjectName());
                 ImageView comment_head_iv = helper.getView(R.id.comment_head_iv);
                 if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrlRequestUrl())) {
@@ -127,8 +130,8 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
                             R.drawable.default_bg);
                 }
                 GridView gridView = helper.getView(R.id.my_grid_view);
-                LinearLayout image_ll=helper.getView(R.id.image_ll);
-                if(item.getAdvPicUrlList()!=null&&item.getAdvPicUrlList().size()>0) {
+                LinearLayout image_ll = helper.getView(R.id.image_ll);
+                if (item.getAdvPicUrlList() != null && item.getAdvPicUrlList().size() > 0) {
                     image_ll.setVisibility(View.VISIBLE);
                     CommonAdapter<String> gadapter = new CommonAdapter<String>(newMyFavourActivity, item.getAdvPicUrlList(), R.layout.item_pic) {
                         @Override
@@ -143,7 +146,7 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
                     };
                     gridView.setAdapter(gadapter);
                     CommonMethod.setListViewHeightBasedOnChildren(gridView);
-                }else{
+                } else {
                     image_ll.setVisibility(View.GONE);
                 }
                 comment_name_tv.setOnClickListener(new View.OnClickListener() {
@@ -177,8 +180,8 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onScrollStateChanged(AbsListView absListView, int scrollState) {
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && (lastVisibileItem + 1) == myListview.getCount())
-                if (pageNum * pageSize >= totalCount) return;
-                pageNum=pageNum+1;
+                    if (pageNum * pageSize >= totalCount) return;
+                pageNum = pageNum + 1;
                 initBtmList();
             }
 
@@ -188,13 +191,14 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
             }
         });
         myListview.setAdapter(lAdapter);
+        myListview.setEmptyView(emtryLl);
         initLeftSlideList(myListview);
         initData();
     }
 
     private void initData() {
         //请求底部列表接口
-        pageNum=1;
+        pageNum = 1;
         initBtmList();
 //        new Handler().postDelayed(new Runnable() {
 //            @Override
@@ -221,7 +225,7 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
 //        goodsList.add(g4);
 //        goodsList.add(g5);
 //        lAdapter.notifyDataSetChanged();
-        UserServiceImpl.instance().getFavourList(newMyFavourActivity,"2",pageNum+"",pageSize+"", ShopFavourResponse.class.getName());
+        UserServiceImpl.instance().getFavourList(newMyFavourActivity, "2", pageNum + "", pageSize + "", ShopFavourResponse.class.getName());
     }
 
     public float scaleWidth;
@@ -302,15 +306,17 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
                     @Override
                     public void run() {
                         //删除
-                       delitem = goodsList.get(position);
-                       UserServiceImpl.instance().DelFavour(delitem.getId(),delitem.getObjectType()+"",delitem.getObjectID(), DelFavourResponse.class.getName());
+                        delitem = goodsList.get(position);
+                        UserServiceImpl.instance().DelFavour(delitem.getId(), delitem.getObjectType() + "", delitem.getObjectID(), DelFavourResponse.class.getName());
                     }
-                },300);
+                }, 300);
                 return false;
             }
         });
     }
+
     private ShopFavourResponse.FavoriteListBean delitem;
+
     @Override
     public void onEventMainThread(BaseResponse event) throws Exception {
         if (event instanceof NoticeEvent) {
@@ -326,7 +332,7 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
                         if (pageNum == 1) {
                             goodsList.clear();
                         }
-                        totalCount=favourResponse.getTotalCount();
+                        totalCount = favourResponse.getTotalCount();
                         if (favourResponse.getFavoriteList() != null && favourResponse.getFavoriteList().size() > 0) {
                             goodsList.addAll(favourResponse.getFavoriteList());
                         }
@@ -343,12 +349,12 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     CMLog.e(Constants.HTTP_TAG, result);
                     if (Constants.SUCESS_CODE.equals(delFavourResponse.getResultCode())) {
-                        if(delitem!=null){
+                        if (delitem != null) {
                             goodsList.remove(delitem);
                             lAdapter.setData(goodsList);
                             lAdapter.notifyDataSetChanged();
-                        }else{
-                            pageNum=1;
+                        } else {
+                            pageNum = 1;
                             initBtmList();
                         }
                     } else {

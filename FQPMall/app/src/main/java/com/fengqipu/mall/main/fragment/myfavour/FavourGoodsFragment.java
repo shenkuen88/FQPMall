@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.adapter.CommonAdapter;
@@ -53,6 +54,8 @@ public class FavourGoodsFragment extends BaseFragment implements View.OnClickLis
     private static NewMyFavourActivity newMyFavourActivity;
     @Bind(R.id.my_listview)
     MySwipeMenuListView myListview;
+    @Bind(R.id.emtry_ll)
+    LinearLayout emtryLl;
 //    @Bind(R.id.refreshLayout)
 //    PtrClassicFrameLayout refreshLayout;
 
@@ -60,8 +63,9 @@ public class FavourGoodsFragment extends BaseFragment implements View.OnClickLis
     private List<GoodsFavourResponse.FavoriteListBean> goodsList = new ArrayList<>();
     int pageNum = 1;
     int pageSize = 10;
-    int totalCount=0;
-    int lastVisibileItem=0;
+    int totalCount = 0;
+    int lastVisibileItem = 0;
+
     public FavourGoodsFragment() {
         // Required empty public constructor
     }
@@ -126,7 +130,7 @@ public class FavourGoodsFragment extends BaseFragment implements View.OnClickLis
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(newMyFavourActivity, GoodsDetailActivity.class);
-                        intent.putExtra("contentID",item.getObjectID());
+                        intent.putExtra("contentID", item.getObjectID());
                         startActivity(intent);
                     }
                 });
@@ -136,7 +140,7 @@ public class FavourGoodsFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onScrollStateChanged(AbsListView absListView, int scrollState) {
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && (lastVisibileItem + 1) == myListview.getCount())
-                    pageNum=pageNum+1;
+                    pageNum = pageNum + 1;
                 if (pageNum * pageSize >= totalCount) return;
                 initBtmList();
             }
@@ -156,13 +160,14 @@ public class FavourGoodsFragment extends BaseFragment implements View.OnClickLis
 //            }
 //        });
         myListview.setAdapter(lAdapter);
+        myListview.setEmptyView(emtryLl);
         initLeftSlideList(myListview);
         initData();
     }
 
     private void initData() {
         //请求底部列表接口
-        pageNum=1;
+        pageNum = 1;
         initBtmList();
 //        new Handler().postDelayed(new Runnable() {
 //            @Override
@@ -189,7 +194,7 @@ public class FavourGoodsFragment extends BaseFragment implements View.OnClickLis
 //        goodsList.add(g4);
 //        goodsList.add(g5);
 //        lAdapter.notifyDataSetChanged();
-        UserServiceImpl.instance().getFavourList(newMyFavourActivity,"1",pageNum+"",pageSize+"", GoodsFavourResponse.class.getName());
+        UserServiceImpl.instance().getFavourList(newMyFavourActivity, "1", pageNum + "", pageSize + "", GoodsFavourResponse.class.getName());
     }
 
     public float scaleWidth;
@@ -271,14 +276,16 @@ public class FavourGoodsFragment extends BaseFragment implements View.OnClickLis
                     public void run() {
                         //删除
                         delitem = goodsList.get(position);
-                        UserServiceImpl.instance().DelFavour(delitem.getId(),delitem.getObjectType()+"",delitem.getObjectID(), DelFavourResponse.class.getName());
+                        UserServiceImpl.instance().DelFavour(delitem.getId(), delitem.getObjectType() + "", delitem.getObjectID(), DelFavourResponse.class.getName());
                     }
-                },300);
+                }, 300);
                 return false;
             }
         });
     }
+
     private GoodsFavourResponse.FavoriteListBean delitem;
+
     @Override
     public void onEventMainThread(BaseResponse event) throws Exception {
         if (event instanceof NoticeEvent) {
@@ -294,7 +301,7 @@ public class FavourGoodsFragment extends BaseFragment implements View.OnClickLis
                         if (pageNum == 1) {
                             goodsList.clear();
                         }
-                        totalCount=favourResponse.getTotalCount();
+                        totalCount = favourResponse.getTotalCount();
                         if (favourResponse.getFavoriteList() != null && favourResponse.getFavoriteList().size() > 0) {
                             goodsList.addAll(favourResponse.getFavoriteList());
                         }
@@ -311,12 +318,12 @@ public class FavourGoodsFragment extends BaseFragment implements View.OnClickLis
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     CMLog.e(Constants.HTTP_TAG, result);
                     if (Constants.SUCESS_CODE.equals(delFavourResponse.getResultCode())) {
-                        if(delitem!=null){
+                        if (delitem != null) {
                             goodsList.remove(delitem);
                             lAdapter.setData(goodsList);
                             lAdapter.notifyDataSetChanged();
-                        }else{
-                            pageNum=1;
+                        } else {
+                            pageNum = 1;
                             initBtmList();
                         }
                     } else {

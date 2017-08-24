@@ -158,7 +158,7 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                     public void convert(ViewHolder helper, String item) {
                         ImageView iv_pic = helper.getView(R.id.iv_pic);
                         if (item != null && !item.equals("")) {
-                            GeneralUtils.setImageViewWithUrl(goodsDetailActivity, item, iv_pic, R.drawable.default_bg);
+                            GeneralUtils.setImageViewWithUrl(goodsDetailActivity, item, iv_pic, R.drawable.bg_image_classification);
                         }
                     }
                 };

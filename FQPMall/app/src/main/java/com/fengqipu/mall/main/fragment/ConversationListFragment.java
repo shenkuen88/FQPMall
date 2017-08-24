@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -48,7 +49,7 @@ public class ConversationListFragment extends Fragment {
 
 	private ConversationAdapter adapter;
 	private final List<Conversation> conversationList = new ArrayList<>();
-
+	private LinearLayout emtryLl;
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,8 +60,9 @@ public class ConversationListFragment extends Fragment {
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		ListView mListView = (ListView) getView().findViewById(R.id.listview);
-
+		emtryLl = (LinearLayout) getView().findViewById(R.id.emtry_ll);
 		mListView.setAdapter(adapter = new ConversationAdapter(getContext(), 1, conversationList));
+		mListView.setEmptyView(emtryLl);
 		loadConversationList();
 		adapter.notifyDataSetChanged();
 		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

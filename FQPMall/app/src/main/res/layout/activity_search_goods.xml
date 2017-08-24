@@ -181,6 +181,25 @@
             android:scrollbars="none"
             android:visibility="gone"
             android:verticalSpacing="5dp"></GridView>
+
+        <LinearLayout
+            android:id="@+id/emtry_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@color/white"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/bg_icon_enterprisedetails"/>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="暂无商品"
+                android:textColor="@color/gray"/>
+        </LinearLayout>
     </LinearLayout>
     </com.fengqipu.mall.view.ScrollBottomScrollView>
 

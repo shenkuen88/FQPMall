@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fengqipu.mall.R;
@@ -77,8 +78,10 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
     ScrollBottomScrollView scrollView;
     int pageNum = 1;
     int pageSize = 10;
-    private boolean isloading=false;
-    private int tolalNum=0;
+    @Bind(R.id.emtry_ll)
+    LinearLayout emtryLl;
+    private boolean isloading = false;
+    private int tolalNum = 0;
     private CommonAdapter<ZongHeShopListResponse.ContentListBean> lAdapter;
     private CommonAdapter<ZongHeShopListResponse.ContentListBean> gAdapter;
     private List<ZongHeShopListResponse.ContentListBean> goodsList = new ArrayList<>();
@@ -145,7 +148,7 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
             public void convert(ViewHolder helper, ZongHeShopListResponse.ContentListBean item) {
                 helper.setText(R.id.goods_info, item.getContentName());
                 helper.setText(R.id.goods_price, "￥" + item.getPrice());
-                helper.setText(R.id.goods_time,""+item.getCreateTime());
+                helper.setText(R.id.goods_time, "" + item.getCreateTime());
                 if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrl1RequestUrl())) {
                     ImageView img = helper.getView(R.id.img);
 //                            ImageLoaderUtil.getInstance().initImage(mContext, item.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
@@ -178,22 +181,24 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
         };
         myListview.setAdapter(lAdapter);
         myGridview.setAdapter(gAdapter);
+        myListview.setEmptyView(emtryLl);
+        myGridview.setEmptyView(emtryLl);
         myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ZongHeShopListResponse.ContentListBean item = (ZongHeShopListResponse.ContentListBean) adapterView.getItemAtPosition(i);
-                if(Global.getuserType().equals("1")) {
+                if (Global.getuserType().equals("1")) {
                     Intent intent = new Intent(enterpriseActivity, GoodsEnterpriseActivity.class);
-                    intent.putExtra("contentID",item.getId());
+                    intent.putExtra("contentID", item.getId());
                     intent.putExtra("contentType", item.getContentType());
                     intent.putExtra("category2", item.getCategory2());
                     intent.putExtra("model", item.getModel());
                     intent.putExtra("picurl", item.getPicUrl1RequestUrl());
                     intent.putExtra("name", item.getContentName());
                     startActivity(intent);
-                }else{
+                } else {
                     Intent intent = new Intent(enterpriseActivity, GoodsDetailActivity.class);
-                    intent.putExtra("contentID",item.getId());
+                    intent.putExtra("contentID", item.getId());
                     startActivity(intent);
                 }
             }
@@ -202,18 +207,18 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ZongHeShopListResponse.ContentListBean item = (ZongHeShopListResponse.ContentListBean) adapterView.getItemAtPosition(i);
-                if(Global.getuserType().equals("1")) {
+                if (Global.getuserType().equals("1")) {
                     Intent intent = new Intent(enterpriseActivity, GoodsEnterpriseActivity.class);
-                    intent.putExtra("contentID",item.getId());
+                    intent.putExtra("contentID", item.getId());
                     intent.putExtra("contentType", item.getContentType());
                     intent.putExtra("category2", item.getCategory2());
                     intent.putExtra("model", item.getModel());
                     intent.putExtra("picurl", item.getPicUrl1RequestUrl());
                     intent.putExtra("name", item.getContentName());
                     startActivity(intent);
-                }else{
+                } else {
                     Intent intent = new Intent(enterpriseActivity, GoodsDetailActivity.class);
-                    intent.putExtra("contentID",item.getId());
+                    intent.putExtra("contentID", item.getId());
                     startActivity(intent);
                 }
             }
@@ -237,7 +242,7 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
 
     private void initData() {
         //请求底部列表接口
-        pageNum=1;
+        pageNum = 1;
         initBtmList();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -264,7 +269,7 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
 //            lAdapter.notifyDataSetChanged();
 //            gAdapter.notifyDataSetChanged();
         NetLoadingDialog.getInstance().loading(enterpriseActivity);
-        UserServiceImpl.instance().getShopsList(enterpriseActivity, enterpriseActivity.sid,"1", order+"", jgtype+"", pageNum, pageSize, ZongHeShopListResponse.class.getName());
+        UserServiceImpl.instance().getShopsList(enterpriseActivity, enterpriseActivity.sid, "1", order + "", jgtype + "", pageNum, pageSize, ZongHeShopListResponse.class.getName());
     }
 
     public float scaleWidth;
@@ -289,7 +294,7 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
 
     int jgtype = 0;
 
-    private int order=1;
+    private int order = 1;
 
     @Override
     public void onClick(View view) {
@@ -312,7 +317,7 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
                 Drawable nav_original = getResources().getDrawable(R.mipmap.price_original);
                 nav_original.setBounds(0, 0, nav_original.getMinimumWidth(), nav_original.getMinimumHeight());
                 btnJg.setCompoundDrawables(null, null, nav_original, null);
-                order=1;
+                order = 1;
                 initData();
                 break;
             case R.id.btn_xl:
@@ -322,7 +327,7 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
                 Drawable nav_original1 = getResources().getDrawable(R.mipmap.price_original);
                 nav_original1.setBounds(0, 0, nav_original1.getMinimumWidth(), nav_original1.getMinimumHeight());
                 btnJg.setCompoundDrawables(null, null, nav_original1, null);
-                order=2;
+                order = 2;
                 initData();
                 break;
             case R.id.btn_jg:
@@ -344,7 +349,7 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
                     nav_down.setBounds(0, 0, nav_down.getMinimumWidth(), nav_down.getMinimumHeight());
                     btnJg.setCompoundDrawables(null, null, nav_down, null);
                 }
-                order=4;
+                order = 4;
                 initData();
                 break;
         }
@@ -391,8 +396,8 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
                         if (pageNum == 1) {
                             goodsList.clear();
                         }
-                        isloading=false;
-                        tolalNum=zongHeShopListResponse.getTotalCount();
+                        isloading = false;
+                        tolalNum = zongHeShopListResponse.getTotalCount();
                         if (zongHeShopListResponse.getContentList() != null && zongHeShopListResponse.getContentList().size() > 0) {
                             goodsList.addAll(zongHeShopListResponse.getContentList());
                             gAdapter.setData(goodsList);
