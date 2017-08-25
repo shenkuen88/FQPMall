@@ -267,7 +267,7 @@ public class OrderDetailActivity extends BaseActivity {
                 img.setImageResource(R.mipmap.pic4);
                 title.setText("交易成功");
                 break;
-            case "5":
+            case "6":
                 btn_sqth.setVisibility(View.GONE);
                 btn_ckwl.setVisibility(View.GONE);
                 btn_msfk.setVisibility(View.GONE);
