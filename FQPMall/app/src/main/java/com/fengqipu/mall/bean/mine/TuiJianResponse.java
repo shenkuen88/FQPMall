@@ -9,7 +9,22 @@ import java.util.List;
  */
 public class TuiJianResponse extends BaseResponse{
 
+
+    /**
+     * banner : {"id":null,"position":0,"shopID":null,"categoryID":null,"title":"111","cover":"https://img10.360buyimg.com/cms/s780x260_jfs/t6049/98/9696659757/13573/879641a0/5996c480N85f524ef.jpg!q90","openType":1,"link":"www.baidu.com","content":null,"toShopID":null,"toContentID":null,"createTime":null,"coverRequestUrl":"http://file.fengqipu.comhttps://img10.360buyimg.com/cms/s780x260_jfs/t6049/98/9696659757/13573/879641a0/5996c480N85f524ef.jpg!q90"}
+     * contentList : [{"id":"5","contentCode":"1717002001","contentName":"1毛测试商品","keyword":"22,33","category1":"1","category1Name":"电器","category2":"3","category2Name":"厨卫电器","contentType":"1","model":"","abstracts":"121212","picUrl1":"/file/content/4ef27d9a-f2d3-483f-ae20-d725a79806d1.jpg","picUrl2":"/file/content/b5fcfcb0-fea1-4e44-b77a-d82eda91ad02.jpg","picUrl3":"","picUrl4":"","description":"  <p>32人发顺风<\/p>","shopID":"6","originalPrice":null,"price":0.01,"sales":null,"monthSales":null,"score":null,"viewCount":0,"appraiseCount":0,"favoriteCount":1,"adminID":"1","status":1,"delFlag":0,"createTime":"2017-08-16","contentTypeName":"油烟机","descriptionLink":"http://api.fengqipu.com/h5/detail?type=4&id=5","shopProvince":"江苏省","shopName":"测试商铺AAAAAAAA","picUrl1RequestUrl":"http://file.fengqipu.com/file/content/4ef27d9a-f2d3-483f-ae20-d725a79806d1.jpg","picUrl2RequestUrl":"http://file.fengqipu.com/file/content/b5fcfcb0-fea1-4e44-b77a-d82eda91ad02.jpg","picUrl3RequestUrl":"","picUrl4RequestUrl":"","picUrlList":["http://file.fengqipu.com/file/content/4ef27d9a-f2d3-483f-ae20-d725a79806d1.jpg","http://file.fengqipu.com/file/content/b5fcfcb0-fea1-4e44-b77a-d82eda91ad02.jpg"],"shopCity":"南京市"}]
+     */
+
+    private BannerBean banner;
     private List<ContentListBean> contentList;
+
+    public BannerBean getBanner() {
+        return banner;
+    }
+
+    public void setBanner(BannerBean banner) {
+        this.banner = banner;
+    }
 
     public List<ContentListBean> getContentList() {
         return contentList;
@@ -19,45 +34,183 @@ public class TuiJianResponse extends BaseResponse{
         this.contentList = contentList;
     }
 
-    public static class ContentListBean {
-
+    public static class BannerBean {
         /**
-         * id : 1
-         * contentCode : 1717001001
-         * contentName : 智能榨汁机
-         * keyword : 关键词
+         * id : null
+         * position : 0
+         * shopID : null
+         * categoryID : null
+         * title : 111
+         * cover : https://img10.360buyimg.com/cms/s780x260_jfs/t6049/98/9696659757/13573/879641a0/5996c480N85f524ef.jpg!q90
+         * openType : 1
+         * link : www.baidu.com
+         * content : null
+         * toShopID : null
+         * toContentID : null
+         * createTime : null
+         * coverRequestUrl : http://file.fengqipu.comhttps://img10.360buyimg.com/cms/s780x260_jfs/t6049/98/9696659757/13573/879641a0/5996c480N85f524ef.jpg!q90
+         */
+
+        private String id;
+        private int position;
+        private String shopID;
+        private String categoryID;
+        private String title;
+        private String cover;
+        private int openType;
+        private String link;
+        private String content;
+        private String toShopID;
+        private String toContentID;
+        private String createTime;
+        private String coverRequestUrl;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+
+        public String getShopID() {
+            return shopID;
+        }
+
+        public void setShopID(String shopID) {
+            this.shopID = shopID;
+        }
+
+        public String getCategoryID() {
+            return categoryID;
+        }
+
+        public void setCategoryID(String categoryID) {
+            this.categoryID = categoryID;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getCover() {
+            return cover;
+        }
+
+        public void setCover(String cover) {
+            this.cover = cover;
+        }
+
+        public int getOpenType() {
+            return openType;
+        }
+
+        public void setOpenType(int openType) {
+            this.openType = openType;
+        }
+
+        public String getLink() {
+            return link;
+        }
+
+        public void setLink(String link) {
+            this.link = link;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public String getToShopID() {
+            return toShopID;
+        }
+
+        public void setToShopID(String toShopID) {
+            this.toShopID = toShopID;
+        }
+
+        public String getToContentID() {
+            return toContentID;
+        }
+
+        public void setToContentID(String toContentID) {
+            this.toContentID = toContentID;
+        }
+
+        public String getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(String createTime) {
+            this.createTime = createTime;
+        }
+
+        public String getCoverRequestUrl() {
+            return coverRequestUrl;
+        }
+
+        public void setCoverRequestUrl(String coverRequestUrl) {
+            this.coverRequestUrl = coverRequestUrl;
+        }
+    }
+
+    public static class ContentListBean {
+        /**
+         * id : 5
+         * contentCode : 1717002001
+         * contentName : 1毛测试商品
+         * keyword : 22,33
          * category1 : 1
+         * category1Name : 电器
          * category2 : 3
-         * contentType :
-         * model : T100
-         * abstracts : 摘要信息
-         * picUrl1 : /file/content/a255302f-a9a7-4949-969c-d29dae05a605.jpg
-         * picUrl2 : /file/content/9c1f6391-7965-400d-bbc9-a6c6d9666704.jpg
-         * picUrl3 :
-         * picUrl4 :
-         * description :    <p>的方式的范德萨范德萨发多少发是到付</p>
-         * shopID : 3
-         * originalPrice : 0
-         * price : 1000
+         * category2Name : 厨卫电器
+         * contentType : 1
+         * model : 
+         * abstracts : 121212
+         * picUrl1 : /file/content/4ef27d9a-f2d3-483f-ae20-d725a79806d1.jpg
+         * picUrl2 : /file/content/b5fcfcb0-fea1-4e44-b77a-d82eda91ad02.jpg
+         * picUrl3 : 
+         * picUrl4 : 
+         * description :   <p>32人发顺风</p>
+         * shopID : 6
+         * originalPrice : null
+         * price : 0.01
          * sales : null
          * monthSales : null
          * score : null
-         * viewCount : null
-         * appraiseCount : null
-         * favoriteCount : null
+         * viewCount : 0
+         * appraiseCount : 0
+         * favoriteCount : 1
          * adminID : 1
          * status : 1
          * delFlag : 0
-         * createTime : 2017-06-15
-         * shopCity : 320800
-         * picUrl1RequestUrl : http://116.62.116.15/f/file/content/a255302f-a9a7-4949-969c-d29dae05a605.jpg
-         * picUrl3RequestUrl :
-         * picUrl4RequestUrl :
-         * descriptionLink : http://116.62.116.15/api/h5/detail?type=4&id=1
-         * picUrl2RequestUrl : http://116.62.116.15/f/file/content/9c1f6391-7965-400d-bbc9-a6c6d9666704.jpg
-         * picUrlList : ["http://116.62.116.15/f/file/content/a255302f-a9a7-4949-969c-d29dae05a605.jpg","http://116.62.116.15/f/file/content/9c1f6391-7965-400d-bbc9-a6c6d9666704.jpg"]
-         * shopName : 商铺1
-         * shopProvince : 320000
+         * createTime : 2017-08-16
+         * contentTypeName : 油烟机
+         * descriptionLink : http://api.fengqipu.com/h5/detail?type=4&id=5
+         * shopProvince : 江苏省
+         * shopName : 测试商铺AAAAAAAA
+         * picUrl1RequestUrl : http://file.fengqipu.com/file/content/4ef27d9a-f2d3-483f-ae20-d725a79806d1.jpg
+         * picUrl2RequestUrl : http://file.fengqipu.com/file/content/b5fcfcb0-fea1-4e44-b77a-d82eda91ad02.jpg
+         * picUrl3RequestUrl : 
+         * picUrl4RequestUrl : 
+         * picUrlList : ["http://file.fengqipu.com/file/content/4ef27d9a-f2d3-483f-ae20-d725a79806d1.jpg","http://file.fengqipu.com/file/content/b5fcfcb0-fea1-4e44-b77a-d82eda91ad02.jpg"]
+         * shopCity : 南京市
          */
 
         private String id;
@@ -65,7 +218,9 @@ public class TuiJianResponse extends BaseResponse{
         private String contentName;
         private String keyword;
         private String category1;
+        private String category1Name;
         private String category2;
+        private String category2Name;
         private String contentType;
         private String model;
         private String abstracts;
@@ -75,26 +230,27 @@ public class TuiJianResponse extends BaseResponse{
         private String picUrl4;
         private String description;
         private String shopID;
-        private int originalPrice;
-        private int price;
+        private String originalPrice;
+        private double price;
         private String sales;
         private String monthSales;
         private String score;
-        private String viewCount;
-        private String appraiseCount;
-        private String favoriteCount;
+        private int viewCount;
+        private int appraiseCount;
+        private int favoriteCount;
         private String adminID;
         private int status;
         private int delFlag;
         private String createTime;
-        private String shopCity;
+        private String contentTypeName;
+        private String descriptionLink;
+        private String shopProvince;
+        private String shopName;
         private String picUrl1RequestUrl;
+        private String picUrl2RequestUrl;
         private String picUrl3RequestUrl;
         private String picUrl4RequestUrl;
-        private String descriptionLink;
-        private String picUrl2RequestUrl;
-        private String shopName;
-        private String shopProvince;
+        private String shopCity;
         private List<String> picUrlList;
 
         public String getId() {
@@ -137,12 +293,28 @@ public class TuiJianResponse extends BaseResponse{
             this.category1 = category1;
         }
 
+        public String getCategory1Name() {
+            return category1Name;
+        }
+
+        public void setCategory1Name(String category1Name) {
+            this.category1Name = category1Name;
+        }
+
         public String getCategory2() {
             return category2;
         }
 
         public void setCategory2(String category2) {
             this.category2 = category2;
+        }
+
+        public String getCategory2Name() {
+            return category2Name;
+        }
+
+        public void setCategory2Name(String category2Name) {
+            this.category2Name = category2Name;
         }
 
         public String getContentType() {
@@ -217,19 +389,19 @@ public class TuiJianResponse extends BaseResponse{
             this.shopID = shopID;
         }
 
-        public int getOriginalPrice() {
+        public String getOriginalPrice() {
             return originalPrice;
         }
 
-        public void setOriginalPrice(int originalPrice) {
+        public void setOriginalPrice(String originalPrice) {
             this.originalPrice = originalPrice;
         }
 
-        public int getPrice() {
+        public double getPrice() {
             return price;
         }
 
-        public void setPrice(int price) {
+        public void setPrice(double price) {
             this.price = price;
         }
 
@@ -257,27 +429,27 @@ public class TuiJianResponse extends BaseResponse{
             this.score = score;
         }
 
-        public String getViewCount() {
+        public int getViewCount() {
             return viewCount;
         }
 
-        public void setViewCount(String viewCount) {
+        public void setViewCount(int viewCount) {
             this.viewCount = viewCount;
         }
 
-        public String getAppraiseCount() {
+        public int getAppraiseCount() {
             return appraiseCount;
         }
 
-        public void setAppraiseCount(String appraiseCount) {
+        public void setAppraiseCount(int appraiseCount) {
             this.appraiseCount = appraiseCount;
         }
 
-        public String getFavoriteCount() {
+        public int getFavoriteCount() {
             return favoriteCount;
         }
 
-        public void setFavoriteCount(String favoriteCount) {
+        public void setFavoriteCount(int favoriteCount) {
             this.favoriteCount = favoriteCount;
         }
 
@@ -313,12 +485,36 @@ public class TuiJianResponse extends BaseResponse{
             this.createTime = createTime;
         }
 
-        public String getShopCity() {
-            return shopCity;
+        public String getContentTypeName() {
+            return contentTypeName;
         }
 
-        public void setShopCity(String shopCity) {
-            this.shopCity = shopCity;
+        public void setContentTypeName(String contentTypeName) {
+            this.contentTypeName = contentTypeName;
+        }
+
+        public String getDescriptionLink() {
+            return descriptionLink;
+        }
+
+        public void setDescriptionLink(String descriptionLink) {
+            this.descriptionLink = descriptionLink;
+        }
+
+        public String getShopProvince() {
+            return shopProvince;
+        }
+
+        public void setShopProvince(String shopProvince) {
+            this.shopProvince = shopProvince;
+        }
+
+        public String getShopName() {
+            return shopName;
+        }
+
+        public void setShopName(String shopName) {
+            this.shopName = shopName;
         }
 
         public String getPicUrl1RequestUrl() {
@@ -327,6 +523,14 @@ public class TuiJianResponse extends BaseResponse{
 
         public void setPicUrl1RequestUrl(String picUrl1RequestUrl) {
             this.picUrl1RequestUrl = picUrl1RequestUrl;
+        }
+
+        public String getPicUrl2RequestUrl() {
+            return picUrl2RequestUrl;
+        }
+
+        public void setPicUrl2RequestUrl(String picUrl2RequestUrl) {
+            this.picUrl2RequestUrl = picUrl2RequestUrl;
         }
 
         public String getPicUrl3RequestUrl() {
@@ -345,36 +549,12 @@ public class TuiJianResponse extends BaseResponse{
             this.picUrl4RequestUrl = picUrl4RequestUrl;
         }
 
-        public String getDescriptionLink() {
-            return descriptionLink;
+        public String getShopCity() {
+            return shopCity;
         }
 
-        public void setDescriptionLink(String descriptionLink) {
-            this.descriptionLink = descriptionLink;
-        }
-
-        public String getPicUrl2RequestUrl() {
-            return picUrl2RequestUrl;
-        }
-
-        public void setPicUrl2RequestUrl(String picUrl2RequestUrl) {
-            this.picUrl2RequestUrl = picUrl2RequestUrl;
-        }
-
-        public String getShopName() {
-            return shopName;
-        }
-
-        public void setShopName(String shopName) {
-            this.shopName = shopName;
-        }
-
-        public String getShopProvince() {
-            return shopProvince;
-        }
-
-        public void setShopProvince(String shopProvince) {
-            this.shopProvince = shopProvince;
+        public void setShopCity(String shopCity) {
+            this.shopCity = shopCity;
         }
 
         public List<String> getPicUrlList() {

@@ -335,11 +335,12 @@
 
                     </LinearLayout>
                     <ImageView
+                        android:id="@+id/iv_top"
                         android:layout_marginTop="7dp"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/pxtodp160"
                         android:scaleType="fitXY"
-                        android:src="@mipmap/advertising"/>
+                        android:src="@drawable/bg_banner_homepage_two"/>
                 <LinearLayout
                     android:id="@+id/btm_ll"
                     android:layout_width="match_parent"

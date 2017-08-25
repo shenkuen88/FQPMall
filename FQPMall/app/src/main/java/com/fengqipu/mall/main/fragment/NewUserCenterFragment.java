@@ -27,6 +27,7 @@ import com.fengqipu.mall.bean.mine.UserCountResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
+import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.acty.MainActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
@@ -37,6 +38,7 @@ import com.fengqipu.mall.main.acty.mine.NewMyFavourActivity;
 import com.fengqipu.mall.main.acty.mine.OrderListActivity;
 import com.fengqipu.mall.main.acty.mine.SettingActy;
 import com.fengqipu.mall.main.base.BaseFragment;
+import com.fengqipu.mall.main.base.CommonWebViewActivity;
 import com.fengqipu.mall.network.GsonHelper;
 import com.fengqipu.mall.network.UserServiceImpl;
 import com.fengqipu.mall.tools.CMLog;
@@ -120,6 +122,8 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
     TextView qygzNum;
     @Bind(R.id.wdzj_num)
     TextView wdzjNum;
+    @Bind(R.id.iv_top)
+    ImageView ivTop;
 
     private CommonAdapter<TuiJianResponse.ContentListBean> mAdapter;
     private List<TuiJianResponse.ContentListBean> goodsList = new ArrayList<>();
@@ -179,23 +183,23 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
         mAdapter = new CommonAdapter<TuiJianResponse.ContentListBean>(mainActivity, goodsList, R.layout.index_btm_grid) {
             @Override
             public void convert(ViewHolder helper, TuiJianResponse.ContentListBean item) {
-                ImageView img=helper.getView(R.id.img);
-                TextView title=helper.getView(R.id.title);
-                TextView location=helper.getView(R.id.location);
-                TextView xl=helper.getView(R.id.xl);
-                TextView price=helper.getView(R.id.price);
+                ImageView img = helper.getView(R.id.img);
+                TextView title = helper.getView(R.id.title);
+                TextView location = helper.getView(R.id.location);
+                TextView xl = helper.getView(R.id.xl);
+                TextView price = helper.getView(R.id.price);
 //                TextView hpd=helper.getView(R.id.hpd);
                 if (item.getPicUrl1RequestUrl() != null && !item.getPicUrl1RequestUrl().equals("")) {
                     GeneralUtils.setImageViewWithUrl(mainActivity, item.getPicUrl1RequestUrl(), img, R.drawable.default_bg);
                 }
-                title.setText(""+item.getContentName());
-                location.setText(""+item.getShopProvince()+" "+item.getShopCity());
-                if(item.getMonthSales()!=null&&!item.getMonthSales().equals("")) {
+                title.setText("" + item.getContentName());
+                location.setText("" + item.getShopProvince() + " " + item.getShopCity());
+                if (item.getMonthSales() != null && !item.getMonthSales().equals("")) {
                     xl.setText("月销量" + item.getMonthSales() + "笔");
-                }else{
+                } else {
                     xl.setText("月销量0笔");
                 }
-                price.setText("￥"+item.getPrice());
+                price.setText("￥" + item.getPrice());
 //                hpd.setText("好评度"+item.getAppraiseCount());
             }
         };
@@ -209,9 +213,9 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
         myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TuiJianResponse.ContentListBean item=(TuiJianResponse.ContentListBean)adapterView.getItemAtPosition(i);
-                Intent intent=new Intent(mainActivity, GoodsDetailActivity.class);
-                intent.putExtra("contentID",item.getId());
+                TuiJianResponse.ContentListBean item = (TuiJianResponse.ContentListBean) adapterView.getItemAtPosition(i);
+                Intent intent = new Intent(mainActivity, GoodsDetailActivity.class);
+                intent.putExtra("contentID", item.getId());
                 startActivity(intent);
             }
         });
@@ -250,10 +254,10 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
     }
 
     private void initBtmList() {
-        if(GeneralUtils.isLogin()) {
+        if (GeneralUtils.isLogin()) {
             UserServiceImpl.instance().getUserCount(mainActivity, UserCountResponse.class.getName());
         }
-        UserServiceImpl.instance().getTuiJianList(mainActivity,"2",TuiJianResponse.class.getName());
+        UserServiceImpl.instance().getTuiJianList(mainActivity, "2", TuiJianResponse.class.getName());
     }
 
     private void changLoginOrLoginOut() {
@@ -261,9 +265,9 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
 //            btmLl.setVisibility(View.VISIBLE);
             loginLl.setVisibility(View.VISIBLE);
             nologinLl.setVisibility(View.GONE);
-            if(Global.getNickName().equals("")){
+            if (Global.getNickName().equals("")) {
                 userName.setText(Global.getUserName());
-            }else{
+            } else {
                 userName.setText(Global.getNickName());
             }
             GeneralUtils.setRoundImageViewWithUrl(getActivity(), Global.getUserHeadUrl(), headbig, R.drawable.default_head);
@@ -282,9 +286,9 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
     private void initData() {
         changLoginOrLoginOut();
         initBtmList();
-        if(goodsList.size()>0){
+        if (goodsList.size() > 0) {
             btmLl.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             btmLl.setVisibility(View.GONE);
         }
         new Handler().postDelayed(new Runnable() {
@@ -436,18 +440,36 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
             String tag = ((NetResponseEvent) event).getTag();
             String result = ((NetResponseEvent) event).getResult();
             if (tag.equals(TuiJianResponse.class.getName())) {
-                TuiJianResponse tuiJianResponse = GsonHelper.toType(result, TuiJianResponse.class);
+                final TuiJianResponse tuiJianResponse = GsonHelper.toType(result, TuiJianResponse.class);
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     if (Constants.SUCESS_CODE.equals(tuiJianResponse.getResultCode())) {
-                        if(tuiJianResponse.getContentList()!=null&&tuiJianResponse.getContentList().size()>0) {
+                        if (tuiJianResponse.getContentList() != null && tuiJianResponse.getContentList().size() > 0) {
                             goodsList.clear();
                             goodsList.addAll(tuiJianResponse.getContentList());
                             mAdapter.setData(goodsList);
                             mAdapter.notifyDataSetChanged();
-                            if(goodsList.size()>0){
+                            if (goodsList.size() > 0) {
                                 btmLl.setVisibility(View.VISIBLE);
-                            }else {
+                            } else {
                                 btmLl.setVisibility(View.GONE);
+                            }
+                            if(tuiJianResponse.getBanner()!=null){
+                                if(tuiJianResponse.getBanner().getCoverRequestUrl()!=null
+                                        &&!tuiJianResponse.getBanner().getCoverRequestUrl().equals("")){
+                                    GeneralUtils.setImageViewWithUrl(getActivity(),tuiJianResponse.getBanner().getCoverRequestUrl(),ivTop,R.drawable.bg_banner_homepage_two);
+                                }
+                                if (tuiJianResponse.getBanner() != null && GeneralUtils.isNotNullOrZeroLenght(tuiJianResponse.getBanner().getLink())) {
+                                    ivTop.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            //页面跳转
+                                            Intent intentExplain = new Intent(getActivity(), CommonWebViewActivity.class);
+                                            intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_TITLE, tuiJianResponse.getBanner().getTitle());
+                                            intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_URL, tuiJianResponse.getBanner().getLink());
+                                            getActivity().startActivity(intentExplain);
+                                        }
+                                    });
+                                }
                             }
                         }
                     } else {
@@ -462,9 +484,9 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     CMLog.e(Constants.HTTP_TAG, result);
                     if (Constants.SUCESS_CODE.equals(userCountResponse.getResultCode())) {
-                        spgzNum.setText(userCountResponse.getContentFavoriteCount()+"");
-                        qygzNum.setText((userCountResponse.getShop1FavoriteCount()+userCountResponse.getShop2FavoriteCount())+"");
-                        wdzjNum.setText(userCountResponse.getViewContentCount()+"");
+                        spgzNum.setText(userCountResponse.getContentFavoriteCount() + "");
+                        qygzNum.setText((userCountResponse.getShop1FavoriteCount() + userCountResponse.getShop2FavoriteCount()) + "");
+                        wdzjNum.setText(userCountResponse.getViewContentCount() + "");
                     } else {
                         ErrorCode.doCode(mainActivity, userCountResponse.getResultCode(), userCountResponse.getDesc());
                     }
