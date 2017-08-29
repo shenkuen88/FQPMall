@@ -36,13 +36,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/pxtodp380" />
                     <LinearLayout
-                        android:layout_marginTop="@dimen/pxtodp320"
+                        android:layout_marginTop="@dimen/pxtodp380"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/pxtodp320"
+                        android:layout_height="@dimen/pxtodp300"
                         android:orientation="vertical"
-                        android:background="@mipmap/bj_home">
+                        android:background="@color/white">
                         <LinearLayout
-                            android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/pxtodp220"
                             android:orientation="horizontal">
@@ -223,6 +222,7 @@
                             <ImageView
                                 android:layout_width="60dp"
                                 android:layout_height="70dp"
+                                android:scaleType="fitXY"
                                 android:src="@drawable/bg_image_classification"
                                 android:layout_marginRight="16dp"
                                 android:id="@+id/imageView"
@@ -266,6 +266,7 @@
                                 android:src="@drawable/bg_image_classification"
                                 android:layout_marginRight="16dp"
                                 android:id="@+id/imageView2"
+                                android:scaleType="fitXY"
                                 android:layout_centerVertical="true"
                                 android:layout_alignParentRight="true"
                                 />
@@ -312,6 +313,7 @@
                                 android:src="@drawable/bg_image_classification"
                                 android:layout_marginRight="16dp"
                                 android:id="@+id/imageView3"
+                                android:scaleType="fitXY"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 />
@@ -352,6 +354,7 @@
                                 android:src="@drawable/bg_image_classification"
                                 android:layout_marginRight="16dp"
                                 android:id="@+id/imageView4"
+                                android:scaleType="fitXY"
                                 android:layout_alignParentRight="true"
                                 android:layout_alignParentTop="true"
                                 />

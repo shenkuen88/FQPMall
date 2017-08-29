@@ -41,6 +41,7 @@ import com.fengqipu.mall.main.acty.KuaiXiuActivity;
 import com.fengqipu.mall.main.acty.MainActivity;
 import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
 import com.fengqipu.mall.main.acty.enterprise.EnterpriseListActivity;
+import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.huodong.HuoDongActivity;
 import com.fengqipu.mall.main.acty.mine.LoginActy;
 import com.fengqipu.mall.main.acty.mine.OneButtonShopActivity;
@@ -364,12 +365,36 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
             @Override
             public void onItemClick(int position) {
                 BannerListBean bean = ad.get(position);
-                if (bean != null && GeneralUtils.isNotNullOrZeroLenght(bean.getLink())) {
-                    //页面跳转
-                    Intent intentExplain = new Intent(getActivity(), CommonWebViewActivity.class);
-                    intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_TITLE, bean.getTitle());
-                    intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_URL, bean.getLink());
-                    getActivity().startActivity(intentExplain);
+                switch (bean.getOpenType()) {
+                    case 1:
+                        try {
+                            Intent intent = new Intent(getActivity(), EnterpriseActivity.class);
+                            intent.putExtra("sid", bean.getToShopID());
+                            getActivity().startActivity(intent);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 2:
+                        try {
+                            Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                            intent.putExtra("contentID", bean.getToContentID());
+                            getActivity().startActivity(intent);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 3:
+                    case 4:
+                        try {
+                            Intent intentExplain = new Intent(getActivity(), CommonWebViewActivity.class);
+                            intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_TITLE, bean.getTitle());
+                            intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_URL, bean.getLink());
+                            getActivity().startActivity(intentExplain);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
                 }
             }
         });
@@ -584,18 +609,18 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                             initNotice(mIndexBannerResponse.getNoticeList());
                             initHuoDong(mIndexBannerResponse.getActivityList());
                         }
-                        if(mIndexBannerResponse.getTop()!=null){
-                            if(mIndexBannerResponse.getTop().getPicUrlRequestUrl()!=null
-                                    &&!mIndexBannerResponse.getTop().getPicUrlRequestUrl().equals("")) {
-                                GeneralUtils.setImageViewWithUrl(getActivity(),mIndexBannerResponse.getTop().getPicUrlRequestUrl(), ivTop, R.drawable.bg_banner_homepage_two);
+                        if (mIndexBannerResponse.getTop() != null) {
+                            if (mIndexBannerResponse.getTop().getAdvPicUrl1RequestUrl() != null
+                                    && !mIndexBannerResponse.getTop().getAdvPicUrl1RequestUrl().equals("")) {
+                                GeneralUtils.setImageViewWithUrl(getActivity(), mIndexBannerResponse.getTop().getAdvPicUrl1RequestUrl(), ivTop, R.drawable.bg_banner_homepage_two);
                             }
-                            if(mIndexBannerResponse.getTop().getId()!=null
-                                    &&!mIndexBannerResponse.getTop().getId().equals("")) {
+                            if (mIndexBannerResponse.getTop().getId() != null
+                                    && !mIndexBannerResponse.getTop().getId().equals("")) {
                                 ivTop.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        Intent intent2=new Intent(getActivity(), EnterpriseActivity.class);
-                                        intent2.putExtra("sid",mIndexBannerResponse.getTop().getId());
+                                        Intent intent2 = new Intent(getActivity(), EnterpriseActivity.class);
+                                        intent2.putExtra("sid", mIndexBannerResponse.getTop().getId());
                                         startActivity(intent2);
                                     }
                                 });

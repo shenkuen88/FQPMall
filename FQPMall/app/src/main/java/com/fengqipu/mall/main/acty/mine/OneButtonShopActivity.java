@@ -87,12 +87,17 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
     LinearLayout ll3;
     @Bind(R.id.iv_location)
     ImageView ivLocation;
-
+    private void fileOperation()
+    {
+        photoSavePath = FileSystemManager.getImgPath(mContext);
+        photoSaveName = System.currentTimeMillis() + ".png";
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_button_shop);
         ButterKnife.bind(this);
+        fileOperation();
         initAll();
     }
 
@@ -215,6 +220,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                 files.add(new File(yyzzPic));
                 files.add(new File(sfz1));
                 files.add(new File(sfz2));
+                NetLoadingDialog.getInstance().loading(OneButtonShopActivity.this);
                 UserServiceImpl.instance().uploadPic(files, UploadFileResponse.class.getName());
                 break;
             case R.id.btn_confirm:
@@ -360,7 +366,6 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
             });
             bt1.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    dismiss();
                     photoSaveName = String.valueOf(System.currentTimeMillis()) + ".png";
                     File file = new File(photoSavePath + photoSaveName);
                     if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
@@ -374,6 +379,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
 //                    openCameraIntent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
 //                    openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                     startActivityForResult(intent, PHOTOTAKE);
+                    dismiss();
                 }
             });
         }
@@ -405,6 +411,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
         if (resultCode != RESULT_OK) {
             return;
         }
+        Log.e("sub","requestCode="+requestCode);
         Uri uri = null;
         switch (requestCode) {
             case PHOTOZOOM://相册
@@ -438,6 +445,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                     ToastUtil.showError(mContext);
                     return;
                 }
+                Log.e("sub","requestCode="+path);
                 switch (posType) {
                     case 0:
                         yyzzPic = path;
@@ -518,6 +526,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                                 url3 = uploadFileResponse.getUrlList().get(i);
                             }
                         }
+                        NetLoadingDialog.getInstance().loading(OneButtonShopActivity.this);
                         UserServiceImpl.instance().addShop(
                                 etShopname.getText().toString()
                                 , mCurrentProviceName, mCurrentCityName, mCurrentDistrictName
@@ -534,7 +543,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     OneButtonShopResponse oneButtonShopResponse = GsonHelper.toType(result, OneButtonShopResponse.class);
                     if (Constants.SUCESS_CODE.equals(oneButtonShopResponse.getResultCode())) {
-                        ToastUtils.showToast(mContext, "提交开店申请成功");
+                        ToastUtils.showToast(mContext, "申请已成功提交");
                         finish();
                     } else {
                         ErrorCode.doCode(mContext, oneButtonShopResponse.getResultCode(), oneButtonShopResponse.getDesc());

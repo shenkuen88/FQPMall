@@ -24,6 +24,7 @@ import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.main.acty.ConversationListActivity;
+import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.index.SearchActy;
 import com.fengqipu.mall.main.acty.search.NewSearchActivity;
 import com.fengqipu.mall.main.acty.search.SearchShopsActivity;
@@ -222,28 +223,58 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                 leftAdapter.notifyDataSetChanged();
                 cid = left.getId();
                 String img = left.getPic();
+                final String openType=left.getOpenType();
+                final String sid=left.getSid();
+                final String cid=left.getCid();
+                final String link=left.getLink();
+                final String name=left.getName();
                 try {
                     if (GeneralUtils.isNotNullOrZeroLenght(img)) {
                         GeneralUtils.setImageViewWithUrl(EnterpriseListActivity.this, img, ivBanner, R.drawable.bg_banner_classification);
-//                        ivBanner.setVisibility(View.VISIBLE);
-//                        headView.setVisibility(View.VISIBLE);
+//                                    ivBanner.setVisibility(View.VISIBLE);
+//                                    headView.setVisibility(View.VISIBLE);
                         rightList.removeHeaderView(headView);
                         rightList.addHeaderView(headView);
                         ivBanner.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if (left.getLink() != null && !left.getLink().equals("")) {
-                                    Intent intentExplain = new Intent(EnterpriseListActivity.this, CommonWebViewActivity.class);
-                                    intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_TITLE, left.getName());
-                                    intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_URL, left.getLink());
-                                    startActivity(intentExplain);
+                                switch (openType){
+                                    case "1":
+                                        try {
+                                            Intent intent = new Intent(EnterpriseListActivity.this, EnterpriseActivity.class);
+                                            intent.putExtra("sid", sid);
+                                            startActivity(intent);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        break;
+                                    case "2":
+                                        try {
+                                            Intent intent=new Intent(EnterpriseListActivity.this, GoodsDetailActivity.class);
+                                            intent.putExtra("contentID",cid);
+                                            startActivity(intent);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        break;
+                                    case "3":
+                                    case "4":
+                                        try {
+                                            Intent intentExplain = new Intent(EnterpriseListActivity.this, CommonWebViewActivity.class);
+                                            intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_TITLE, name);
+                                            intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_URL, link);
+                                            startActivity(intentExplain);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        break;
                                 }
                             }
                         });
                     } else {
-//                        ivBanner.setVisibility(View.GONE);
-//                        headView.setVisibility(View.GONE);
-                        rightList.removeHeaderView(headView);
+                        rightList.removeView(headView);
+//                                    ivBanner.setVisibility(View.GONE);
+//                                    headView.setVisibility(View.GONE);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -324,7 +355,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                     if (Constants.SUCESS_CODE.equals(categoryResponse.getResultCode())) {
                         List<LeftBean> tolLeftList = new ArrayList<LeftBean>();
                         for (Category item : categoryResponse.getParentCategoryList()) {
-                            LeftBean leftBean = new LeftBean("", item.getId(), item.getCategoryName(), item.getCoverRequestUrl(), item.getLink());
+                            LeftBean leftBean = new LeftBean("", item.getId(), item.getCategoryName(), item.getCoverRequestUrl(), item.getLink(),item.getOpenType()+"",item.getToShopID()+"",item.getToContentID()+"");
                             tolLeftList.add(leftBean);
                         }
                         leftAdapter.setData(tolLeftList);
@@ -333,17 +364,58 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                             cid = tolLeftList.get(t_position).getId();
                             getRightData();
                             String img = tolLeftList.get(t_position).getPic();
+                            final String openType=tolLeftList.get(t_position).getOpenType();
+                            final String sid=tolLeftList.get(t_position).getSid();
+                            final String cid=tolLeftList.get(t_position).getCid();
+                            final String link=tolLeftList.get(t_position).getLink();
+                            final String name=tolLeftList.get(t_position).getName();
                             try {
                                 if (GeneralUtils.isNotNullOrZeroLenght(img)) {
-                                    GeneralUtils.setImageViewWithUrl(this, img, ivBanner, R.drawable.bg_banner_classification);
+                                    GeneralUtils.setImageViewWithUrl(EnterpriseListActivity.this, img, ivBanner, R.drawable.bg_banner_classification);
 //                                    ivBanner.setVisibility(View.VISIBLE);
 //                                    headView.setVisibility(View.VISIBLE);
                                     rightList.removeHeaderView(headView);
                                     rightList.addHeaderView(headView);
+                                    ivBanner.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            switch (openType){
+                                                case "1":
+                                                    try {
+                                                        Intent intent = new Intent(EnterpriseListActivity.this, EnterpriseActivity.class);
+                                                        intent.putExtra("sid", sid);
+                                                        startActivity(intent);
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    break;
+                                                case "2":
+                                                    try {
+                                                        Intent intent=new Intent(EnterpriseListActivity.this, GoodsDetailActivity.class);
+                                                        intent.putExtra("contentID",cid);
+                                                        startActivity(intent);
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    break;
+                                                case "3":
+                                                case "4":
+                                                    try {
+                                                        Intent intentExplain = new Intent(EnterpriseListActivity.this, CommonWebViewActivity.class);
+                                                        intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_TITLE, name);
+                                                        intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_URL, link);
+                                                        startActivity(intentExplain);
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    break;
+                                            }
+                                        }
+                                    });
                                 } else {
+                                    rightList.removeView(headView);
 //                                    ivBanner.setVisibility(View.GONE);
 //                                    headView.setVisibility(View.GONE);
-                                    rightList.removeHeaderView(headView);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();

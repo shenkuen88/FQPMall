@@ -9,7 +9,9 @@ public class LeftBean {
     private String name;
     private String pic;
     private String link;
-
+    private String openType;
+    private String sid;
+    private String cid;
     public String getLink() {
         return link;
     }
@@ -21,12 +23,39 @@ public class LeftBean {
     public LeftBean() {
     }
 
-    public LeftBean(String title, String id, String name, String pic,String link) {
+    public LeftBean(String title, String id, String name, String pic, String link, String openType, String sid, String cid) {
         this.title = title;
         this.id = id;
         this.name = name;
         this.pic = pic;
-        this.link=link;
+        this.link = link;
+        this.openType = openType;
+        this.sid = sid;
+        this.cid = cid;
+    }
+
+    public String getOpenType() {
+        return openType;
+    }
+
+    public void setOpenType(String openType) {
+        this.openType = openType;
+    }
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
     }
 
     public String getTitle() {

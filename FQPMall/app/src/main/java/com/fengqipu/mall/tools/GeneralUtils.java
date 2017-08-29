@@ -8,9 +8,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -31,8 +28,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.main.acty.mine.LoginActy;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -1098,61 +1093,69 @@ public final class GeneralUtils {
 
 
     public static void setImageViewWithUrl(final Context context, final String url, ImageView iv, int defaultImg) {
-//        Glide.with(context)
-//                .load(url)
-////                .placeholder(defaultImg)
-//                .crossFade()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存转换后的资源
-//                .into(iv);
-        Picasso.with(context).load(url).placeholder(defaultImg).into(iv);
+        Glide.with(context)
+                .load(url)
+                .placeholder(defaultImg)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存转换后的资源
+                .into(iv);
+//        if(url.contains("http")) {
+//            Picasso.with(context).load(url).placeholder(defaultImg).into(iv);
+//        }else{
+//            Picasso.with(context).load(new File(url)).placeholder(defaultImg).into(iv);
+//        }
     }
 
     public static void setRoundImageViewWithUrl(final Context context, final String url, ImageView iv, int defaultImg) {
         iv.setBackgroundResource(R.mipmap.gray_circle);//防止透明颜色的头像
-//        Glide.with(context)
-//                .load(url)
-////                .placeholder(defaultImg)
-//                .crossFade()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存转换后的资源
-//                .transform(new CircleTransform(context))
-//                .into(iv);
-        Picasso.with(context).load(url).placeholder(defaultImg).transform(new CircleTransform()).into(iv);
+        Glide.with(context)
+                .load(url)
+                .placeholder(defaultImg)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存转换后的资源
+                .transform(new CircleTransform(context))
+                .into(iv);
+//        if(url.contains("http")) {
+//            Picasso.with(context).load(url).placeholder(defaultImg).transform(new CircleTransform()).into(iv);
+//        }else{
+//            Picasso.with(context).load(new File(url)).placeholder(defaultImg).transform(new CircleTransform()).into(iv);
+//        }
     }
 
-    public static class CircleTransform implements Transformation {
-        @Override
-        public Bitmap transform(Bitmap source) {
-            int size = Math.min(source.getWidth(), source.getHeight());
-
-            int x = (source.getWidth() - size) / 2;
-            int y = (source.getHeight() - size) / 2;
-
-            Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
-            if (squaredBitmap != source) {
-                source.recycle();//回收垃圾
-            }
-
-            Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
-
-            Canvas canvas = new Canvas(bitmap);
-            Paint paint = new Paint();
-            BitmapShader shader = new BitmapShader(squaredBitmap,
-                    BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);//定义一个渲染器
-            paint.setShader(shader);//设置渲染器
-            paint.setAntiAlias(true);//设置抗拒齿，图片边缘相对清楚
-
-            float r = size / 2f;
-            canvas.drawCircle(r, r, r, paint);//绘制图形
-
-            squaredBitmap.recycle();
-            return bitmap;
-        }
-
-        @Override
-        public String key() {
-            return "circle";
-        }
-    }
+//    public static class CircleTransform implements Transformation {
+//        @Override
+//        public Bitmap transform(Bitmap source) {
+//            int size = Math.min(source.getWidth(), source.getHeight());
+//
+//            int x = (source.getWidth() - size) / 2;
+//            int y = (source.getHeight() - size) / 2;
+//
+//            Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
+//            if (squaredBitmap != source) {
+//                source.recycle();//回收垃圾
+//            }
+//
+//            Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
+//
+//            Canvas canvas = new Canvas(bitmap);
+//            Paint paint = new Paint();
+//            BitmapShader shader = new BitmapShader(squaredBitmap,
+//                    BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);//定义一个渲染器
+//            paint.setShader(shader);//设置渲染器
+//            paint.setAntiAlias(true);//设置抗拒齿，图片边缘相对清楚
+//
+//            float r = size / 2f;
+//            canvas.drawCircle(r, r, r, paint);//绘制图形
+//
+//            squaredBitmap.recycle();
+//            return bitmap;
+//        }
+//
+//        @Override
+//        public String key() {
+//            return "circle";
+//        }
+//    }
 
     /**
      * 毛玻璃

@@ -30,6 +30,7 @@ import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.acty.MainActivity;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.mine.AccountManageActy;
 import com.fengqipu.mall.main.acty.mine.HistoryGoodsActivity;
@@ -463,10 +464,37 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
                                         @Override
                                         public void onClick(View view) {
                                             //页面跳转
-                                            Intent intentExplain = new Intent(getActivity(), CommonWebViewActivity.class);
-                                            intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_TITLE, tuiJianResponse.getBanner().getTitle());
-                                            intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_URL, tuiJianResponse.getBanner().getLink());
-                                            getActivity().startActivity(intentExplain);
+                                            switch (tuiJianResponse.getBanner().getOpenType()) {
+                                                case 1:
+                                                    try {
+                                                        Intent intent = new Intent(getActivity(), EnterpriseActivity.class);
+                                                        intent.putExtra("sid", tuiJianResponse.getBanner().getToShopID());
+                                                        getActivity().startActivity(intent);
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    break;
+                                                case 2:
+                                                    try {
+                                                        Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                                                        intent.putExtra("contentID", tuiJianResponse.getBanner().getToContentID());
+                                                        getActivity().startActivity(intent);
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    break;
+                                                case 3:
+                                                case 4:
+                                                    try {
+                                                        Intent intentExplain = new Intent(getActivity(), CommonWebViewActivity.class);
+                                                        intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_TITLE, tuiJianResponse.getBanner().getTitle());
+                                                        intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_URL, tuiJianResponse.getBanner().getLink());
+                                                        getActivity().startActivity(intentExplain);
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                    break;
+                                            }
                                         }
                                     });
                                 }
