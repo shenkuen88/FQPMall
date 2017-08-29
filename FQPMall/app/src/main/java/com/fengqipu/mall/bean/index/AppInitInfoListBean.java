@@ -10,6 +10,15 @@ public class AppInitInfoListBean {
     private String firstPic;
     private String updateTime;
     private String createTime;
+    private String firstPicRequestUrl;
+
+    public String getFirstPicRequestUrl() {
+        return firstPicRequestUrl;
+    }
+
+    public void setFirstPicRequestUrl(String firstPicRequestUrl) {
+        this.firstPicRequestUrl = firstPicRequestUrl;
+    }
 
     public String getId() {
         return id;

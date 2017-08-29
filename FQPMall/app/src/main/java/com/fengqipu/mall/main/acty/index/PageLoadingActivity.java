@@ -5,10 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -55,7 +53,7 @@ public class PageLoadingActivity extends BaseActivity
 
     private int picShowDelay = 3000;
 
-    private RelativeLayout rl_loading;
+//    private RelativeLayout rl_loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -73,11 +71,11 @@ public class PageLoadingActivity extends BaseActivity
             appInitInfoList = mInitAppResponse.getAppInitInfoList();
             if (appInitInfoList.size() > 0)
             {
-                rl_loading.setVisibility(View.GONE);
+//                rl_loading.setVisibility(View.GONE);
                 imageNum = appInitInfoList.size();
                 //还得改下图片加载的，加载中不显示
                 Glide.with(mContext)
-                        .load(appInitInfoList.get(imageShowIndex).getFirstPic())
+                        .load(appInitInfoList.get(imageShowIndex).getFirstPicRequestUrl())
                         .placeholder(Color.WHITE)
                         .crossFade()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存转换后的资源
@@ -87,7 +85,7 @@ public class PageLoadingActivity extends BaseActivity
             }
             else
             {
-                rl_loading.setVisibility(View.VISIBLE);
+//                rl_loading.setVisibility(View.VISIBLE);
             }
         }
         startTime();
@@ -122,7 +120,7 @@ public class PageLoadingActivity extends BaseActivity
                 if (imageShowIndex < imageNum && appInitInfoList.size() > 0)
                 {
                     Glide.with(mContext)
-                            .load(appInitInfoList.get(imageShowIndex).getFirstPic())
+                            .load(appInitInfoList.get(imageShowIndex).getFirstPicRequestUrl())
                             .placeholder(Color.WHITE)
                             .crossFade()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存转换后的资源

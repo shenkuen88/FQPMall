@@ -152,7 +152,17 @@
         <!-- wx sdk end -->
 
         <!-- 引导页 -->
-        <activity android:name=".main.acty.index.WelcomeActivity" />
+        <activity android:name=".main.acty.index.WelcomeActivity"
+            android:alwaysRetainTaskState="true"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".main.acty.index.GuideActy" />
         <!-- 加载页 -->
         <activity android:name=".main.acty.index.PageLoadingActivity" />
@@ -162,11 +172,7 @@
             android:alwaysRetainTaskState="true"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".main.acty.BaiduMapActivity"
