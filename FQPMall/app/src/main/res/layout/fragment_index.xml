@@ -180,7 +180,7 @@
                     android:layout_marginTop="7dp"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/pxtodp160"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/bg_banner_homepage_two"/>
                 <LinearLayout
                     android:layout_marginTop="7dp"
@@ -222,7 +222,7 @@
                             <ImageView
                                 android:layout_width="60dp"
                                 android:layout_height="70dp"
-                                android:scaleType="fitXY"
+                                android:scaleType="centerCrop"
                                 android:src="@drawable/bg_image_classification"
                                 android:layout_marginRight="16dp"
                                 android:id="@+id/imageView"
@@ -266,7 +266,7 @@
                                 android:src="@drawable/bg_image_classification"
                                 android:layout_marginRight="16dp"
                                 android:id="@+id/imageView2"
-                                android:scaleType="fitXY"
+                                android:scaleType="centerCrop"
                                 android:layout_centerVertical="true"
                                 android:layout_alignParentRight="true"
                                 />
@@ -313,7 +313,7 @@
                                 android:src="@drawable/bg_image_classification"
                                 android:layout_marginRight="16dp"
                                 android:id="@+id/imageView3"
-                                android:scaleType="fitXY"
+                                android:scaleType="centerCrop"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 />
@@ -354,7 +354,7 @@
                                 android:src="@drawable/bg_image_classification"
                                 android:layout_marginRight="16dp"
                                 android:id="@+id/imageView4"
-                                android:scaleType="fitXY"
+                                android:scaleType="centerCrop"
                                 android:layout_alignParentRight="true"
                                 android:layout_alignParentTop="true"
                                 />

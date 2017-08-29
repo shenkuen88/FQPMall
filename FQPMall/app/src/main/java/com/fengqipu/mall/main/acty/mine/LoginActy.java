@@ -245,7 +245,7 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
                                 + "  \"sanUserID\" :  \""+ sanUserID + "\""
                                 + "}";
                         Log.e("sub","qq="+toJSLogin);
-                        UserServiceImpl.instance().searchUser("2",sanUserID,"",SearchUserResponse.class.getName());
+                        UserServiceImpl.instance().searchUser("1",sanUserID,"",SearchUserResponse.class.getName());
                     }
 
                     @Override

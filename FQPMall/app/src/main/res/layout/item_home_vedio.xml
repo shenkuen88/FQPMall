@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/show_iv"
         android:layout_width="match_parent"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:layout_height="@dimen/pxtodp226"
         android:src="@color/white_grey" />
 

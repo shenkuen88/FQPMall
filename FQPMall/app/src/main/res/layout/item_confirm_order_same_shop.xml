@@ -9,7 +9,7 @@
         android:layout_width="@dimen/pxtodp182"
         android:layout_height="@dimen/pxtodp182"
         android:layout_centerVertical="true"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:layout_marginLeft="@dimen/pxtodp30"
         android:layout_marginRight="@dimen/pxtodp30"
         android:src="@drawable/default_bg" />

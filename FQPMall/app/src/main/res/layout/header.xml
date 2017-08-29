@@ -11,6 +11,6 @@
         android:id="@+id/iv_banner"
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@drawable/bg_banner_classification" />
 </LinearLayout>

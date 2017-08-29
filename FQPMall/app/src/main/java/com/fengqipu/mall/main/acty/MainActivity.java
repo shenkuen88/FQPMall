@@ -78,6 +78,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         checkPermission(new CheckPermListener() {
                             @Override
                             public void superPermission() {
+                            }
+                        },R.string.need_pic_permission,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        );
+        checkPermission(new CheckPermListener() {
+                            @Override
+                            public void superPermission() {
                                 startLocation();
                             }
                         }, R.string.need_loaction_permission,

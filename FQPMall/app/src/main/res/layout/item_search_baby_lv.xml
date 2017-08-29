@@ -13,7 +13,7 @@
         android:id="@+id/good_iv"
         android:layout_width="@dimen/pxtodp180"
         android:layout_height="@dimen/pxtodp190"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:layout_marginRight="@dimen/pxtodp18"
         android:background="@drawable/app_img_bg" />
 

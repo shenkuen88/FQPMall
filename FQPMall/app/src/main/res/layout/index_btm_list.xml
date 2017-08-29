@@ -42,7 +42,7 @@
         android:layout_marginRight="7dp"
         android:layout_width="115dp"
         android:layout_height="115dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@mipmap/pic1_sort"
         />
 </LinearLayout>
@@ -78,7 +78,7 @@
                     android:layout_weight="1"
                     android:layout_height="115dp"
                     android:src="@mipmap/pic1_sort"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     />
                 <LinearLayout
                     android:layout_width="5dp"
@@ -89,7 +89,7 @@
                     android:layout_weight="1"
                     android:layout_height="115dp"
                     android:src="@mipmap/pic3_sort"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     />
                 <LinearLayout
                     android:layout_width="5dp"
@@ -100,7 +100,7 @@
                     android:layout_weight="1"
                     android:layout_height="115dp"
                     android:src="@mipmap/pic2_sort"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     />
             </LinearLayout>
             <TextView

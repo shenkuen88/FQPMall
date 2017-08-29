@@ -22,7 +22,7 @@
             android:id="@+id/good_iv"
             android:layout_width="match_parent"
             android:layout_height="@dimen/pxtodp284"
-            android:scaleType="fitXY" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/name_tv"

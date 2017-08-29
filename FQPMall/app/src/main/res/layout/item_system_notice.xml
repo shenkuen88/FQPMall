@@ -55,7 +55,7 @@
                 android:id="@+id/product_iv"
                 android:layout_width="@dimen/pxtodp180"
                 android:layout_height="@dimen/pxtodp180"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:src="@drawable/default_bg" />
 
             <TextView

@@ -215,6 +215,7 @@
     <string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
     <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
     <string name="need_loaction_permission">应用需要定位权限</string>
+    <string name="need_pic_permission">应用需要读写权限显示图片</string>
     <string name="perm_tip">
         当前应用缺少必要权限。\n请点击"设置"-"权限"-打开所需权限。\n最后点击两次后退按钮，即可返回。
     </string>
