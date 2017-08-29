@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.BaseResponse;
@@ -31,6 +32,8 @@ import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -39,6 +42,8 @@ import de.greenrobot.event.EventBus;
 public class RegistSetPasswordActy extends BaseActivity implements View.OnClickListener {
 
 
+    @Bind(R.id.pwd_ll)
+    LinearLayout pwdLl;
     private EditText psdAgainEt, psdEt;
     private Button codeBn;
     private Button comfirmBn;
@@ -54,31 +59,37 @@ public class RegistSetPasswordActy extends BaseActivity implements View.OnClickL
     private MyTime myTime;
 
     private boolean change;
-    private String isThirdPart="0";
+    private String isThirdPart = "0";
     private String type;
     private String nickName;
     private String portrait;
+    private String needPwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist_set_password);
+        ButterKnife.bind(this);
         phoneNum = getIntent().getStringExtra(IntentCode.REGISTER_PHONE);
-        isThirdPart=getIntent().getStringExtra("isThirdPart");
-        if(isThirdPart==null){
-            isThirdPart="0";
+        isThirdPart = getIntent().getStringExtra("isThirdPart");
+        if (isThirdPart == null) {
+            isThirdPart = "0";
         }
-        type=getIntent().getStringExtra("type");
-        if(type==null){
-            type="0";
+        type = getIntent().getStringExtra("type");
+        if (type == null) {
+            type = "0";
         }
-        nickName=getIntent().getStringExtra("nickName");
-        if(nickName==null){
-            nickName="";
+        nickName = getIntent().getStringExtra("nickName");
+        if (nickName == null) {
+            nickName = "";
         }
-        portrait=getIntent().getStringExtra("portrait");
-        if(portrait==null){
-            portrait="";
+        portrait = getIntent().getStringExtra("portrait");
+        if (portrait == null) {
+            portrait = "";
+        }
+        needPwd = getIntent().getStringExtra("needPwd");
+        if (needPwd == null) {
+            needPwd = "1";
         }
         initAll();
         startTime();
@@ -88,9 +99,9 @@ public class RegistSetPasswordActy extends BaseActivity implements View.OnClickL
     private void initTitle() {
         View view = findViewById(R.id.common_back);
         HeadView headView = new HeadView((ViewGroup) view);
-        if(isThirdPart.equals("0")) {
+        if (isThirdPart.equals("0")) {
             headView.setTitleText("手机快速注册");
-        }else{
+        } else {
             headView.setTitleText("绑定手机号");
         }
         headView.setLeftImage(R.mipmap.app_title_back);
@@ -126,7 +137,11 @@ public class RegistSetPasswordActy extends BaseActivity implements View.OnClickL
                 }
             }
         });
-
+        if (needPwd.equals("0")) {
+            pwdLl.setVisibility(View.GONE);
+        } else {
+            pwdLl.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -172,7 +187,7 @@ public class RegistSetPasswordActy extends BaseActivity implements View.OnClickL
                     CheckYZMResponse mCheck = GsonHelper.toType(result, CheckYZMResponse.class);
                     if (Constants.SUCESS_CODE.equals(mCheck.getResultCode())) {
                         //注册
-                        UserServiceImpl.instance().register( phoneNum, psdAgainEt.getText().toString().trim(), etCode.getText().toString().trim(), RegisterResponse.class.getName());
+                        UserServiceImpl.instance().register(phoneNum, psdAgainEt.getText().toString().trim(), etCode.getText().toString().trim(), RegisterResponse.class.getName());
                     } else {
                         ErrorCode.doCode(mContext, mCheck.getResultCode(), mCheck.getDesc());
                         NetLoadingDialog.getInstance().dismissDialog();
@@ -186,7 +201,7 @@ public class RegistSetPasswordActy extends BaseActivity implements View.OnClickL
                     RegisterResponse mRegisterResponse = GsonHelper.toType(result, RegisterResponse.class);
                     if (Constants.SUCESS_CODE.equals(mRegisterResponse.getResultCode())) {
                         Global.saveLoginUserData(mContext, mRegisterResponse.getUser());
-                        ToastUtil.makeText(mContext,"注册成功");
+                        ToastUtil.makeText(mContext, "注册成功");
                         EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_LOGIN_SUCCESS));
                         finish();
                     } else {
@@ -195,12 +210,12 @@ public class RegistSetPasswordActy extends BaseActivity implements View.OnClickL
                 } else {
                     ToastUtil.showError(mContext);
                 }
-            }else if (tag.equals(BindUserResponse.class.getName()) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
+            } else if (tag.equals(BindUserResponse.class.getName()) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     BindUserResponse bindUserResponse = GsonHelper.toType(result, BindUserResponse.class);
                     if (Constants.SUCESS_CODE.equals(bindUserResponse.getResultCode())) {
                         Global.saveLoginUserData(mContext, bindUserResponse.getUser());
-                        ToastUtil.makeText(mContext,"绑定成功");
+                        ToastUtil.makeText(mContext, "绑定成功");
                         EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_LOGIN_SUCCESS));
                         finish();
                     } else {
@@ -263,30 +278,31 @@ public class RegistSetPasswordActy extends BaseActivity implements View.OnClickL
             case R.id.app_register_next_bn:
                 if (codeBn.getText().toString().trim().equals("获取验证码")) {
                     NetLoadingDialog.getInstance().loading(this);
-                    UserServiceImpl.instance().getYZMCode( "1", phoneNum, YZMResponse.class.getName());
+                    UserServiceImpl.instance().getYZMCode("1", phoneNum, YZMResponse.class.getName());
                 }
                 break;
             case R.id.app_register_bn:
-                String psd = psdAgainEt.getText().toString().trim();
-                if (GeneralUtils.isNullOrZeroLenght(etCode.getText().toString())) {
-                    ToastUtil.makeText(mContext, "请输入验证码");
-                } else if (psd.length() < 6) {
-                    ToastUtil.makeText(mContext, "请输入大于六位数的密码！");
-                    return;
-                } else if (!psdEt.getText().toString().trim().equals(psdAgainEt.getText().toString().trim())) {
-                    ToastUtil.makeText(mContext, "两次输入密码不一致，请重新输入");
-                    return;
-                } else {
-                    NetLoadingDialog.getInstance().loading(mContext);
-                    //验证短信验证码
-//                    UserServiceImpl.instance().checkYZMCode(mContext, "1", phoneNum, etCode.getText().toString(), CheckYZMResponse.class.getName());
-                    //注册
-                    if(isThirdPart.equals("0")) {
-                        UserServiceImpl.instance().register(phoneNum, psdAgainEt.getText().toString().trim(), etCode.getText().toString().trim(), RegisterResponse.class.getName());
-                    }else{
-                        UserServiceImpl.instance().bindUser(type,isThirdPart,phoneNum,psdAgainEt.getText().toString().trim(),nickName,portrait,BindUserResponse.class.getName());
+                if(needPwd.equals("1")) {
+                    String psd = psdAgainEt.getText().toString().trim();
+                    if (GeneralUtils.isNullOrZeroLenght(etCode.getText().toString())) {
+                        ToastUtil.makeText(mContext, "请输入验证码");
+                        return;
+                    } else if (psd.length() < 6) {
+                        ToastUtil.makeText(mContext, "请输入大于六位数的密码！");
+                        return;
+                    } else if (!psdEt.getText().toString().trim().equals(psdAgainEt.getText().toString().trim())) {
+                        ToastUtil.makeText(mContext, "两次输入密码不一致，请重新输入");
+                        return;
                     }
-
+                }
+                NetLoadingDialog.getInstance().loading(mContext);
+                //验证短信验证码
+//                    UserServiceImpl.instance().checkYZMCode(mContext, "1", phoneNum, etCode.getText().toString(), CheckYZMResponse.class.getName());
+                //注册
+                if (isThirdPart.equals("0")) {
+                    UserServiceImpl.instance().register(phoneNum, psdAgainEt.getText().toString().trim(), etCode.getText().toString().trim(), RegisterResponse.class.getName());
+                } else {
+                    UserServiceImpl.instance().bindUser(type, isThirdPart, phoneNum, psdAgainEt.getText().toString().trim(), nickName, portrait, BindUserResponse.class.getName());
                 }
                 break;
         }

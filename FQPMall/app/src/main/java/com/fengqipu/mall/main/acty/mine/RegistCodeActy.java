@@ -12,6 +12,7 @@ import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
+import com.fengqipu.mall.bean.mine.SearchUserResponse;
 import com.fengqipu.mall.bean.mine.YZMResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
@@ -117,22 +118,43 @@ public class RegistCodeActy extends BaseActivity implements View.OnClickListener
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     YZMResponse mYZMResponse = GsonHelper.toType(result, YZMResponse.class);
                     if (Constants.SUCESS_CODE.equals(mYZMResponse.getResultCode())) {
-                        //获取验证码成功后，跳转到注册页面
-                        Intent intent = new Intent(mContext,RegistSetPasswordActy.class);
-                        intent.putExtra(IntentCode.REGISTER_PHONE,formerPhone);
-                        if(!isThirdPart.equals("0")) {
-                            intent.putExtra("isThirdPart",isThirdPart);
-                            intent.putExtra("type",type);
-                            intent.putExtra("nickName",nickName);
-                            intent.putExtra("portrait",portrait);
+                        if(isThirdPart.equals("0")) {
+                            Intent intent = new Intent(mContext, RegistSetPasswordActy.class);
+                            intent.putExtra(IntentCode.REGISTER_PHONE, formerPhone);
+                            startActivity(intent);
+                            finish();
+                        }else {
+                            UserServiceImpl.instance().searchUser("3", "", formerPhone, SearchUserResponse.class.getName());
                         }
-                        startActivity(intent);
-                        finish();
                     } else {
                         ErrorCode.doCode(mContext, mYZMResponse.getResultCode(), mYZMResponse.getDesc());
                     }
                 } else {
                     ToastUtil.showError(mContext);
+                }
+            }
+            if (tag.equals(SearchUserResponse.class.getName())&&BaseApplication.currentActivity.equals(this.getClass().getName())) {
+                SearchUserResponse searchUserResponse = GsonHelper.toType(result, SearchUserResponse.class);
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    if (Constants.SUCESS_CODE.equals(searchUserResponse.getResultCode())) {
+                        Intent intent = new Intent(mContext,RegistSetPasswordActy.class);
+                        intent.putExtra(IntentCode.REGISTER_PHONE,formerPhone);
+                        intent.putExtra("isThirdPart",isThirdPart);
+                        intent.putExtra("type",type);
+                        intent.putExtra("nickName",nickName);
+                        intent.putExtra("portrait",portrait);
+                        if(searchUserResponse.getUser()==null){
+                            intent.putExtra("needPwd","1");
+                        }else{
+                            intent.putExtra("needPwd","0");
+                        }
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        ErrorCode.doCode(this, searchUserResponse.getResultCode(), searchUserResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(this);
                 }
             }
         }

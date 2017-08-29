@@ -1262,11 +1262,15 @@ public class UserServiceImpl
      * 2-	微信登录
      * 3-	手机号
      */
-    public void searchUser(String type, String openID, String tag)
+    public void searchUser(String type, String openID,String userName,String tag)
     {
         Map<String, String> param = new HashMap<String, String>();
         param.put("type", type);
-        param.put("openID", openID);
+        if(type.equals("3")){
+            param.put("userName", userName);
+        }else {
+            param.put("openID", openID);
+        }
         new NetWork()
                 .startPost(URLUtil.SEARCH_USER, param, tag);
     }

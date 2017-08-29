@@ -192,7 +192,7 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
                     ToastUtil.showError(this);
                 }
             }
-            if (tag.equals(SearchUserResponse.class.getName())) {
+            if (tag.equals(SearchUserResponse.class.getName())&&BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 Log.e("sub","SearchUserResponse="+result);
                 SearchUserResponse searchUserResponse = GsonHelper.toType(result, SearchUserResponse.class);
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
@@ -245,7 +245,7 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
                                 + "  \"sanUserID\" :  \""+ sanUserID + "\""
                                 + "}";
                         Log.e("sub","qq="+toJSLogin);
-                        UserServiceImpl.instance().searchUser("2",sanUserID,SearchUserResponse.class.getName());
+                        UserServiceImpl.instance().searchUser("2",sanUserID,"",SearchUserResponse.class.getName());
                     }
 
                     @Override
@@ -279,7 +279,7 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
                                 + "  \"sanUserID\" :  \""+ sanUserID + "\""
                                 + "}";
                         Log.e("sub", "wx="+toJSLogin);
-                        UserServiceImpl.instance().searchUser("2",sanUserID,SearchUserResponse.class.getName());
+                        UserServiceImpl.instance().searchUser("2",sanUserID,"",SearchUserResponse.class.getName());
                     }
 
                     @Override
