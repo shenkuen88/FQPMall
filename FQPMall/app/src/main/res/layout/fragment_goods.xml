@@ -139,7 +139,7 @@
                             android:layout_weight="1"
                             android:text="已成交0件"
                             android:textColor="@color/gray"
-                            android:textSize="12sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:id="@+id/tv_freight"
@@ -150,17 +150,17 @@
                             android:gravity="center_horizontal"
                             android:text="快递:0元"
                             android:textColor="@color/gray"
-                            android:textSize="12sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:id="@+id/tv_location"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="2dp"
                             android:layout_weight="1"
                             android:text="发货地:"
                             android:textColor="@color/gray"
-                            android:textSize="12sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                 </LinearLayout>
