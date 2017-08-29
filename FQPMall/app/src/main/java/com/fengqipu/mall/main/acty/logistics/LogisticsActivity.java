@@ -75,7 +75,7 @@ public class LogisticsActivity extends BaseActivity {
     @Override
     public void initView() {
         if (!headPic.equals("")) {
-            GeneralUtils.setImageViewWithUrl(this, headPic, imgHead, R.drawable.default_bg);
+            GeneralUtils.setImageViewWithUrl(this, headPic, imgHead, R.drawable.bg_image_classification);
         }
         initTitle();
     }

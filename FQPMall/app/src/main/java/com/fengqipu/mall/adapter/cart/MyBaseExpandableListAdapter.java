@@ -316,7 +316,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
 //        childViewHolder.id_tv_price_now.setText(String.format(context.getString(R.string.price), priceNow));
 //        childViewHolder.id_tv_des_now.setText(goodsBean.getDesc());
         if (goodsBean.getPicUrl() != null && !goodsBean.getPicUrl().equals("")) {
-            GeneralUtils.setImageViewWithUrl(context, goodsBean.getPicUrl(), childViewHolder.id_iv_logo, R.drawable.default_bg);
+            GeneralUtils.setImageViewWithUrl(context, goodsBean.getPicUrl(), childViewHolder.id_iv_logo, R.drawable.bg_image_classification);
         }
         childViewHolder.id_cb_select_child.setChecked(goodsBean.isChecked());
         childViewHolder.id_cb_select_child.setOnClickListener(new View.OnClickListener() {

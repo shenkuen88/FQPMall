@@ -549,7 +549,7 @@ public class AccountManageActy extends BaseActivity implements View.OnClickListe
                 break;
             case IMAGE_COMPLETE:
                 final String temppath = data.getStringExtra("path");
-                GeneralUtils.setRoundImageViewWithUrl(mContext, temppath, ivHead, R.drawable.default_bg);
+                GeneralUtils.setRoundImageViewWithUrl(mContext, temppath, ivHead, R.drawable.default_head);
                 Bitmap headBit1 = BitmapUtil.getLoacalBitmap(temppath);
                 if (!GeneralUtils.isNetworkConnected(mContext))
                 {

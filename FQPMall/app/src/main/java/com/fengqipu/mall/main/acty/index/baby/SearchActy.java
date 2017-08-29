@@ -177,8 +177,8 @@ public class SearchActy extends BaseActivity implements View.OnClickListener {
             @Override
             public void convert(ViewHolder helper, final ProductSearchBean item) {
                 ImageView good_iv = helper.getView(R.id.good_iv);
-                good_iv.setImageResource(R.drawable.default_bg);
-                GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl1(), good_iv,  R.drawable.default_bg);
+                good_iv.setImageResource(R.drawable.bg_image_classification);
+                GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl1(), good_iv,  R.drawable.bg_image_classification);
                 helper.setText(R.id.name_tv, item.getContentName());
                 helper.setText(R.id.price_tv, "¥ " + item.getPrice());
                 helper.setText(R.id.comment_num_tv, item.getAppraiseCount() + "条评价");
@@ -195,9 +195,9 @@ public class SearchActy extends BaseActivity implements View.OnClickListener {
             @Override
             public void convert(ViewHolder helper, final ProductSearchBean item) {
                 ImageView good_iv = helper.getView(R.id.good_iv);
-                good_iv.setImageResource(R.drawable.default_bg);
+                good_iv.setImageResource(R.drawable.bg_image_classification);
 //                ImageLoaderUtil.getInstance().initImage(mContext, item.getPicUrl1(), good_iv, Constants.DEFAULT_GOOD_ICON);
-                GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl1(), good_iv, R.drawable.default_bg);
+                GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl1(), good_iv, R.drawable.bg_image_classification);
                 helper.setText(R.id.name_tv, item.getContentName());
                 helper.setText(R.id.price_tv, "¥ " + item.getPrice());
                 helper.setText(R.id.provider_tv, item.getShopName() + "发货");

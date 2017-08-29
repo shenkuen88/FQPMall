@@ -183,7 +183,7 @@ public class OrderSearchActivity extends BaseActivity implements View.OnClickLis
                         if (GeneralUtils.isNotNullOrZeroLenght(mItem.getPicUrl())) {
                             ImageView img = helper.getView(R.id.img);
 //                            ImageLoaderUtil.getInstance().initImage(OrderSearchActivity.this, mItem.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
-                            GeneralUtils.setImageViewWithUrl(OrderSearchActivity.this, mItem.getPicUrlRequestUrl(), img, R.drawable.default_bg);
+                            GeneralUtils.setImageViewWithUrl(OrderSearchActivity.this, mItem.getPicUrlRequestUrl(), img, R.drawable.bg_image_classification);
                         }
                         helper.setText(R.id.goods_info, mItem.getContentName());
                         helper.setText(R.id.goods_price, "￥" + mItem.getRealPrice());

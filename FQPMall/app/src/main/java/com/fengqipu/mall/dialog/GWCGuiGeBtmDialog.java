@@ -104,7 +104,7 @@ public class GWCGuiGeBtmDialog extends Dialog {
         btn_confim = V.f(view,  R.id.btn_confim);
         if (goodsDetailResponse.getContent().getPicUrl1RequestUrl() != null
                 && !goodsDetailResponse.getContent().getPicUrl1RequestUrl().equals("")) {
-            GeneralUtils.setImageViewWithUrl(ctx, goodsDetailResponse.getContent().getPicUrl1RequestUrl(), gg_pic, R.drawable.default_bg);
+            GeneralUtils.setImageViewWithUrl(ctx, goodsDetailResponse.getContent().getPicUrl1RequestUrl(), gg_pic, R.drawable.bg_image_classification);
         }
         gg_cancel.setOnClickListener(new View.OnClickListener() {
             @Override

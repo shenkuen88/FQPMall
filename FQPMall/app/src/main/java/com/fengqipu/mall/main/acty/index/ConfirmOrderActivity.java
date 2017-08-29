@@ -167,7 +167,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                         //图标
                         try {
                             ImageView iv = helper.getView(R.id.good_iv);
-                            GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl(), iv,  R.drawable.default_bg);
+                            GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl(), iv,  R.drawable.bg_image_classification);
                         } catch (Exception e) {
                         }
                         //数量

@@ -168,7 +168,7 @@ public class OrderDetailActivity extends BaseActivity {
                         if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrlRequestUrl())) {
                             ImageView img = helper.getView(R.id.img);
 //                            ImageLoaderUtil.getInstance().initImage(mContext, item.getPicUrl(), img, Constants.DEFAULT_IMAGE_F_LOAD);
-                            GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrlRequestUrl(), img, R.drawable.default_bg);
+                            GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrlRequestUrl(), img, R.drawable.bg_image_classification);
                         }
                         helper.setText(R.id.goods_info, item.getContentName());
                         helper.setText(R.id.goods_price, "￥" + item.getRealPrice());

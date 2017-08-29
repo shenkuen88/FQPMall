@@ -134,7 +134,7 @@ public class HuoDongActivity extends BaseActivity implements View.OnClickListene
             public void convert(ViewHolder helper, final HuodongResponse.ContentListBean item) {
                 ImageView img = helper.getView(R.id.img);
                 if (item.getPicUrl1RequestUrl() != null && !item.getPicUrl1RequestUrl().equals("")) {
-                    GeneralUtils.setImageViewWithUrl(HuoDongActivity.this, item.getPicUrl1RequestUrl(), img, R.drawable.default_bg);
+                    GeneralUtils.setImageViewWithUrl(HuoDongActivity.this, item.getPicUrl1RequestUrl(), img, R.drawable.bg_image_classification);
                 }
                 TextView goods_info = helper.getView(R.id.goods_info);
                 TextView goods_price = helper.getView(R.id.goods_price);

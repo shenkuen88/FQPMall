@@ -20,7 +20,7 @@
                     android:layout_width="@dimen/pxtodp146"
                     android:layout_height="@dimen/pxtodp146"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/default_bg"
+                    android:src="@drawable/bg_image_classification"
                     />
                 <LinearLayout
                     android:layout_marginLeft="10dp"
