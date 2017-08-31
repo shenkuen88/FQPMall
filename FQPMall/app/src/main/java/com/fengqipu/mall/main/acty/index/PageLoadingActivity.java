@@ -76,7 +76,7 @@ public class PageLoadingActivity extends BaseActivity
                 //还得改下图片加载的，加载中不显示
                 Glide.with(mContext)
                         .load(appInitInfoList.get(imageShowIndex).getFirstPicRequestUrl())
-                        .placeholder(Color.WHITE)
+                        .placeholder(R.drawable.qidonglogo)
                         .crossFade()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存转换后的资源
                         .into(ivLoad);
@@ -85,8 +85,11 @@ public class PageLoadingActivity extends BaseActivity
             }
             else
             {
+                ivLoad.setImageResource(R.drawable.qidonglogo);
 //                rl_loading.setVisibility(View.VISIBLE);
             }
+        }else{
+            ivLoad.setImageResource(R.drawable.qidonglogo);
         }
         startTime();
     }

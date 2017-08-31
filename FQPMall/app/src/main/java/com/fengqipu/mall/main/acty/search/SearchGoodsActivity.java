@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -175,6 +176,8 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
         };
         myListview.setAdapter(lAdapter);
         myGridview.setAdapter(gAdapter);
+        WindowManager wm = getWindowManager();
+        emtryLl.setLayoutParams(new LinearLayout.LayoutParams(wm.getDefaultDisplay().getWidth(),(int)(wm.getDefaultDisplay().getHeight()*8/10)));
         myListview.setEmptyView(emtryLl);
         myGridview.setEmptyView(emtryLl);
         myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -270,7 +273,7 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
     }
 
     int jgtype = 0;
-
+    private int listtype=1;
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -285,10 +288,12 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
                 break;
             case btn_list_type:
                 if (myListview.getVisibility() == View.VISIBLE) {
+                    listtype=0;
                     btnListType.setImageResource(R.mipmap.search_sort_lv);
                     myListview.setVisibility(View.GONE);
                     myGridview.setVisibility(View.VISIBLE);
                 } else {
+                    listtype=1;
                     btnListType.setImageResource(R.mipmap.search_sort_gv);
                     myListview.setVisibility(View.VISIBLE);
                     myGridview.setVisibility(View.GONE);
@@ -463,6 +468,17 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
                             lAdapter.notifyDataSetChanged();
                             CommonMethod.setListViewHeightBasedOnChildren(myListview);
                             CommonMethod.setListViewHeightBasedOnChildren(myGridview);
+                            if (listtype == 0) {
+                                listtype=0;
+                                btnListType.setImageResource(R.mipmap.search_sort_lv);
+                                myListview.setVisibility(View.GONE);
+                                myGridview.setVisibility(View.VISIBLE);
+                            } else {
+                                listtype=1;
+                                btnListType.setImageResource(R.mipmap.search_sort_gv);
+                                myListview.setVisibility(View.VISIBLE);
+                                myGridview.setVisibility(View.GONE);
+                            }
                         }
                     } else {
                         ErrorCode.doCode(this, searchGoodsResponse.getResultCode(), searchGoodsResponse.getDesc());
