@@ -519,7 +519,7 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.search_layout:
                 Intent intent3 = new Intent(mainActivity, NewSearchActivity.class);
-                intent3.putExtra("searchtype", 0);
+                intent3.putExtra("searchtype", 2);
                 startActivity(intent3);
                 break;
         }

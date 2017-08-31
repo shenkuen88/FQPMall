@@ -52,11 +52,11 @@
         android:layout_height="@dimen/pxtodp1"
         android:background="@color/line"></View>
 
-    <android.support.v4.view.ViewPager
+    <com.fengqipu.mall.view.MyViewPager
         android:id="@+id/mContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></android.support.v4.view.ViewPager>
+        android:layout_weight="1"></com.fengqipu.mall.view.MyViewPager>
 
     <!--底部布局-->
     <RelativeLayout
