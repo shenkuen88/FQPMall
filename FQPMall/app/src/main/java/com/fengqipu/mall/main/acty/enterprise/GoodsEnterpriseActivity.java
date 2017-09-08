@@ -280,15 +280,18 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
     int jgtype = 0;
     private int order = 1;
     ShaiXuanDialog shaiXuanDialog;
+    private int listtype=1;
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case btn_list_type:
                 if (myListview.getVisibility() == View.VISIBLE) {
+                    listtype=0;
                     btnListType.setImageResource(R.mipmap.search_sort_lv);
                     myListview.setVisibility(View.GONE);
                     myGridview.setVisibility(View.VISIBLE);
                 } else {
+                    listtype=1;
                     btnListType.setImageResource(R.mipmap.search_sort_gv);
                     myListview.setVisibility(View.VISIBLE);
                     myGridview.setVisibility(View.GONE);
@@ -426,6 +429,17 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
                             lAdapter.notifyDataSetChanged();
                             CommonMethod.setListViewHeightBasedOnChildren(myListview);
                             CommonMethod.setListViewHeightBasedOnChildren(myGridview);
+                            if (listtype == 0) {
+                                listtype=0;
+                                btnListType.setImageResource(R.mipmap.search_sort_lv);
+                                myListview.setVisibility(View.GONE);
+                                myGridview.setVisibility(View.VISIBLE);
+                            } else {
+                                listtype=1;
+                                btnListType.setImageResource(R.mipmap.search_sort_gv);
+                                myListview.setVisibility(View.VISIBLE);
+                                myGridview.setVisibility(View.GONE);
+                            }
                         }
                     } else {
                         ErrorCode.doCode(this, goodsEnterpriseResponse.getResultCode(), goodsEnterpriseResponse.getDesc());

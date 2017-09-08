@@ -298,16 +298,19 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
     int jgtype = 0;
 
     private int order = 1;
+    private int listtype=1;
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case btn_list_type:
                 if (myListview.getVisibility() == View.VISIBLE) {
+                    listtype=0;
                     btnListType.setImageResource(R.mipmap.search_sort_lv);
                     myListview.setVisibility(View.GONE);
                     myGridview.setVisibility(View.VISIBLE);
                 } else {
+                    listtype=1;
                     btnListType.setImageResource(R.mipmap.search_sort_gv);
                     myListview.setVisibility(View.VISIBLE);
                     myGridview.setVisibility(View.GONE);
@@ -409,6 +412,17 @@ public class EnterpriseGoodsListFragment extends BaseFragment implements View.On
                             lAdapter.notifyDataSetChanged();
                             CommonMethod.setListViewHeightBasedOnChildren(myListview);
                             CommonMethod.setListViewHeightBasedOnChildren(myGridview);
+                            if (listtype == 0) {
+                                listtype=0;
+                                btnListType.setImageResource(R.mipmap.search_sort_lv);
+                                myListview.setVisibility(View.GONE);
+                                myGridview.setVisibility(View.VISIBLE);
+                            } else {
+                                listtype=1;
+                                btnListType.setImageResource(R.mipmap.search_sort_gv);
+                                myListview.setVisibility(View.VISIBLE);
+                                myGridview.setVisibility(View.GONE);
+                            }
                         }
                     } else {
                         ErrorCode.doCode(enterpriseActivity, zongHeShopListResponse.getResultCode(), zongHeShopListResponse.getDesc());
