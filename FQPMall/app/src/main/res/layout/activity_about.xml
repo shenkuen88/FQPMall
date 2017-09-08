@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_about"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.fengqipu.mall.main.acty.AboutActivity">
+
+    <include
+        android:id="@+id/common_back"
+        layout="@layout/layout_top" />
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/aboutus" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line"></View>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="#4A4A4A"
+            android:textSize="13sp"
+            android:text="丰其普（www.fengqipu.com）隶属于浙江丰其普网络科技有限公司，团队自2010年开始，开拓国内机械设备、电子电气市场，自主研发的一站式B2B、B2C、O2O工业品现货交易平台，依托百万产品连接十万级客户和数千供应商，通过自主知识产权的自动分单、派单系统及上下游对接技术在线闭环交易，对产品、报价、订单、执行跟踪、物流等信息进行集成化管理。\n\n丰其普致力于提供行业领先的电子商务技术，专注于工业产品的一站式和个性化服务，垂直市场和应用的解决方案。产品范围涵盖设备电子电气、家装电气、汽车配件、模具研发及加工、检测仪器、测量工具、设备、试剂及实验室耗材等的日常采购。我们网站产品超过60万SKUs，是众多客户的选择知名品牌的合作伙伴。\n\n丰其普做为专业工业产品电商，我们唯一要做的，就是让你感觉——值。通过高效的供应链整合及IT研发优势，向工厂等商业客户、以及小型贸易商提供一站式工业品推广、销售服务，实现采购活动的透明化和多元化，提高运营效率。" />
+
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line"></View>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="#9B9B9B"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:text="Copyright @ 2013-2017\n浙江丰其普网络科技有限公司"
+            />
+
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>

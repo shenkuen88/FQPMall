@@ -17,6 +17,7 @@ import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
+import com.fengqipu.mall.main.acty.AboutActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.HeadView;
@@ -45,6 +46,8 @@ public class SettingActy extends BaseActivity implements View.OnClickListener {
     RelativeLayout addressRl;
     @Bind(R.id.yijian_rl)
     RelativeLayout yijianRl;
+    @Bind(R.id.aboutus_rl)
+    RelativeLayout aboutusRl;
     /**
      * 关闭提示音
      */
@@ -117,6 +120,7 @@ public class SettingActy extends BaseActivity implements View.OnClickListener {
         exitTv.setOnClickListener(this);
         addressRl.setOnClickListener(this);
         yijianRl.setOnClickListener(this);
+        aboutusRl.setOnClickListener(this);
         soundBn.setChecked(SharePref.getBoolean(Constants.SOUND_TIP, false));
         //提示音 仅本地保存
         soundBn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -150,6 +154,10 @@ public class SettingActy extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.aboutus_rl:
+                Intent intent1 = new Intent(this, AboutActivity.class);
+                startActivity(intent1);
+                break;
             case R.id.address_rl:
                 Intent intent = new Intent(this, RecieveAddressListActy.class);
                 intent.putExtra(IntentCode.CHOOSE_ADDRESS_WITH_PHONE, "");
