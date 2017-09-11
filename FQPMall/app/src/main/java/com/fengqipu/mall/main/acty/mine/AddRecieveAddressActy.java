@@ -29,12 +29,14 @@ import com.fengqipu.mall.network.UserServiceImpl;
 import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
+import com.fengqipu.mall.tools.SharePref;
 import com.fengqipu.mall.tools.ToastUtil;
 import com.fengqipu.mall.view.switchbn.SwitchButton;
 import com.fengqipu.mall.view.wheel.cascade.activity.LocationBaseActivity;
 import com.fengqipu.mall.view.wheel.widget.OnWheelChangedListener;
 import com.fengqipu.mall.view.wheel.widget.WheelView;
 import com.fengqipu.mall.view.wheel.widget.adapters.ArrayWheelAdapter;
+import com.google.gson.Gson;
 
 import de.greenrobot.event.EventBus;
 
@@ -178,6 +180,11 @@ public class AddRecieveAddressActy extends LocationBaseActivity implements View.
                     AddReceiveAddressResponse mAddReceiveAddressResponse = GsonHelper.toType(result, AddReceiveAddressResponse.class);
                     if (Constants.SUCESS_CODE.equals(mAddReceiveAddressResponse.getResultCode()))
                     {
+                        if (defaultBn.isChecked())
+                        {
+                            Gson gson=new Gson();
+                            SharePref.saveString(Constants.CHOOSE_ADDRESS,gson.toJson(mAddReceiveAddressResponse.getUserAddress()));
+                        }
                         EventBus.getDefault().post(new NoticeEvent(NotiTag.NEW_SAVE_ADDRESS_RESULT, result));
                         finish();
                     }
@@ -199,6 +206,11 @@ public class AddRecieveAddressActy extends LocationBaseActivity implements View.
                     EditReceiveAddressResponse mEditReceiveAddressResponse = GsonHelper.toType(result, EditReceiveAddressResponse.class);
                     if (Constants.SUCESS_CODE.equals(mEditReceiveAddressResponse.getResultCode()))
                     {
+                        if (defaultBn.isChecked())
+                        {
+                            Gson gson=new Gson();
+                            SharePref.saveString(Constants.CHOOSE_ADDRESS,gson.toJson(mEditReceiveAddressResponse.getUserAddress()));
+                        }
                         EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_CHANGE_RECEIVE_ADDRESS, editPosition, result));
                         finish();
                     }
