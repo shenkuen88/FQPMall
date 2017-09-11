@@ -1,5 +1,6 @@
 package com.fengqipu.mall.main.acty.search;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -77,6 +79,16 @@ public class NewSearchActivity extends BaseActivity implements View.OnClickListe
         ButterKnife.bind(this);
         searchtype=getIntent().getIntExtra("searchtype",0);
         initAll();
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    etSearch.requestFocus();
+                    imm.showSoftInput(etSearch, 0);
+                }
+            }
+        }, 100);
     }
 
     @Override

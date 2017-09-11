@@ -174,7 +174,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                 };
                 listView.setAdapter(gAdapter);
                 CommonMethod.setListViewHeightBasedOnChildren(listView);
-                TextView btn_more = helper.getView(R.id.btn_more);
+                LinearLayout btn_more = helper.getView(R.id.btn_more);
                 btn_more.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

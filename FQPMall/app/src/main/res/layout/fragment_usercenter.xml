@@ -129,7 +129,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/pxtodp170"
                             android:orientation="vertical"
-                            android:background="@mipmap/bj_home">
+                            android:background="@color/white">
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/pxtodp170"

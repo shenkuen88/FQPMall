@@ -140,9 +140,13 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 startActivity(new Intent(GoodsDetailActivity.this, ConversationListActivity.class));
                 break;
             case R.id.shop_tv:
-                Intent intent2=new Intent(GoodsDetailActivity.this, EnterpriseActivity.class);
-                intent2.putExtra("sid",goodsDetailResponse.getContent().getShopID());
-                startActivity(intent2);
+                try {
+                    Intent intent2=new Intent(GoodsDetailActivity.this, EnterpriseActivity.class);
+                    intent2.putExtra("sid",goodsDetailResponse.getContent().getShopID());
+                    startActivity(intent2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.search_tv:
 

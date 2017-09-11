@@ -189,7 +189,7 @@ public class CategoryFragment extends BaseFragment {
                     }
                 };
                 gridview.setAdapter(gAdapter);
-                TextView btn_more = helper.getView(R.id.btn_more);
+                LinearLayout btn_more = helper.getView(R.id.btn_more);
                 btn_more.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -238,7 +238,15 @@ public class CategoryFragment extends BaseFragment {
         rightAdapter.notifyDataSetChanged();
     }
 
-    private void getLeftData() {
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            getLeftData();
+        }
+    }
+
+    public void getLeftData() {
         UserServiceImpl.instance().getCategoryList(mainActivity, "1", CategoryResponse.class.getName());
     }
 
