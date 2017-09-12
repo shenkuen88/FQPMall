@@ -55,7 +55,7 @@
         <!--android:layout_width="fill_parent"-->
         <!--android:layout_height="match_parent"-->
         <!--android:layout_below="@+id/tab_FindFragment_title" />-->
-    <com.fengqipu.mall.view.MyWebView
+    <com.fengqipu.mall.view.ProductWebView
         android:id="@+id/web_view_helper_web_one"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

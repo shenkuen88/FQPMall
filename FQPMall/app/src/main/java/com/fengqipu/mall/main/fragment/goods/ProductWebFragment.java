@@ -12,7 +12,7 @@ import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.tools.WebViewUtil;
-import com.fengqipu.mall.view.MyWebView;
+import com.fengqipu.mall.view.ProductWebView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,7 +24,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 //产品详情webview
 public class ProductWebFragment extends BaseFragment {
     @Bind(R.id.web_view_helper_web_one)
-    MyWebView webViewHelperWebOne;
+    ProductWebView webViewHelperWebOne;
     @Bind(R.id.refreshLayout)
     PtrClassicFrameLayout refreshLayout;
     private View mView;

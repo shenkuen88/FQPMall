@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -46,7 +47,6 @@ import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
-import com.fengqipu.mall.view.MyViewPager;
 import com.hyphenate.helpdesk.easeui.util.IntentBuilder;
 import com.hyphenate.helpdesk.model.ContentFactory;
 
@@ -65,7 +65,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
     @Bind(R.id.mTabs)
     TabLayout mTabs;
     @Bind(R.id.mContainer)
-    MyViewPager mContainer;
+    ViewPager mContainer;
     @Bind(R.id.iv_back)
     ImageView ivBack;
     @Bind(R.id.shop_tv)
