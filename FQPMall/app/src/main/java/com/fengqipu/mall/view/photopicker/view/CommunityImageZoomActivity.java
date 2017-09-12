@@ -9,10 +9,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -55,7 +59,8 @@ public class CommunityImageZoomActivity extends BaseActivity {
     private int window_width;
 
     private int window_height;
-
+    private RelativeLayout layout_rl;
+    private LinearLayout my_dots;
     /**
      * 这里重写handleMessage方法，接受到子线程数据后更新UI
      **/
@@ -82,9 +87,15 @@ public class CommunityImageZoomActivity extends BaseActivity {
         pager = (ViewPager) findViewById(R.id.viewpager);
         pager.setOnPageChangeListener(pageChangeListener);
 
+        my_dots=(LinearLayout)findViewById(R.id.my_dots);
+        layout_rl=(RelativeLayout) findViewById(R.id.layout_rl);
+        layout_rl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         initData();
-
-
         adapter = new MyPageAdapter(mDataList);
         pager.setAdapter(adapter);
         pager.setCurrentItem(currentPosition);
@@ -161,11 +172,25 @@ public class CommunityImageZoomActivity extends BaseActivity {
 
     }
 
-
+    private ArrayList<ImageView> mPointViews = new ArrayList<ImageView>();
+    private int cutpos=0;
     private void initData() {
         currentPosition = getIntent().getIntExtra(
                 IntentCode.EXTRA_CURRENT_IMG_POSITION, 0);
         mDataList = (List<ImageBean>) getIntent().getSerializableExtra(IntentCode.COMMUNITY_IMAGE_DATA);
+        my_dots.removeAllViews();
+        mPointViews.clear();
+        for (int count = 0; count < mDataList.size(); count++) {
+            // 翻页指示的点
+            ImageView pointView = new ImageView(this);
+            pointView.setPadding(5, 0, 5, 0);
+            if (cutpos==count)
+                pointView.setImageResource(R.mipmap.ic_page_indicator_focused);
+            else
+                pointView.setImageResource(R.mipmap.ic_page_indicator);
+            mPointViews.add(pointView);
+            my_dots.addView(pointView);
+        }
     }
 
     private void removeImgs() {
@@ -182,13 +207,17 @@ public class CommunityImageZoomActivity extends BaseActivity {
 
         public void onPageSelected(int arg0) {
             currentPosition = arg0;
-        }
+            cutpos=arg0;
+            Log.e("sub","arg0="+arg0);
+            for(ImageView imageView:mPointViews){
+                imageView.setImageResource(R.mipmap.ic_page_indicator);
+            }
+            mPointViews.get(cutpos).setImageResource(R.mipmap.ic_page_indicator_focused);}
 
         public void onPageScrolled(int arg0, float arg1, int arg2) {
         }
 
         public void onPageScrollStateChanged(int arg0) {
-
         }
     };
 

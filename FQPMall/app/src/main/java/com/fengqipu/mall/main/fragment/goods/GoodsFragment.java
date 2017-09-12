@@ -1,5 +1,6 @@
 package com.fengqipu.mall.main.fragment.goods;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,9 +18,11 @@ import com.fengqipu.mall.adapter.CommonAdapter;
 import com.fengqipu.mall.adapter.ViewHolder;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NoticeEvent;
+import com.fengqipu.mall.bean.conmunity.ImageBean;
 import com.fengqipu.mall.bean.goods.GoodsCommentResponse;
 import com.fengqipu.mall.bean.goods.GoodsDetailResponse;
 import com.fengqipu.mall.bean.index.BannerListBean;
+import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.tools.CommonMethod;
@@ -33,7 +36,9 @@ import com.fengqipu.mall.view.banner.demo.LocalImageHolderView;
 import com.fengqipu.mall.view.banner.demo.NetworkImageHolderView;
 import com.fengqipu.mall.view.banner.holder.CBViewHolderCreator;
 import com.fengqipu.mall.view.banner.listener.OnItemClickListener;
+import com.fengqipu.mall.view.photopicker.view.CommunityImageZoomActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -235,9 +240,11 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
             return;
         }
         networkImages.clear();
+        imgbeans.clear();
         for (int i = 0; i < ad.size(); i++) {
             if (!networkImages.contains(ad.get(i).getCoverRequestUrl())) {
                 networkImages.add(ad.get(i).getCoverRequestUrl());
+                imgbeans.add(new ImageBean(ad.get(i).getCoverRequestUrl(),0,0));
             }
         }
         indexBanner.stopTurning();
@@ -249,17 +256,13 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
         }, networkImages).setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                BannerListBean bean = ad.get(position);
-                if (bean != null && GeneralUtils.isNotNullOrZeroLenght(bean.getLink())) {
-                    //页面跳转
-//                    if (bean.getType() == 1 || bean.getType() == 2) {
-//
-//                    }
-                }
+                Intent intent=new Intent(getActivity(), CommunityImageZoomActivity.class);
+                intent.putExtra(IntentCode.COMMUNITY_IMAGE_DATA,(Serializable) imgbeans);
+                startActivity(intent);
             }
         });
     }
-
+    private List<ImageBean> imgbeans=new ArrayList<>();
     private void initData() {
         //请求banner
 //        List<BannerListBean> ad = new ArrayList<>();

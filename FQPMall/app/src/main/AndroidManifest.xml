@@ -172,7 +172,7 @@
             android:name=".main.acty.MainActivity"
             android:alwaysRetainTaskState="true"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".main.acty.BaiduMapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -356,7 +356,9 @@
 
         <activity android:name=".main.acty.ConversationListActivity" />
         <activity android:name=".main.acty.KuaiXiuActivity" />
-        <activity android:name=".main.acty.AboutActivity"></activity>
+        <activity android:name=".main.acty.AboutActivity" />
+        <activity android:name=".main.acty.mine.BigPicActivity"></activity>
+        <activity android:name=".view.photopicker.view.CommunityImageZoomActivity"/>
     </application>
 
 </manifest>

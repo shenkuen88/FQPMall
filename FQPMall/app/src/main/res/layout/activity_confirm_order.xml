@@ -219,7 +219,35 @@
                         android:focusable="false" />
                 </RelativeLayout>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/pxtodp24" />
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/pxtodp90"
+                android:background="@drawable/common_background"
+                android:paddingLeft="@dimen/pxtodp30">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="买家留言"
+                    android:textColor="@color/register_black_text"
+                    android:textSize="@dimen/pxtosp30" />
+
+                <EditText
+                    android:layout_marginLeft="@dimen/pxtodp18"
+                    android:layout_width="match_parent"
+                    android:background="@color/white"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:hint="选填,对本次交易的留言"
+                    android:textColor="@color/register_black_text"
+                    android:textSize="@dimen/pxtosp28" />
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:visibility="gone"

@@ -440,7 +440,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                                 bean.getDeliveryUser(), bean.getPhone(),
                                 AddOrderResponse.class.getName());
                     } else {
-                        UserServiceImpl.instance().addOrder(orderState, payType, bean.getProvince() + bean.getCity() + bean.getArea() + bean.getDetail(),
+                        UserServiceImpl.instance().addOrder(orderContent.getOrderID(), payType, bean.getProvince() + bean.getCity() + bean.getArea() + bean.getDetail(),
                                 bean.getDeliveryUser(), bean.getPhone(),
                                 AddOrderResponse.class.getName());
                     }
