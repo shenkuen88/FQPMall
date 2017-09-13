@@ -468,7 +468,9 @@ public class MyOrderFragment extends BaseFragment {
     //请求订单列表
     private void getOrderList(String keyword) {
         //正式访问
-//        NetLoadingDialog.getInstance().loading(orderListActivity);
+        if(page==1) {
+            NetLoadingDialog.getInstance().loading(orderListActivity);
+        }
         UserServiceImpl.instance().getOrderList(orderstate, keyword, page, num, OrderResponse.class.getName());
         new Handler().postDelayed(new Runnable() {
             @Override

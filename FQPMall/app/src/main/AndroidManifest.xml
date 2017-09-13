@@ -176,6 +176,9 @@
         <activity
             android:name=".main.acty.BaiduMapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".main.acty.ChooseLocationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <!-- 引导页 -->
 
 

@@ -47,7 +47,7 @@ public class OrderListActivity extends BaseActivity {
         if(orderstate!=5){
             SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
             mContainer.setAdapter(sectionsPagerAdapter);
-            mContainer.setOffscreenPageLimit(5);
+            mContainer.setOffscreenPageLimit(1);
             mContainer.setCurrentItem(orderstate);
             mTabs.setupWithViewPager(mContainer);
             mTabs.setVisibility(View.VISIBLE);
