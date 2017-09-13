@@ -166,7 +166,7 @@ public class SearchShopsActivity extends BaseActivity implements View.OnClickLis
         };
         myListview.setAdapter(lAdapter);
         WindowManager wm = getWindowManager();
-        emtryLl.setLayoutParams(new LinearLayout.LayoutParams(wm.getDefaultDisplay().getWidth(),(int)(wm.getDefaultDisplay().getHeight()*8/10)));
+        emtryLl.setLayoutParams(new LinearLayout.LayoutParams(wm.getDefaultDisplay().getWidth(),(int)(wm.getDefaultDisplay().getHeight()*8.5/10)));
         myListview.setEmptyView(emtryLl);
         myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

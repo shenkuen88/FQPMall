@@ -86,7 +86,7 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView title, info;
     private LinearLayout wl_info;
     private TextView wl_info_txt, wl_info_time;
-    private TextView sh_name, sh_phone, sh_address, order_id, order_jyh, order_createtime, order_fktime, order_fhtime;
+    private TextView sh_name, sh_phone, sh_address, order_id, order_jyh, order_createtime, order_fktime, order_fhtime,order_mjly;
     private TextView fz;
     public static boolean needclose = false;
 
@@ -120,6 +120,7 @@ public class OrderDetailActivity extends BaseActivity {
         btn_pj = V.f(this, R.id.btn_pj);//评价
         btn_qxdd = V.f(this, R.id.btn_qxdd);//取消订单
         btn_sqsh = V.f(this, R.id.btn_sqsh);//申请售后
+        order_mjly= V.f(this, R.id.order_mjly);//买家留言
         my_list = V.f(this, R.id.my_list);
         img = V.f(this, R.id.img);
         title = V.f(this, R.id.title);
@@ -545,6 +546,7 @@ public class OrderDetailActivity extends BaseActivity {
                         order_createtime.setText("创建时间:" + orderDetailResponse.getOrder().getCreateTimeShow());
                         order_fktime.setText("付款时间:" + orderDetailResponse.getOrder().getPayTimeShow());
                         order_fhtime.setText("发货时间:" + orderDetailResponse.getOrder().getDeliveryTimeShow());
+                        order_mjly.setText("买家留言:"+orderDetailResponse.getOrder().getRemark());
                     } else {
                         ErrorCode.doCode(mContext, orderDetailResponse.getResultCode(), orderDetailResponse.getDesc());
                     }

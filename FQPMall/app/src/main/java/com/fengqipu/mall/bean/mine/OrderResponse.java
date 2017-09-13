@@ -111,7 +111,16 @@ public class OrderResponse extends BaseResponse implements Serializable{
         private String createTimeShow;
         private String shopName;
         private String payTimeShow;
+        private String remark;
         private List<OrderContentListBean> orderContentList;
+
+        public String getRemark() {
+            return remark;
+        }
+
+        public void setRemark(String remark) {
+            this.remark = remark;
+        }
 
         public String getId() {
             return id;

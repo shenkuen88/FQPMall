@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -269,6 +270,7 @@ public class MyOrderFragment extends BaseFragment {
                         shopList.add(storeGoodsBean);
                         Intent intent = new Intent(mContext, ConfirmOrderActivity.class);
                         intent.putExtra(IntentCode.ORDER_GOODS_LIST, GsonHelper.toJson(shopList));
+                        intent.putExtra("REMARK", item.getRemark());//0 新生成订单，代付款订单 传订单号
                         intent.putExtra(IntentCode.ORDER_STATE, "1");//0 新生成订单，代付款订单 传订单号
                         startActivity(intent);
 
@@ -468,7 +470,12 @@ public class MyOrderFragment extends BaseFragment {
         //正式访问
 //        NetLoadingDialog.getInstance().loading(orderListActivity);
         UserServiceImpl.instance().getOrderList(orderstate, keyword, page, num, OrderResponse.class.getName());
-
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                pull_to_refresh.refreshComplete();
+            }
+        },3000);
 //        if (page == 1) {
 //            olist.clear();
 //        }

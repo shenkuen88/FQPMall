@@ -169,6 +169,16 @@ public class OrderDetailResponse extends BaseResponse{
         private String createTimeStr;
         private String shopName;
         private String createTimeShow;
+        private String remark;
+
+        public String getRemark() {
+            return remark;
+        }
+
+        public void setRemark(String remark) {
+            this.remark = remark;
+        }
+
         /**
          * id : 4454
          * orderID : 6

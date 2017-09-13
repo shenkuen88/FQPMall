@@ -1034,10 +1034,13 @@ public class UserServiceImpl
     /**
      * 确认订单
      */
-    public void addOrder(ArrayList<OrderContent> orderContentList, int payType, String deliveryAddress,
+    public void addOrder(String remark,ArrayList<OrderContent> orderContentList, int payType, String deliveryAddress,
                          String deliveryUser, String phone, String tag)
     {
         Map<String, Object> param = new HashMap<String, Object>();
+        if(remark!=null&&!remark.equals("")) {
+            param.put("remark",remark);
+        }
         param.put("orderContentList", orderContentList);
         param.put("couponID", "");//暂无优惠券
         param.put("payType", payType);
@@ -1050,10 +1053,13 @@ public class UserServiceImpl
     /**
      * 确认订单
      */
-    public void addOrder(String orderID, int payType, String deliveryAddress,
+    public void addOrder(String remark,String orderID, int payType, String deliveryAddress,
                          String deliveryUser, String phone, String tag)
     {
         Map<String, Object> param = new HashMap<String, Object>();
+        if(remark!=null&&!remark.equals("")) {
+            param.put("remark",remark);
+        }
         param.put("orderID", orderID);
         param.put("couponID", "");//暂无优惠券
         param.put("payType", payType);

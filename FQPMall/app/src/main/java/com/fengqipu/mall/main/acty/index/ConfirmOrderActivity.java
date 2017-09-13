@@ -1,6 +1,7 @@
 package com.fengqipu.mall.main.acty.index;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +11,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -67,6 +70,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 import static com.fengqipu.mall.main.acty.index.zfb.PayDemoActivity.APPID;
 import static com.fengqipu.mall.main.acty.index.zfb.PayDemoActivity.RSA2_PRIVATE;
 import static com.fengqipu.mall.main.acty.index.zfb.PayDemoActivity.RSA_PRIVATE;
@@ -78,6 +84,8 @@ import static com.fengqipu.mall.main.acty.index.zfb.PayDemoActivity.RSA_PRIVATE;
 public class ConfirmOrderActivity extends BaseActivity implements View.OnClickListener {
 
 
+    @Bind(R.id.et_remark)
+    EditText etRemark;
     private TextView tvNoReceiver;
     private TextView tvName;
     private TextView tvPhone;
@@ -119,18 +127,35 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     private AddressBean bean;
     private String orderState = 0 + "";
     private AddOrderResponse mComplainResponse;
+    private String remarkStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_order);
+        ButterKnife.bind(this);
         orderState = getIntent().getStringExtra(IntentCode.ORDER_STATE);
+        remarkStr = getIntent().getStringExtra("REMARK");
         initAll();
+        if(remarkStr!=null&&!remarkStr.equals("")){
+            etRemark.setText(remarkStr);
+        }
+        lvOrder.findFocus();
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(ConfirmOrderActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }, 100);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     private void initAdapter() {
-        Log.e("sub","initAdapter");
+        Log.e("sub", "initAdapter");
         adapter = new CommonAdapter<StoreGoodsBean>(mContext, shopList, R.layout.item_confirm_order) {
             @Override
             public void convert(ViewHolder helper, final StoreGoodsBean item) {
@@ -147,7 +172,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                     @Override
                     public void convert(ViewHolder helper, GoodsBean item) {
                         try {
-                            orderContent = new OrderContent(item.getContentID()+"", item.getCount() + "", item.getStyle()+"");
+                            orderContent = new OrderContent(item.getContentID() + "", item.getCount() + "", item.getStyle() + "");
                             if (orderList.size() > 0) {
                                 for (int i = 0; i < orderList.size(); i++) {
                                     OrderContent bean = orderList.get(i);
@@ -167,7 +192,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                         //图标
                         try {
                             ImageView iv = helper.getView(R.id.good_iv);
-                            GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl(), iv,  R.drawable.bg_image_classification);
+                            GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl(), iv, R.drawable.bg_image_classification);
                         } catch (Exception e) {
                         }
                         //数量
@@ -187,10 +212,10 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                         }
                         //样式
                         try {
-                            if(item.getColor()!=null&&!item.getColor().equals("")){
-                                helper.setText(R.id.classify_tv, "分类:"+item.getStyle()+"、"+item.getColor());
-                            }else{
-                                helper.setText(R.id.classify_tv, "分类:"+item.getStyle());
+                            if (item.getColor() != null && !item.getColor().equals("")) {
+                                helper.setText(R.id.classify_tv, "分类:" + item.getStyle() + "、" + item.getColor());
+                            } else {
+                                helper.setText(R.id.classify_tv, "分类:" + item.getStyle());
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -318,30 +343,30 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 NetLoadingDialog.getInstance().dismissDialog();
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     CMLog.e(Constants.HTTP_TAG, result);
-                     mComplainResponse = GsonHelper.toType(result, AddOrderResponse.class);
+                    mComplainResponse = GsonHelper.toType(result, AddOrderResponse.class);
                     if (Constants.SUCESS_CODE.equals(mComplainResponse.getResultCode())) {
                         if (payType == 2) {
 //                            Intent zfbIntent = new Intent(mContext, ZFBPayActivity.class);
 //                            zfbIntent.putExtra(IntentCode.ZFB_RESULT, result);
 //                            startActivity(zfbIntent);
-                            payV2(mComplainResponse.getOrderCode(),mComplainResponse.getTotalPrice());
+                            payV2(mComplainResponse.getOrderCode(), mComplainResponse.getTotalPrice());
                         } else {
 //                            Intent zfbIntent = new Intent(mContext, PayActivity.class);
 //                            zfbIntent.putExtra(IntentCode.ZFB_RESULT, result);
 //                            startActivity(zfbIntent);
                             IWXAPI api = WXAPIFactory.createWXAPI(this, com.fengqipu.mall.main.acty.index.wx.Constants.APP_ID);
                             AddOrderResponse mc = GsonHelper.toType(result, AddOrderResponse.class);
-                            if(null != mc){
+                            if (null != mc) {
 
                                 PayReq req = new PayReq();
-                                req.appId			= mc.getAppID();//
-                                req.partnerId		= mc.getPartnerID();
-                                req.prepayId		= mc.getPrepay_id();
-                                req.nonceStr		= mc.getNonce_str();
-                                req.timeStamp		= mc.getTimestamp();
-                                req.packageValue	= "Sign=WXpay";
+                                req.appId = mc.getAppID();//
+                                req.partnerId = mc.getPartnerID();
+                                req.prepayId = mc.getPrepay_id();
+                                req.nonceStr = mc.getNonce_str();
+                                req.timeStamp = mc.getTimestamp();
+                                req.packageValue = "Sign=WXpay";
 //                                req.sign			= mc.getSign();
-                                req.extData			= mc.getTimestamp(); // optional
+                                req.extData = mc.getTimestamp(); // optional
                                 List<NameValuePair> signParams = new LinkedList<NameValuePair>();
                                 signParams.add(new BasicNameValuePair("appid", req.appId));
                                 signParams.add(new BasicNameValuePair("noncestr", req.nonceStr));
@@ -350,11 +375,11 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                                 signParams.add(new BasicNameValuePair("prepayid", req.prepayId));
                                 signParams.add(new BasicNameValuePair("timestamp", req.timeStamp));
                                 req.sign = genAppSign(signParams);
-                                Log.e("sub",mc.getSign()+"==="+req.sign);
+                                Log.e("sub", mc.getSign() + "===" + req.sign);
                                 // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
                                 api.registerApp(com.fengqipu.mall.main.acty.index.wx.Constants.APP_ID);
-                                boolean bl=api.sendReq(req);
-                                Log.e("sub","bl"+bl);
+                                boolean bl = api.sendReq(req);
+                                Log.e("sub", "bl" + bl);
                             }
                         }
                     } else {
@@ -366,12 +391,14 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             }
         }
     }
+
     // 随机串 防重发
     private String genNonceStr() {
         Random random = new Random();
         return getMessageDigest(String.valueOf(random.nextInt(10000))
                 .getBytes());
     }
+
     private String genAppSign(List<NameValuePair> params) {
         StringBuilder sb = new StringBuilder();
 
@@ -389,8 +416,9 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 //        Log.e("orion", appSign);
         return appSign;
     }
+
     public final static String getMessageDigest(byte[] buffer) {
-        char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+        char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
         try {
             MessageDigest mdTemp = MessageDigest.getInstance("MD5");
             mdTemp.update(buffer);
@@ -408,6 +436,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             return null;
         }
     }
+
     private void initTitle() {
         View view = findViewById(R.id.common_back);
         HeadView headView = new HeadView((ViewGroup) view);
@@ -417,8 +446,9 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     }
 
     private String genTimeStamp() {
-        return System.currentTimeMillis() / 1000+"";
+        return System.currentTimeMillis() / 1000 + "";
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -436,11 +466,11 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 
                     //新添加订单
                     if (orderState.equals("0")) {
-                        UserServiceImpl.instance().addOrder(orderList, payType, bean.getProvince() + bean.getCity() + bean.getArea() + bean.getDetail(),
+                        UserServiceImpl.instance().addOrder(etRemark.getText().toString(),orderList, payType, bean.getProvince() + bean.getCity() + bean.getArea() + bean.getDetail(),
                                 bean.getDeliveryUser(), bean.getPhone(),
                                 AddOrderResponse.class.getName());
                     } else {
-                        UserServiceImpl.instance().addOrder(orderContent.getOrderID(), payType, bean.getProvince() + bean.getCity() + bean.getArea() + bean.getDetail(),
+                        UserServiceImpl.instance().addOrder(etRemark.getText().toString(),orderContent.getOrderID(), payType, bean.getProvince() + bean.getCity() + bean.getArea() + bean.getDetail(),
                                 bean.getDeliveryUser(), bean.getPhone(),
                                 AddOrderResponse.class.getName());
                     }
@@ -521,14 +551,15 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 default:
                     break;
             }
-        };
+        }
+
+        ;
     };
 
     /**
      * 支付宝支付业务
-     *
      */
-    public void payV2(String orderID,double price) {
+    public void payV2(String orderID, double price) {
         if (TextUtils.isEmpty(APPID) || (TextUtils.isEmpty(RSA2_PRIVATE) && TextUtils.isEmpty(RSA_PRIVATE))) {
             new AlertDialog.Builder(this).setTitle("警告").setMessage("需要配置APPID | RSA_PRIVATE")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -548,7 +579,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
          * orderInfo的获取必须来自服务端；
          */
         boolean rsa2 = (RSA2_PRIVATE.length() > 0);
-        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2,orderID,price);
+        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(APPID, rsa2, orderID, price);
         String orderParam = OrderInfoUtil2_0.buildOrderParam(params);
 
         String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
