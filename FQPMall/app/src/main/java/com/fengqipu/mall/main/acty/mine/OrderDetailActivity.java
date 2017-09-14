@@ -578,7 +578,7 @@ public class OrderDetailActivity extends BaseActivity {
                         order_createtime.setText("创建时间:" + orderDetailResponse.getOrder().getCreateTimeShow());
                         order_fktime.setText("付款时间:" + orderDetailResponse.getOrder().getPayTimeShow());
                         order_fhtime.setText("发货时间:" + orderDetailResponse.getOrder().getDeliveryTimeShow());
-                        order_mjly.setText("买家留言:"+orderDetailResponse.getOrder().getRemark());
+                        order_mjly.setText(""+orderDetailResponse.getOrder().getRemark());
                     } else {
                         ErrorCode.doCode(mContext, orderDetailResponse.getResultCode(), orderDetailResponse.getDesc());
                     }

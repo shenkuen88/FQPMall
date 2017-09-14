@@ -367,14 +367,27 @@
                         android:ellipsize="end"
                         android:textColor="@color/txt_nol_col"
                         android:textSize="13sp" />
-                    <TextView
-                        android:id="@+id/order_mjly"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="买家留言:--"
-                        android:ellipsize="end"
-                        android:textColor="@color/txt_nol_col"
-                        android:textSize="13sp" />
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="买家留言:"
+                            android:ellipsize="end"
+                            android:textColor="@color/txt_nol_col"
+                            android:textSize="13sp" />
+                        <TextView
+                            android:id="@+id/order_mjly"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="--"
+                            android:ellipsize="end"
+                            android:textColor="@color/txt_nol_col"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
