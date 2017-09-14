@@ -464,7 +464,7 @@ public class Global {
         }
         int index=-1;
         for(int i=0;i<searchHistoryList.size();i++){
-            if(searchHistoryList.get(i).getKeyword().equals(keyword)){
+            if(searchType==searchHistoryList.get(i).getSearchType()&&searchHistoryList.get(i).getKeyword().equals(keyword)){
                 index=i;
             }
         }
