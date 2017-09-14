@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -436,10 +438,16 @@ public class OrderDetailActivity extends BaseActivity {
 
     /**
      * 调用拨号功能
+     *
      * @param phone 电话号码
      */
+    private String curphone = "";
+
     private void call(String phone) {
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+        curphone = phone;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{"android.permission.CALL_PHONE"}, 111);
+        }
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -450,7 +458,31 @@ public class OrderDetailActivity extends BaseActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + curphone));
         startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 111) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //代表用户同意了打电话的请求
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + curphone));
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                startActivity(intent);
+            }else{
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
     private void initTitle() {
         View view = findViewById(R.id.common_back);
