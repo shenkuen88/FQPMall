@@ -60,6 +60,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import static com.fengqipu.mall.R.id.btn_qyjs;
+import static com.fengqipu.mall.R.id.tv_gz_num;
 
 /*
  *企业页面
@@ -86,7 +87,7 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
     TextView tvNotice;
     @Bind(R.id.tv_gz)
     TextView tvGz;
-    @Bind(R.id.tv_gz_num)
+    @Bind(tv_gz_num)
     TextView tvGzNum;
 
     public String sid = "";
@@ -177,7 +178,7 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.tv_gz:
                 if (GeneralUtils.isLogin()) {
-                    if (tvGz.getText().equals("已关注")) return;
+                    if (tvGz.getText().equals("已关注"))return;
                     NetLoadingDialog.getInstance().loading(mContext);
                     UserServiceImpl.instance().addFavour(this, "2", sid, AddShopResponse.class.getName());
                 } else {
@@ -291,6 +292,14 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
                         tvGz.setText("已关注");
                         tvGz.setBackground(getResources().getDrawable(R.drawable.white_rec_click));
                         tvGz.setTextColor(Color.parseColor("#394257"));
+                        int num=0;
+                        try {
+                            num=Integer.valueOf(tvGzNum.getText().toString().replace("人",""));
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
+                        }
+                        num++;
+                        tvGzNum.setText(num+"人");
                     } else {
                         ErrorCode.doCode(this, shopDetailResponse.getResultCode(), shopDetailResponse.getDesc());
                     }
