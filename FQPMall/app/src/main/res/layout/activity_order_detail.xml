@@ -300,7 +300,7 @@
                     android:background="@color/line"></View>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
+                    android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -372,7 +372,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="买家留言:--"
-                        android:lines="1"
                         android:ellipsize="end"
                         android:textColor="@color/txt_nol_col"
                         android:textSize="13sp" />
@@ -382,6 +381,7 @@
                 android:id="@+id/view_layout"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:layout_marginTop="10dp"
                 android:gravity="right|center_vertical"
                 android:background="@color/white"
                 android:layout_width="match_parent"
