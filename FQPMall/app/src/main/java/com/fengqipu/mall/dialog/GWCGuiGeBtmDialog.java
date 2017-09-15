@@ -58,6 +58,12 @@ public class GWCGuiGeBtmDialog extends Dialog {
     public void setConfimClickListener(View.OnClickListener listener){
         btn_confim.setOnClickListener(listener);
     }
+
+    private List<String> selstyles=new ArrayList<>();
+    private List<String> selcolors=new ArrayList<>();
+
+    public List<String> stylestrs=new ArrayList<>();
+    public List<String> colorstrs=new ArrayList<>();
     public GWCGuiGeBtmDialog(final Activity ctx, View view, int style, final GWCGoodsDetailResponse goodsDetailResponse, String tstylestr, String tcolorstr) {
         super(view.getContext(), style);
         // // 透明背景
@@ -118,6 +124,12 @@ public class GWCGuiGeBtmDialog extends Dialog {
             if (stylestr.equals("")) {
                 stylestr = goodsDetailResponse.getContentStyleList().get(0).getStyle().trim();
             }
+            selcolors.clear();
+            for (GWCGoodsDetailResponse.ContentStyleListBean item : goodsDetailResponse.getContentStyleList()) {
+                if (item.getStyle() != null && item.getStyle().equals(stylestr)) {
+                    selcolors.add(item.getColor());
+                }
+            }
             if (colorstr.equals("")) {
                 colorstr = goodsDetailResponse.getContentStyleList().get(0).getColor().trim();
             }
@@ -142,8 +154,7 @@ public class GWCGuiGeBtmDialog extends Dialog {
                 e.printStackTrace();
             }
             tv_guige.setText(str);
-            List<String> stylestrs=new ArrayList<>();
-            final List<String> colorstrs=new ArrayList<>();
+
             for (GWCGoodsDetailResponse.ContentStyleListBean item : goodsDetailResponse.getContentStyleList()) {
                 if(!stylestrs.contains(item.getStyle())){
                     stylestrs.add(item.getStyle());
@@ -175,20 +186,78 @@ public class GWCGuiGeBtmDialog extends Dialog {
                                 } else {
                                     name.setBackgroundResource(R.drawable.canshu_nol);
                                 }
+                                if(selstyles.size()>0) {
+                                    if (selstyles.contains(subitem)) {
+                                        name.setClickable(true);
+                                    } else {
+                                        name.setBackgroundResource(R.drawable.canshu_noclick);
+                                        name.setClickable(false);
+                                    }
+                                }
                             } else {
                                 if (subitem.equals(colorstr)) {
                                     name.setBackgroundResource(R.drawable.canshu_sel);
                                 } else {
                                     name.setBackgroundResource(R.drawable.canshu_nol);
                                 }
+                                if(selcolors.size()>0) {
+                                    if (selcolors.contains(subitem)) {
+                                        name.setClickable(true);
+                                    } else {
+                                        name.setBackgroundResource(R.drawable.canshu_noclick);
+                                        name.setClickable(false);
+                                    }
+                                }
                             }
                             name.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     if (item.getName().equals("规格")) {
-                                        stylestr=subitem;
+                                        if(selstyles.size()>0) {
+                                            if(!selstyles.contains(subitem)){
+                                                return;
+                                            }
+                                        }
+                                        selcolors.clear();
+                                        if(stylestr.equals(subitem)){
+                                            stylestr="";
+                                            name.setBackgroundResource(R.drawable.canshu_nol);
+                                        }else {
+                                            stylestr = subitem;
+                                            for (GWCGoodsDetailResponse.ContentStyleListBean item : goodsDetailResponse.getContentStyleList()) {
+                                                if (item.getStyle() != null && item.getStyle().equals(stylestr)) {
+                                                    selcolors.add(item.getColor());
+                                                }
+                                            }
+                                        }
+                                        if(selcolors.size()>0) {
+                                            if(!selcolors.contains(colorstr)){
+                                                colorstr="";
+                                            }
+                                        }
                                     } else {
-                                        colorstr=subitem;
+                                        if(selcolors.size()>0) {
+                                            if(!selcolors.contains(subitem)){
+                                                return;
+                                            }
+                                        }
+                                        selstyles.clear();
+                                        if(colorstr.equals(subitem)){
+                                            colorstr="";
+                                            name.setBackgroundResource(R.drawable.canshu_nol);
+                                        }else {
+                                            colorstr = subitem;
+                                            for (GWCGoodsDetailResponse.ContentStyleListBean item : goodsDetailResponse.getContentStyleList()) {
+                                                if (item.getColor() != null && item.getColor().equals(colorstr)) {
+                                                    selstyles.add(item.getStyle());
+                                                }
+                                            }
+                                        }
+                                        if(selstyles.size()>0) {
+                                            if(!selstyles.contains(stylestr)){
+                                                stylestr="";
+                                            }
+                                        }
                                     }
                                     styleAdapter.notifyDataSetChanged();
                                     String str="";

@@ -42,6 +42,7 @@ import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
+import com.fengqipu.mall.view.citylist.utils.ToastUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -499,6 +500,10 @@ public class CartFragment extends BaseFragment {
                         guiGeBtmDialog.setConfimClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                if((guiGeBtmDialog.stylestrs.size()>0&&guiGeBtmDialog.stylestr.equals(""))||(guiGeBtmDialog.colorstrs.size()>0&&guiGeBtmDialog.colorstr.equals(""))){
+                                    ToastUtils.showToast(getActivity(),"规格选择不正确!");
+                                    return;
+                                }
                                 List<CartResponse.CartRecord> clist = new ArrayList<CartResponse.CartRecord>();
                                 clist.add(new CartResponse.CartRecord(goodsBean.getRecordID(), goodsBean.getShopID(), goodsBean.getUserID()
                                         , goodsBean.getContentID(), goodsBean.getObjectName(), goodsBean.getPicUrl()

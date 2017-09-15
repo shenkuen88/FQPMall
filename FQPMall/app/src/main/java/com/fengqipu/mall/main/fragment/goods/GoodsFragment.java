@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -403,18 +404,36 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
             if (tag.equals("GUIGEREFRESH")) {
                 if (goodsDetailActivity.guiGeBtmDialog != null) {
                     String[] strs = goodsDetailActivity.guiGeBtmDialog.tv_guige.getText().toString().split("、");
+                    goodsDetailActivity.style="";
+                    goodsDetailActivity.color="";
                     try {
                         if (strs.length == 3) {
                             goodsDetailActivity.style = strs[0];
                             goodsDetailActivity.color = strs[1];
-                            goodsDetailActivity.num = Integer.getInteger(strs[2].replace("件", ""));
+                            try {
+                                goodsDetailActivity.num = Integer.getInteger(strs[2].replace("件", ""));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         } else {
                             goodsDetailActivity.style = strs[0];
-                            goodsDetailActivity.num = Integer.getInteger(strs[1].replace("件", ""));
+                            try {
+                                goodsDetailActivity.num = Integer.getInteger(strs[1].replace("件", ""));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    Log.e("sub",goodsDetailActivity.guiGeBtmDialog.stylestrs.size()+","+goodsDetailActivity.style+","+goodsDetailActivity.guiGeBtmDialog.colorstrs.size()+","+goodsDetailActivity.color);
+                    if((goodsDetailActivity.guiGeBtmDialog.stylestrs.size()>0&&goodsDetailActivity.style.equals(""))||(goodsDetailActivity.guiGeBtmDialog.colorstrs.size()>0&&goodsDetailActivity.color.equals(""))){
+                        goodsDetailActivity.GUIGEERROR=true;
+                    }else{
+                        goodsDetailActivity.GUIGEERROR=false;
+                    }
+                    Log.e("sub","goodsDetailActivity.GUIGEERROR="+goodsDetailActivity.GUIGEERROR);
                     tvGg.setText(goodsDetailActivity.guiGeBtmDialog.tv_guige.getText().toString());
                     price.setText(goodsDetailActivity.guiGeBtmDialog.gg_price.getText().toString());
                     goodsDetailActivity.curprice = Double.valueOf(goodsDetailActivity.guiGeBtmDialog.gg_price.getText().toString().replace("￥", ""));

@@ -47,6 +47,7 @@ import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
+import com.fengqipu.mall.view.citylist.utils.ToastUtils;
 import com.hyphenate.helpdesk.easeui.util.IntentBuilder;
 import com.hyphenate.helpdesk.model.ContentFactory;
 
@@ -181,6 +182,10 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.btn_addgwc:
                 if (GeneralUtils.isLogin()) {
+                    if(GUIGEERROR){
+                        ToastUtils.showToast(this,"规格选择不正确!");
+                        return;
+                    }
                     UserServiceImpl.instance().addToBuyCar(contentID, num, style, color, AddGWCResponse.class.getName());
                 } else {
                     startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
@@ -188,6 +193,10 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.btn_buy:
                 if (GeneralUtils.isLogin()) {
+                    if(GUIGEERROR){
+                        ToastUtils.showToast(this,"规格选择不正确!");
+                        return;
+                    }
                     change2Buy();
                 } else {
                     startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
@@ -200,7 +209,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
     public String color = "";
     public int num = 1;
     public double curprice = 0;
-
+    public boolean GUIGEERROR=false;
     public void change2Buy() {
         ArrayList<StoreGoodsBean> shopList = new ArrayList<StoreGoodsBean>();
         StoreGoodsBean storeGoodsBean = new StoreGoodsBean();
@@ -274,6 +283,10 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onClick(View view) {
                 if (GeneralUtils.isLogin()) {
+                    if(GUIGEERROR){
+                        ToastUtils.showToast(GoodsDetailActivity.this,"规格选择不正确!");
+                        return;
+                    }
                     UserServiceImpl.instance().addToBuyCar(contentID, num, style, color, AddGWCResponse.class.getName());
                 } else {
                     startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
@@ -285,6 +298,10 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onClick(View view) {
                 if (GeneralUtils.isLogin()) {
+                    if(GUIGEERROR){
+                        ToastUtils.showToast(GoodsDetailActivity.this,"规格选择不正确!");
+                        return;
+                    }
                     change2Buy();
                 } else {
                     startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
