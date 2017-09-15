@@ -24,7 +24,6 @@ import com.fengqipu.mall.bean.category.LeftBean;
 import com.fengqipu.mall.bean.category.RightBean;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
-import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.MainActivity;
@@ -91,15 +90,10 @@ public class CategoryFragment extends BaseFragment {
             getLeftData();
         }
     }
-
+    boolean isfirst=true;
     @Override
     public void onResume() {
         super.onResume();
-        if (getUserVisibleHint() && Global.getNowIndex().equals(this.getClass().getName())) {
-//            initViewData();
-            NetLoadingDialog.getInstance().loading(mainActivity);
-            getLeftData();
-        }
     }
 
     @Override
@@ -112,6 +106,11 @@ public class CategoryFragment extends BaseFragment {
         ivBanner = V.f(headView, R.id.iv_banner);
         ButterKnife.bind(this, fview);
         initAll();
+        if(isfirst) {
+            NetLoadingDialog.getInstance().loading(mainActivity);
+            isfirst=false;
+        }
+        getLeftData();
         return fview;
     }
 
