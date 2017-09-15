@@ -93,19 +93,22 @@ public class SearchGoodsActivity extends BaseActivity implements View.OnClickLis
     int pageSize = 10;
     private boolean isloading = false;
     int totalCount = 0;
-
+    private String searchtypestr="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_goods);
         ButterKnife.bind(this);
         keyword = getIntent().getStringExtra(IntentCode.SEARCH_KEYORD);
+        category2= getIntent().getStringExtra("SearchType");
+        if(category2==null){
+            category2="";
+        }
         initAll();
     }
 
     @Override
     public void initView() {
-
     }
 
     private void initData() {

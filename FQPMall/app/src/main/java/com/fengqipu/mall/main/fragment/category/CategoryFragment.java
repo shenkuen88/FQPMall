@@ -194,7 +194,7 @@ public class CategoryFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), SearchGoodsActivity.class);
-                        intent.putExtra(IntentCode.SEARCH_KEYORD, item.getName());
+                        intent.putExtra("SearchType", item.getId());
                         getActivity().startActivity(intent);
                     }
                 });
@@ -202,8 +202,11 @@ public class CategoryFragment extends BaseFragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         RightBean.SubRightBean subRightBean = (RightBean.SubRightBean) parent.getItemAtPosition(position);
-                        Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
-                        intent.putExtra("contentID", item.getId());
+//                        Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+//                        intent.putExtra("contentID", item.getId());
+//                        getActivity().startActivity(intent);
+                        Intent intent = new Intent(getActivity(), SearchGoodsActivity.class);
+                        intent.putExtra(IntentCode.SEARCH_KEYORD, subRightBean.getName());
                         getActivity().startActivity(intent);
                     }
                 });
@@ -229,7 +232,7 @@ public class CategoryFragment extends BaseFragment {
                             relist.add(new RightBean.SubRightBean(sitem.getId(), sitem.getTypeName(), sitem.getCreateTime(), sitem.getPicUrlRequestUrl(), null));
                         }
                     }
-                    rightList.add(new RightBean(item.getId(), item.getCategoryName(), "", relist));
+                    rightList.add(new RightBean(item.getId(), item.getCategoryName(), cid, relist));
                 }
 
             }
