@@ -86,6 +86,10 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 
     @Bind(R.id.et_remark)
     EditText etRemark;
+    @Bind(R.id.no_address_rl)
+    RelativeLayout noAddressRl;
+    @Bind(R.id.submit_rl)
+    RelativeLayout submitRl;
     private TextView tvNoReceiver;
     private TextView tvName;
     private TextView tvPhone;
@@ -137,14 +141,14 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         orderState = getIntent().getStringExtra(IntentCode.ORDER_STATE);
         remarkStr = getIntent().getStringExtra("REMARK");
         initAll();
-        if(remarkStr!=null&&!remarkStr.equals("")){
+        if (remarkStr != null && !remarkStr.equals("")) {
             etRemark.setText(remarkStr);
         }
         lvOrder.findFocus();
         getWindow().getDecorView().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(ConfirmOrderActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(ConfirmOrderActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         }, 100);
     }
@@ -257,6 +261,8 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         cbZFB = (CheckBox) findViewById(R.id.zhb_cb);
         cbWX = (CheckBox) findViewById(R.id.wx_cb);
         tvNoReceiver.setVisibility(View.VISIBLE);
+        noAddressRl.setVisibility(View.VISIBLE);
+        submitRl.setVisibility(View.GONE);
         llReceiver.setVisibility(View.GONE);
         receiveAddressShow();
         cbWX.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -291,14 +297,18 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         String addStr = SharePref.getString(Constants.CHOOSE_ADDRESS, "");
         if (GeneralUtils.isNotNullOrZeroLenght(addStr)) {
             bean = GsonHelper.toType(addStr, AddressBean.class);
+            noAddressRl.setVisibility(View.GONE);
             tvNoReceiver.setVisibility(View.GONE);
             llReceiver.setVisibility(View.VISIBLE);
+            submitRl.setVisibility(View.VISIBLE);
             tvName.setText("收货人：" + bean.getDeliveryUser());
             tvPhone.setText("手机号码：" + bean.getPhone());
             tvAddress.setText("收货地址：" + bean.getProvince() + bean.getCity() + bean.getArea() + bean.getDetail());
         } else {
             tvNoReceiver.setVisibility(View.VISIBLE);
             llReceiver.setVisibility(View.GONE);
+            submitRl.setVisibility(View.GONE);
+            noAddressRl.setVisibility(View.VISIBLE);
         }
     }
 
@@ -466,11 +476,11 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 
                     //新添加订单
                     if (orderState.equals("0")) {
-                        UserServiceImpl.instance().addOrder(etRemark.getText().toString(),orderList, payType, bean.getProvince() + bean.getCity() + bean.getArea() + bean.getDetail(),
+                        UserServiceImpl.instance().addOrder(etRemark.getText().toString(), orderList, payType, bean.getProvince() + bean.getCity() + bean.getArea() + bean.getDetail(),
                                 bean.getDeliveryUser(), bean.getPhone(),
                                 AddOrderResponse.class.getName());
                     } else {
-                        UserServiceImpl.instance().addOrder(etRemark.getText().toString(),orderContent.getOrderID(), payType, bean.getProvince() + bean.getCity() + bean.getArea() + bean.getDetail(),
+                        UserServiceImpl.instance().addOrder(etRemark.getText().toString(), orderContent.getOrderID(), payType, bean.getProvince() + bean.getCity() + bean.getArea() + bean.getDetail(),
                                 bean.getDeliveryUser(), bean.getPhone(),
                                 AddOrderResponse.class.getName());
                     }

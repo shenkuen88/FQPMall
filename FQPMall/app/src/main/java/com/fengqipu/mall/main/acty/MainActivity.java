@@ -21,6 +21,8 @@ import com.fengqipu.mall.bean.NoticeInfoEvent;
 import com.fengqipu.mall.bean.index.AppInitInfoListBean;
 import com.fengqipu.mall.bean.index.GetUploadUrlResponse;
 import com.fengqipu.mall.bean.index.InitAppResponse;
+import com.fengqipu.mall.bean.mine.AddressBean;
+import com.fengqipu.mall.bean.mine.AddressListResponse;
 import com.fengqipu.mall.bean.mine.LoginResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
@@ -40,6 +42,7 @@ import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.SharePref;
 import com.fengqipu.mall.tools.StringEncrypt;
 import com.fengqipu.mall.tools.ToastUtil;
+import com.google.gson.Gson;
 import com.hyphenate.chat.ChatClient;
 import com.hyphenate.helpdesk.callback.Callback;
 
@@ -90,7 +93,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         }, R.string.need_loaction_permission,
                 Manifest.permission.ACCESS_FINE_LOCATION
         );
-
+        UserServiceImpl.instance().getReceiveAddressList(AddressListResponse.class.getName());
     }
 
 
@@ -203,6 +206,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
             } else {
 //                ToastUtil.showError(this);
+            }
+            if (tag.equals(AddressListResponse.class.getName()))
+            {
+                if (GeneralUtils.isNotNullOrZeroLenght(result))
+                {
+                    AddressListResponse mAddressListResponse = GsonHelper.toType(result, AddressListResponse.class);
+                    if (Constants.SUCESS_CODE.equals(mAddressListResponse.getResultCode()))
+                    {
+                        SharePref.saveString(Constants.ADDRESS_LIST, result);
+                        Gson gson=new Gson();
+                        AddressBean it=null;
+                        for(AddressBean item: mAddressListResponse.getUserAddressList()){
+                            if(item.getIsDefault()!=null&&item.getIsDefault().equals("1")){
+                                it=item;
+                            }
+                        }
+                        SharePref.saveString(Constants.CHOOSE_ADDRESS,gson.toJson(it));
+                    }
+                }
             }
         }
 

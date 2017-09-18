@@ -15,6 +15,8 @@ import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
+import com.fengqipu.mall.bean.mine.AddressBean;
+import com.fengqipu.mall.bean.mine.AddressListResponse;
 import com.fengqipu.mall.bean.mine.LoginResponse;
 import com.fengqipu.mall.bean.mine.SearchUserResponse;
 import com.fengqipu.mall.constant.Constants;
@@ -29,8 +31,10 @@ import com.fengqipu.mall.network.GsonHelper;
 import com.fengqipu.mall.network.UserServiceImpl;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
+import com.fengqipu.mall.tools.SharePref;
 import com.fengqipu.mall.tools.StringEncrypt;
 import com.fengqipu.mall.tools.ToastUtil;
+import com.google.gson.Gson;
 import com.hyphenate.chat.ChatClient;
 import com.hyphenate.helpdesk.Error;
 import com.hyphenate.helpdesk.callback.Callback;
@@ -134,6 +138,7 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
                         Global.savePassword(psdET.getText().toString());
                         Global.saveLoginName(nameET.getText().toString());
                         ToastUtil.makeText(mContext, "登录成功");
+                        UserServiceImpl.instance().getReceiveAddressList(AddressListResponse.class.getName());
                         //发个通知，让其他页面知道已经退出了
                         EventBus.getDefault().post(new NoticeEvent(NotiTag.TAG_LOGIN_SUCCESS));
                         MainActivity.getUpLoadImageUrl();
@@ -190,6 +195,25 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
                     }
                 } else {
                     ToastUtil.showError(this);
+                }
+            }
+            if (tag.equals(AddressListResponse.class.getName()))
+            {
+                if (GeneralUtils.isNotNullOrZeroLenght(result))
+                {
+                    AddressListResponse mAddressListResponse = GsonHelper.toType(result, AddressListResponse.class);
+                    if (Constants.SUCESS_CODE.equals(mAddressListResponse.getResultCode()))
+                    {
+                        SharePref.saveString(Constants.ADDRESS_LIST, result);
+                        Gson gson=new Gson();
+                        AddressBean it=null;
+                        for(AddressBean item: mAddressListResponse.getUserAddressList()){
+                            if(item.getIsDefault()!=null&&item.getIsDefault().equals("1")){
+                                it=item;
+                            }
+                        }
+                        SharePref.saveString(Constants.CHOOSE_ADDRESS,gson.toJson(it));
+                    }
                 }
             }
             if (tag.equals(SearchUserResponse.class.getName())&&BaseApplication.currentActivity.equals(this.getClass().getName())) {
