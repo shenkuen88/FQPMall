@@ -140,7 +140,7 @@ public class MyOrderFragment extends BaseFragment {
                         break;
                     case "2":
                         btn_qxdd.setVisibility(View.GONE);
-                        btn_sqth.setVisibility(View.GONE);
+                        btn_sqth.setVisibility(View.VISIBLE);
                         btn_ckwl.setVisibility(View.GONE);
                         btn_msfk.setVisibility(View.GONE);
                         btn_txfh.setVisibility(View.VISIBLE);

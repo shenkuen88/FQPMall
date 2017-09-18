@@ -234,10 +234,10 @@ public class OrderDetailActivity extends BaseActivity {
                 title.setText("等待买家付款");
                 break;
             case "2":
-                btn_sqth.setVisibility(View.GONE);
+                btn_sqth.setVisibility(View.VISIBLE);
                 btn_ckwl.setVisibility(View.GONE);
                 btn_msfk.setVisibility(View.GONE);
-                btn_txfh.setVisibility(View.GONE);
+                btn_txfh.setVisibility(View.VISIBLE);
                 btn_qrsh.setVisibility(View.GONE);
                 btn_pj.setVisibility(View.GONE);
                 btn_qxdd.setVisibility(View.GONE);

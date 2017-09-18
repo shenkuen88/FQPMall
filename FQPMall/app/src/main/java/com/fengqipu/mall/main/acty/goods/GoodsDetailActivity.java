@@ -274,7 +274,9 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
             return null;
         }
     }
-
+    public void changePager(int postion){
+        mContainer.setCurrentItem(postion);
+    }
     public GuiGeBtmDialog guiGeBtmDialog;
 
     public void showGuiGeDialog() {

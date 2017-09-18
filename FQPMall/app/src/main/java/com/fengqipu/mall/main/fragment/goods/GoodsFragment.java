@@ -119,7 +119,7 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
         initView();
         return v;
     }
-
+    int lastVisibileItem = 0;
     private void initView() {
         refreshLayout.setLastUpdateTimeRelateObject(this);
         refreshLayout.setResistance(1.7f);
@@ -172,6 +172,35 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
             }
         };
         myListview.setAdapter(mAdapter);
+//        myListview.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+//                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && (lastVisibileItem + 1) == myListview.getCount()){
+//                    goodsDetailActivity.changePager(1);
+//                }
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                lastVisibileItem = firstVisibleItem + visibleItemCount - 1;
+//            }
+//        });
+        scrollView.setScrollViewListener(new MyScrollView1.IScrollChangedListener() {
+            @Override
+            public void onScrolledToBottom() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        goodsDetailActivity.changePager(1);
+                    }
+                },200);
+            }
+
+            @Override
+            public void onScrolledToTop() {
+
+            }
+        });
 //        myListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
