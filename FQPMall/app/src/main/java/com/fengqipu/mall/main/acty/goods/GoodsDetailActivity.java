@@ -184,6 +184,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 if (GeneralUtils.isLogin()) {
                     if(GUIGEERROR){
                         ToastUtils.showToast(this,"规格选择不正确!");
+                        showGuiGeDialog();
                         return;
                     }
                     UserServiceImpl.instance().addToBuyCar(contentID, num, style, color, AddGWCResponse.class.getName());
@@ -195,6 +196,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 if (GeneralUtils.isLogin()) {
                     if(GUIGEERROR){
                         ToastUtils.showToast(this,"规格选择不正确!");
+                        showGuiGeDialog();
                         return;
                     }
                     change2Buy();
