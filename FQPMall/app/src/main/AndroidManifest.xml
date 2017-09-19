@@ -360,8 +360,10 @@
         <activity android:name=".main.acty.ConversationListActivity" />
         <activity android:name=".main.acty.KuaiXiuActivity" />
         <activity android:name=".main.acty.AboutActivity" />
-        <activity android:name=".main.acty.mine.BigPicActivity"></activity>
-        <activity android:name=".view.photopicker.view.CommunityImageZoomActivity"/>
+        <activity android:name=".main.acty.mine.BigPicActivity" />
+        <activity android:name=".view.photopicker.view.CommunityImageZoomActivity" />
+        <activity android:name=".main.acty.goods.GoodsWebActivity"
+            android:launchMode="singleInstance"></activity>
     </application>
 
 </manifest>

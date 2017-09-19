@@ -25,6 +25,7 @@ import com.fengqipu.mall.bean.goods.GoodsDetailResponse;
 import com.fengqipu.mall.bean.index.BannerListBean;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
+import com.fengqipu.mall.main.acty.goods.GoodsWebActivity;
 import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.tools.CommonMethod;
 import com.fengqipu.mall.tools.GeneralUtils;
@@ -188,12 +189,10 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
         scrollView.setScrollViewListener(new MyScrollView1.IScrollChangedListener() {
             @Override
             public void onScrolledToBottom() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        goodsDetailActivity.changePager(1);
-                    }
-                },200);
+                Intent intent =new Intent(getActivity(), GoodsWebActivity.class);
+                intent.putExtra("url",goodsDetailActivity.goodsDetailResponse.getContent().getDescriptionLink());
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.anim_down_in, R.anim.anim_down_out);
             }
 
             @Override

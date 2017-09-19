@@ -71,28 +71,6 @@ public class ProductWebFragment extends BaseFragment {
             }
         });
 //        initData();
-        webViewHelperWebOne.setOnScrollChangeListener(new ProductWebView.OnScrollChangeListener() {
-            @Override
-            public void onPageEnd(int l, int t, int oldl, int oldt) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        goodsDetailActivity.changePager(2);
-                    }
-                },200);
-
-            }
-
-            @Override
-            public void onPageTop(int l, int t, int oldl, int oldt) {
-
-            }
-
-            @Override
-            public void onScrollChanged(int l, int t, int oldl, int oldt) {
-
-            }
-        });
     }
 
     private void initData() {
