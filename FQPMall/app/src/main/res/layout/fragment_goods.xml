@@ -241,6 +241,13 @@
                     android:dividerHeight="1px"
                     android:overScrollMode="never"
                     android:scrollbars="none"></com.fengqipu.mall.view.RefreshListView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:gravity="center"
+                    android:text="向上滑动进入商品图文详情页"
+                    android:textSize="15sp"
+                    android:textColor="@color/gray"/>
             </LinearLayout>
         </com.fengqipu.mall.view.MyScrollView1>
     </in.srain.cube.views.ptr.PtrClassicFrameLayout>
