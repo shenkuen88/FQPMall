@@ -31,6 +31,7 @@ import com.fengqipu.mall.bean.shop.OneButtonShopResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.NotiTag;
+import com.fengqipu.mall.main.acty.ChooseLocationActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.HeadView;
 import com.fengqipu.mall.network.GsonHelper;
@@ -40,6 +41,7 @@ import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.FileSystemManager;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
+import com.fengqipu.mall.tools.SharePref;
 import com.fengqipu.mall.tools.ToastUtil;
 import com.fengqipu.mall.view.citylist.utils.ToastUtils;
 import com.fengqipu.mall.view.wheel.cascade.activity.LocationBaseActivity;
@@ -124,6 +126,15 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(!SharePref.getString("TEMPLOC","").equals("")){
+            etAdressDetail.setText(SharePref.getString("TEMPLOC",""));
+            SharePref.saveString("TEMPLOC","");
+        }
+    }
+
+    @Override
     public void initView() {
         initTitle();
     }
@@ -203,7 +214,8 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_location:
-                startLocation();
+//                startLocation();
+                startActivity(new Intent(OneButtonShopActivity.this, ChooseLocationActivity.class));
                 break;
             case R.id.btn_ljkd:
 
