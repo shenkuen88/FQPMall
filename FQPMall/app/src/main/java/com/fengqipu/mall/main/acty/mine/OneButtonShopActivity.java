@@ -31,7 +31,6 @@ import com.fengqipu.mall.bean.shop.OneButtonShopResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.NotiTag;
-import com.fengqipu.mall.main.acty.ChooseLocationActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.HeadView;
 import com.fengqipu.mall.network.GsonHelper;
@@ -41,7 +40,6 @@ import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.FileSystemManager;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
-import com.fengqipu.mall.tools.SharePref;
 import com.fengqipu.mall.tools.ToastUtil;
 import com.fengqipu.mall.view.citylist.utils.ToastUtils;
 import com.fengqipu.mall.view.wheel.cascade.activity.LocationBaseActivity;
@@ -56,8 +54,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static com.fengqipu.mall.R.id.et_adress_detail;
-
 public class OneButtonShopActivity extends LocationBaseActivity implements View.OnClickListener, OnWheelChangedListener {
     @Bind(R.id.btn_ljkd)
     Button btnLjkd;
@@ -69,9 +65,23 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
     ImageView ivSfz2;
     @Bind(R.id.et_shopname)
     EditText etShopname;
+    @Bind(R.id.et_name)
+    EditText etName;
+    @Bind(R.id.et_phone)
+    EditText etPhone;
+    @Bind(R.id.et_introduction)
+    EditText etIntroduction;
+    @Bind(R.id.et_card_user)
+    EditText etCardUser;
+    @Bind(R.id.et_card_num)
+    EditText etCardNum;
+    @Bind(R.id.et_card_bank)
+    EditText etCardBank;
+    @Bind(R.id.iv_shop_logo)
+    ImageView ivShopLogo;
     @Bind(R.id.tv_address)
     TextView tvAddress;
-    @Bind(et_adress_detail)
+    @Bind(R.id.et_adress_detail)
     EditText etAdressDetail;
     @Bind(R.id.btn_cancel)
     TextView btnCancel;
@@ -133,6 +143,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
         idCity.addChangingListener(this);
         idDistrict.addChangingListener(this);
         ivYyzz.setOnClickListener(this);
+        ivShopLogo.setOnClickListener(this);
         ivSfz1.setOnClickListener(this);
         ivSfz2.setOnClickListener(this);
         btnLjkd.setOnClickListener(this);
@@ -186,25 +197,16 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
         updateAreas();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(!SharePref.getString("TEMPLOC","").equals("")){
-            etAdressDetail.setText(SharePref.getString("TEMPLOC",""));
-            SharePref.saveString("TEMPLOC","");
-        }
-    }
-
     int posType = 0;
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_location:
-//                startLocation();
-                startActivity(new Intent(this, ChooseLocationActivity.class));
+                startLocation();
                 break;
             case R.id.btn_ljkd:
+
                 if (etShopname.getText().toString().equals("")) {
                     ToastUtils.showToast(OneButtonShopActivity.this, "请填写商店名称!");
                     return;
@@ -215,6 +217,34 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                 }
                 if (etAdressDetail.getText().toString().equals("")) {
                     ToastUtils.showToast(OneButtonShopActivity.this, "请填写详细地址!");
+                    return;
+                }
+                if (etName.getText().toString().equals("")) {
+                    ToastUtils.showToast(OneButtonShopActivity.this, "请填写法人/负责人名称");
+                    return;
+                }
+                if (etPhone.getText().toString().equals("")) {
+                    ToastUtils.showToast(OneButtonShopActivity.this, "请填写联系电话");
+                    return;
+                }
+                if (etIntroduction.getText().toString().equals("")) {
+                    ToastUtils.showToast(OneButtonShopActivity.this, "请填写企业介绍");
+                    return;
+                }
+                if (etCardBank.getText().toString().equals("")) {
+                    ToastUtils.showToast(OneButtonShopActivity.this, "请填写持卡人");
+                    return;
+                }
+                if (etCardNum.getText().toString().equals("")) {
+                    ToastUtils.showToast(OneButtonShopActivity.this, "请填写卡号");
+                    return;
+                }
+                if (etCardBank.getText().toString().equals("")) {
+                    ToastUtils.showToast(OneButtonShopActivity.this, "请填写开户行");
+                    return;
+                }
+                if (shopLogo.equals("")) {
+                    ToastUtils.showToast(OneButtonShopActivity.this, "请上传企业logo!");
                     return;
                 }
                 if (yyzzPic.equals("")) {
@@ -229,11 +259,13 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                     ToastUtils.showToast(OneButtonShopActivity.this, "请上传身份证反面照!");
                     return;
                 }
+
                 //马上开店
                 List<File> files = new ArrayList<>();
                 files.add(new File(yyzzPic));
                 files.add(new File(sfz1));
                 files.add(new File(sfz2));
+                files.add(new File(shopLogo));
                 NetLoadingDialog.getInstance().loading(OneButtonShopActivity.this);
                 UserServiceImpl.instance().uploadPic(files, UploadFileResponse.class.getName());
                 break;
@@ -251,6 +283,19 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                 break;
             case R.id.iv_yyzz:
                 posType = 0;
+                //权限
+                checkPermission(new CheckPermListener() {
+                                    @Override
+                                    public void superPermission() {
+                                        new MyPopupWindows(mContext, ll2);
+                                    }
+                                }, R.string.permission_photo,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE);
+                break;
+            case R.id.iv_shop_logo:
+                posType = 3;
                 //权限
                 checkPermission(new CheckPermListener() {
                                     @Override
@@ -415,6 +460,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
     private String yyzzPic = "";
     private String sfz1 = "";
     private String sfz2 = "";
+    private String shopLogo = "";
 
     /**
      * 图片选择及拍照结果
@@ -451,6 +497,10 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                         sfz2 = path;
                         GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivSfz2, R.mipmap.btn_pic3);
                         break;
+                    case 3:
+                        shopLogo = path;
+                        GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivShopLogo, R.mipmap.shop_logo);
+                        break;
                 }
                 break;
             case PHOTOTAKE://拍照
@@ -472,6 +522,10 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                     case 2:
                         sfz2 = path;
                         GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivSfz2, R.mipmap.btn_pic3);
+                        break;
+                    case 3:
+                        shopLogo = path;
+                        GeneralUtils.setImageViewWithUrl(OneButtonShopActivity.this, path, ivShopLogo, R.mipmap.shop_logo);
                         break;
                 }
                 break;
@@ -530,7 +584,7 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     UploadFileResponse uploadFileResponse = GsonHelper.toType(result, UploadFileResponse.class);
                     if (Constants.SUCESS_CODE.equals(uploadFileResponse.getResultCode())) {
-                        String url1 = "", url2 = "", url3 = "";
+                        String url1 = "", url2 = "", url3 = "",url4="";
                         for (int i = 0; i < uploadFileResponse.getUrlList().size(); i++) {
                             if (i == 0) {
                                 url1 = uploadFileResponse.getUrlList().get(i);
@@ -538,13 +592,20 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                                 url2 = uploadFileResponse.getUrlList().get(i);
                             } else if (i == 2) {
                                 url3 = uploadFileResponse.getUrlList().get(i);
+                            } else if (i == 3) {
+                                url4 = uploadFileResponse.getUrlList().get(i);
                             }
                         }
                         NetLoadingDialog.getInstance().loading(OneButtonShopActivity.this);
-                        UserServiceImpl.instance().addShop(
+                        UserServiceImpl.instance().addShop(etName.getText().toString(),
+                                etPhone.getText().toString(),
+                                etCardUser.getText().toString(),
+                                etCardBank.getText().toString(),
+                                etCardNum.getText().toString(),
+                                etIntroduction.getText().toString(),
                                 etShopname.getText().toString()
                                 , mCurrentProviceName, mCurrentCityName, mCurrentDistrictName
-                                , etAdressDetail.getText().toString(), url1, url2, url3, OneButtonShopResponse.class.getName());
+                                , etAdressDetail.getText().toString(), url1, url2, url3,url4, OneButtonShopResponse.class.getName());
                     } else {
                         ErrorCode.doCode(mContext, uploadFileResponse.getResultCode(), uploadFileResponse.getDesc());
                     }

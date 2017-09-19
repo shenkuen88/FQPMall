@@ -53,9 +53,16 @@ public class UserServiceImpl
         new NetWork().startPost(URLUtil.INIT_APP, param, tag);
     }
 
-    public void addShop(String s, String mCurrentProviceName, String mCurrentCityName
-            , String mCurrentDistrictName, String s1, String url1, String url2, String url3,String tag) {
+    public void addShop(String legalPerson, String phone, String cardholder, String bank, String bankCode, String description, String s, String mCurrentProviceName, String mCurrentCityName
+            , String mCurrentDistrictName, String s1, String url1, String url2, String url3, String url4, String tag)
+    {
         Map<String, String> param = new HashMap<String, String>();
+        param.put("legalPerson", legalPerson);
+        param.put("phone", phone);
+        param.put("cardholder", cardholder);
+        param.put("bank", bank);
+        param.put("bankCode", bankCode);
+        param.put("description", description);
         param.put("shopName", s);
         param.put("province", mCurrentProviceName);
         param.put("city", mCurrentCityName);
@@ -64,6 +71,7 @@ public class UserServiceImpl
         param.put("businessLicenseFile", url1);
         param.put("legalPersonIDCardAFile", url2);
         param.put("legalPersonIDCardBFile", url3);
+        param.put("picUrl", url4);
         param.put("gpsLong", Global.getlangitude());
         param.put("gpsLati", Global.getlatitude());
         new NetWork().startPost(URLUtil.ONEBUTTONSHOP, param, tag);
