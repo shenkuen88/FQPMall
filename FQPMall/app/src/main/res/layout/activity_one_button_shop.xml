@@ -338,6 +338,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
                             android:background="@null"
+                            android:inputType="number"
                             android:gravity="center_vertical"
                             android:hint="请输入卡号"
                             android:textColor="#4a4a4a"

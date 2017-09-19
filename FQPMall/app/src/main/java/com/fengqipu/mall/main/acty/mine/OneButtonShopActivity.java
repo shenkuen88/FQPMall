@@ -38,6 +38,7 @@ import com.fengqipu.mall.network.GsonHelper;
 import com.fengqipu.mall.network.UserServiceImpl;
 import com.fengqipu.mall.tools.BitmapUtil;
 import com.fengqipu.mall.tools.CMLog;
+import com.fengqipu.mall.tools.ContentData;
 import com.fengqipu.mall.tools.FileSystemManager;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
@@ -271,7 +272,11 @@ public class OneButtonShopActivity extends LocationBaseActivity implements View.
                     ToastUtils.showToast(OneButtonShopActivity.this, "请上传身份证反面照!");
                     return;
                 }
-
+                if (!ContentData.isMobileNumber(etPhone.getText().toString()))
+                {
+                    ToastUtils.showToast(OneButtonShopActivity.this, "请填写有效的联系电话");
+                    return;
+                }
                 //马上开店
                 List<File> files = new ArrayList<>();
                 files.add(new File(yyzzPic));
