@@ -307,7 +307,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="wx8b028169a963d350" />
+                <data android:scheme="wx7dbdd195d236053f" />
             </intent-filter>
         </activity>
         <activity android:name=".main.acty.enterprise.EnterpriseActivity" />

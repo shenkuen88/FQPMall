@@ -419,7 +419,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             sb.append('&');
         }
         sb.append("key=");
-        sb.append("ningbozhongchaowenhuachuanmei123");
+        sb.append("wenzhoufengqipu12345678901234567");
 
         String appSign = getMessageDigest(sb.toString().getBytes())
                 .toUpperCase();

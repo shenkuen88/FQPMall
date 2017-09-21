@@ -2,19 +2,18 @@ package com.fengqipu.mall.wxapi;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.tencent.mm.sdk.constants.ConstantsAPI;
+import com.fengqipu.mall.R;
+import com.fengqipu.mall.main.acty.index.wx.Constants;
+import com.fengqipu.mall.tools.CMLog;
+import com.fengqipu.mall.view.citylist.utils.ToastUtils;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
-import com.fengqipu.mall.R;
-import com.fengqipu.mall.main.acty.index.wx.Constants;
-import com.fengqipu.mall.tools.CMLog;
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 
@@ -46,12 +45,12 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 	@Override
 	public void onResp(BaseResp resp) {
 		CMLog.e("sub", "onPayFinish, errCode = " + resp.errCode);
-
-		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.app_tip);
-			builder.setMessage(getString(R.string.pay_result_callback_msg, String.valueOf(resp.errCode)));
-			builder.show();
+		if(resp.errCode == 0){
+			ToastUtils.showToast(this,"支付成功!");
+			finish();
+		}else {
+			ToastUtils.showToast(this,"支付失败!");
+			finish();
 		}
 	}
 }
