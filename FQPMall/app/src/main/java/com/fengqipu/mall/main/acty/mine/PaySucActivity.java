@@ -15,7 +15,6 @@ import com.fengqipu.mall.main.acty.MainActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.HeadView;
 import com.fengqipu.mall.network.GsonHelper;
-import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.SharePref;
 
 import de.greenrobot.event.EventBus;
@@ -62,18 +61,17 @@ public class PaySucActivity extends BaseActivity implements View.OnClickListener
         HeadView headView = new HeadView((ViewGroup) view);
         headView.setLeftImage(R.mipmap.app_title_back);
         headView.setTitleText("支付成功");
-        headView.setRightImage(R.mipmap.fxpic);
+        headView.setHiddenRight();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.check_order_tv:
-//                Intent intent = new Intent(mContext, RefundActy.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//                intent.putExtra(IntentCode.COMMUNITY_PUBLIC, "1");
-//                startActivity(intent);
-                GeneralUtils.toActyOtherwiseLogin(this, OrderListActivity.class);
+                Intent intent = new Intent(this, OrderListActivity.class);
+                intent.putExtra("orderstate", 2);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.back_main_tv:
                 startActivity(new Intent(mContext, MainActivity.class));

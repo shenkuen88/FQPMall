@@ -43,7 +43,7 @@
         android:layout_width="115dp"
         android:layout_height="115dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/pic1_sort"
+        android:src="@drawable/default_bg"
         />
 </LinearLayout>
     <LinearLayout
@@ -77,7 +77,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="115dp"
-                    android:src="@mipmap/pic1_sort"
+                    android:src="@drawable/default_bg"
                     android:scaleType="centerCrop"
                     />
                 <LinearLayout
@@ -88,7 +88,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="115dp"
-                    android:src="@mipmap/pic3_sort"
+                    android:src="@drawable/default_bg"
                     android:scaleType="centerCrop"
                     />
                 <LinearLayout
@@ -99,7 +99,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="115dp"
-                    android:src="@mipmap/pic2_sort"
+                    android:src="@drawable/default_bg"
                     android:scaleType="centerCrop"
                     />
             </LinearLayout>

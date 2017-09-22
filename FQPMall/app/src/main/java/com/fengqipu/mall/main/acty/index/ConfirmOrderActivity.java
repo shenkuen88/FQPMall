@@ -42,6 +42,7 @@ import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.acty.index.zfb.AuthResult;
 import com.fengqipu.mall.main.acty.index.zfb.PayResult;
 import com.fengqipu.mall.main.acty.index.zfb.util.OrderInfoUtil2_0;
+import com.fengqipu.mall.main.acty.mine.PaySucActivity;
 import com.fengqipu.mall.main.acty.mine.RecieveAddressListActy;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
@@ -301,9 +302,18 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             tvNoReceiver.setVisibility(View.GONE);
             llReceiver.setVisibility(View.VISIBLE);
             submitRl.setVisibility(View.VISIBLE);
-            tvName.setText("收货人：" + bean.getDeliveryUser());
-            tvPhone.setText("手机号码：" + bean.getPhone());
-            tvAddress.setText("收货地址：" + bean.getProvince() + bean.getCity() + bean.getArea() + bean.getDetail());
+            try {
+                tvName.setText("收货人：" + bean.getDeliveryUser());
+            } catch (Exception e) {
+            }
+            try {
+                tvPhone.setText("手机号码：" + bean.getPhone());
+            } catch (Exception e) {
+            }
+            try {
+                tvAddress.setText("收货地址：" + bean.getProvince() + bean.getCity() + bean.getArea() + bean.getDetail());
+            } catch (Exception e) {
+            }
         } else {
             tvNoReceiver.setVisibility(View.VISIBLE);
             llReceiver.setVisibility(View.GONE);
@@ -529,7 +539,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-                        Toast.makeText(ConfirmOrderActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(ConfirmOrderActivity.this,PaySucActivity.class));
                         finish();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。

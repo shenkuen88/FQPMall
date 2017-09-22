@@ -92,6 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="95dp"
         android:gravity="center"
+        android:background="@color/white"
         android:orientation="horizontal"
         android:layout_below="@+id/comment_head_iv"
         >

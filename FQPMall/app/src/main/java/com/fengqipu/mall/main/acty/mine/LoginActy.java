@@ -212,7 +212,9 @@ public class LoginActy extends BaseActivity implements View.OnClickListener {
                                 it=item;
                             }
                         }
-                        SharePref.saveString(Constants.CHOOSE_ADDRESS,gson.toJson(it));
+                        if(it!=null) {
+                            SharePref.saveString(Constants.CHOOSE_ADDRESS, gson.toJson(it));
+                        }
                     }
                 }
             }

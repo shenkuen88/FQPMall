@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.main.acty.index.wx.Constants;
+import com.fengqipu.mall.main.acty.mine.PaySucActivity;
 import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.view.citylist.utils.ToastUtils;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -46,7 +47,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 	public void onResp(BaseResp resp) {
 		CMLog.e("sub", "onPayFinish, errCode = " + resp.errCode);
 		if(resp.errCode == 0){
-			ToastUtils.showToast(this,"支付成功!");
+			startActivity(new Intent(this,PaySucActivity.class));
 			finish();
 		}else {
 			ToastUtils.showToast(this,"支付失败!");
