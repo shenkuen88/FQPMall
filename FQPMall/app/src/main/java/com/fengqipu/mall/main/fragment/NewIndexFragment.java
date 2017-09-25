@@ -40,7 +40,7 @@ import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.KuaiXiuActivity;
 import com.fengqipu.mall.main.acty.MainActivity;
 import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
-import com.fengqipu.mall.main.acty.enterprise.EnterpriseListActivity;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseCategoryActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.huodong.HuoDongActivity;
 import com.fengqipu.mall.main.acty.mine.LoginActy;
@@ -494,13 +494,13 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_qy:
-                Intent intent = new Intent(mainActivity, EnterpriseListActivity.class);
-                intent.putExtra("categorytype", "2");
+                Intent intent = new Intent(mainActivity, EnterpriseCategoryActivity.class);
+                intent.putExtra("categorytype", "1");
                 mainActivity.startActivity(intent);
                 break;
             case R.id.btn_sp:
-                Intent intent2 = new Intent(mainActivity, EnterpriseListActivity.class);
-                intent2.putExtra("categorytype", "3");
+                Intent intent2 = new Intent(mainActivity, EnterpriseCategoryActivity.class);
+                intent2.putExtra("categorytype", "2");
                 mainActivity.startActivity(intent2);
                 break;
             case R.id.btn_kx:

@@ -362,8 +362,10 @@
         <activity android:name=".main.acty.AboutActivity" />
         <activity android:name=".main.acty.mine.BigPicActivity" />
         <activity android:name=".view.photopicker.view.CommunityImageZoomActivity" />
-        <activity android:name=".main.acty.goods.GoodsWebActivity"
-            android:launchMode="singleInstance"></activity>
+        <activity
+            android:name=".main.acty.goods.GoodsWebActivity"
+            android:launchMode="singleInstance" />
+        <activity android:name=".main.acty.enterprise.EnterpriseCategoryActivity"></activity>
     </application>
 
 </manifest>

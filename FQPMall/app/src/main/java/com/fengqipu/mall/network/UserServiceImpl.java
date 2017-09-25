@@ -391,6 +391,29 @@ public class UserServiceImpl
     }
     /**
      * 搜索商品
+     */
+    public void getSearchGList(String type,String keyword,String order,String sort, int pageNo, int pageSize, String tag)
+    {
+        Map<String, String> param=new HashMap<String, String>();
+        if(!type.equals("")) {
+            param.put("type", type);
+        }
+        param.put("keyword",keyword);
+        param.put("pageNo",pageNo+"");
+        param.put("pageSize",pageSize+"");
+        if(!order.equals("")){
+            param.put("order",order+"");
+            if(order.equals("4")){
+                if(!sort.equals("")) {
+                    param.put("sort", sort + "");
+                }
+            }
+        }
+        new NetWork().
+                startPost(URLUtil.SEARCH_KEYWORD, param, tag);
+    }
+    /**
+     * 搜索商品
      * 类型
      1-	商品
      2-	企业
