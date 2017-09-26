@@ -376,7 +376,7 @@ public class OrderDetailActivity extends BaseActivity {
             public void onClick(View view) {
                 if (GeneralUtils.isLogin()) {
                     Intent intent = new IntentBuilder(OrderDetailActivity.this)
-                            .setServiceIMNumber("kefuchannelimid_021199") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
+                            .setServiceIMNumber("kefuchannelimid_563950") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
                             .setTitleName("")
                             .setVisitorInfo(ContentFactory.createVisitorInfo(null)
                                     .companyName("")
@@ -398,7 +398,7 @@ public class OrderDetailActivity extends BaseActivity {
             public void onClick(View view) {
                 if (GeneralUtils.isLogin()) {
                     Intent intent = new IntentBuilder(OrderDetailActivity.this)
-                            .setServiceIMNumber("kefuchannelimid_021199") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
+                            .setServiceIMNumber("kefuchannelimid_563950") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
                             .setTitleName("")
                             .setVisitorInfo(ContentFactory.createVisitorInfo(null)
                                     .companyName("")

@@ -161,7 +161,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                     strs.add(goodsDetailResponse.getContent().getPicUrl1RequestUrl() + "");
                     strs.add(goodsDetailResponse.getContent().getDescriptionLink() + "");
                     Intent intent = new IntentBuilder(GoodsDetailActivity.this)
-                            .setServiceIMNumber("kefuchannelimid_021199") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
+                            .setServiceIMNumber("kefuchannelimid_563950") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
                             .setTitleName(GsonHelper.toJson(strs))
                             .setVisitorInfo(ContentFactory.createVisitorInfo(null)
                                     .companyName("")

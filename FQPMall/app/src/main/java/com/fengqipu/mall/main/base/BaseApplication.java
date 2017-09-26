@@ -90,8 +90,8 @@ public class BaseApplication extends MultiDexApplication {
         DEVICE_TOKEN = GeneralUtils.getDeviceId(this);
         MobSDK.init(this, null, null);
         ChatClient.Options options = new ChatClient.Options();
-        options.setAppkey("1180170717178776#kefuchannelapp44668");//必填项，appkey获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“AppKey”
-        options.setTenantId("44668");//必填项，tenantId获取地址：kefu.easemob.com，“管理员模式 > 设置 > 企业信息”页面的“租户ID”
+        options.setAppkey("1187170730178378#fengqipu");//必填项，appkey获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“AppKey”
+        options.setTenantId("47897");//必填项，tenantId获取地址：kefu.easemob.com，“管理员模式 > 设置 > 企业信息”页面的“租户ID”
 
         // Kefu SDK 初始化
         try {
