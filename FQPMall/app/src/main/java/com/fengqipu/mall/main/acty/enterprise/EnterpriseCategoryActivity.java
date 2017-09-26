@@ -81,7 +81,7 @@ public class EnterpriseCategoryActivity extends BaseActivity {
     int pageSize = 10;
     private boolean isloading = false;
     int totalCount = 0;
-    private String searchKeyWord="";
+    private String contentType="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +113,8 @@ public class EnterpriseCategoryActivity extends BaseActivity {
                 name.setText(item.getTypeName());
                 if (rightTileId.equals("")) {
                     if (helper.getPosition() == 0) {
-                        rightTileId = item.getId();
-                        searchKeyWord=item.getTypeName();
+                        rightTileId=item.getId();
+                        contentType="";
                         pageNum=1;
                         initBtmList();
                         name.setTextColor(getResources().getColor(R.color.app_color));
@@ -125,7 +125,7 @@ public class EnterpriseCategoryActivity extends BaseActivity {
                     }
                 } else {
                     if (item.getId().equals(rightTileId)) {
-                        searchKeyWord=item.getTypeName();
+                        contentType=item.getId();
                         pageNum=1;
                         initBtmList();
                         name.setTextColor(getResources().getColor(R.color.app_color));
@@ -145,9 +145,10 @@ public class EnterpriseCategoryActivity extends BaseActivity {
                 CategoryResponse.ContentType item = (CategoryResponse.ContentType) adapterView.getItemAtPosition(i);
                 rightTileId = item.getId();
                 titleAdapter.notifyDataSetChanged();
+
             }
         });
-        gAdapter = new CommonAdapter<SearchGoodsResponse.ContentListBean>(this, goodsList, R.layout.index_btm_grid) {
+        gAdapter = new CommonAdapter<SearchGoodsResponse.ContentListBean>(this, goodsList, R.layout.index_btm_grid2) {
             @Override
             public void convert(ViewHolder helper, SearchGoodsResponse.ContentListBean item) {
                 ImageView img = helper.getView(R.id.img);
@@ -270,7 +271,10 @@ public class EnterpriseCategoryActivity extends BaseActivity {
 
     }
     private void initBtmList() {
-        UserServiceImpl.instance().getSearchGList(categorytype,searchKeyWord, "1", "", pageNum, pageSize, SearchGoodsResponse.class.getName());
+        if(contentType.equals("-1")){
+            contentType="";
+        }
+        UserServiceImpl.instance().getSearchGList(categorytype,contentType,sonLeftSelId, pageNum, pageSize, SearchGoodsResponse.class.getName());
     }
 
     @Override
@@ -285,7 +289,7 @@ public class EnterpriseCategoryActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(EnterpriseCategoryActivity.this, NewSearchActivity.class);
-                if (categorytype.equals("2")) {
+                if (categorytype.equals("1")) {
                     intent.putExtra("searchtype", 0);
                 } else {
                     intent.putExtra("searchtype", 1);
@@ -370,7 +374,7 @@ public class EnterpriseCategoryActivity extends BaseActivity {
                     List<CategoryResponse.Shop> subitems = categoryResponse.getShopListMap().get(item.getId());
                     if (subitems != null) {
                         for (CategoryResponse.Shop sitem : subitems) {
-                            relist.add(new RightBean.SubRightBean(sitem.getId(), sitem.getShopName(), sitem.getDescription(), sitem.getPicUrlRequestUrl(), sitem.getAdvPicUrlList()));
+                            relist.add(new RightBean.SubRightBean(sitem.getId(), sitem.getShopName(), sitem.getCategory2(), sitem.getPicUrlRequestUrl(), sitem.getAdvPicUrlList()));
                         }
                     }
                     rList.add(new RightBean(item.getId(), item.getCategoryName(), "", relist));
@@ -381,6 +385,10 @@ public class EnterpriseCategoryActivity extends BaseActivity {
 
     private void getRightData() {
         rightLists.clear();
+        CategoryResponse.ContentType item=new CategoryResponse.ContentType();
+        item.setId("-1");
+        item.setTypeName("全部");
+        rightLists.add(item);
         try {
             if (categoryResponse.getContentTypeListMap().get(sonLeftSelId) != null) {
                 rightLists.addAll(categoryResponse.getContentTypeListMap().get(sonLeftSelId));

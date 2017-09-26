@@ -445,7 +445,7 @@ public class CategoryResponse extends BaseResponse {
 
 
 
-    public class ContentType {
+    public static class ContentType {
 
         /**
          * id : 1

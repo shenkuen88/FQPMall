@@ -40,6 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
+        android:divider="@null"
         android:scrollbars="none">
     </com.fengqipu.mall.view.MyListView>
 </LinearLayout>
