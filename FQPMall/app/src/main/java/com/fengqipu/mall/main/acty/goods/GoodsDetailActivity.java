@@ -39,7 +39,7 @@ import com.fengqipu.mall.main.acty.mine.LoginActy;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.fragment.goods.CommentFragment;
-import com.fengqipu.mall.main.fragment.goods.GoodsFragment;
+import com.fengqipu.mall.main.fragment.goods.ProductVPFragment;
 import com.fengqipu.mall.main.fragment.goods.ProductWebFragment;
 import com.fengqipu.mall.network.GsonHelper;
 import com.fengqipu.mall.network.UserServiceImpl;
@@ -161,7 +161,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                     strs.add(goodsDetailResponse.getContent().getPicUrl1RequestUrl() + "");
                     strs.add(goodsDetailResponse.getContent().getDescriptionLink() + "");
                     Intent intent = new IntentBuilder(GoodsDetailActivity.this)
-                            .setServiceIMNumber("kefuchannelimid_563950") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
+                            .setServiceIMNumber("kefuchannelimid_021199") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
                             .setTitleName(GsonHelper.toJson(strs))
                             .setVisitorInfo(ContentFactory.createVisitorInfo(null)
                                     .companyName("")
@@ -246,7 +246,8 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new GoodsFragment();
+                    return new ProductVPFragment();
+//                    return new GoodsFragment();
                 case 1:
                     return new ProductWebFragment();
                 case 2:
