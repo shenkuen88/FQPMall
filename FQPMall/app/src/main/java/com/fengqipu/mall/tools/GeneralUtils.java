@@ -1093,12 +1093,19 @@ public final class GeneralUtils {
 
 
     public static void setImageViewWithUrl(final Context context, final String url, ImageView iv, int defaultImg) {
-        Glide.with(context)
-                .load(url)
-                .placeholder(defaultImg)
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存转换后的资源
-                .into(iv);
+        //Android Glide You cannot start a load for a destroyed activity
+        try
+        {
+            Glide.with(context)
+                    .load(url)
+                    .placeholder(defaultImg)
+                    .crossFade()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)//缓存转换后的资源
+                    .into(iv);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 //        if(url.contains("http")) {
 //            Picasso.with(context).load(url).placeholder(defaultImg).into(iv);
 //        }else{

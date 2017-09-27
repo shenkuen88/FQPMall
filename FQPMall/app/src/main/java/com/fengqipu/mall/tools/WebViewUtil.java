@@ -35,7 +35,8 @@ public class WebViewUtil
             synCookies(context, url);
         }
         webView.loadUrl(url);// 载入网页
-        webView.setWebChromeClient(new CustomWebChromeClient());
+//        webView.setWebChromeClient(new CustomWebChromeClient());
+
         webView.addJavascriptInterface(new JavaScriptinterface(context), "android");
         webView.setWebViewClient(new WebViewClient()
         {

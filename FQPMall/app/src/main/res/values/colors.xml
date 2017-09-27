@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <drawable name="progress_bar_bg">#80FFFFFF</drawable>
     <color name="textGrey3">#646464</color>
     <color name="sandybrown">#EB464E</color>
     <color name="colorPrimary">#000000</color>

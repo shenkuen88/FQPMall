@@ -450,6 +450,8 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
         if (noticeList != null && noticeList.size() > 0) {
             noticeView.setVisibility(View.VISIBLE);
             noticeView.bindNotices(noticeList);
+        }else {
+            noticeView.setVisibility(View.GONE);
         }
     }
 

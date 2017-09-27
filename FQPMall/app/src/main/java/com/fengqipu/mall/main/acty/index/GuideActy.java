@@ -1,6 +1,6 @@
 package com.fengqipu.mall.main.acty.index;
 
-import android.app.Activity;
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -16,11 +16,12 @@ import com.fengqipu.mall.adapter.index.ViewPagerAdapter;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.main.acty.MainActivity;
+import com.fengqipu.mall.main.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuideActy extends Activity implements OnPageChangeListener {
+public class GuideActy extends BaseActivity implements OnPageChangeListener {
 
     private ViewPager vp;
     private ViewPagerAdapter vpAdapter;
@@ -35,6 +36,24 @@ public class GuideActy extends Activity implements OnPageChangeListener {
         setContentView(R.layout.activity_guide);
         initViews();
         initDots();
+    }
+
+    @Override
+    public void initView()
+    {
+
+    }
+
+    @Override
+    public void initViewData()
+    {
+
+    }
+
+    @Override
+    public void initEvent()
+    {
+
     }
 
     private void initViews() {
@@ -54,9 +73,16 @@ public class GuideActy extends Activity implements OnPageChangeListener {
             @Override
             public void onClick(View arg0) {
                 Global.saveUserGuide(Constants.GUIDE_VERSION_CODE);
-                Intent i = new Intent(GuideActy.this, MainActivity.class);
-                startActivity(i);
-                finish();
+                checkPermission(new CheckPermListener() {
+                                    @Override
+                                    public void superPermission() {
+                                        Intent intent = new Intent(mContext, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                },R.string.need_pic_permission,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                );
             }
         });
 

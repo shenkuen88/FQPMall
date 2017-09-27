@@ -14,7 +14,7 @@
         cube_ptr:ptr_pull_to_fresh="false"
         cube_ptr:ptr_ratio_of_header_height_to_refresh="0.5"
         cube_ptr:ptr_resistance="0.3">
-        <com.fengqipu.mall.view.MyScrollView1
+        <com.fengqipu.mall.view.MyScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -246,11 +246,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:gravity="center"
-                    android:text="向上滑动进入商品图文详情页"
+                    android:text="---向上滑动进入商品图文详情页---"
                     android:textSize="15sp"
                     android:textColor="@color/gray"/>
             </LinearLayout>
-        </com.fengqipu.mall.view.MyScrollView1>
+        </com.fengqipu.mall.view.MyScrollView>
 
     </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 

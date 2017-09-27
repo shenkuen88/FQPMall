@@ -30,7 +30,7 @@ import com.fengqipu.mall.tools.CommonMethod;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.ShareSDKMethod;
 import com.fengqipu.mall.view.MyGridView;
-import com.fengqipu.mall.view.MyScrollView1;
+import com.fengqipu.mall.view.MyScrollView;
 import com.fengqipu.mall.view.RefreshListView;
 import com.fengqipu.mall.view.banner.ConvenientBanner;
 import com.fengqipu.mall.view.banner.demo.LocalImageHolderView;
@@ -72,7 +72,7 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
     @Bind(R.id.my_listview)
     RefreshListView myListview;
     @Bind(R.id.scrollView)
-    MyScrollView1 scrollView;
+    MyScrollView scrollView;
     @Bind(R.id.refreshLayout)
     PtrClassicFrameLayout refreshLayout;
     @Bind(R.id.already_sale)
@@ -307,7 +307,7 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
         //请求底部列表接口
 //        initBtmList();
         goodsDetailActivity.initData();
-        goodsDetailActivity.getProComment();
+//        goodsDetailActivity.getProComment();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

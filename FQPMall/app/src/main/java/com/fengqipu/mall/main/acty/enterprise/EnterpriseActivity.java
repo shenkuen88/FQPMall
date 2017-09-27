@@ -65,35 +65,47 @@ import static com.fengqipu.mall.R.id.tv_gz_num;
 /*
  *企业页面
  */
-public class EnterpriseActivity extends BaseActivity implements View.OnClickListener {
+public class EnterpriseActivity extends BaseActivity implements View.OnClickListener
+{
 
     @Bind(R.id.index_banner)
     ConvenientBanner indexBanner;
+
     @Bind(R.id.mTabs)
     TabLayout mTabs;
+
     @Bind(R.id.mContainer)
     ViewPager mContainer;
+
     @Bind(btn_qyjs)
     TextView btnQyjs;
+
     @Bind(R.id.btn_yjbh)
     TextView btnYjbh;
+
     @Bind(R.id.btn_zxkf)
     TextView btnZxkf;
+
     @Bind(R.id.iv_img)
     ImageView ivImg;
+
     @Bind(R.id.tv_shopname)
     TextView tvShopname;
+
     @Bind(R.id.tv_notice)
     TextView tvNotice;
+
     @Bind(R.id.tv_gz)
     TextView tvGz;
+
     @Bind(tv_gz_num)
     TextView tvGzNum;
 
     public String sid = "";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enterprise);
         ButterKnife.bind(this);
@@ -102,13 +114,15 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void initView() {
+    public void initView()
+    {
         initTitle();
         bannerFirstInit();
     }
 
     @Override
-    public void initViewData() {
+    public void initViewData()
+    {
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mContainer.setAdapter(sectionsPagerAdapter);
         mContainer.setOffscreenPageLimit(1);
@@ -118,7 +132,8 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void initEvent() {
+    public void initEvent()
+    {
         tvGz.setOnClickListener(this);
         btnZxkf.setOnClickListener(this);
         btnYjbh.setOnClickListener(this);
@@ -131,12 +146,15 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
      */
     private String curphone = "";
 
-    private void call(String phone) {
+    private void call(String phone)
+    {
         curphone = phone;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
             requestPermissions(new String[]{"android.permission.CALL_PHONE"}, 111);
         }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+        {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -151,12 +169,16 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 111) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        if (requestCode == 111)
+        {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
                 //代表用户同意了打电话的请求
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + curphone));
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+                {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
                     // here to request the missing permissions, and then overriding
@@ -167,33 +189,53 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
                     return;
                 }
                 startActivity(intent);
-            }else{
+            }
+            else
+            {
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
             case R.id.tv_gz:
-                if (GeneralUtils.isLogin()) {
-                    if (tvGz.getText().equals("已关注"))return;
+                if (GeneralUtils.isLogin())
+                {
+                    if (tvGz.getText().equals("已关注"))
+                    {
+                        return;
+                    }
                     NetLoadingDialog.getInstance().loading(mContext);
                     UserServiceImpl.instance().addFavour(this, "2", sid, AddShopResponse.class.getName());
-                } else {
-                    startActivity(new Intent(this,LoginActy.class));
+                }
+                else
+                {
+                    startActivity(new Intent(this, LoginActy.class));
                 }
 
                 break;
             case R.id.btn_yjbh:
-                String phone = shopDetailResponse.getShop().getPhone();
-                if (phone != null && !phone.equals("")) {
-                    call(phone);
+                if (!GeneralUtils.isLogin())
+                {
+                    startActivity(new Intent(mContext, LoginActy.class));
                 }
+                else
+                {
+                    String phone = shopDetailResponse.getShop().getPhone();
+                    if (phone != null && !phone.equals(""))
+                    {
+                        call(phone);
+                    }
+                }
+
                 break;
             case R.id.btn_zxkf:
-                if (GeneralUtils.isLogin()) {
+                if (GeneralUtils.isLogin())
+                {
                     Intent intent = new IntentBuilder(EnterpriseActivity.this)
                             .setServiceIMNumber("kefuchannelimid_563950") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
                             .setTitleName("")
@@ -207,7 +249,9 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
                             .setShowUserNick(true)
                             .build();
                     startActivity(intent);
-                } else {
+                }
+                else
+                {
                     startActivity(new Intent(EnterpriseActivity.this, LoginActy.class));
                 }
                 break;
@@ -217,43 +261,58 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
     ShopDetailResponse shopDetailResponse;
 
     @Override
-    public void onEventMainThread(BaseResponse event) throws Exception {
-        if (event instanceof NoticeEvent) {
+    public void onEventMainThread(BaseResponse event) throws Exception
+    {
+        if (event instanceof NoticeEvent)
+        {
             String tag = ((NoticeEvent) event).getTag();
-            if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
+            if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName()))
+            {
                 finish();
-            } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
             }
-        } else if (event instanceof NetResponseEvent) {
+            else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName()))
+            {
+            }
+        }
+        else if (event instanceof NetResponseEvent)
+        {
             NetLoadingDialog.getInstance().dismissDialog();
             String tag = ((NetResponseEvent) event).getTag();
             String result = ((NetResponseEvent) event).getResult();
-            if (tag.equals(ShopDetailResponse.class.getName())) {
+            if (tag.equals(ShopDetailResponse.class.getName()))
+            {
                 shopDetailResponse = GsonHelper.toType(result, ShopDetailResponse.class);
-                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                if (GeneralUtils.isNotNullOrZeroLenght(result))
+                {
                     CMLog.e(Constants.HTTP_TAG, result);
-                    if (Constants.SUCESS_CODE.equals(shopDetailResponse.getResultCode())) {
-                        if (shopDetailResponse.getShop().getAdvPicUrlList() != null && shopDetailResponse.getShop().getAdvPicUrlList().size() > 0) {
+                    if (Constants.SUCESS_CODE.equals(shopDetailResponse.getResultCode()))
+                    {
+                        if (shopDetailResponse.getShop().getAdvPicUrlList() != null && shopDetailResponse.getShop().getAdvPicUrlList().size() > 0)
+                        {
                             List<BannerListBean> bannerListBeen = new ArrayList<>();
-                            for (String s : shopDetailResponse.getShop().getAdvPicUrlList()) {
+                            for (String s : shopDetailResponse.getShop().getAdvPicUrlList())
+                            {
                                 BannerListBean b = new BannerListBean();
                                 b.setCoverRequestUrl(s);
                                 bannerListBeen.add(b);
                             }
                             initBanner(bannerListBeen);
                         }
-                        if (shopDetailResponse.getShop().getPicUrlRequestUrl() != null && !shopDetailResponse.getShop().getPicUrlRequestUrl().equals("")) {
+                        if (shopDetailResponse.getShop().getPicUrlRequestUrl() != null && !shopDetailResponse.getShop().getPicUrlRequestUrl().equals(""))
+                        {
                             GeneralUtils.setImageViewWithUrl(EnterpriseActivity.this, shopDetailResponse.getShop().getPicUrlRequestUrl(), ivImg, R.drawable.bg_image_classification);
                         }
                         tvShopname.setText(shopDetailResponse.getShop().getShopName() + "");
                         tvNotice.setText(shopDetailResponse.getShop().getNotice() + "");
-                        if (shopDetailResponse.getShop().getNotice() == null || shopDetailResponse.getShop().getNotice().equals("")) {
+                        if (shopDetailResponse.getShop().getNotice() == null || shopDetailResponse.getShop().getNotice().equals(""))
+                        {
                             tvNotice.setVisibility(View.GONE);
                         }
                         tvGz.setText("+关注");
                         tvGz.setBackground(getResources().getDrawable(R.drawable.yollew_rec_click));
                         tvGz.setTextColor(Color.parseColor("#ffffff"));
-                        if (shopDetailResponse.getIsFavorite().equals("1")) {
+                        if (shopDetailResponse.getIsFavorite().equals("1"))
+                        {
                             tvGz.setText("已关注");
                             tvGz.setBackground(getResources().getDrawable(R.drawable.white_rec_click));
                             tvGz.setTextColor(Color.parseColor("#394257"));
@@ -264,53 +323,72 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
 //                            tvGz.setVisibility(View.GONE);
 //                        }
                         tvGzNum.setText(shopDetailResponse.getShop().getFavoriteCount() + "人");
-                        btnQyjs.setOnClickListener(new View.OnClickListener() {
+                        btnQyjs.setOnClickListener(new View.OnClickListener()
+                        {
                             @Override
-                            public void onClick(View view) {
-                                if (shopDetailResponse.getShop().getDescriptionLink() != null && !shopDetailResponse.getShop().getDescriptionLink().equals("")) {
-                                    Intent intentExplain = new Intent(EnterpriseActivity.this, CommonWebViewActivity.class);
-                                    intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_TITLE, shopDetailResponse.getShop().getShopName());
-                                    intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_URL, shopDetailResponse.getShop().getDescriptionLink());
-                                    startActivity(intentExplain);
+                            public void onClick(View view)
+                            {
+                                {
+                                    if (shopDetailResponse.getShop().getDescriptionLink() != null && !shopDetailResponse.getShop().getDescriptionLink().equals(""))
+                                    {
+                                        Intent intentExplain = new Intent(EnterpriseActivity.this, CommonWebViewActivity.class);
+                                        intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_TITLE, shopDetailResponse.getShop().getShopName());
+                                        intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_URL, shopDetailResponse.getShop().getDescriptionLink());
+                                        startActivity(intentExplain);
+                                    }
                                 }
 
                             }
                         });
 
-                    } else {
+                    }
+                    else
+                    {
                         ErrorCode.doCode(this, shopDetailResponse.getResultCode(), shopDetailResponse.getDesc());
                     }
-                } else {
+                }
+                else
+                {
                     ToastUtil.showError(this);
                 }
             }
-            if (tag.equals(AddShopResponse.class.getName())) {
+            if (tag.equals(AddShopResponse.class.getName()))
+            {
                 AddShopResponse addShopResponse = GsonHelper.toType(result, AddShopResponse.class);
-                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                if (GeneralUtils.isNotNullOrZeroLenght(result))
+                {
                     CMLog.e(Constants.HTTP_TAG, result);
-                    if (Constants.SUCESS_CODE.equals(shopDetailResponse.getResultCode())) {
+                    if (Constants.SUCESS_CODE.equals(shopDetailResponse.getResultCode()))
+                    {
                         tvGz.setText("已关注");
                         tvGz.setBackground(getResources().getDrawable(R.drawable.white_rec_click));
                         tvGz.setTextColor(Color.parseColor("#394257"));
-                        int num=0;
-                        try {
-                            num=Integer.valueOf(tvGzNum.getText().toString().replace("人",""));
-                        } catch (NumberFormatException e) {
+                        int num = 0;
+                        try
+                        {
+                            num = Integer.valueOf(tvGzNum.getText().toString().replace("人", ""));
+                        } catch (NumberFormatException e)
+                        {
                             e.printStackTrace();
                         }
                         num++;
-                        tvGzNum.setText(num+"人");
-                    } else {
+                        tvGzNum.setText(num + "人");
+                    }
+                    else
+                    {
                         ErrorCode.doCode(this, shopDetailResponse.getResultCode(), shopDetailResponse.getDesc());
                     }
-                } else {
+                }
+                else
+                {
                     ToastUtil.showError(this);
                 }
             }
         }
     }
 
-    private void initTitle() {
+    private void initTitle()
+    {
         View view = findViewById(R.id.common_back);
         HeadView headView = new HeadView((ViewGroup) view);
         headView.setLeftImage(R.mipmap.app_title_back);
@@ -318,15 +396,19 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
         headView.setHiddenRight();
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentPagerAdapter
+    {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        public SectionsPagerAdapter(FragmentManager fm)
+        {
             super(fm);
         }
 
         @Override
-        public Fragment getItem(int position) {
-            switch (position) {
+        public Fragment getItem(int position)
+        {
+            switch (position)
+            {
                 case 0:
                     return new EnterpriseGoodsListFragment();
                 case 1:
@@ -338,14 +420,17 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
         }
 
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             // Show 3 total pages.
             return 3;
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
+        public CharSequence getPageTitle(int position)
+        {
+            switch (position)
+            {
                 case 0:
                     return "全部商品";
                 case 1:
@@ -362,13 +447,16 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
      */
     private ArrayList<Integer> localImages = new ArrayList<Integer>();
 
-    private void bannerFirstInit() {
+    private void bannerFirstInit()
+    {
         //第一次展示默认本地图片
         localImages.add(R.drawable.bg_banner_enterprisedetails);//默认图片
         indexBanner.setPages(
-                new CBViewHolderCreator<LocalImageHolderView>() {
+                new CBViewHolderCreator<LocalImageHolderView>()
+                {
                     @Override
-                    public LocalImageHolderView createHolder() {
+                    public LocalImageHolderView createHolder()
+                    {
                         return new LocalImageHolderView();
                     }
                 }, localImages)
@@ -386,27 +474,36 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
      *
      * @param ad
      */
-    private synchronized void initBanner(final List<BannerListBean> ad) {
-        if (ad == null || ad.size() < 1) {
+    private synchronized void initBanner(final List<BannerListBean> ad)
+    {
+        if (ad == null || ad.size() < 1)
+        {
             return;
         }
         networkImages.clear();
-        for (int i = 0; i < ad.size(); i++) {
-            if (!networkImages.contains(ad.get(i).getCoverRequestUrl())) {
+        for (int i = 0; i < ad.size(); i++)
+        {
+            if (!networkImages.contains(ad.get(i).getCoverRequestUrl()))
+            {
                 networkImages.add(ad.get(i).getCoverRequestUrl());
             }
         }
         indexBanner.stopTurning();
-        indexBanner.setPages(new CBViewHolderCreator<NetworkImageHolderView>() {
+        indexBanner.setPages(new CBViewHolderCreator<NetworkImageHolderView>()
+        {
             @Override
-            public NetworkImageHolderView createHolder() {
+            public NetworkImageHolderView createHolder()
+            {
                 return new NetworkImageHolderView();
             }
-        }, networkImages).setOnItemClickListener(new OnItemClickListener() {
+        }, networkImages).setOnItemClickListener(new OnItemClickListener()
+        {
             @Override
-            public void onItemClick(int position) {
+            public void onItemClick(int position)
+            {
                 BannerListBean bean = ad.get(position);
-                if (bean != null && GeneralUtils.isNotNullOrZeroLenght(bean.getLink())) {
+                if (bean != null && GeneralUtils.isNotNullOrZeroLenght(bean.getLink()))
+                {
                     //页面跳转
 //                    if (bean.getType() == 1 || bean.getType() == 2) {
 //
@@ -416,7 +513,8 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
         });
     }
 
-    private void initData() {
+    private void initData()
+    {
         //请求banner
         UserServiceImpl.instance().getShopDetail(this, sid, ShopDetailResponse.class.getName());
     }

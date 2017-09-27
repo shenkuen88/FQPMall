@@ -1,5 +1,6 @@
 package com.fengqipu.mall.main.acty.index;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -134,10 +135,18 @@ public class PageLoadingActivity extends BaseActivity
                 }
                 else
                 {
-                    Intent intent = new Intent(PageLoadingActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    timer.cancel();
-                    finish();
+                    checkPermission(new CheckPermListener() {
+                                        @Override
+                                        public void superPermission() {
+                                            Intent intent = new Intent(PageLoadingActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                            timer.cancel();
+                                            finish();
+                                        }
+                                    },R.string.need_pic_permission,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    );
+
                 }
             }
         }

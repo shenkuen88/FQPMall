@@ -457,7 +457,7 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
                             if(tuiJianResponse.getBanner()!=null){
                                 if(tuiJianResponse.getBanner().getCoverRequestUrl()!=null
                                         &&!tuiJianResponse.getBanner().getCoverRequestUrl().equals("")){
-                                    GeneralUtils.setImageViewWithUrl(getActivity(),tuiJianResponse.getBanner().getCoverRequestUrl(),ivTop,R.drawable.bg_banner_homepage_two);
+                                    GeneralUtils.setImageViewWithUrl(getActivity(),tuiJianResponse.getBanner().getCoverRequestUrl(),ivTop,0);
                                 }
                                 if (tuiJianResponse.getBanner() != null && GeneralUtils.isNotNullOrZeroLenght(tuiJianResponse.getBanner().getLink())) {
                                     ivTop.setOnClickListener(new View.OnClickListener() {

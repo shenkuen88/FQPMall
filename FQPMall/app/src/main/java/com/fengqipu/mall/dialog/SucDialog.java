@@ -3,6 +3,7 @@ package com.fengqipu.mall.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -45,6 +46,14 @@ public class SucDialog extends Dialog {
 				dismiss();
 			}
 		});
+		new Handler().postDelayed(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				dismiss();
+			}
+		}, 1500);
 	}
 
 	@Override

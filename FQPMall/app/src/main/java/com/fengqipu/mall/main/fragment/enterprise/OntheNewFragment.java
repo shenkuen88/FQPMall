@@ -21,7 +21,6 @@ import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.bean.shop.OntheNewShopListResponse;
-import com.fengqipu.mall.bean.shop.ZongHeShopListResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
@@ -156,7 +155,7 @@ public class OntheNewFragment extends BaseFragment implements View.OnClickListen
         myGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ZongHeShopListResponse.ContentListBean item = (ZongHeShopListResponse.ContentListBean) adapterView.getItemAtPosition(i);
+                OntheNewShopListResponse.ContentListBean item = (OntheNewShopListResponse.ContentListBean) adapterView.getItemAtPosition(i);
                 if (Global.getuserType().equals("1")) {
                     Intent intent = new Intent(enterpriseActivity, GoodsEnterpriseActivity.class);
                     intent.putExtra("contentID", item.getId());

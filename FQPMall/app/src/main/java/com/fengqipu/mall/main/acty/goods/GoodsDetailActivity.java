@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fengqipu.mall.R;
@@ -81,6 +82,8 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
     Button btnBuy;
     @Bind(R.id.btn_info)
     ImageView btnInfo;
+    @Bind(R.id.empty_ll)
+    LinearLayout llEmpty;
 
     private String contentID = "";
     //sel_btm_layout  gwc_canshu_item gwc_cs_item
@@ -138,7 +141,11 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.btn_info:
-                startActivity(new Intent(GoodsDetailActivity.this, ConversationListActivity.class));
+                if (GeneralUtils.isLogin()){
+                    startActivity(new Intent(GoodsDetailActivity.this, ConversationListActivity.class));
+                }else {
+                    startActivity(new Intent(mContext,LoginActy.class));
+                }
                 break;
             case R.id.shop_tv:
                 try {
@@ -178,7 +185,11 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case collect_tv:
-                UserServiceImpl.instance().addFavour(this, "1", contentID, AddGoodsFavourResponse.class.getName());
+                if (GeneralUtils.isLogin()){
+                    UserServiceImpl.instance().addFavour(this, "1", contentID, AddGoodsFavourResponse.class.getName());
+                }else {
+                    startActivity(new Intent(mContext,LoginActy.class));
+                }
                 break;
             case R.id.btn_addgwc:
                 if (GeneralUtils.isLogin()) {
@@ -363,6 +374,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 if (GeneralUtils.isNotNullOrZeroLenght(result)) {
                     Log.e("sub", result);
                     if (Constants.SUCESS_CODE.equals(goodsDetailResponse.getResultCode())) {
+                        llEmpty.setVisibility(View.GONE);
                         EventBus.getDefault().post(new NoticeEvent("REFRESH"));
                         if (goodsDetailResponse.getIsFavorite() == 1) {
                             Drawable top = getResources().getDrawable(R.mipmap.star_chedked_new);
@@ -372,9 +384,11 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                             collectTv.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
                         }
                     } else {
+                        llEmpty.setVisibility(View.VISIBLE);
                         ErrorCode.doCode(this, goodsDetailResponse.getResultCode(), goodsDetailResponse.getDesc());
                     }
                 } else {
+                    llEmpty.setVisibility(View.VISIBLE);
                     ToastUtil.showError(this);
                 }
             }

@@ -26,6 +26,7 @@ import android.widget.EditText;
  */
 public class CustomWebChromeClient extends WebChromeClient
 {
+
     @Override
     public void onCloseWindow(WebView window)
     {

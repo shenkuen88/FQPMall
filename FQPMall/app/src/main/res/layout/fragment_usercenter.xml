@@ -338,9 +338,10 @@
                         android:id="@+id/iv_top"
                         android:layout_marginTop="7dp"
                         android:layout_width="match_parent"
+                        android:src="@color/white"
                         android:layout_height="@dimen/pxtodp160"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/bg_banner_homepage_two"/>
+                        />
                 <LinearLayout
                     android:id="@+id/btm_ll"
                     android:layout_width="match_parent"
@@ -353,8 +354,8 @@
                         android:layout_height="40dp"
                         android:text="——  为你推荐  ——"
                         android:gravity="center"
-                        android:textSize="16sp"
-                        android:textColor="#4A4A4A"/>
+                        android:textSize="15sp"
+                        android:textColor="@color/gray"/>
                     <com.fengqipu.mall.view.MyGridView
                         android:id="@+id/my_grid_view"
                         android:layout_width="match_parent"

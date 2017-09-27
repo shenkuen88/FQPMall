@@ -137,6 +137,7 @@
                         <com.fengqipu.mall.view.PublicNoticeView
                             android:id="@+id/notice_view"
                             android:layout_width="match_parent"
+                            android:visibility="gone"
                             android:layout_height="match_parent">
                         </com.fengqipu.mall.view.PublicNoticeView>
                         <!--<LinearLayout-->

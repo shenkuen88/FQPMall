@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 
 import com.fengqipu.mall.R;
 import com.fengqipu.mall.bean.BaseResponse;
@@ -14,11 +13,12 @@ import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.constant.URLUtil;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.WebViewUtil;
+import com.fengqipu.mall.view.PWebView;
 
 
 public class CommonWebViewActivity extends BaseActivity
 {
-    private WebView webView;
+    private PWebView webView;
 
     private String title;
 
@@ -47,9 +47,9 @@ public class CommonWebViewActivity extends BaseActivity
     public void initView() {
         initTitle();
 //        NetLoadingDialog.getInstance().loading(this);
-        webView = (WebView) findViewById(R.id.common_web_view);
+        webView = (PWebView) findViewById(R.id.common_web_view);
 //        WebViewUtil.initWebView(this, webView, "https://www.baidu.com/?tn=47018152_dg");
-        WebViewUtil.initWebView(this, webView, url);
+        WebViewUtil.initWebView(this, webView.getWebView(), url);
         viewError = findViewById(R.id.error_view);
         viewError.setVisibility(View.GONE);
     }
@@ -151,7 +151,7 @@ public class CommonWebViewActivity extends BaseActivity
 //                NetLoadingDialog.getInstance().dismissDialog();
                 if (clear)
                 {
-                    webView.clearHistory();
+                    webView.getWebView().clearHistory();
                     clear = false;
                 }
             }
@@ -167,7 +167,7 @@ public class CommonWebViewActivity extends BaseActivity
                     @Override
                     public void run()
                     {
-                        webView.clearHistory();
+                        webView.getWebView().clearHistory();
                         webView.loadUrl(url);// 载入网页
                     }
                 }, 500);
