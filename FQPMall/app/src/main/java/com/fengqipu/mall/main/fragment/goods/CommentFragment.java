@@ -1,5 +1,6 @@
 package com.fengqipu.mall.main.fragment.goods;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -17,14 +18,18 @@ import com.fengqipu.mall.adapter.CommonAdapter;
 import com.fengqipu.mall.adapter.ViewHolder;
 import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NoticeEvent;
+import com.fengqipu.mall.bean.conmunity.ImageBean;
 import com.fengqipu.mall.bean.goods.GoodsCommentResponse;
+import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.tools.CommonMethod;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.view.MyGridView;
 import com.fengqipu.mall.view.RefreshListView;
+import com.fengqipu.mall.view.photopicker.view.CommunityImageZoomActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,29 +44,38 @@ import in.srain.cube.views.ptr.PtrHandler;
 /**
  * Created by Administrator on 2016/6/13.
  */
-public class CommentFragment extends BaseFragment implements View.OnClickListener {
+public class CommentFragment extends BaseFragment implements View.OnClickListener
+{
     private static GoodsDetailActivity goodsDetailActivity;
+
     @Bind(R.id.my_listview)
     RefreshListView myListview;
+
     @Bind(R.id.refreshLayout)
     PtrClassicFrameLayout refreshLayout;
+
     @Bind(R.id.tv_commentcount)
     TextView tvCommentcount;
+
     @Bind(R.id.emtry_ll)
     LinearLayout emtryLl;
 
 
     private CommonAdapter<GoodsCommentResponse.AppraiseListBean> mAdapter;
+
     private List<GoodsCommentResponse.AppraiseListBean> comentList = new ArrayList<>();
 
-    public CommentFragment() {
+    public CommentFragment()
+    {
         // Required empty public constructor
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
+    public void setUserVisibleHint(boolean isVisibleToUser)
+    {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isVisible()) {
+        if (isVisibleToUser && isVisible())
+        {
 //            if (scrollview != null) {
 //                scrollview.scrollTo(0, 0);
 //            }
@@ -72,7 +86,8 @@ public class CommentFragment extends BaseFragment implements View.OnClickListene
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         goodsDetailActivity = (GoodsDetailActivity) getActivity();
         View v = LayoutInflater.from(goodsDetailActivity).inflate(R.layout.fragment_comment, null);
         setWindow();
@@ -82,9 +97,11 @@ public class CommentFragment extends BaseFragment implements View.OnClickListene
     }
 
     int totalCount = 0;
+
     int lastVisibileItem = 0;
 
-    private void initView() {
+    private void initView()
+    {
         refreshLayout.setLastUpdateTimeRelateObject(this);
         refreshLayout.setResistance(1.7f);
         refreshLayout.setRatioOfHeaderHeightToRefresh(1.2f);
@@ -97,23 +114,29 @@ public class CommentFragment extends BaseFragment implements View.OnClickListene
 
         refreshLayout.disableWhenHorizontalMove(true);
 
-        refreshLayout.setPtrHandler(new PtrHandler() {
+        refreshLayout.setPtrHandler(new PtrHandler()
+        {
             @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
+            public void onRefreshBegin(PtrFrameLayout frame)
+            {
                 initData();
             }
 
 
             @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header)
+            {
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, myListview, header);
             }
         });
-        mAdapter = new CommonAdapter<GoodsCommentResponse.AppraiseListBean>(goodsDetailActivity, comentList, R.layout.item_product_comment) {
+        mAdapter = new CommonAdapter<GoodsCommentResponse.AppraiseListBean>(goodsDetailActivity, comentList, R.layout.item_product_comment)
+        {
             @Override
-            public void convert(ViewHolder helper, GoodsCommentResponse.AppraiseListBean item) {
+            public void convert(ViewHolder helper, final GoodsCommentResponse.AppraiseListBean item)
+            {
                 ImageView comment_head_iv = helper.getView(R.id.comment_head_iv);
-                if (item.getUserPortrait() != null && !item.getUserPortrait().equals("")) {
+                if (item.getUserPortrait() != null && !item.getUserPortrait().equals(""))
+                {
                     GeneralUtils.setImageViewWithUrl(goodsDetailActivity, item.getUserPortrait(), comment_head_iv, R.drawable.default_head);
                 }
                 TextView comment_name_tv = helper.getView(R.id.comment_name_tv);
@@ -123,30 +146,55 @@ public class CommentFragment extends BaseFragment implements View.OnClickListene
                 TextView comment_time_tv = helper.getView(R.id.comment_time_tv);
                 comment_time_tv.setText(item.getCreateTimeShow());
                 MyGridView my_grid_view = helper.getView(R.id.my_grid_view);
-                CommonAdapter<String> gadapter = new CommonAdapter<String>(goodsDetailActivity, item.getPicUrlList(), R.layout.item_pic) {
+                CommonAdapter<String> gadapter = new CommonAdapter<String>(goodsDetailActivity, item.getPicUrlList(), R.layout.item_pic)
+                {
                     @Override
-                    public void convert(ViewHolder helper, String item) {
+                    public void convert(final ViewHolder helper, String url)
+                    {
                         ImageView iv_pic = helper.getView(R.id.iv_pic);
-                        if (item != null && !item.equals("")) {
-                            GeneralUtils.setImageViewWithUrl(goodsDetailActivity, item, iv_pic, R.drawable.bg_image_classification);
+                        final List<ImageBean> imgbeans = new ArrayList<>();
+                        imgbeans.clear();
+                        if (url != null && !url.equals(""))
+                        {
+                            GeneralUtils.setImageViewWithUrl(goodsDetailActivity, url, iv_pic, R.drawable.bg_image_classification);
+                            imgbeans.add(new ImageBean(url, 0, 0));
                         }
+                        iv_pic.setOnClickListener(new View.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(View view)
+                            {
+                                Intent intent=new Intent(getActivity(), CommunityImageZoomActivity.class);
+                                intent.putExtra(IntentCode.COMMUNITY_IMAGE_DATA,(Serializable) imgbeans);
+                                intent.putExtra(IntentCode.EXTRA_CURRENT_IMG_POSITION,helper.getPosition());
+                                startActivity(intent);
+                            }
+                        });
                     }
                 };
                 my_grid_view.setAdapter(gadapter);
+
             }
         };
-        myListview.setOnScrollListener(new AbsListView.OnScrollListener() {
+        myListview.setOnScrollListener(new AbsListView.OnScrollListener()
+        {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+            public void onScrollStateChanged(AbsListView absListView, int scrollState)
+            {
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && (lastVisibileItem + 1) == myListview.getCount())
+                {
                     goodsDetailActivity.pageNum = goodsDetailActivity.pageNum + 1;
+                }
                 if (goodsDetailActivity.pageNum * goodsDetailActivity.pageSize >= totalCount)
+                {
                     return;
+                }
                 goodsDetailActivity.getProComment();
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+            {
                 lastVisibileItem = firstVisibleItem + visibleItemCount - 1;
             }
         });
@@ -164,24 +212,30 @@ public class CommentFragment extends BaseFragment implements View.OnClickListene
     }
 
 
-    private void initData() {
+    private void initData()
+    {
         //请求底部列表接口
         goodsDetailActivity.pageNum = 1;
         goodsDetailActivity.getProComment();
 //        initBtmList();
-        new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable()
+        {
             @Override
-            public void run() {
-                try {
+            public void run()
+            {
+                try
+                {
                     refreshLayout.refreshComplete();
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     e.printStackTrace();
                 }
             }
         }, 2000);
     }
 
-    private void initBtmList() {
+    private void initBtmList()
+    {
 //        myLoading.setVisibility(View.GONE);
 //        myListview.loadComplete();
 //        CommentListBean g1 = new CommentListBean();
@@ -204,61 +258,82 @@ public class CommentFragment extends BaseFragment implements View.OnClickListene
     }
 
     public float scaleWidth;
+
     public float scaleHeight;
+
     public int windowWidth = 0;
+
     public int windowHeight = 0;
 
-    public void setWindow() {
-        if (windowWidth > 0 && windowHeight > 0) {
+    public void setWindow()
+    {
+        if (windowWidth > 0 && windowHeight > 0)
+        {
             return;
         }
-        try {
+        try
+        {
             DisplayMetrics dm = getResources().getDisplayMetrics();
             windowWidth = dm.widthPixels;
             windowHeight = dm.heightPixels;
             scaleWidth = (float) windowWidth / 720f;
             scaleHeight = (float) windowHeight / 1280f;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
         }
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         initData();
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
     }
 
     @Override
-    public void onEventMainThread(BaseResponse event) throws Exception {
-        if (event instanceof NoticeEvent) {
+    public void onEventMainThread(BaseResponse event) throws Exception
+    {
+        if (event instanceof NoticeEvent)
+        {
             String tag = ((NoticeEvent) event).getTag();
-            if (tag.equals("COMMENTREFRESH")) {
+            if (tag.equals("COMMENTREFRESH"))
+            {
                 tvCommentcount.setText("其他小伙伴怎么说(" + goodsDetailActivity.goodsCommentResponse.getTotalCount() + ")");
                 if (goodsDetailActivity.goodsCommentResponse.getAppraiseList() != null
-                        && goodsDetailActivity.goodsCommentResponse.getAppraiseList().size() > 0) {
+                        && goodsDetailActivity.goodsCommentResponse.getAppraiseList().size() > 0)
+                {
                     comentList.clear();
+                    tvCommentcount.setVisibility(View.VISIBLE);
                     myListview.loadComplete();
                     comentList.addAll(goodsDetailActivity.goodsCommentResponse.getAppraiseList());
                     mAdapter.notifyDataSetChanged();
                     CommonMethod.setListViewHeightBasedOnChildren(myListview);
+                }
+                else
+                {
+                    tvCommentcount.setVisibility(View.GONE);
                 }
             }
         }

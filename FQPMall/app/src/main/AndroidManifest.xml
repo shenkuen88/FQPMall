@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fengqipu.mall">
+<manifest package="com.fengqipu.mall"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <!-- Required 一些系统要求的权限，如访问网络等 -->
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <!-- Optional for location -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <!-- Required -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
 
     <!-- GCM required, remember replace "com.fengqipu.mall" to your own package -->
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
 
     <permission
         android:name="com.fengqipu.mall.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
+        android:protectionLevel="signature"/>
 
-    <uses-permission android:name="com.fengqipu.mall.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.fengqipu.mall.permission.C2D_MESSAGE"/>
 
     <!-- 其中的com.fengqipu.mall需要换为自己的包名 -->
     <permission
         android:name="com.fengqipu.mall.permission.MIPUSH_RECEIVE"
-        android:protectionLevel="signatureOrSystem" />
+        android:protectionLevel="signatureOrSystem"/>
     <!-- 其中的com.fengqipu.mall需要换为自己的包名 -->
-    <uses-permission android:name="com.fengqipu.mall.permission.MIPUSH_RECEIVE" />
+    <uses-permission android:name="com.fengqipu.mall.permission.MIPUSH_RECEIVE"/>
 
     <application
         android:name=".main.base.BaseApplication"
@@ -68,38 +68,38 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
-                <data android:scheme="tencent100371282" />
+                <data android:scheme="tencent100371282"/>
 
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
             <!-- 调用新浪原生SDK，需要注册的回调activity -->
             <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
             <!-- 集成line客户端登录授权，需要添如下格式的过滤器 -->
             <intent-filter>
-                <data android:scheme="line.1477692153" />
+                <data android:scheme="line.1477692153"/>
 
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
         <meta-data
             android:name="Mob-AppKey"
-            android:value="1f748c1775440" />
+            android:value="1f748c1775440"/>
         <meta-data
             android:name="Mob-AppSecret"
-            android:value="b932da705a5d1bdeadfbac61c7e4e031" />
+            android:value="b932da705a5d1bdeadfbac61c7e4e031"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -108,22 +108,22 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/file_paths"/>
         </provider>
 
         <meta-data
             android:name="com.fengqipu.mall.tools.GlideConfigModule"
-            android:value="GlideModule" />
+            android:value="GlideModule"/>
 
         <!-- 百度定位 begin -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
+            android:process=":remote"/>
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="3ecea51f560650b1ed8a4b99808f52e8" />
+            android:value="3ecea51f560650b1ed8a4b99808f52e8"/>
         <!-- 百度定位 end -->
 
 
@@ -133,19 +133,19 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name=".main.acty.index.zfb.H5PayDemoActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
 
         <!-- alipay sdk end -->
         <!-- wx sdk begin -->
         <receiver android:name=".main.acty.index.wx.AppRegister">
             <intent-filter>
-                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP"/>
             </intent-filter>
         </receiver>
 
@@ -159,61 +159,61 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".main.acty.index.GuideActy" />
+        <activity android:name=".main.acty.index.GuideActy"/>
         <!-- 加载页 -->
-        <activity android:name=".main.acty.index.PageLoadingActivity" />
+        <activity android:name=".main.acty.index.PageLoadingActivity"/>
         <!-- 首页 -->
         <activity
             android:name=".main.acty.MainActivity"
             android:alwaysRetainTaskState="true"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".main.acty.BaiduMapActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".main.acty.ChooseLocationActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <!-- 引导页 -->
 
 
         <!-- 添加收货地址 -->
-        <activity android:name=".main.acty.mine.AddRecieveAddressActy" />
+        <activity android:name=".main.acty.mine.AddRecieveAddressActy"/>
         <!-- 收货地址列表 -->
-        <activity android:name=".main.acty.mine.RecieveAddressListActy" />
+        <activity android:name=".main.acty.mine.RecieveAddressListActy"/>
         <!-- 设置页面 -->
-        <activity android:name=".main.acty.mine.SettingActy" />
+        <activity android:name=".main.acty.mine.SettingActy"/>
         <!-- 账号管理 -->
-        <activity android:name=".main.acty.mine.AccountManageActy" />
+        <activity android:name=".main.acty.mine.AccountManageActy"/>
         <!-- 登录 -->
-        <activity android:name=".main.acty.mine.LoginActy" />
+        <activity android:name=".main.acty.mine.LoginActy"/>
         <!-- 注册 -->
-        <activity android:name=".main.acty.mine.RegistCodeActy" />
+        <activity android:name=".main.acty.mine.RegistCodeActy"/>
         <!-- 注册 设置密码 -->
-        <activity android:name=".main.acty.mine.RegistSetPasswordActy" />
+        <activity android:name=".main.acty.mine.RegistSetPasswordActy"/>
         <!-- 找回密码 验证码 -->
-        <activity android:name=".main.acty.mine.FindPasswordCodeActy" />
+        <activity android:name=".main.acty.mine.FindPasswordCodeActy"/>
         <!-- 找回密码 -->
-        <activity android:name=".main.acty.mine.FindAndSetPasswordActy" />
+        <activity android:name=".main.acty.mine.FindAndSetPasswordActy"/>
         <!-- 修改密码 -->
-        <activity android:name=".main.acty.mine.EditPasswordActy" />
+        <activity android:name=".main.acty.mine.EditPasswordActy"/>
         <!-- 修改昵称 -->
-        <activity android:name=".main.acty.mine.ModifyNickNameActivity" />
+        <activity android:name=".main.acty.mine.ModifyNickNameActivity"/>
         <!-- 裁剪 -->
-        <activity android:name=".main.base.square_clip.SquareClipActivity" />
-        <activity android:name=".main.base.square_clip.CircleClipActivity" />
+        <activity android:name=".main.base.square_clip.SquareClipActivity"/>
+        <activity android:name=".main.base.square_clip.CircleClipActivity"/>
         <!-- 反馈 -->
-        <activity android:name=".main.acty.mine.FeedBackActivity" />
+        <activity android:name=".main.acty.mine.FeedBackActivity"/>
         <!-- 优惠券 -->
         <!-- 订单列表 -->
-        <activity android:name=".main.acty.mine.OrderListActivity" />
+        <activity android:name=".main.acty.mine.OrderListActivity"/>
         <!-- 浏览历史 -->
-        <activity android:name=".main.acty.mine.HistoryGoodsActivity" />
+        <activity android:name=".main.acty.mine.HistoryGoodsActivity"/>
         <!-- 我的收藏 -->
         <!-- 关于我们 -->
 
@@ -223,148 +223,148 @@
             android:name=".main.acty.mine.PublicCommentActy"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <!-- 引导页demo  删除 -->
-        <activity android:name=".view.banner.demo.ADRecyclerViewDemo" />
+        <activity android:name=".view.banner.demo.ADRecyclerViewDemo"/>
         <!-- 上传图片demo -->
         <activity
             android:name=".view.photopicker.view.ImageBucketChooseActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <!-- 图片选择 -->
         <activity
             android:name=".view.photopicker.view.ImageChooseActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <!-- 图片 -->
         <activity
             android:name=".view.photopicker.view.ImageZoomActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <!-- 发表社区动态 -->
         <!-- 查看社区的图片 -->
         <!-- webview -->
         <activity
             android:name=".main.base.CommonWebViewActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
         <!-- 含热搜词的搜索页面 -->
-        <activity android:name=".main.acty.index.SearchActy" />
+        <activity android:name=".main.acty.index.SearchActy"/>
         <!-- 城市列表页面 -->
         <activity
             android:name=".view.citylist.CityPickerActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".main.acty.index.zfb.NoticeListActivity" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity android:name=".main.acty.index.zfb.NoticeListActivity"/>
         <!-- 分类 更多 -->
         <!-- 母婴 装修 在线教育 二级页面 -->
         <!-- 我的帖子 -->
         <!-- 申请退款 -->
-        <activity android:name=".main.acty.mine.RefundActy" />
+        <activity android:name=".main.acty.mine.RefundActy"/>
         <!-- 产品详情页 -->
-        <activity android:name=".main.acty.index.ProductActy" />
+        <activity android:name=".main.acty.index.ProductActy"/>
         <!-- 装修详情页 -->
         <!-- 商品评论列表 -->
-        <activity android:name=".main.acty.index.ProductCommentActy" />
+        <activity android:name=".main.acty.index.ProductCommentActy"/>
         <!-- 母婴搜索 -->
         <activity
             android:name=".main.acty.index.baby.SearchActy"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"/>
         <!-- 物流管理 -->
-        <activity android:name=".main.acty.logistics.LogisticsActivity" />
+        <activity android:name=".main.acty.logistics.LogisticsActivity"/>
         <!-- 是否需要发票 -->
-        <activity android:name=".main.acty.index.BillActivity" />
+        <activity android:name=".main.acty.index.BillActivity"/>
         <!-- 确认订单 -->
-        <activity android:name=".main.acty.index.ConfirmOrderActivity" />
+        <activity android:name=".main.acty.index.ConfirmOrderActivity"/>
         <!-- 系统消息 -->
-        <activity android:name=".main.acty.index.SystemNoticeActivity" />
+        <activity android:name=".main.acty.index.SystemNoticeActivity"/>
         <!-- 消息列表 -->
         <!-- 产品通知消息 -->
-        <activity android:name=".main.acty.index.ProductNoticeActivity" />
+        <activity android:name=".main.acty.index.ProductNoticeActivity"/>
         <!-- 订单详情 -->
-        <activity android:name=".main.acty.mine.OrderDetailActivity" />
+        <activity android:name=".main.acty.mine.OrderDetailActivity"/>
         <!-- 栏目列表页面 -->
-        <activity android:name=".main.acty.index.ColumnListActy" />
+        <activity android:name=".main.acty.index.ColumnListActy"/>
 
         <!-- 支付成功 -->
-        <activity android:name=".main.acty.mine.PaySucActivity" />
+        <activity android:name=".main.acty.mine.PaySucActivity"/>
         <!-- 微信支付 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity android:name=".main.acty.index.wx.PayActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
 
-                <data android:scheme="wx7dbdd195d236053f" />
+                <data android:scheme="wx7dbdd195d236053f"/>
             </intent-filter>
         </activity>
-        <activity android:name=".main.acty.enterprise.EnterpriseActivity" />
-        <activity android:name=".main.acty.enterprise.GoodsEnterpriseActivity" />
-        <activity android:name=".main.acty.enterprise.EnterpriseListActivity" />
-        <activity android:name=".main.acty.goods.GoodsDetailActivity" />
-        <activity android:name=".main.acty.mine.NewMyFavourActivity" />
-        <activity android:name=".main.acty.mine.OneButtonShopActivity" />
-        <activity android:name=".main.acty.search.NewSearchActivity" />
-        <activity android:name=".main.acty.search.SearchGoodsActivity" />
+        <activity android:name=".main.acty.enterprise.EnterpriseActivity"/>
+        <activity android:name=".main.acty.enterprise.GoodsEnterpriseActivity"/>
+        <activity android:name=".main.acty.enterprise.EnterpriseListActivity"/>
+        <activity android:name=".main.acty.goods.GoodsDetailActivity"/>
+        <activity android:name=".main.acty.mine.NewMyFavourActivity"/>
+        <activity android:name=".main.acty.mine.OneButtonShopActivity"/>
+        <activity android:name=".main.acty.search.NewSearchActivity"/>
+        <activity android:name=".main.acty.search.SearchGoodsActivity"/>
         <activity
             android:name=".main.acty.search.SearchShopsActivity"
-            android:launchMode="singleInstance" />
-        <activity android:name=".main.acty.huodong.HuoDongActivity" />
+            android:launchMode="singleInstance"/>
+        <activity android:name=".main.acty.huodong.HuoDongActivity"/>
         <activity
             android:name=".main.acty.search.SearchCategoryActivity"
-            android:launchMode="singleInstance" />
-        <activity android:name=".main.acty.mine.OrderSearchActivity" />
+            android:launchMode="singleInstance"/>
+        <activity android:name=".main.acty.mine.OrderSearchActivity"/>
 
         <!-- huawei push 第三方相关 :接收Push消息（注册、Push消息、Push连接状态、标签，LBS上报结果）广播 -->
         <receiver android:name="com.hyphenate.chat.EMHuaweiPushReceiver">
             <intent-filter>
 
                 <!-- 必须，用于接收token -->
-                <action android:name="com.huawei.android.push.intent.REGISTRATION" />
+                <action android:name="com.huawei.android.push.intent.REGISTRATION"/>
                 <!-- 必须，用于接收消息 -->
-                <action android:name="com.huawei.android.push.intent.RECEIVE" />
+                <action android:name="com.huawei.android.push.intent.RECEIVE"/>
             </intent-filter>
             />
             <meta-data
                 android:name="CS_cloud_ablitity"
-                android:value="successRateAnalytics" />
+                android:value="successRateAnalytics"/>
         </receiver>
         <!-- PushSDK:PushSDK接收外部请求事件入口 -->
         <receiver
             android:name="com.huawei.android.pushagent.PushEventReceiver"
             android:process=":pushservice">
             <intent-filter>
-                <action android:name="com.huawei.android.push.intent.REFRESH_PUSH_CHANNEL" />
-                <action android:name="com.huawei.intent.action.PUSH" />
-                <action android:name="com.huawei.intent.action.PUSH_ON" />
-                <action android:name="com.huawei.android.push.PLUGIN" />
+                <action android:name="com.huawei.android.push.intent.REFRESH_PUSH_CHANNEL"/>
+                <action android:name="com.huawei.intent.action.PUSH"/>
+                <action android:name="com.huawei.intent.action.PUSH_ON"/>
+                <action android:name="com.huawei.android.push.PLUGIN"/>
             </intent-filter>
         </receiver>
         <!-- PushSDK:Push服务 -->
         <service
             android:name="com.huawei.android.pushagent.PushService"
-            android:process=":pushservice" />
+            android:process=":pushservice"/>
 
-        <activity android:name=".main.acty.ConversationListActivity" />
-        <activity android:name=".main.acty.KuaiXiuActivity" />
-        <activity android:name=".main.acty.AboutActivity" />
-        <activity android:name=".main.acty.mine.BigPicActivity" />
-        <activity android:name=".view.photopicker.view.CommunityImageZoomActivity" />
+        <activity android:name=".main.acty.ConversationListActivity"/>
+        <activity android:name=".main.acty.KuaiXiuActivity"/>
+        <activity android:name=".main.acty.AboutActivity"/>
+        <activity android:name=".main.acty.mine.BigPicActivity"/>
+        <activity android:name=".view.photopicker.view.CommunityImageZoomActivity"/>
         <activity
             android:name=".main.acty.goods.GoodsWebActivity"
-            android:launchMode="singleInstance" />
+            android:launchMode="singleInstance"/>
         <activity android:name=".main.acty.enterprise.EnterpriseCategoryActivity"></activity>
     </application>
 

@@ -13,9 +13,11 @@
     <ImageView
         android:id="@+id/comment_head_iv"
         android:layout_width="@dimen/pxtodp80"
+        android:paddingBottom="5dp"
         android:layout_height="@dimen/pxtodp80"
+        android:layout_marginRight="@dimen/pxtodp4"
         android:layout_marginTop="@dimen/pxtodp32"
-        android:src="@drawable/default_bg"
+        android:src="@drawable/bg_image_enterprisedetails"
         />
 
     <TextView
@@ -87,7 +89,7 @@
 
     <LinearLayout
         android:id="@+id/image_ll"
-        android:layout_marginTop="5dp"
+
         android:layout_marginBottom="3dp"
         android:layout_width="match_parent"
         android:layout_height="95dp"

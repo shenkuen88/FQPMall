@@ -184,7 +184,7 @@ public class CommunityImageZoomActivity extends BaseActivity {
             // 翻页指示的点
             ImageView pointView = new ImageView(this);
             pointView.setPadding(5, 0, 5, 0);
-            if (cutpos==count)
+            if (currentPosition==count)
                 pointView.setImageResource(R.mipmap.ic_page_indicator_focused);
             else
                 pointView.setImageResource(R.mipmap.ic_page_indicator);

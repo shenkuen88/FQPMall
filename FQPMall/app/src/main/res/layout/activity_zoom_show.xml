@@ -39,7 +39,6 @@
         android:layout_margin="@dimen/pxtodp24"
         android:background="@drawable/app_bn_white"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:text="保存"/>
     <LinearLayout
         android:id="@+id/my_dots"

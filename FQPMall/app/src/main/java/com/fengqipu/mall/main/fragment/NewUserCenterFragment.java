@@ -45,13 +45,16 @@ import com.fengqipu.mall.network.UserServiceImpl;
 import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
+import com.fengqipu.mall.tools.SharePref;
 import com.fengqipu.mall.tools.ToastUtil;
+import com.hyphenate.helpdesk.easeui.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
@@ -63,80 +66,115 @@ import static com.fengqipu.mall.R.id.spgz_num;
 /**
  * Created by Administrator on 2016/6/13.
  */
-public class NewUserCenterFragment extends BaseFragment implements View.OnClickListener {
+public class NewUserCenterFragment extends BaseFragment implements View.OnClickListener
+{
     private static MainActivity mainActivity;
+
     @Bind(R.id.scrollView)
     ScrollView scrollView;
+
     @Bind(R.id.refreshLayout)
     PtrClassicFrameLayout refreshLayout;
+
     @Bind(R.id.ll_top_bg)
     LinearLayout llTopBg;
+
     @Bind(R.id.my_grid_view)
     GridView myGridView;
+
     @Bind(R.id.head_small)
     ImageView headSmall;
+
     @Bind(R.id.usercenter_title)
     TextView usercenterTitle;
+
     @Bind(R.id.btn_setting)
     ImageView btnSetting;
+
     @Bind(R.id.tv_allorder)
     TextView tvAllorder;
+
     @Bind(R.id.iv_allorder)
     ImageView ivAllorder;
+
     @Bind(R.id.dfk)
     LinearLayout dfk;
+
     @Bind(R.id.dfh)
     LinearLayout dfh;
+
     @Bind(R.id.dsh)
     LinearLayout dsh;
+
     @Bind(R.id.dpj)
     LinearLayout dpj;
+
     @Bind(R.id.tk)
     LinearLayout tk;
+
     @Bind(R.id.headbig)
     ImageView headbig;
+
     @Bind(R.id.top_index_ll)
     LinearLayout topIndexLl;
+
     @Bind(R.id.ll_top)
     LinearLayout llTop;
+
     @Bind(R.id.ll_spgz)
     LinearLayout llSpgz;
+
     @Bind(R.id.ll_qygz)
     LinearLayout llQygz;
+
     @Bind(R.id.ll_wdzj)
     LinearLayout llWdzj;
+
     @Bind(R.id.btm_ll)
     LinearLayout btmLl;
+
     @Bind(R.id.user_name)
     TextView userName;
+
     @Bind(R.id.huiyuan_iv)
     ImageView huiyuanIv;
+
     @Bind(R.id.huiyuan_tv)
     TextView huiyuanTv;
+
     @Bind(R.id.login_ll)
     LinearLayout loginLl;
+
     @Bind(R.id.nologin_ll)
     LinearLayout nologinLl;
+
     @Bind(spgz_num)
     TextView spgzNum;
+
     @Bind(R.id.qygz_num)
     TextView qygzNum;
+
     @Bind(R.id.wdzj_num)
     TextView wdzjNum;
+
     @Bind(R.id.iv_top)
     ImageView ivTop;
 
     private CommonAdapter<TuiJianResponse.ContentListBean> mAdapter;
+
     private List<TuiJianResponse.ContentListBean> goodsList = new ArrayList<>();
 
-    public NewUserCenterFragment() {
+    public NewUserCenterFragment()
+    {
         // Required empty public constructor
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
+    public void setUserVisibleHint(boolean isVisibleToUser)
+    {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isVisible()) {
+        if (isVisibleToUser && isVisible())
+        {
 //            if (scrollView != null) {
 //                scrollView.scrollTo(0, 0);
 //            }
@@ -146,7 +184,8 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         mainActivity = (MainActivity) getActivity();
         View v = LayoutInflater.from(mainActivity).inflate(R.layout.fragment_usercenter, null);
         setWindow();
@@ -156,7 +195,8 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
     }
 
 
-    private void initView() {
+    private void initView()
+    {
         refreshLayout.setLastUpdateTimeRelateObject(this);
         refreshLayout.setResistance(1.7f);
         refreshLayout.setRatioOfHeaderHeightToRefresh(1.2f);
@@ -169,35 +209,44 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
 
         refreshLayout.disableWhenHorizontalMove(true);
 
-        refreshLayout.setPtrHandler(new PtrHandler() {
+        refreshLayout.setPtrHandler(new PtrHandler()
+        {
             @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
+            public void onRefreshBegin(PtrFrameLayout frame)
+            {
                 initData();
             }
 
 
             @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header)
+            {
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
         });
-        mAdapter = new CommonAdapter<TuiJianResponse.ContentListBean>(mainActivity, goodsList, R.layout.index_btm_grid) {
+        mAdapter = new CommonAdapter<TuiJianResponse.ContentListBean>(mainActivity, goodsList, R.layout.index_btm_grid)
+        {
             @Override
-            public void convert(ViewHolder helper, TuiJianResponse.ContentListBean item) {
+            public void convert(ViewHolder helper, TuiJianResponse.ContentListBean item)
+            {
                 ImageView img = helper.getView(R.id.img);
                 TextView title = helper.getView(R.id.title);
                 TextView location = helper.getView(R.id.location);
                 TextView xl = helper.getView(R.id.xl);
                 TextView price = helper.getView(R.id.price);
 //                TextView hpd=helper.getView(R.id.hpd);
-                if (item.getPicUrl1RequestUrl() != null && !item.getPicUrl1RequestUrl().equals("")) {
+                if (item.getPicUrl1RequestUrl() != null && !item.getPicUrl1RequestUrl().equals(""))
+                {
                     GeneralUtils.setImageViewWithUrl(mainActivity, item.getPicUrl1RequestUrl(), img, R.drawable.default_bg);
                 }
                 title.setText("" + item.getContentName());
                 location.setText("" + item.getShopProvince() + " " + item.getShopCity());
-                if (item.getMonthSales() != null && !item.getMonthSales().equals("")) {
+                if (item.getMonthSales() != null && !item.getMonthSales().equals(""))
+                {
                     xl.setText("月销量" + item.getMonthSales() + "笔");
-                } else {
+                }
+                else
+                {
                     xl.setText("月销量0笔");
                 }
                 price.setText("￥" + item.getPrice());
@@ -211,9 +260,11 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
 //                initBtmList();
 //            }
 //        });
-        myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
                 TuiJianResponse.ContentListBean item = (TuiJianResponse.ContentListBean) adapterView.getItemAtPosition(i);
                 Intent intent = new Intent(mainActivity, GoodsDetailActivity.class);
                 intent.putExtra("contentID", item.getId());
@@ -221,15 +272,20 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
             }
         });
 
-        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener()
+        {
             @Override
-            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+            public void onScrollChange(View view, int i, int i1, int i2, int i3)
+            {
                 float f = i3 / 300f;
-                if (f >= 1) {
+                if (f >= 1)
+                {
                     headSmall.setVisibility(View.VISIBLE);
                     usercenterTitle.setVisibility(View.VISIBLE);
                     btnSetting.setImageResource(R.mipmap.tool2);
-                } else {
+                }
+                else
+                {
                     headSmall.setVisibility(View.INVISIBLE);
                     usercenterTitle.setVisibility(View.INVISIBLE);
                     btnSetting.setImageResource(R.mipmap.tool);
@@ -251,29 +307,42 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
         llQygz.setOnClickListener(this);
         llWdzj.setOnClickListener(this);
         nologinLl.setOnClickListener(this);
+        if (GeneralUtils.isNotNullOrZeroLenght(SharePref.getString(Constant.RECOMMAND_USER, "")))
+        {
+            EventBus.getDefault().post(new NetResponseEvent(SharePref.getString(Constant.RECOMMAND_USER,""),TuiJianResponse.class.getName(), NetResponseEvent.Cache.isCache));
+        }
         initData();
     }
 
-    private void initBtmList() {
-        if (GeneralUtils.isLogin()) {
+    private void initBtmList()
+    {
+        if (GeneralUtils.isLogin())
+        {
             UserServiceImpl.instance().getUserCount(mainActivity, UserCountResponse.class.getName());
         }
         UserServiceImpl.instance().getTuiJianList(mainActivity, "2", TuiJianResponse.class.getName());
     }
 
-    private void changLoginOrLoginOut() {
-        if (GeneralUtils.isLogin()) {
+    private void changLoginOrLoginOut()
+    {
+        if (GeneralUtils.isLogin())
+        {
 //            btmLl.setVisibility(View.VISIBLE);
             loginLl.setVisibility(View.VISIBLE);
             nologinLl.setVisibility(View.GONE);
-            if (Global.getNickName().equals("")) {
+            if (Global.getNickName().equals(""))
+            {
                 userName.setText(Global.getUserName());
-            } else {
+            }
+            else
+            {
                 userName.setText(Global.getNickName());
             }
             GeneralUtils.setRoundImageViewWithUrl(getActivity(), Global.getUserHeadUrl(), headbig, R.drawable.default_head);
             GeneralUtils.setRoundImageViewWithUrl(getActivity(), Global.getUserHeadUrl(), headSmall, R.drawable.default_head);
-        } else {
+        }
+        else
+        {
 //            btmLl.setVisibility(View.GONE);
             loginLl.setVisibility(View.GONE);
             nologinLl.setVisibility(View.VISIBLE);
@@ -284,20 +353,28 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
         }
     }
 
-    private void initData() {
+    private void initData()
+    {
         changLoginOrLoginOut();
         initBtmList();
-        if (goodsList.size() > 0) {
+        if (goodsList.size() > 0)
+        {
             btmLl.setVisibility(View.VISIBLE);
-        } else {
+        }
+        else
+        {
             btmLl.setVisibility(View.GONE);
         }
-        new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable()
+        {
             @Override
-            public void run() {
-                try {
+            public void run()
+            {
+                try
+                {
                     refreshLayout.refreshComplete();
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     e.printStackTrace();
                 }
             }
@@ -306,34 +383,44 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
 
 
     public float scaleWidth;
+
     public float scaleHeight;
+
     public int windowWidth = 0;
+
     public int windowHeight = 0;
 
-    public void setWindow() {
-        if (windowWidth > 0 && windowHeight > 0) {
+    public void setWindow()
+    {
+        if (windowWidth > 0 && windowHeight > 0)
+        {
             return;
         }
-        try {
+        try
+        {
             DisplayMetrics dm = getResources().getDisplayMetrics();
             windowWidth = dm.widthPixels;
             windowHeight = dm.heightPixels;
             scaleWidth = (float) windowWidth / 720f;
             scaleHeight = (float) windowHeight / 1280f;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         initData();
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
             case R.id.nologin_ll:
                 startActivity(new Intent(getActivity(), LoginActy.class));
                 break;
@@ -341,20 +428,26 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
                 GeneralUtils.toActyOtherwiseLogin(getActivity(), HistoryGoodsActivity.class);
                 break;
             case R.id.ll_spgz:
-                if (GeneralUtils.isLogin()) {
+                if (GeneralUtils.isLogin())
+                {
                     Intent intent = new Intent(getActivity(), NewMyFavourActivity.class);
                     intent.putExtra("type", "1");
                     startActivity(intent);
-                } else {
+                }
+                else
+                {
                     startActivity(new Intent(getActivity(), LoginActy.class));
                 }
                 break;
             case R.id.ll_qygz:
-                if (GeneralUtils.isLogin()) {
+                if (GeneralUtils.isLogin())
+                {
                     Intent intent = new Intent(getActivity(), NewMyFavourActivity.class);
                     intent.putExtra("type", "0");
                     startActivity(intent);
-                } else {
+                }
+                else
+                {
                     startActivity(new Intent(getActivity(), LoginActy.class));
                 }
                 break;
@@ -370,47 +463,62 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
                 GeneralUtils.toActyOtherwiseLogin(getActivity(), SettingActy.class);
                 break;
             case R.id.dfk:
-                if (GeneralUtils.isLogin()) {
+                if (GeneralUtils.isLogin())
+                {
                     Intent intent = new Intent(getActivity(), OrderListActivity.class);
                     intent.putExtra("orderstate", 1);
                     startActivity(intent);
-                } else {
+                }
+                else
+                {
                     startActivity(new Intent(getActivity(), LoginActy.class));
                 }
                 break;
             case R.id.dfh:
-                if (GeneralUtils.isLogin()) {
+                if (GeneralUtils.isLogin())
+                {
                     Intent intent = new Intent(getActivity(), OrderListActivity.class);
                     intent.putExtra("orderstate", 2);
                     startActivity(intent);
-                } else {
+                }
+                else
+                {
                     startActivity(new Intent(getActivity(), LoginActy.class));
                 }
                 break;
             case R.id.dsh:
-                if (GeneralUtils.isLogin()) {
+                if (GeneralUtils.isLogin())
+                {
                     Intent intent = new Intent(getActivity(), OrderListActivity.class);
                     intent.putExtra("orderstate", 3);
                     startActivity(intent);
-                } else {
+                }
+                else
+                {
                     startActivity(new Intent(getActivity(), LoginActy.class));
                 }
                 break;
             case R.id.dpj:
-                if (GeneralUtils.isLogin()) {
+                if (GeneralUtils.isLogin())
+                {
                     Intent intent = new Intent(getActivity(), OrderListActivity.class);
                     intent.putExtra("orderstate", 4);
                     startActivity(intent);
-                } else {
+                }
+                else
+                {
                     startActivity(new Intent(getActivity(), LoginActy.class));
                 }
                 break;
             case R.id.tk:
-                if (GeneralUtils.isLogin()) {
+                if (GeneralUtils.isLogin())
+                {
                     Intent intent = new Intent(getActivity(), OrderListActivity.class);
                     intent.putExtra("orderstate", 5);
                     startActivity(intent);
-                } else {
+                }
+                else
+                {
                     startActivity(new Intent(getActivity(), LoginActy.class));
                 }
                 break;
@@ -419,78 +527,109 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
     }
 
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
     @Override
-    public void onEventMainThread(BaseResponse event) {
-        if (event instanceof NoticeEvent) {
+    public void onEventMainThread(BaseResponse event)
+    {
+        if (event instanceof NoticeEvent)
+        {
             String tag = ((NoticeEvent) event).getTag();
             //关闭页面
-            if (tag.equals(NotiTag.TAG_LOGIN_SUCCESS)) {
+            if (tag.equals(NotiTag.TAG_LOGIN_SUCCESS))
+            {
                 Log.e("sub", "login");
                 initData();
-            } else if (tag.equals(NotiTag.TAG_LOGIN_OUT)) {
+            }
+            else if (tag.equals(NotiTag.TAG_LOGIN_OUT))
+            {
                 Log.e("sub", "loginout");
                 changLoginOrLoginOut();
             }
-        } else if (event instanceof NetResponseEvent) {
+        }
+        else if (event instanceof NetResponseEvent)
+        {
             NetLoadingDialog.getInstance().dismissDialog();
             String tag = ((NetResponseEvent) event).getTag();
             String result = ((NetResponseEvent) event).getResult();
-            if (tag.equals(TuiJianResponse.class.getName())) {
+            if (tag.equals(TuiJianResponse.class.getName()))
+            {
                 final TuiJianResponse tuiJianResponse = GsonHelper.toType(result, TuiJianResponse.class);
-                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
-                    if (Constants.SUCESS_CODE.equals(tuiJianResponse.getResultCode())) {
-                        if (tuiJianResponse.getContentList() != null && tuiJianResponse.getContentList().size() > 0) {
+                if (GeneralUtils.isNotNullOrZeroLenght(result))
+                {
+                    if (Constants.SUCESS_CODE.equals(tuiJianResponse.getResultCode()))
+                    {
+                        if (tuiJianResponse.getContentList() != null && tuiJianResponse.getContentList().size() > 0)
+                        {
+                            if (SharePref.getString(Constant.RECOMMAND_USER,"").equals(result)){
+                                return;
+                            }
+                            SharePref.saveString(Constant.RECOMMAND_USER, result);
                             goodsList.clear();
                             goodsList.addAll(tuiJianResponse.getContentList());
                             mAdapter.setData(goodsList);
                             mAdapter.notifyDataSetChanged();
-                            if (goodsList.size() > 0) {
+                            if (goodsList.size() > 0)
+                            {
                                 btmLl.setVisibility(View.VISIBLE);
-                            } else {
+                            }
+                            else
+                            {
                                 btmLl.setVisibility(View.GONE);
                             }
-                            if(tuiJianResponse.getBanner()!=null){
-                                if(tuiJianResponse.getBanner().getCoverRequestUrl()!=null
-                                        &&!tuiJianResponse.getBanner().getCoverRequestUrl().equals("")){
-                                    GeneralUtils.setImageViewWithUrl(getActivity(),tuiJianResponse.getBanner().getCoverRequestUrl(),ivTop,0);
+                            if (tuiJianResponse.getBanner() != null)
+                            {
+                                if (tuiJianResponse.getBanner().getCoverRequestUrl() != null
+                                        && !tuiJianResponse.getBanner().getCoverRequestUrl().equals(""))
+                                {
+                                    GeneralUtils.setImageViewWithUrl(getActivity(), tuiJianResponse.getBanner().getCoverRequestUrl(), ivTop, 0);
                                 }
-                                if (tuiJianResponse.getBanner() != null && GeneralUtils.isNotNullOrZeroLenght(tuiJianResponse.getBanner().getLink())) {
-                                    ivTop.setOnClickListener(new View.OnClickListener() {
+                                if (tuiJianResponse.getBanner() != null && GeneralUtils.isNotNullOrZeroLenght(tuiJianResponse.getBanner().getLink()))
+                                {
+                                    ivTop.setOnClickListener(new View.OnClickListener()
+                                    {
                                         @Override
-                                        public void onClick(View view) {
+                                        public void onClick(View view)
+                                        {
                                             //页面跳转
-                                            switch (tuiJianResponse.getBanner().getOpenType()) {
+                                            switch (tuiJianResponse.getBanner().getOpenType())
+                                            {
                                                 case 1:
-                                                    try {
+                                                    try
+                                                    {
                                                         Intent intent = new Intent(getActivity(), EnterpriseActivity.class);
                                                         intent.putExtra("sid", tuiJianResponse.getBanner().getToShopID());
                                                         getActivity().startActivity(intent);
-                                                    } catch (Exception e) {
+                                                    } catch (Exception e)
+                                                    {
                                                         e.printStackTrace();
                                                     }
                                                     break;
                                                 case 2:
-                                                    try {
+                                                    try
+                                                    {
                                                         Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
                                                         intent.putExtra("contentID", tuiJianResponse.getBanner().getToContentID());
                                                         getActivity().startActivity(intent);
-                                                    } catch (Exception e) {
+                                                    } catch (Exception e)
+                                                    {
                                                         e.printStackTrace();
                                                     }
                                                     break;
                                                 case 3:
                                                 case 4:
-                                                    try {
+                                                    try
+                                                    {
                                                         Intent intentExplain = new Intent(getActivity(), CommonWebViewActivity.class);
                                                         intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_TITLE, tuiJianResponse.getBanner().getTitle());
                                                         intentExplain.putExtra(IntentCode.COMMON_WEB_VIEW_URL, tuiJianResponse.getBanner().getLink());
                                                         getActivity().startActivity(intentExplain);
-                                                    } catch (Exception e) {
+                                                    } catch (Exception e)
+                                                    {
                                                         e.printStackTrace();
                                                     }
                                                     break;
@@ -500,25 +639,36 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
                                 }
                             }
                         }
-                    } else {
+                    }
+                    else
+                    {
                         ErrorCode.doCode(mainActivity, tuiJianResponse.getResultCode(), tuiJianResponse.getDesc());
                     }
-                } else {
+                }
+                else
+                {
                     ToastUtil.showError(mainActivity);
                 }
             }
-            if (tag.equals(UserCountResponse.class.getName())) {
+            if (tag.equals(UserCountResponse.class.getName()))
+            {
                 UserCountResponse userCountResponse = GsonHelper.toType(result, UserCountResponse.class);
-                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                if (GeneralUtils.isNotNullOrZeroLenght(result))
+                {
                     CMLog.e(Constants.HTTP_TAG, result);
-                    if (Constants.SUCESS_CODE.equals(userCountResponse.getResultCode())) {
+                    if (Constants.SUCESS_CODE.equals(userCountResponse.getResultCode()))
+                    {
                         spgzNum.setText(userCountResponse.getContentFavoriteCount() + "");
                         qygzNum.setText((userCountResponse.getShop1FavoriteCount() + userCountResponse.getShop2FavoriteCount()) + "");
                         wdzjNum.setText(userCountResponse.getViewContentCount() + "");
-                    } else {
+                    }
+                    else
+                    {
                         ErrorCode.doCode(mainActivity, userCountResponse.getResultCode(), userCountResponse.getDesc());
                     }
-                } else {
+                }
+                else
+                {
                     ToastUtil.showError(mainActivity);
                 }
             }

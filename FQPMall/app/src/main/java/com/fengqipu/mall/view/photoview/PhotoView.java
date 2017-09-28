@@ -261,8 +261,16 @@ public class PhotoView extends ImageView implements IPhotoView {
 
     @Override
     protected void onDetachedFromWindow() {
-        mAttacher.cleanup();
-        mAttacher = null;
+        try
+        {
+            if (mAttacher!=null){
+                mAttacher.cleanup();
+                mAttacher = null;
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         super.onDetachedFromWindow();
     }
 

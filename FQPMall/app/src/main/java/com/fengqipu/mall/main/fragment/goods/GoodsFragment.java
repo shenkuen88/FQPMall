@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -152,6 +153,14 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                 if (item.getUserPortrait() != null && !item.getUserPortrait().equals("")) {
                     GeneralUtils.setImageViewWithUrl(goodsDetailActivity, item.getUserPortrait(), comment_head_iv, R.drawable.default_head);
                 }
+                helper.getView(R.id.rl_comment).setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        goodsDetailActivity.chang2Comment();
+                    }
+                });
                 TextView comment_name_tv = helper.getView(R.id.comment_name_tv);
                 comment_name_tv.setText(item.getUserNickName() + "");
                 TextView comment_content_tv = helper.getView(R.id.comment_content_tv);
@@ -159,12 +168,20 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                 TextView comment_time_tv = helper.getView(R.id.comment_time_tv);
                 comment_time_tv.setText(item.getCreateTimeShow());
                 MyGridView my_grid_view = helper.getView(R.id.my_grid_view);
+                my_grid_view.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+                    {
+                        goodsDetailActivity.chang2Comment();
+                    }
+                });
                 CommonAdapter<String> gadapter = new CommonAdapter<String>(goodsDetailActivity, item.getPicUrlList(), R.layout.item_pic) {
                     @Override
-                    public void convert(ViewHolder helper, String item) {
+                    public void convert(ViewHolder helper, String url) {
                         ImageView iv_pic = helper.getView(R.id.iv_pic);
-                        if (item != null && !item.equals("")) {
-                            GeneralUtils.setImageViewWithUrl(goodsDetailActivity, item, iv_pic, R.drawable.bg_image_classification);
+                        if (GeneralUtils.isNotNullOrZeroLenght(url)) {
+                            GeneralUtils.setImageViewWithUrl(goodsDetailActivity, url, iv_pic, R.drawable.bg_image_classification);
                         }
                     }
                 };
@@ -286,6 +303,7 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
             public void onItemClick(int position) {
                 Intent intent=new Intent(getActivity(), CommunityImageZoomActivity.class);
                 intent.putExtra(IntentCode.COMMUNITY_IMAGE_DATA,(Serializable) imgbeans);
+                intent.putExtra(IntentCode.EXTRA_CURRENT_IMG_POSITION,position);
                 startActivity(intent);
             }
         });

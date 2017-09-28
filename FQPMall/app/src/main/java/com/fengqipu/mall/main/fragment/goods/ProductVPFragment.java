@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ public class ProductVPFragment extends BaseFragment
 
     @Bind(R.id.vertical_viewpager)
     VerticalViewPager verticalViewPager;
-
+    public  int fPosition = 0;
     private GoodsDetailActivity goodsDetailActivity;
 
     @Nullable
@@ -43,6 +44,32 @@ public class ProductVPFragment extends BaseFragment
     private void initView()
     {
         verticalViewPager.setAdapter(new ProjectAdapter(goodsDetailActivity.getSupportFragmentManager()));
+        verticalViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
+        {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+            {
+
+            }
+
+            @Override
+            public void onPageSelected(int position)
+            {
+                if (position==0){
+                    fPosition =0;
+                    goodsDetailActivity.showTab(true);
+                }else {
+                    fPosition=1;
+                    goodsDetailActivity.showTab(false);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state)
+            {
+
+            }
+        });
     }
 
     class ProjectAdapter extends FragmentPagerAdapter

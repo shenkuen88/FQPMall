@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_col"
+              android:background="@color/bg_col"
     android:orientation="vertical">
     <in.srain.cube.views.ptr.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/refreshLayout"
@@ -235,18 +235,18 @@
                 <com.fengqipu.mall.view.RefreshListView
                     android:id="@+id/my_listview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="1dp"
-                    android:background="@color/white"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="1dp"
                     android:divider="@color/bg_col"
-                    android:dividerHeight="1px"
                     android:overScrollMode="never"
                     android:scrollbars="none"></com.fengqipu.mall.view.RefreshListView>
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="80dp"
                     android:gravity="center"
-                    android:text="---向上滑动进入商品图文详情页---"
+                    android:paddingBottom="25dp"
+                    android:paddingTop="11dp"
+                    android:text="-----向上滑动进入商品图文详情页-----"
                     android:textSize="15sp"
                     android:textColor="@color/gray"/>
             </LinearLayout>
