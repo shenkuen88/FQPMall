@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
                 android:layout_marginBottom="10dp"
-                android:background="@mipmap/pink_bg"
+                android:background="@mipmap/bj"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="0dp"

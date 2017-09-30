@@ -169,7 +169,7 @@
                                         android:layout_marginTop="5dp"
                                         android:gravity="center"
                                         android:text="0"
-                                        android:textColor="#EB464E"
+                                        android:textColor="@color/app_color"
                                         android:textSize="16sp"/>
 
                                     <TextView
@@ -196,7 +196,7 @@
                                         android:layout_marginTop="5dp"
                                         android:gravity="center"
                                         android:text="0"
-                                        android:textColor="#EB464E"
+                                        android:textColor="@color/app_color"
                                         android:textSize="16sp"/>
 
                                     <TextView
@@ -223,7 +223,7 @@
                                         android:layout_marginTop="5dp"
                                         android:gravity="center"
                                         android:text="0"
-                                        android:textColor="#EB464E"
+                                        android:textColor="@color/app_color"
                                         android:textSize="16sp"/>
 
                                     <TextView

@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="首页"
-                android:textColor="#EB464E"
+                android:textColor="@color/app_color"
                 android:textSize="13sp" />
         </LinearLayout>
 

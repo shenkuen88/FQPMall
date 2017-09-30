@@ -72,7 +72,7 @@
                 android:layout_centerVertical="true"
                 android:singleLine="true"
                 android:text="@string/price"
-                android:textColor="#EB464E"
+                android:textColor="@color/app_color"
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
@@ -176,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="￥0.0"
-                android:textColor="#EB464E"
+                android:textColor="@color/app_color"
                 android:textSize="13sp"
                 />
 

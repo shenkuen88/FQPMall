@@ -9,5 +9,5 @@
     <stroke
         android:width="1px"
         android:color="@color/app_color"></stroke>
-    <solid android:color="@color/app_state_red"></solid>
+    <solid android:color="@color/app_detail_gray"></solid>
 </shape>
