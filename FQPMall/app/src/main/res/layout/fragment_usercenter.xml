@@ -42,7 +42,7 @@
 
                             <LinearLayout
                                 android:id="@+id/login_ll"
-                                android:background="#189387"
+                                android:background="@mipmap/bj"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/pxtodp380"
                                 android:gravity="center_vertical"
@@ -112,7 +112,7 @@
                                 android:id="@+id/nologin_ll"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/pxtodp380"
-                                android:background="#189387"
+                                android:background="@mipmap/bj"
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal"
                                 >
