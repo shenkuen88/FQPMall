@@ -20,7 +20,7 @@ public class Configuration implements Cloneable {
 
 	static class Default {
 		static int DEFAULT_OFF_COLOR = Color.parseColor("#E3E3E3");//关闭颜色
-		static int DEFAULT_ON_COLOR = Color.parseColor("#F34030");//打开时的颜色
+		static int DEFAULT_ON_COLOR = Color.parseColor("#189387");//打开时的颜色
 		static int DEFAULT_THUMB_COLOR = Color.parseColor("#FFFFFF");
 		static int DEFAULT_THUMB_PRESSED_COLOR = Color.parseColor("#fafafa");
 		static int DEFAULT_THUMB_MARGIN = 2;
