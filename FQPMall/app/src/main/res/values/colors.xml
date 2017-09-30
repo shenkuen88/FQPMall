@@ -2,14 +2,14 @@
 <resources>
     <drawable name="progress_bar_bg">#80FFFFFF</drawable>
     <color name="textGrey3">#646464</color>
-    <color name="sandybrown">#EB464E</color>
+    <color name="sandybrown">#189387</color>
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#000000</color>
     <color name="gray_bg">#EFEFEF</color>
-    <color name="app_color">#EB464E</color>
+    <color name="app_color">#189387</color>
     <color name="app_bg">#EFEFEF</color>
-    <color name="app_color_click">#F34030</color>
+    <color name="app_color_click">#189387</color>
     <color name="black_color">#000000</color>
     <color name="status_bar">#000000</color>
     <color name="white_color">#ffffff</color>
@@ -67,7 +67,7 @@
     <color name="register_hint_text">#bebebe</color>
     <color name="all_d">#dddddd</color>
 
-    <color name="home_tab_select">#e1524b</color>
+    <color name="home_tab_select">#189387</color>
     <color name="home_notice_background">#333333</color>
     <color name="money_main_invest_detail_ba">#f4f4f4</color>
     <color name="money6a">#aaaaaa</color>
@@ -110,7 +110,7 @@
     <!--底部导航栏-->
     <color name="default_tab_view_selected_color">#FF45C01A</color>
     <color name="default_tab_view_unselected_color">#FF555555</color>
-    <color name="order_sel_col">#F34030</color>
+    <color name="order_sel_col">#189387</color>
     <color name="order_nol_col">#4d4d4d</color>
 
     <color name="bg_col">#EFEFEF</color>

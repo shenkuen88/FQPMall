@@ -23,8 +23,8 @@ import com.fengqipu.mall.bean.search.SearchGoodsResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
-import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
+import com.fengqipu.mall.main.acty.index.zfb.NoticeListActivity;
 import com.fengqipu.mall.main.acty.search.NewSearchActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.CommonWebViewActivity;
@@ -300,7 +300,7 @@ public class EnterpriseCategoryActivity extends BaseActivity {
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(EnterpriseCategoryActivity.this, ConversationListActivity.class));
+                startActivity(new Intent(EnterpriseCategoryActivity.this, NoticeListActivity.class));
             }
         });
         leftList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

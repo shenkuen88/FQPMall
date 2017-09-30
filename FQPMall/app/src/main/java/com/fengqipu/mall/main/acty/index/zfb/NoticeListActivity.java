@@ -70,7 +70,7 @@ public class NoticeListActivity extends BaseActivity implements View.OnClickList
     private NoticeListResponse mSystemMessageResponse;
     private View loadingView;
     private int lastVisibileItem;
-    private LinearLayout llLoading;
+    private LinearLayout llLoading,emtry_ll;
     private TextView tvLoadMore;
     private View loadView;
 
@@ -159,6 +159,11 @@ public class NoticeListActivity extends BaseActivity implements View.OnClickList
                                 pageNo = loadPageNo;
                                 isLoadingMoreData = false;
                             }
+                            if (datas.size()>0){
+                                emtry_ll.setVisibility(View.GONE);
+                            }else {
+                                emtry_ll.setVisibility(View.VISIBLE);
+                            }
                         }
                     } else {
                         ErrorCode.doCode(mContext, mSystemMessageResponse.getResultCode(), mSystemMessageResponse.getDesc());
@@ -183,6 +188,7 @@ public class NoticeListActivity extends BaseActivity implements View.OnClickList
     public void initView() {
         loadView = findViewById(R.id.loading_test);
         llLoading = (LinearLayout) findViewById(R.id.loading_test_ll);//正在加载
+        emtry_ll = (LinearLayout) findViewById(R.id.emtry_ll);//正在加载
         tvLoadMore = (TextView) findViewById(R.id.load_more_tv);//加载更多
         llLoading.setVisibility(View.GONE);
         tvLoadMore.setVisibility(View.GONE);

@@ -565,9 +565,6 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
                     {
                         if (tuiJianResponse.getContentList() != null && tuiJianResponse.getContentList().size() > 0)
                         {
-                            if (SharePref.getString(Constant.RECOMMAND_USER,"").equals(result)){
-                                return;
-                            }
                             SharePref.saveString(Constant.RECOMMAND_USER, result);
                             goodsList.clear();
                             goodsList.addAll(tuiJianResponse.getContentList());

@@ -23,9 +23,9 @@ import com.fengqipu.mall.bean.category.RightBean;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
-import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.index.SearchActy;
+import com.fengqipu.mall.main.acty.index.zfb.NoticeListActivity;
 import com.fengqipu.mall.main.acty.search.NewSearchActivity;
 import com.fengqipu.mall.main.acty.search.SearchShopsActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
@@ -286,7 +286,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(EnterpriseListActivity.this, ConversationListActivity.class));
+                startActivity(new Intent(EnterpriseListActivity.this, NoticeListActivity.class));
             }
         });
     }

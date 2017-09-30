@@ -265,7 +265,7 @@ public class UserServiceImpl
     public void getNoticeList(int pageNo, String tag)
     {
         Map<String, String> param = new HashMap<String, String>();
-//        param.put("pageSize", Constants.LIST_NUM + "");
+        param.put("pageSize", Constants.LIST_NUM + "");
         param.put("pageNo", pageNo + "");
         new NetWork()
                 .startPost(URLUtil.NOTICE_LIST, param, tag);

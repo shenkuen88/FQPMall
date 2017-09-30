@@ -23,8 +23,8 @@ import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.dialog.ShaiXuanDialog;
-import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
+import com.fengqipu.mall.main.acty.index.zfb.NoticeListActivity;
 import com.fengqipu.mall.main.acty.mine.LoginActy;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
@@ -407,7 +407,7 @@ public class GoodsEnterpriseActivity extends BaseActivity implements View.OnClic
                 finish();
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 if (GeneralUtils.isLogin()){
-                    startActivity(new Intent(GoodsEnterpriseActivity.this, ConversationListActivity.class));
+                    startActivity(new Intent(GoodsEnterpriseActivity.this, NoticeListActivity.class));
                 }else {
                     startActivity(new Intent(mContext, LoginActy.class));
                 }

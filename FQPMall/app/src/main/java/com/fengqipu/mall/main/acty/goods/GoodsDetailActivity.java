@@ -1,9 +1,15 @@
 package com.fengqipu.mall.main.acty.goods;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -33,9 +39,9 @@ import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.dialog.GuiGeBtmDialog;
 import com.fengqipu.mall.dialog.SucDialog;
-import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
 import com.fengqipu.mall.main.acty.index.ConfirmOrderActivity;
+import com.fengqipu.mall.main.acty.index.zfb.NoticeListActivity;
 import com.fengqipu.mall.main.acty.mine.LoginActy;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
@@ -49,8 +55,6 @@ import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
 import com.fengqipu.mall.view.citylist.utils.ToastUtils;
-import com.hyphenate.helpdesk.easeui.util.IntentBuilder;
-import com.hyphenate.helpdesk.model.ContentFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -202,7 +206,9 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.btn_info:
-                startActivity(new Intent(GoodsDetailActivity.this, ConversationListActivity.class));
+//                startActivity(new Intent(GoodsDetailActivity.this, ConversationListActivity.class));
+                startActivity(new Intent(GoodsDetailActivity.this, NoticeListActivity.class));
+
                 break;
             case R.id.shop_tv:
                 try
@@ -219,37 +225,45 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
 
                 break;
             case R.id.service_tv:
-                if (GeneralUtils.isLogin() && null != goodsDetailResponse)
+//                if (GeneralUtils.isLogin() && null != goodsDetailResponse)
+//                {
+//                    try
+//                    {
+//                        List<String> strs = new ArrayList<>();
+//                        strs.add(goodsDetailResponse.getContent().getContentName());
+//                        strs.add(goodsDetailResponse.getContent().getPrice() + "");
+//                        strs.add(goodsDetailResponse.getContent().getDescription() + "");
+//                        strs.add(goodsDetailResponse.getContent().getPicUrl1RequestUrl() + "");
+//                        strs.add(goodsDetailResponse.getContent().getDescriptionLink() + "");
+//                        Intent intent = new IntentBuilder(GoodsDetailActivity.this)
+//                                .setServiceIMNumber("kefuchannelimid_021199") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
+//                                .setTitleName(GsonHelper.toJson(strs))
+//                                .setVisitorInfo(ContentFactory.createVisitorInfo(null)
+//                                        .companyName("")
+//                                        .email(Global.getEmail())
+//                                        .qq("")
+//                                        .name(Global.getUserName())
+//                                        .nickName(Global.getNickName())
+//                                        .phone(Global.getPhone()))
+//                                .setShowUserNick(true)
+//                                .build();
+//                        startActivity(intent);
+//                    } catch (Exception e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                else
+//                {
+//                    startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
+//                }
+                if (null != goodsDetailResponse)
                 {
-                    try
+                    String phone = goodsDetailResponse.getShop().getPhone();
+                    if (phone != null && !phone.equals(""))
                     {
-                        List<String> strs = new ArrayList<>();
-                        strs.add(goodsDetailResponse.getContent().getContentName());
-                        strs.add(goodsDetailResponse.getContent().getPrice() + "");
-                        strs.add(goodsDetailResponse.getContent().getDescription() + "");
-                        strs.add(goodsDetailResponse.getContent().getPicUrl1RequestUrl() + "");
-                        strs.add(goodsDetailResponse.getContent().getDescriptionLink() + "");
-                        Intent intent = new IntentBuilder(GoodsDetailActivity.this)
-                                .setServiceIMNumber("kefuchannelimid_021199") //获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“IM服务号”
-                                .setTitleName(GsonHelper.toJson(strs))
-                                .setVisitorInfo(ContentFactory.createVisitorInfo(null)
-                                        .companyName("")
-                                        .email(Global.getEmail())
-                                        .qq("")
-                                        .name(Global.getUserName())
-                                        .nickName(Global.getNickName())
-                                        .phone(Global.getPhone()))
-                                .setShowUserNick(true)
-                                .build();
-                        startActivity(intent);
-                    } catch (Exception e)
-                    {
-                        e.printStackTrace();
+                        call(phone);
                     }
-                }
-                else
-                {
-                    startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
                 }
                 break;
             case collect_tv:
@@ -568,4 +582,63 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
             }
         }
     }
+
+    /**
+     * 调用拨号功能
+     *
+     * @param phone 电话号码
+     */
+    private String curphone = "";
+
+    private void call(String phone)
+    {
+        curphone = phone;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            requestPermissions(new String[]{"android.permission.CALL_PHONE"}, 111);
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+        {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + curphone));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        if (requestCode == 111)
+        {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                //代表用户同意了打电话的请求
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + curphone));
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+                {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                startActivity(intent);
+            }
+            else
+            {
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
 }

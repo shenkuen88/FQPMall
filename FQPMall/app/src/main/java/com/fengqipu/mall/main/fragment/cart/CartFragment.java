@@ -32,8 +32,8 @@ import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.dialog.GWCGuiGeBtmDialog;
-import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.index.ConfirmOrderActivity;
+import com.fengqipu.mall.main.acty.index.zfb.NoticeListActivity;
 import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.main.base.HeadView;
 import com.fengqipu.mall.network.GsonHelper;
@@ -289,7 +289,7 @@ public class CartFragment extends BaseFragment {
         btnInfo.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), ConversationListActivity.class));
+                startActivity(new Intent(getActivity(), NoticeListActivity.class));
             }
         });
 

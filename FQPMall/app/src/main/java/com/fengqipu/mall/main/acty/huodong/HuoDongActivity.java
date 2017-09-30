@@ -21,8 +21,8 @@ import com.fengqipu.mall.bean.index.BannerListBean;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.NotiTag;
-import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
+import com.fengqipu.mall.main.acty.index.zfb.NoticeListActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.HeadView;
@@ -276,7 +276,7 @@ public class HuoDongActivity extends BaseActivity implements View.OnClickListene
             if (NotiTag.TAG_CLOSE_ACTIVITY.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
                 finish();
             } else if (NotiTag.TAG_DO_RIGHT.equals(tag) && BaseApplication.currentActivity.equals(this.getClass().getName())) {
-                startActivity(new Intent(HuoDongActivity.this, ConversationListActivity.class));
+                startActivity(new Intent(HuoDongActivity.this, NoticeListActivity.class));
             }
         } else if (event instanceof NetResponseEvent) {
             NetLoadingDialog.getInstance().dismissDialog();

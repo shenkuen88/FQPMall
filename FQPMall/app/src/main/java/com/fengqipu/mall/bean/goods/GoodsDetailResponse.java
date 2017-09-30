@@ -18,7 +18,31 @@ public class GoodsDetailResponse extends BaseResponse{
     private ContentBean content;
     private int isFavorite;//1。收藏 0。未收藏
     private int freight;
+    private ShopBean shop;
 
+    public ShopBean getShop()
+    {
+        return shop;
+    }
+
+    public void setShop(ShopBean shop)
+    {
+        this.shop = shop;
+    }
+
+   public static   class ShopBean {
+        private String phone;
+
+        public String getPhone()
+        {
+            return phone;
+        }
+
+        public void setPhone(String phone)
+        {
+            this.phone = phone;
+        }
+    }
     public int getIsFavorite() {
         return isFavorite;
     }

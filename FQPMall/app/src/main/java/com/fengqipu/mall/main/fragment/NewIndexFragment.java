@@ -36,13 +36,13 @@ import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
-import com.fengqipu.mall.main.acty.ConversationListActivity;
 import com.fengqipu.mall.main.acty.KuaiXiuActivity;
 import com.fengqipu.mall.main.acty.MainActivity;
 import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
 import com.fengqipu.mall.main.acty.enterprise.EnterpriseCategoryActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.huodong.HuoDongActivity;
+import com.fengqipu.mall.main.acty.index.zfb.NoticeListActivity;
 import com.fengqipu.mall.main.acty.mine.LoginActy;
 import com.fengqipu.mall.main.acty.mine.OneButtonShopActivity;
 import com.fengqipu.mall.main.acty.search.NewSearchActivity;
@@ -308,7 +308,8 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(mainActivity, ConversationListActivity.class));
+                startActivity(new Intent(mainActivity, NoticeListActivity.class));
+//                startActivity(new Intent(mainActivity, ConversationListActivity.class));
             }
         });
         bannerFirstInit();
