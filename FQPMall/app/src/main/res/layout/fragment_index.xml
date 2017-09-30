@@ -38,7 +38,7 @@
                     <LinearLayout
                         android:layout_marginTop="@dimen/pxtodp380"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/pxtodp300"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:background="@color/white">
                         <LinearLayout
@@ -138,7 +138,7 @@
                             android:id="@+id/notice_view"
                             android:layout_width="match_parent"
                             android:visibility="gone"
-                            android:layout_height="match_parent">
+                            android:layout_height="@dimen/pxtodp80">
                         </com.fengqipu.mall.view.PublicNoticeView>
                         <!--<LinearLayout-->
                         <!--android:layout_width="match_parent"-->

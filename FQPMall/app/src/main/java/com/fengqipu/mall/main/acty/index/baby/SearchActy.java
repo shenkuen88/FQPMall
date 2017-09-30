@@ -32,7 +32,7 @@ import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
-import com.fengqipu.mall.main.acty.index.ProductActy;
+import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.network.GsonHelper;
@@ -214,17 +214,8 @@ public class SearchActy extends BaseActivity implements View.OnClickListener {
     }
 
     private void jumpToDetail(ProductSearchBean item) {
-        int type = item.getServiceType();
         Intent intent = new Intent();
-        if (type == 1) {
-//            intent.setClass(mContext, EduOlineVideoActivity.class);
-        } else if (type == 2) {
-            intent.setClass(mContext, ProductActy.class);
-        } else if (type == 3) {
-//            intent.setClass(mContext, DecorateActy.class);
-        } else {
-
-        }
+        intent.setClass(mContext, GoodsDetailActivity.class);
         intent.putExtra(IntentCode.contentID, item.getContentID());
         mContext.startActivity(intent);
     }

@@ -263,9 +263,6 @@
         <!-- 我的帖子 -->
         <!-- 申请退款 -->
         <activity android:name=".main.acty.mine.RefundActy"/>
-        <!-- 产品详情页 -->
-        <activity android:name=".main.acty.index.ProductActy"/>
-        <!-- 装修详情页 -->
         <!-- 商品评论列表 -->
         <activity android:name=".main.acty.index.ProductCommentActy"/>
         <!-- 母婴搜索 -->
@@ -278,15 +275,9 @@
         <activity android:name=".main.acty.index.BillActivity"/>
         <!-- 确认订单 -->
         <activity android:name=".main.acty.index.ConfirmOrderActivity"/>
-        <!-- 系统消息 -->
-        <activity android:name=".main.acty.index.SystemNoticeActivity"/>
         <!-- 消息列表 -->
-        <!-- 产品通知消息 -->
-        <activity android:name=".main.acty.index.ProductNoticeActivity"/>
         <!-- 订单详情 -->
         <activity android:name=".main.acty.mine.OrderDetailActivity"/>
-        <!-- 栏目列表页面 -->
-        <activity android:name=".main.acty.index.ColumnListActy"/>
 
         <!-- 支付成功 -->
         <activity android:name=".main.acty.mine.PaySucActivity"/>
