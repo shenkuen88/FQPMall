@@ -127,7 +127,6 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/line6"
         style="@style/marginLeft24Line"
         android:layout_below="@+id/set_ll" />
 

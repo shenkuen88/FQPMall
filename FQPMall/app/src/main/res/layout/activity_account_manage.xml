@@ -133,7 +133,6 @@
         android:layout_below="@+id/sex_rl">
 
         <TextView
-            android:id="@+id/user_birth_tv1"
             style="@style/account_manage_tv"
             android:text="出生日期" />
 

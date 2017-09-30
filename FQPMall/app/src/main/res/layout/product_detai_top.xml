@@ -22,7 +22,6 @@
         cube_ptr:ptr_resistance="0.3">
 
         <ScrollView
-            android:id="@+id/all_content_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:overScrollMode="never"

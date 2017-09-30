@@ -23,7 +23,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:text="这是公告这是公告这是公告这是公告这是公告这这是公告这是公告这是公告这是公告这是公告是公告这是公告这是公告这是公告这是公告这是公告"
                 android:textColor="@color/register_black_text"
                 android:textSize="16sp"/>
 
@@ -73,7 +72,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:paddingBottom="@dimen/pxtodp6"
-                android:text="这是公告这是公告这是公告这是公告这是公告这这是公告这是公告这是公告这是公告这是公告是公告这是公告这是公告这是公告这是公告这是公告"
                 android:textColor="#4A4A4A"
                 android:textSize="16sp"/>
 

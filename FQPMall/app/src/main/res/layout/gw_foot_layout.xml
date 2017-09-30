@@ -33,7 +33,6 @@
 
 
     <LinearLayout
-        android:id="@+id/id_ll_normal_all_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -57,7 +56,6 @@
                 android:textSize="13sp"/>
 
             <TextView
-                android:id="@+id/tvPostPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"

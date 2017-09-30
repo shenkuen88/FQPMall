@@ -1,86 +1,93 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
+
     <ImageView
         android:id="@+id/img"
-  android:layout_margin="5dp"
         android:layout_width="162dp"
         android:layout_height="162dp"
-        android:scaleType="centerCrop"
         android:layout_gravity="center_horizontal"
-        android:src="@mipmap/pic1_sort"
+        android:layout_margin="5dp"
+        android:scaleType="centerCrop"
         />
+
     <TextView
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="这是公告这是公告这是公告这是公告这是公告这这是公告这是公告这是公告这是公告这是公告是公告这是公告这是公告这是公告这是公告这是公告"
-        android:textColor="#4A4A4A"
-        android:lines="2"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:ellipsize="end"
+        android:lines="2"
+        android:text=""
+        android:textColor="#4A4A4A"
         android:textSize="16sp"/>
+
     <LinearLayout
-        android:layout_marginTop="7dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:layout_marginTop="7dp"
         android:background="@color/white"
         android:orientation="horizontal">
+
         <TextView
             android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="南京"
-            android:lines="1"
             android:ellipsize="end"
+            android:lines="1"
+            android:text="南京"
             android:textColor="#9B9B9B"
             android:textSize="13sp"
             />
+
         <TextView
-            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="月销量0笔"
-            android:lines="1"
+            android:layout_marginLeft="10dp"
             android:ellipsize="end"
+            android:lines="1"
+            android:text="月销量0笔"
             android:textColor="#9B9B9B"
             android:textSize="14sp"
             android:visibility="gone"
             />
     </LinearLayout>
+
     <RelativeLayout
-        android:layout_marginTop="7dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="7dp"
         android:background="@color/white"
         >
+
         <TextView
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="￥2000"
-            android:lines="1"
             android:ellipsize="end"
-            android:textColor="@color/red_color"
+            android:lines="1"
+            android:text="￥2000"
+            android:textColor="@color/app_color"
             android:textSize="17sp"
             />
+
         <TextView
             android:id="@+id/xl"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="月销量0笔"
-            android:lines="1"
-            android:ellipsize="end"
             android:layout_alignBaseline="@+id/price"
+            android:layout_alignParentRight="true"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="月销量0笔"
             android:textColor="#9B9B9B"
             android:textSize="12sp"
             />

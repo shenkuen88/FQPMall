@@ -1,5 +1,8 @@
 package com.fengqipu.mall.bean.index;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by huqing on 2016/7/25.
  */
@@ -20,6 +23,18 @@ public class AppraiseListBean {
     private String createTimeShow;
     private String createTimeStr;
 
+    private List<String> picUrlList;
+
+    public List<String> getPicUrlList() {
+        if (null==picUrlList){
+            picUrlList= new ArrayList<>();
+        }
+        return picUrlList;
+    }
+
+    public void setPicUrlList(List<String> picUrlList) {
+        this.picUrlList = picUrlList;
+    }
     public String getAppraiseID() {
         return appraiseID;
     }

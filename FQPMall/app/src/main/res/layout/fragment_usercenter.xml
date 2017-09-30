@@ -89,20 +89,12 @@
                                             android:src="@mipmap/vip"
                                             />
 
-                                        <TextView
+                                        <ImageView
                                             android:id="@+id/huiyuan_tv"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginLeft="10dp"
-                                            android:background="@drawable/pink_rec_1"
-                                            android:lines="1"
-                                            android:paddingBottom="1dp"
-                                            android:paddingLeft="8dp"
-                                            android:paddingRight="8dp"
-                                            android:paddingTop="1dp"
-                                            android:text="高级会员"
-                                            android:textColor="@color/white"
-                                            android:textSize="13sp"
+                                            android:background="@mipmap/gjhy"
                                             />
                                     </LinearLayout>
                                 </LinearLayout>

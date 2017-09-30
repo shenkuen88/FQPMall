@@ -10,7 +10,6 @@
         android:paddingTop="12dp" >
    
         <Button
-            android:id="@+id/payV2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -19,8 +18,7 @@
             tools:ignore="HardcodedText" />
 
          <Button
-            android:id="@+id/authV2"
-            android:layout_width="fill_parent"
+             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:onClick="authV2"
@@ -28,7 +26,6 @@
             tools:ignore="HardcodedText" />
         
         <Button
-            android:id="@+id/h5pay"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

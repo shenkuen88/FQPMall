@@ -114,7 +114,6 @@
 
 
         <LinearLayout
-            android:id="@+id/id_ll_normal_all_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

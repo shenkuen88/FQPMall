@@ -56,7 +56,6 @@
         android:textColor="@color/app_color"
         android:textSize="@dimen/pxtodp30" />
 <LinearLayout
-    android:id="@+id/comment_content_ll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_below="@+id/comment_name_tv"
@@ -73,7 +72,6 @@
         android:visibility="gone"
         android:text="销量404 共44件商品" />
         <TextView
-            android:id="@+id/btn_jd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="进店"

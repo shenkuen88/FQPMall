@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fengqipu.mall.R;
@@ -29,6 +28,8 @@ import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
 import com.fengqipu.mall.tools.V;
+import com.fengqipu.mall.view.MyGridView;
+import com.fengqipu.mall.view.MyListView;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ import java.util.ArrayList;
  */
 public class ProductCommentActy extends BaseActivity {
 
-    private ListView comment_lv;
+    private MyListView comment_lv;
     private int pageNo = 1;
     private int loadPageNo = 1;
     private int pageSize = Constants.LIST_NUM;
@@ -97,38 +98,21 @@ public class ProductCommentActy extends BaseActivity {
                 helper.setText(R.id.comment_name_tv, item.getUserNickName());
                 helper.setText(R.id.comment_time_tv, item.getCreateTime());
                 helper.setText(R.id.comment_content_tv, item.getText());
-                if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrl1())) {
-                    ImageView iv1 = helper.getView(R.id.iv1);
-                    ImageView iv2 = helper.getView(R.id.iv2);
-                    ImageView iv3 = helper.getView(R.id.iv3);
-                    ImageView iv4 = helper.getView(R.id.iv4);
-                    helper.getView(R.id.image_ll).setVisibility(View.VISIBLE);
-                    GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl1(), iv1, R.drawable.default_bg);
-                    if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrl2())) {
-                        GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl2(), iv2, R.drawable.default_bg);
-                        if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrl3())) {
-                            GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl3(), iv3, R.drawable.default_bg);
-                            if (GeneralUtils.isNotNullOrZeroLenght(item.getPicUrl4())) {
-                                GeneralUtils.setImageViewWithUrl(mContext, item.getPicUrl4(), iv4, R.drawable.default_bg);
-                            } else {
-                                iv4.setVisibility(View.INVISIBLE);
-                                return;
-                            }
-                        } else {
-                            iv3.setVisibility(View.INVISIBLE);
-                            return;
+                MyGridView my_grid_view = helper.getView(R.id.my_grid_view);
+                CommonAdapter<String> gadapter = new CommonAdapter<String>(mContext, item.getPicUrlList()                                                                                                                                                                                          , R.layout.item_pic) {
+                    @Override
+                    public void convert(ViewHolder helper, String url) {
+                        ImageView iv_pic = helper.getView(R.id.iv_pic);
+                        if (GeneralUtils.isNotNullOrZeroLenght(url)) {
+                            GeneralUtils.setImageViewWithUrl(mContext, url, iv_pic, R.drawable.bg_image_classification);
                         }
-                    } else {
-                        iv2.setVisibility(View.INVISIBLE);
-                        return;
                     }
-                } else {
-                    helper.getView(R.id.image_ll).setVisibility(View.GONE);
-                    return;
-                }
+                };
+                my_grid_view.setAdapter(gadapter);
             }
         };
         comment_lv.setAdapter(adapter);
+        setListViewHeightBasedOnChildren(comment_lv);
     }
 
     @Override
@@ -200,7 +184,7 @@ public class ProductCommentActy extends BaseActivity {
 
     @Override
     public void initView() {
-        comment_lv = (ListView) findViewById(R.id.comment_lv);
+        comment_lv = (MyListView) findViewById(R.id.comment_lv);
         loadingView = LayoutInflater.from(mContext).inflate(R.layout.loading_foot, null);
         llLoading = (LinearLayout) loadingView.findViewById(R.id.loading_test_ll);
         tvLoadMore = (TextView) loadingView.findViewById(R.id.load_more_tv);

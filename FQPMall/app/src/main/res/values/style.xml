@@ -157,21 +157,6 @@
         <item name="android:drawablePadding">@dimen/pxtodp20</item>
     </style>
 
-    <style name="rightArrow">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">@dimen/pxtodp10</item>
-        <item name="android:layout_centerVertical">true</item>
-    </style>
-
-    <style name="SwitchButtonStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingLeft">10dp</item>
-        <item name="android:paddingRight">10dp</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">4dp</item>
-    </style>
     <!-- 去除dialog边框 -->
     <style name="dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>

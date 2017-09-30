@@ -507,7 +507,6 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/pj_txt"
                         android:layout_width="78dp"
                         android:gravity="center"
                         android:layout_height="30dp"

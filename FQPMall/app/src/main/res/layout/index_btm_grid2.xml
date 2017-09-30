@@ -11,7 +11,6 @@
         android:layout_height="167dp"
         android:scaleType="centerCrop"
         android:layout_gravity="center_horizontal"
-        android:src="@mipmap/pic1_sort"
         />
 
     <TextView
@@ -20,7 +19,6 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="这是公告这是公告这是公告这是公告这是公告这这是公告这是公告这是公告这是公告这是公告是公告这是公告这是公告这是公告这是公告这是公告"
         android:textColor="#4A4A4A"
         android:lines="2"
         android:ellipsize="end"

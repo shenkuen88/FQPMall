@@ -139,9 +139,6 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
     @Bind(R.id.huiyuan_iv)
     ImageView huiyuanIv;
 
-    @Bind(R.id.huiyuan_tv)
-    TextView huiyuanTv;
-
     @Bind(R.id.login_ll)
     LinearLayout loginLl;
 
@@ -169,18 +166,6 @@ public class NewUserCenterFragment extends BaseFragment implements View.OnClickL
         // Required empty public constructor
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser)
-    {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isVisible())
-        {
-//            if (scrollView != null) {
-//                scrollView.scrollTo(0, 0);
-//            }
-
-        }
-    }
 
     @Nullable
     @Override

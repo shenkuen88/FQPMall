@@ -77,7 +77,6 @@
             android:layout_marginBottom="@dimen/pxtodp6"
             android:layout_height="@dimen/pxtodp1"/>
         <RelativeLayout
-            android:id="@+id/see_detail_rl"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

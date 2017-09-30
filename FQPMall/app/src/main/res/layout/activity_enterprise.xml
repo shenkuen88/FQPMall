@@ -15,7 +15,6 @@
         android:background="@color/deep_gray"
         android:layout_height="@dimen/pxtodp1"/>
     <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/main_content"
         android:layout_below="@+id/common_back"
         android:layout_marginTop="@dimen/pxtodp1"
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -155,7 +154,6 @@
         android:layout_height="49dp"
         android:background="@color/white"
         android:layout_alignParentBottom="true"
-        android:id="@+id/bottom"
         android:gravity="center"
         >
 
