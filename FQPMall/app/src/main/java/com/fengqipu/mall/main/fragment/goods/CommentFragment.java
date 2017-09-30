@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.fengqipu.mall.R;
@@ -51,8 +50,6 @@ public class CommentFragment extends BaseFragment implements View.OnClickListene
 
     @Bind(R.id.my_listview)
     RefreshListView myListview;
-    @Bind(R.id.mScrollView)
-    ScrollView mScrollView;
 
     @Bind(R.id.refreshLayout)
     PtrClassicFrameLayout refreshLayout;
@@ -129,7 +126,7 @@ public class CommentFragment extends BaseFragment implements View.OnClickListene
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header)
             {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, mScrollView, header);
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, myListview, header);
             }
         });
         mAdapter = new CommonAdapter<GoodsCommentResponse.AppraiseListBean>(goodsDetailActivity, comentList, R.layout.item_product_comment)
