@@ -49,12 +49,14 @@
                     android:divider="@color/bg_col"
                     android:dividerHeight="1px"
                     android:overScrollMode="never"
-                    android:scrollbars="none"></com.fengqipu.mall.view.RefreshListView>
+                    android:scrollbars="none">
+                </com.fengqipu.mall.view.RefreshListView>
                 <LinearLayout
                     android:id="@+id/emtry_ll"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:background="@color/white"
                     android:orientation="vertical">
                     <ImageView

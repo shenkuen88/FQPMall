@@ -1,226 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_col"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_col"
+              android:orientation="vertical">
 
     <include
         android:id="@+id/common_back"
-        layout="@layout/layout_top" />
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp">
-        <ImageView
-            android:id="@+id/index_banner"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/bg_banner_classification"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:background="#000000"
-            android:layout_gravity="bottom"
-            android:alpha="0.45"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:paddingLeft="15dp"
-            android:layout_gravity="bottom"
-            android:paddingRight="15dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            >
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/content_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="苏宁电器 新街口店"
-                    android:lines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/white"
-                    android:textSize="15sp" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_marginTop="7dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:lines="1"
-                        android:ellipsize="end"
-                        android:text="￥"
-                        android:textColor="@color/app_color"
-                        android:textSize="11sp" />
-                    <TextView
-                        android:layout_marginTop="7dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:lines="1"
-                        android:ellipsize="end"
-                        android:text="0"
-                        android:textColor="@color/app_color"
-                        android:textSize="20sp" />
-                </LinearLayout>
+        layout="@layout/layout_top"/>
 
-            </LinearLayout>
-        </LinearLayout>
-    </FrameLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/pxtodp1"
-        android:background="@color/line" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:orientation="horizontal"
-        android:background="@color/white"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:text="---为您推荐以下商品---"
-            android:textSize="15sp"
-            android:textColor="@color/gray" />
-
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/pxtodp1"
-        android:background="@color/line" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        >
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/btn_zh"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="综合排序"
-                android:textColor="@color/app_color"
-                android:textSize="16sp" />
-            <TextView
-                android:id="@+id/btn_xl"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="销量"
-                android:textColor="#4A4A4A"
-                android:textSize="16sp" />
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/btn_jg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableRight="@mipmap/price_original"
-                    android:drawablePadding="5dp"
-                    android:gravity="center"
-                    android:text="价格"
-                    android:textColor="#4A4A4A"
-                    android:textSize="16sp" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/btn_sx"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableRight="@mipmap/icon_arrow_down"
-                    android:drawablePadding="5dp"
-                    android:gravity="center"
-                    android:text="筛选"
-                    android:textColor="#4A4A4A"
-                    android:textSize="16sp" />
-            </LinearLayout>
-        </LinearLayout>
-        <ImageView
-            android:id="@+id/btn_list_type"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@mipmap/icon1_browse"/>
-    </LinearLayout>
-
-    <in.srain.cube.views.ptr.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/refreshLayout"
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        cube_ptr:ptr_duration_to_close="200"
-        cube_ptr:ptr_duration_to_close_header="1000"
-        cube_ptr:ptr_keep_header_when_refresh="true"
-        cube_ptr:ptr_pull_to_fresh="false"
-        cube_ptr:ptr_ratio_of_header_height_to_refresh="0.5"
-        cube_ptr:ptr_resistance="0.3">
-        <com.fengqipu.mall.view.ScrollBottomScrollView
-            android:id="@+id/scrollView"
+        android:layout_below="@+id/common_back"
+        android:layout_marginTop="@dimen/pxtodp1">
+
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <ImageView
+                        android:id="@+id/index_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/bg_banner_classification"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_gravity="bottom"
+                        android:alpha="0.45"
+                        android:background="#000000"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_gravity="bottom"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/content_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:lines="1"
+                                android:text="苏宁电器 新街口店"
+                                android:textColor="@color/white"
+                                android:textSize="15sp"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="7dp"
+                                    android:ellipsize="end"
+                                    android:lines="1"
+                                    android:text="￥"
+                                    android:textColor="@color/app_color"
+                                    android:textSize="11sp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="7dp"
+                                    android:ellipsize="end"
+                                    android:lines="1"
+                                    android:text="0"
+                                    android:textColor="@color/app_color"
+                                    android:textSize="20sp"/>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:text="---为您推荐以下商品---"
+                        android:textColor="@color/gray"
+                        android:textSize="15sp"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/pxtodp1"
+                    android:background="@color/line"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/btn_zh"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="综合排序"
+                        android:textColor="@color/app_color"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/btn_xl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="销量"
+                        android:textColor="#4A4A4A"
+                        android:textSize="16sp"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/btn_jg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="5dp"
+                            android:drawableRight="@mipmap/price_original"
+                            android:gravity="center"
+                            android:text="价格"
+                            android:textColor="#4A4A4A"
+                            android:textSize="16sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/btn_sx"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="5dp"
+                            android:drawableRight="@mipmap/icon_arrow_down"
+                            android:gravity="center"
+                            android:text="筛选"
+                            android:textColor="#4A4A4A"
+                            android:textSize="16sp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/btn_list_type"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/icon1_browse"/>
+            </LinearLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <com.fengqipu.mall.view.RefreshListView
-                android:id="@+id/my_listview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="1dp"
-                android:background="@color/bg_col"
-                android:divider="@color/bg_col"
-                android:dividerHeight="1px"
-                android:overScrollMode="never"
-                android:scrollbars="none"></com.fengqipu.mall.view.RefreshListView>
-            <com.fengqipu.mall.view.MyGridView
-                android:id="@+id/my_gridview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/bg_col"
-                android:horizontalSpacing="3dp"
-                android:numColumns="2"
-                android:padding="@dimen/pxtodp10"
-                android:scrollbars="none"
-                android:visibility="gone"
-                android:verticalSpacing="5dp"></com.fengqipu.mall.view.MyGridView>
+            <in.srain.cube.views.ptr.PtrClassicFrameLayout android:id="@+id/refreshLayout"
+                                                           xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="match_parent"
+                                                           cube_ptr:ptr_duration_to_close="200"
+                                                           cube_ptr:ptr_duration_to_close_header="1000"
+                                                           cube_ptr:ptr_keep_header_when_refresh="true"
+                                                           cube_ptr:ptr_pull_to_fresh="false"
+                                                           cube_ptr:ptr_ratio_of_header_height_to_refresh="0.5"
+                                                           cube_ptr:ptr_resistance="0.3">
+
+                <com.fengqipu.mall.view.ScrollBottomScrollView
+                    android:id="@+id/scrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.fengqipu.mall.view.RefreshListView
+                            android:id="@+id/my_listview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="1dp"
+                            android:background="@color/bg_col"
+                            android:divider="@color/bg_col"
+                            android:dividerHeight="1px"
+                            android:overScrollMode="never"
+                            android:scrollbars="none"></com.fengqipu.mall.view.RefreshListView>
+
+                        <com.fengqipu.mall.view.MyGridView
+                            android:id="@+id/my_gridview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/bg_col"
+                            android:horizontalSpacing="3dp"
+                            android:numColumns="2"
+                            android:padding="@dimen/pxtodp10"
+                            android:scrollbars="none"
+                            android:verticalSpacing="5dp"
+                            android:visibility="gone"></com.fengqipu.mall.view.MyGridView>
+                    </LinearLayout>
+                </com.fengqipu.mall.view.ScrollBottomScrollView>
+            </in.srain.cube.views.ptr.PtrClassicFrameLayout>
         </LinearLayout>
-        </com.fengqipu.mall.view.ScrollBottomScrollView>
-    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
 </LinearLayout>
