@@ -141,13 +141,9 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/mContainer"
             android:layout_width="match_parent"
-            android:layout_marginBottom="118dp"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v4.view.ViewPager>
 
-
-        <!--</LinearLayout>-->
-        <!--</com.fengqipu.mall.view.ScrollBottomScrollView>-->
 
 
     </android.support.design.widget.CoordinatorLayout>

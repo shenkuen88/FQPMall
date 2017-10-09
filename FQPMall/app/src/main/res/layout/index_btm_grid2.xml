@@ -7,8 +7,8 @@
     <ImageView
         android:id="@+id/img"
         android:layout_margin="5dp"
-        android:layout_width="167dp"
-        android:layout_height="167dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:scaleType="centerCrop"
         android:layout_gravity="center_horizontal"
         />
@@ -64,16 +64,18 @@
         >
         <TextView
             android:id="@+id/price"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="￥2000"
             android:lines="1"
             android:ellipsize="end"
-            android:textColor="@color/red_color"
+            android:layout_toLeftOf="@+id/xl"
+            android:textColor="@color/app_color"
             android:textSize="17sp"
             />
         <TextView
             android:id="@+id/xl"
+            android:layout_alignBaseline="@+id/price"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,7 +83,7 @@
             android:lines="1"
             android:ellipsize="end"
             android:textColor="#9B9B9B"
-            android:textSize="14sp"
+            android:textSize="12sp"
             />
     </RelativeLayout>
 </LinearLayout>
