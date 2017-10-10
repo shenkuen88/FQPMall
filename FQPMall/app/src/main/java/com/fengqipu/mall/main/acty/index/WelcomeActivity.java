@@ -28,7 +28,11 @@ public class WelcomeActivity extends BaseActivity
         initWindow();
         setContentView(R.layout.activity_welcome);
         //判断是否是新用户
-        isNewsUser();
+//        isNewsUser();
+        Intent load = new Intent();
+        load.setClass(this, PageLoadingActivity.class);
+        startActivity(load);
+        finish();
     }
 
     @Override

@@ -21,7 +21,6 @@ import com.fengqipu.mall.bean.BaseResponse;
 import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.bean.shop.PromotionShopListResponse;
-import com.fengqipu.mall.bean.shop.ZongHeShopListResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
@@ -155,7 +154,7 @@ public class PromotionFragment extends BaseFragment implements View.OnClickListe
         myGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ZongHeShopListResponse.ContentListBean item = (ZongHeShopListResponse.ContentListBean) adapterView.getItemAtPosition(i);
+                PromotionShopListResponse.ContentListBean item = (PromotionShopListResponse.ContentListBean) adapterView.getItemAtPosition(i);
                 if (Global.getuserType().equals("1")) {
                     Intent intent = new Intent(enterpriseActivity, GoodsEnterpriseActivity.class);
                     intent.putExtra("contentID", item.getId());
