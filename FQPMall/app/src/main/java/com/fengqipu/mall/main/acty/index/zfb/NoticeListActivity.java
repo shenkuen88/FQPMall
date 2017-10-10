@@ -20,7 +20,6 @@ import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
-import com.fengqipu.mall.main.acty.mine.LoginActy;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.BaseApplication;
 import com.fengqipu.mall.main.base.CommonWebViewActivity;
@@ -80,16 +79,10 @@ public class NoticeListActivity extends BaseActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_notice);
-        if (GeneralUtils.isLogin()){
-            initTitle();
-            initAll();
-            initAdapter();
-            initData(1);
-        }else {
-            startActivity(new Intent(mContext, LoginActy.class));
-            finish();
-        }
-
+        initTitle();
+        initAll();
+        initAdapter();
+        initData(1);
     }
 
     private void initAdapter() {

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="H:\code\git\1009\FQPMall\FQPMall\ptr-lib\assets"/><source path="H:\code\git\1009\FQPMall\FQPMall\ptr-lib\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="H:\code\git\1009\FQPMall\FQPMall\ptr-lib\src\release\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="H:\code\git\20170927\FQPMall\FQPMall\ptr-lib\assets"/><source path="H:\code\git\20170927\FQPMall\FQPMall\ptr-lib\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="H:\code\git\20170927\FQPMall\FQPMall\ptr-lib\src\release\assets"/></dataSet></merger>

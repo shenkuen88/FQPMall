@@ -410,7 +410,6 @@ public class EnterpriseActivity extends BaseActivity implements View.OnClickList
             switch (position)
             {
                 case 0:
-//                    return new ListFragment();
                     return new EnterpriseGoodsListFragment();
                 case 1:
                     return new PromotionFragment();

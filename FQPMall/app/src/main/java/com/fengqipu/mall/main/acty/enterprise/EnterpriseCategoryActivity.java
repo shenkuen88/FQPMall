@@ -25,7 +25,6 @@ import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.index.zfb.NoticeListActivity;
-import com.fengqipu.mall.main.acty.mine.LoginActy;
 import com.fengqipu.mall.main.acty.search.NewSearchActivity;
 import com.fengqipu.mall.main.base.BaseActivity;
 import com.fengqipu.mall.main.base.CommonWebViewActivity;
@@ -301,11 +300,7 @@ public class EnterpriseCategoryActivity extends BaseActivity {
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (GeneralUtils.isLogin()){
-                    startActivity(new Intent(mContext, NoticeListActivity.class));
-                }else {
-                    startActivity(new Intent(mContext,LoginActy.class));
-                }
+                startActivity(new Intent(EnterpriseCategoryActivity.this, NoticeListActivity.class));
             }
         });
         leftList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
