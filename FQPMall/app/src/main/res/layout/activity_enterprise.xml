@@ -145,9 +145,6 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v4.view.ViewPager>
 
 
-        <!--</LinearLayout>-->
-        <!--</com.fengqipu.mall.view.ScrollBottomScrollView>-->
-
 
     </android.support.design.widget.CoordinatorLayout>
     <LinearLayout
