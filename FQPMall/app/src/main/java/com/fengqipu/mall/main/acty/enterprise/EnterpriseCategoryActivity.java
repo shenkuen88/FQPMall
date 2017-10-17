@@ -406,7 +406,7 @@ public class EnterpriseCategoryActivity extends BaseActivity {
 
     private void getLeftData() {
         NetLoadingDialog.getInstance().loading(EnterpriseCategoryActivity.this);
-        UserServiceImpl.instance().getCategoryList(this, categorytype, CategoryResponse.class.getName());
+        UserServiceImpl.instance().getCategoryList(this, "1", CategoryResponse.class.getName());
     }
 
     private CategoryResponse categoryResponse;
