@@ -1,6 +1,7 @@
 package com.fengqipu.mall.main.acty.goods;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -447,6 +448,12 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 {
                     startActivity(new Intent(GoodsDetailActivity.this, LoginActy.class));
                 }
+            }
+        });
+        guiGeBtmDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                EventBus.getDefault().post(new NoticeEvent("GUIGEREFRESH"));
             }
         });
         guiGeBtmDialog.show();

@@ -438,10 +438,16 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                         str = str + "、" + goodsDetailResponse.getContentStyleList().get(0).getColor();
                         goodsDetailActivity.color = goodsDetailResponse.getContentStyleList().get(0).getColor();
                     }
-                    str = str + "、1件";
+//                    str = str + "、1件";
 //                    tvGg.setText(str);
 //                    price.setText("￥" + goodsDetailResponse.getContentStyleList().get(0).getPrice());
 //                    goodsDetailActivity.curprice = goodsDetailResponse.getContentStyleList().get(0).getPrice();
+                    Log.e("sub","str="+str);
+                    if(!str.equals("")){
+                        goodsDetailActivity.GUIGEERROR=true;
+                    }else {
+                        goodsDetailActivity.GUIGEERROR=false;
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

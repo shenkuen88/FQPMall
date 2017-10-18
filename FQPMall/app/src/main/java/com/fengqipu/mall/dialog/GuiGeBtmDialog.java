@@ -146,7 +146,6 @@ public class GuiGeBtmDialog extends Dialog {
                 e.printStackTrace();
             }
             tv_guige.setText(str);
-
             for (GoodsDetailResponse.ContentStyleListBean item : goodsDetailResponse.getContentStyleList()) {
                 if(!stylestrs.contains(item.getStyle())){
                     stylestrs.add(item.getStyle());
