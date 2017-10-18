@@ -28,6 +28,7 @@ import com.fengqipu.mall.bean.cart.StoreBean;
 import com.fengqipu.mall.bean.cart.StoreGoodsBean;
 import com.fengqipu.mall.bean.mine.DelOrderResponse;
 import com.fengqipu.mall.bean.mine.OrderDetailResponse;
+import com.fengqipu.mall.bean.mine.RemindDeliverResponse;
 import com.fengqipu.mall.bean.mine.UpdataOrderResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
@@ -49,6 +50,7 @@ import com.fengqipu.mall.tools.GeneralUtils;
 import com.fengqipu.mall.tools.NetLoadingDialog;
 import com.fengqipu.mall.tools.ToastUtil;
 import com.fengqipu.mall.tools.V;
+import com.fengqipu.mall.view.citylist.utils.ToastUtils;
 import com.hyphenate.helpdesk.easeui.util.IntentBuilder;
 import com.hyphenate.helpdesk.model.ContentFactory;
 
@@ -298,6 +300,15 @@ public class OrderDetailActivity extends BaseActivity {
 
     @Override
     public void initEvent() {
+        btn_txfh.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                //提醒发货
+                UserServiceImpl.instance().REMINDDELIVER(item.getId(), RemindDeliverResponse.class.getName());
+            }
+        });
         btn_ckwl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -581,6 +592,18 @@ public class OrderDetailActivity extends BaseActivity {
                         order_mjly.setText(""+orderDetailResponse.getOrder().getRemark());
                     } else {
                         ErrorCode.doCode(mContext, orderDetailResponse.getResultCode(), orderDetailResponse.getDesc());
+                    }
+                } else {
+                    ToastUtil.showError(mContext);
+                }
+            }
+            if (tag.equals(RemindDeliverResponse.class.getName())) {
+                if (GeneralUtils.isNotNullOrZeroLenght(result)) {
+                    RemindDeliverResponse remindDeliverResponse = GsonHelper.toType(result, RemindDeliverResponse.class);
+                    if (Constants.SUCESS_CODE.equals(remindDeliverResponse.getResultCode())) {
+                        ToastUtils.showToast(mContext, "提醒发货成功!");
+                    } else {
+                        ErrorCode.doCode(mContext, remindDeliverResponse.getResultCode(), remindDeliverResponse.getDesc());
                     }
                 } else {
                     ToastUtil.showError(mContext);

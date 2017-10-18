@@ -260,14 +260,20 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
                 if (null != goodsDetailResponse)
                 {
                     String phone = goodsDetailResponse.getShop().getPhone();
-                    if (phone != null && !phone.equals(""))
+                    if (phone != null && !phone.equals("")&&GeneralUtils.isLogin())
                     {
                         call(phone);
+                    }else {
+                        startActivity(new Intent(mContext,LoginActy.class));
                     }
                 }
                 break;
             case collect_tv:
-                UserServiceImpl.instance().addFavour(this, "1", contentID, AddGoodsFavourResponse.class.getName());
+                if(GeneralUtils.isLogin()){
+                    UserServiceImpl.instance().addFavour(this, "1", contentID, AddGoodsFavourResponse.class.getName());
+                }else {
+                    startActivity(new Intent(mContext,LoginActy.class));
+                }
                 break;
             case R.id.btn_addgwc:
                 if (GeneralUtils.isLogin())
