@@ -222,6 +222,7 @@ public class OrderDetailActivity extends BaseActivity {
 
     private void initState() {
         switch (state) {
+
             case "1":
                 btn_sqth.setVisibility(View.GONE);
                 btn_ckwl.setVisibility(View.GONE);
@@ -280,7 +281,8 @@ public class OrderDetailActivity extends BaseActivity {
                 btn_qrsh.setVisibility(View.GONE);
                 btn_pj.setVisibility(View.GONE);
                 btn_qxdd.setVisibility(View.VISIBLE);
-                btn_sqsh.setVisibility(View.VISIBLE);
+                btn_sqsh.setVisibility(View.GONE);
+                title.setText("交易成功");
                 break;
         }
         if (btn_sqth.getVisibility() == View.GONE && btn_sqsh.getVisibility() == View.GONE) {
