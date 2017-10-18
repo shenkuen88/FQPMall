@@ -95,7 +95,7 @@ public class EnterpriseCategoryActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        if (categorytype.equals("2")) {
+        if (categorytype.equals("1")) {
             edSs.setHint("搜你想要的企业");
         } else {
             edSs.setHint("搜你想要的商铺");
