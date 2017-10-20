@@ -426,8 +426,8 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                     tvFreight.setText("快递:" + goodsDetailResponse.getFreight() + "元");
                 }
                 tvLocation.setText("发货地:" + goodsDetailResponse.getContent().getShopProvince() + goodsDetailResponse.getContent().getShopCity());
+                String str = "";
                 try {
-                    String str = "";
                     if (goodsDetailResponse.getContentStyleList().get(0).getStyle() != null
                             && !goodsDetailResponse.getContentStyleList().get(0).getStyle().equals("")) {
                         str = goodsDetailResponse.getContentStyleList().get(0).getStyle();
@@ -442,14 +442,15 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
 //                    tvGg.setText(str);
 //                    price.setText("￥" + goodsDetailResponse.getContentStyleList().get(0).getPrice());
 //                    goodsDetailActivity.curprice = goodsDetailResponse.getContentStyleList().get(0).getPrice();
-                    Log.e("sub","str="+str);
-                    if(!str.equals("")){
-                        goodsDetailActivity.GUIGEERROR=true;
-                    }else {
-                        goodsDetailActivity.GUIGEERROR=false;
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+                Log.e("sub","str="+str);
+                if(!str.equals("")){
+                    goodsDetailActivity.GUIGEERROR=true;
+                }else {
+                    goodsDetailActivity.GUIGEERROR=false;
+                    goodsDetailActivity.curprice=Double.valueOf(price.getText().toString().replace("￥", ""));
                 }
             }
             if (tag.equals("GUIGEREFRESH")) {
