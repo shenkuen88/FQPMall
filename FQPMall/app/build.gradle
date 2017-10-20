@@ -32,8 +32,16 @@ android {
             keyPassword "fengqp"
         }
     }
-}
 
+    sourceSets{
+        main(){
+            jniLibs.srcDirs=['libs']
+        }
+    }
+
+    useLibrary 'org.apache.http.legacy'
+
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
