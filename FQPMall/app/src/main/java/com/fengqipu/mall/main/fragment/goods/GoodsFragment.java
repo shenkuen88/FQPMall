@@ -463,14 +463,14 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                             goodsDetailActivity.style = strs[0];
                             goodsDetailActivity.color = strs[1];
                             try {
-                                goodsDetailActivity.num = Integer.getInteger(strs[2].replace("件", ""));
+                                goodsDetailActivity.num = Integer.valueOf(strs[2].replace("件", ""));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         } else {
                             goodsDetailActivity.style = strs[0];
                             try {
-                                goodsDetailActivity.num = Integer.getInteger(strs[1].replace("件", ""));
+                                goodsDetailActivity.num = Integer.valueOf(strs[1].replace("件", ""));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
