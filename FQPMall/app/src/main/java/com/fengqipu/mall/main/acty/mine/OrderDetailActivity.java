@@ -186,9 +186,14 @@ public class OrderDetailActivity extends BaseActivity {
 //                            or_price.setText("￥" + item.getOriginalPrice());
 //                        }
                         if (item.getColor() != null && !item.getColor().equals("")) {
-                            helper.setText(R.id.goods_type, "分类:" + item.getStyle() + "、" + item.getColor());
+                            helper.setText(R.id.goods_type, "规格:" + item.getStyle() + "、" + item.getColor());
                         } else {
-                            helper.setText(R.id.goods_type, "分类:" + item.getStyle());
+                            helper.setText(R.id.goods_type, "规格:" + item.getStyle());
+                        }
+                        if (GeneralUtils.isNullOrZeroLenght(item.getStyle())&&GeneralUtils.isNullOrZeroLenght(item.getColor())){
+                            helper.getView(R.id.goods_type).setVisibility(View.GONE);
+                        }else {
+                            helper.getView(R.id.goods_type).setVisibility(View.VISIBLE);
                         }
                         helper.setText(R.id.goods_num_x, "X" + item.getCount());
                         helper.getView(R.id.good_ll).setOnClickListener(new View.OnClickListener() {

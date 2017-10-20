@@ -41,7 +41,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/pxtodp164"
         android:layout_toRightOf="@+id/good_iv"
-        android:text="分类"
         android:textColor="@color/txt_nol_col"
         android:textSize="@dimen/pxtosp28"
         android:textStyle="bold" />

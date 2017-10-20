@@ -300,9 +300,15 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         childViewHolder.id_tv_discount_price.setText(String.format(context.getString(R.string.price), goodsBean.getPrice()));
         childViewHolder.edit_price.setText(String.format(context.getString(R.string.price), goodsBean.getPrice()));
         if (goodsBean.getColor() != null && !goodsBean.getColor().equals("")) {
-            childViewHolder.tv_items_child_desc.setText("分类:" + goodsBean.getStyle() + "、" + goodsBean.getColor());
+            childViewHolder.tv_items_child_desc.setText("规格:" + goodsBean.getStyle() + "、" + goodsBean.getColor());
         } else {
-            childViewHolder.tv_items_child_desc.setText("分类:" + goodsBean.getStyle());
+            childViewHolder.tv_items_child_desc.setText("规格:" + goodsBean.getStyle());
+        }
+
+        if (GeneralUtils.isNullOrZeroLenght(goodsBean.getStyle())&&GeneralUtils.isNullOrZeroLenght(goodsBean.getColor())){
+            childViewHolder.tv_items_child_desc.setVisibility(View.GONE);
+        }else {
+            childViewHolder.tv_items_child_desc.setVisibility(View.VISIBLE);
         }
         if (goodsBean.getColor() != null && !goodsBean.getColor().equals("")) {
             childViewHolder.edit_info.setText(goodsBean.getStyle() + "、" + goodsBean.getColor());

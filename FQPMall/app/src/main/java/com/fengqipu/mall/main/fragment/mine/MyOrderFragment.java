@@ -254,11 +254,16 @@ public class MyOrderFragment extends BaseFragment
                         }
                         if (mItem.getColor() != null && !mItem.getColor().equals(""))
                         {
-                            helper.setText(R.id.goods_type, "分类:" + mItem.getStyle() + "、" + mItem.getColor());
+                            helper.setText(R.id.goods_type, "规格:" + mItem.getStyle() + "、" + mItem.getColor());
                         }
                         else
                         {
-                            helper.setText(R.id.goods_type, "分类:" + mItem.getStyle());
+                            helper.setText(R.id.goods_type, "规格:" + mItem.getStyle());
+                        }
+                        if (GeneralUtils.isNullOrZeroLenght(mItem.getStyle())&&GeneralUtils.isNullOrZeroLenght(mItem.getColor())){
+                            helper.getView(R.id.goods_type).setVisibility(View.GONE);
+                        }else {
+                            helper.getView(R.id.goods_type).setVisibility(View.VISIBLE);
                         }
                         helper.setText(R.id.goods_num_x, "X" + mItem.getCount());
                         helper.getView(R.id.good_ll).setOnClickListener(new View.OnClickListener()

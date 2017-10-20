@@ -218,12 +218,19 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                         //样式
                         try {
                             if (item.getColor() != null && !item.getColor().equals("")) {
-                                helper.setText(R.id.classify_tv, "分类:" + item.getStyle() + "、" + item.getColor());
+                                helper.setText(R.id.classify_tv, "规格:" + item.getStyle() + "、" + item.getColor());
                             } else {
-                                helper.setText(R.id.classify_tv, "分类:" + item.getStyle());
+                                helper.setText(R.id.classify_tv, "规格:" + item.getStyle());
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
+                        }finally
+                        {
+                            if (GeneralUtils.isNullOrZeroLenght(item.getStyle())&&GeneralUtils.isNullOrZeroLenght(item.getColor())){
+                                helper.getView(R.id.classify_tv).setVisibility(View.GONE);
+                            }else {
+                                helper.getView(R.id.classify_tv).setVisibility(View.VISIBLE);
+                            }
                         }
                         totalPay = item.getCount() * item.getPrice();
                     }
@@ -327,6 +334,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         initAdapter();
         Type type = new TypeToken<ArrayList<StoreGoodsBean>>() {
         }.getType();
+        CMLog.e("hq",getIntent().getStringExtra(IntentCode.ORDER_GOODS_LIST));
         shopList = GsonHelper.fromJson(getIntent().getStringExtra(IntentCode.ORDER_GOODS_LIST), type);
         adapter.setData(shopList);
         adapter.notifyDataSetChanged();
