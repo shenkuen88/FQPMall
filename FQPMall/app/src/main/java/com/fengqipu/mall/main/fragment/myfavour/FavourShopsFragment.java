@@ -129,6 +129,11 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
                             comment_head_iv,
                             R.drawable.default_bg);
                 }
+                if (GeneralUtils.isNotNullOrZeroLenght(item.getShopType())&& item.getShopType().equals("1")){
+                    helper.getView(R.id.qy_icon).setVisibility(View.VISIBLE);
+                }else {
+                    helper.getView(R.id.qy_icon).setVisibility(View.GONE);
+                }
                 GridView gridView = helper.getView(R.id.my_grid_view);
                 LinearLayout image_ll = helper.getView(R.id.image_ll);
                 if (item.getAdvPicUrlList() != null && item.getAdvPicUrlList().size() > 0) {

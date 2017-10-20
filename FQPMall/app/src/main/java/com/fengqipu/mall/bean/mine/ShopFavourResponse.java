@@ -59,7 +59,7 @@ public class ShopFavourResponse extends BaseResponse{
          * advPicUrl3RequestUrl :
          * advPicUrlList : []
          */
-
+        private String shopType;
         private String id;
         private String userID;
         private int objectType;
@@ -82,6 +82,16 @@ public class ShopFavourResponse extends BaseResponse{
         private String advPicUrl2RequestUrl;
         private String advPicUrl3RequestUrl;
         private List<String> advPicUrlList;
+
+        public String getShopType()
+        {
+            return shopType;
+        }
+
+        public void setShopType(String shopType)
+        {
+            this.shopType = shopType;
+        }
 
         public int getObjectType() {
             return objectType;
