@@ -6,6 +6,7 @@ import android.support.multidex.MultiDexApplication;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
+import com.baidu.mapapi.SDKInitializer;
 import com.fengqipu.mall.bean.NoticeEvent;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.Global;
@@ -81,7 +82,7 @@ public class BaseApplication extends MultiDexApplication {
         //系统崩溃日志
 //        CrashHandler crashHandler = CrashHandler.getInstance();
 //        crashHandler.init(getApplicationContext());
-
+        SDKInitializer.initialize(this);
         mLocationClient = new LocationClient(this.getApplicationContext());
         mMyLocationListener = new MyLocationListener();
         mLocationClient.registerLocationListener(mMyLocationListener);

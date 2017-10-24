@@ -24,6 +24,7 @@ import com.fengqipu.mall.bean.index.InitAppResponse;
 import com.fengqipu.mall.bean.mine.AddressBean;
 import com.fengqipu.mall.bean.mine.AddressListResponse;
 import com.fengqipu.mall.bean.mine.LoginResponse;
+import com.fengqipu.mall.bean.update.CodeBean;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
@@ -36,6 +37,7 @@ import com.fengqipu.mall.main.fragment.NewUserCenterFragment;
 import com.fengqipu.mall.main.fragment.cart.CartFragment;
 import com.fengqipu.mall.main.fragment.category.CategoryFragment;
 import com.fengqipu.mall.network.GsonHelper;
+import com.fengqipu.mall.network.UpdateUtils;
 import com.fengqipu.mall.network.UserServiceImpl;
 import com.fengqipu.mall.tools.CMLog;
 import com.fengqipu.mall.tools.GeneralUtils;
@@ -173,12 +175,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             int versionCode = mInitAppResponse.getAppVersionInfo().getCodeVersion();
                             CMLog.e(Constants.HTTP_TAG, versionCode + "   " + Constants.VERSION_NAME);
                             if (versionCode>Constants.VERSION_NAME) {
-//                                UpdateUtils updateUtils = new UpdateUtils();
-//                                CodeBean codeBean = new CodeBean(versionBean.getCodeVersion() + "",
-//                                        versionBean.getShowVersion() + "",
-//                                        versionBean.getDescription(),
-//                                        versionBean.getUrl());
-//                                updateUtils.showDialog(mContext, codeBean);
+                                UpdateUtils updateUtils = new UpdateUtils();
+                                CodeBean codeBean = new CodeBean(versionBean.getCodeVersion() + "",
+                                        versionBean.getShowVersion() + "",
+                                        versionBean.getDescription(),
+                                        versionBean.getUrl());
+                                updateUtils.showDialog(mContext, codeBean);
                             }
                         } else {
                             ErrorCode.doCode(this, mInitAppResponse.getResultCode(), mInitAppResponse.getDesc());

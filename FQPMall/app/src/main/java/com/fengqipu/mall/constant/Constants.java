@@ -29,7 +29,7 @@ public class Constants
     /**
      * 版本名称
      */
-    public static final int VERSION_NAME = 2;
+    public static final int VERSION_NAME = 3;
 
 
     /**

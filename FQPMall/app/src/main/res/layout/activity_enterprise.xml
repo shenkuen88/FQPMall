@@ -30,7 +30,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="118dp"
+                android:layout_height="250dp"
                 app:layout_scrollFlags="scroll|enterAlways">
 
                 <com.fengqipu.mall.view.banner.ConvenientBanner
