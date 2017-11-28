@@ -90,6 +90,8 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
     LinearLayout btnComment;
     @Bind(R.id.share_goods)
     LinearLayout shareGoods;
+    @Bind(R.id.tv_gg_title)
+    TextView tvGgTitle;
 
     private CommonAdapter<GoodsCommentResponse.AppraiseListBean> mAdapter;
     private List<GoodsCommentResponse.AppraiseListBean> comentList = new ArrayList<>();
@@ -120,7 +122,9 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
         initView();
         return v;
     }
+
     int lastVisibileItem = 0;
+
     private void initView() {
         refreshLayout.setLastUpdateTimeRelateObject(this);
         refreshLayout.setResistance(1.7f);
@@ -153,11 +157,9 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                 if (item.getUserPortrait() != null && !item.getUserPortrait().equals("")) {
                     GeneralUtils.setImageViewWithUrl(goodsDetailActivity, item.getUserPortrait(), comment_head_iv, R.drawable.default_head);
                 }
-                helper.getView(R.id.rl_comment).setOnClickListener(new View.OnClickListener()
-                {
+                helper.getView(R.id.rl_comment).setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view)
-                    {
+                    public void onClick(View view) {
                         goodsDetailActivity.chang2Comment();
                     }
                 });
@@ -168,11 +170,9 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                 TextView comment_time_tv = helper.getView(R.id.comment_time_tv);
                 comment_time_tv.setText(item.getCreateTimeShow());
                 MyGridView my_grid_view = helper.getView(R.id.my_grid_view);
-                my_grid_view.setOnItemClickListener(new AdapterView.OnItemClickListener()
-                {
+                my_grid_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
-                    {
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         goodsDetailActivity.chang2Comment();
                     }
                 });
@@ -226,6 +226,8 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
 //        });
         bannerFirstInit();
 //        initData();
+        tvGgTitle.setText("选择 参数型号");
+        tvGg.setText("");
         tvGg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -241,11 +243,11 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
         shareGoods.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(goodsDetailActivity.goodsDetailResponse!=null) {
+                if (goodsDetailActivity.goodsDetailResponse != null) {
                     ShareSDKMethod.showShare(goodsDetailActivity,
                             goodsDetailActivity.goodsDetailResponse.getContent().getContentName()
-                    ,goodsDetailActivity.goodsDetailResponse.getContent().getDescriptionLink()
-                            ,goodsDetailActivity.goodsDetailResponse.getContent().getDescriptionLink());
+                            , goodsDetailActivity.goodsDetailResponse.getContent().getDescriptionLink()
+                            , goodsDetailActivity.goodsDetailResponse.getContent().getDescriptionLink());
                 }
             }
         });
@@ -289,7 +291,7 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
         for (int i = 0; i < ad.size(); i++) {
             if (!networkImages.contains(ad.get(i).getCoverRequestUrl())) {
                 networkImages.add(ad.get(i).getCoverRequestUrl());
-                imgbeans.add(new ImageBean(ad.get(i).getCoverRequestUrl(),0,0));
+                imgbeans.add(new ImageBean(ad.get(i).getCoverRequestUrl(), 0, 0));
             }
         }
         indexBanner.stopTurning();
@@ -301,14 +303,16 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
         }, networkImages).setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent intent=new Intent(getActivity(), CommunityImageZoomActivity.class);
-                intent.putExtra(IntentCode.COMMUNITY_IMAGE_DATA,(Serializable) imgbeans);
-                intent.putExtra(IntentCode.EXTRA_CURRENT_IMG_POSITION,position);
+                Intent intent = new Intent(getActivity(), CommunityImageZoomActivity.class);
+                intent.putExtra(IntentCode.COMMUNITY_IMAGE_DATA, (Serializable) imgbeans);
+                intent.putExtra(IntentCode.EXTRA_CURRENT_IMG_POSITION, position);
                 startActivity(intent);
             }
         });
     }
-    private List<ImageBean> imgbeans=new ArrayList<>();
+
+    private List<ImageBean> imgbeans = new ArrayList<>();
+
     private void initData() {
         //请求banner
 //        List<BannerListBean> ad = new ArrayList<>();
@@ -415,9 +419,9 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                 price.setText("￥" + goodsDetailResponse.getContent().getPrice());
                 orPrice.setText("￥" + goodsDetailResponse.getContent().getOriginalPrice());
                 orPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                String num=goodsDetailResponse.getContent().getSales();
-                if(num==null||num.equals("")){
-                    num="0";
+                String num = goodsDetailResponse.getContent().getSales();
+                if (num == null || num.equals("")) {
+                    num = "0";
                 }
                 alreadySale.setText("已成交" + num + "件");
                 if (goodsDetailResponse.getFreight() == 0) {
@@ -445,19 +449,19 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Log.e("sub","str="+str);
-                if(!str.equals("")){
-                    goodsDetailActivity.GUIGEERROR=true;
-                }else {
-                    goodsDetailActivity.GUIGEERROR=false;
-                    goodsDetailActivity.curprice=Double.valueOf(price.getText().toString().replace("￥", ""));
+                Log.e("sub", "str=" + str);
+                if (!str.equals("")) {
+                    goodsDetailActivity.GUIGEERROR = true;
+                } else {
+                    goodsDetailActivity.GUIGEERROR = false;
+                    goodsDetailActivity.curprice = Double.valueOf(price.getText().toString().replace("￥", ""));
                 }
             }
             if (tag.equals("GUIGEREFRESH")) {
                 if (goodsDetailActivity.guiGeBtmDialog != null) {
                     String[] strs = goodsDetailActivity.guiGeBtmDialog.tv_guige.getText().toString().split("、");
-                    goodsDetailActivity.style="";
-                    goodsDetailActivity.color="";
+                    goodsDetailActivity.style = "";
+                    goodsDetailActivity.color = "";
                     try {
                         if (strs.length == 3) {
                             goodsDetailActivity.style = strs[0];
@@ -479,13 +483,14 @@ public class GoodsFragment extends BaseFragment implements View.OnClickListener 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    Log.e("sub",goodsDetailActivity.guiGeBtmDialog.stylestrs.size()+","+goodsDetailActivity.style+","+goodsDetailActivity.guiGeBtmDialog.colorstrs.size()+","+goodsDetailActivity.color);
-                    if((goodsDetailActivity.guiGeBtmDialog.stylestrs.size()>0&&goodsDetailActivity.style.equals(""))||(goodsDetailActivity.guiGeBtmDialog.colorstrs.size()>0&&goodsDetailActivity.color.equals(""))){
-                        goodsDetailActivity.GUIGEERROR=true;
-                    }else{
-                        goodsDetailActivity.GUIGEERROR=false;
+                    Log.e("sub", goodsDetailActivity.guiGeBtmDialog.stylestrs.size() + "," + goodsDetailActivity.style + "," + goodsDetailActivity.guiGeBtmDialog.colorstrs.size() + "," + goodsDetailActivity.color);
+                    if ((goodsDetailActivity.guiGeBtmDialog.stylestrs.size() > 0 && goodsDetailActivity.style.equals("")) || (goodsDetailActivity.guiGeBtmDialog.colorstrs.size() > 0 && goodsDetailActivity.color.equals(""))) {
+                        goodsDetailActivity.GUIGEERROR = true;
+                    } else {
+                        goodsDetailActivity.GUIGEERROR = false;
                     }
-                    Log.e("sub","goodsDetailActivity.GUIGEERROR="+goodsDetailActivity.GUIGEERROR);
+                    Log.e("sub", "goodsDetailActivity.GUIGEERROR=" + goodsDetailActivity.GUIGEERROR);
+                    tvGgTitle.setText("已选");
                     tvGg.setText(goodsDetailActivity.guiGeBtmDialog.tv_guige.getText().toString());
                     price.setText(goodsDetailActivity.guiGeBtmDialog.gg_price.getText().toString());
                     goodsDetailActivity.curprice = Double.valueOf(goodsDetailActivity.guiGeBtmDialog.gg_price.getText().toString().replace("￥", ""));

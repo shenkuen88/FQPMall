@@ -12,7 +12,7 @@
         <ImageView
             android:id="@+id/index_banner"
             android:layout_width="match_parent"
-            android:layout_height="152dp"
+            android:layout_height="@dimen/pxtodp380"
             android:scaleType="centerCrop" />
 
         <View
