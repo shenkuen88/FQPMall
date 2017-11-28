@@ -45,7 +45,15 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.charset.Charset;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,6 +63,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import de.greenrobot.event.EventBus;
 
@@ -262,6 +274,10 @@ public class NetWork {
                 //客户端版本号
                 httpPost.setHeader("x-s-clientVersion", ""+ Constants.VERSION_NAME);
                 String ver = Constants.VERSION_NAME+"";
+                KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                trustStore.load(null, null);
+                SSLSocketFactory sf = new SSLSocketFactoryExMore(trustStore);
+                sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);  //允许所有主机的验证
                 SchemeRegistry schReg = new SchemeRegistry();
                 schReg.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
                 schReg.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
@@ -373,6 +389,21 @@ public class NetWork {
                 }
             } catch (ClientProtocolException e) {
                 CMLog.i(TAG, "client protocol exception" + e.getMessage());
+            } catch (CertificateException e)
+            {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e)
+            {
+                e.printStackTrace();
+            } catch (UnrecoverableKeyException e)
+            {
+                e.printStackTrace();
+            } catch (KeyStoreException e)
+            {
+                e.printStackTrace();
+            } catch (KeyManagementException e)
+            {
+                e.printStackTrace();
             }
             return null;
         }
@@ -450,4 +481,59 @@ public class NetWork {
         }
     }
 
+    static class SSLSocketFactoryExMore extends SSLSocketFactory
+    {
+
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+
+        public SSLSocketFactoryExMore(KeyStore truststore)
+                throws NoSuchAlgorithmException, KeyManagementException,
+                KeyStoreException, UnrecoverableKeyException
+        {
+            super(truststore);
+
+            TrustManager tm = new X509TrustManager()
+            {
+
+                @Override
+                public java.security.cert.X509Certificate[] getAcceptedIssuers()
+                {
+                    return null;
+                }
+
+                @Override
+                public void checkClientTrusted(
+                        java.security.cert.X509Certificate[] chain, String authType)
+                        throws java.security.cert.CertificateException
+                {
+
+                }
+
+                @Override
+                public void checkServerTrusted(
+                        java.security.cert.X509Certificate[] chain, String authType)
+                        throws java.security.cert.CertificateException
+                {
+
+
+                }
+            };
+
+            sslContext.init(null, new TrustManager[]{tm}, null);
+        }
+
+        @Override
+        public Socket createSocket(Socket socket, String host, int port,
+                                   boolean autoClose) throws IOException, UnknownHostException
+        {
+            return sslContext.getSocketFactory().createSocket(socket, host, port,
+                    autoClose);
+        }
+
+        @Override
+        public Socket createSocket() throws IOException
+        {
+            return sslContext.getSocketFactory().createSocket();
+        }
+    }
 }

@@ -4,6 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="@dimen/pxtodp182"
               android:orientation="horizontal"
+              android:background="@color/white"
               android:paddingLeft="@dimen/pxtodp20">
 
     <CheckBox
