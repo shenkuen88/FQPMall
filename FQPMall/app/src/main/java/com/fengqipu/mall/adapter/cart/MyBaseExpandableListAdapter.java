@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,7 +24,7 @@ import com.fengqipu.mall.bean.cart.GWCGoodsDetailResponse;
 import com.fengqipu.mall.bean.cart.GoodsBean;
 import com.fengqipu.mall.bean.cart.StoreBean;
 import com.fengqipu.mall.bean.cart.StoreGoodsBean;
-import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseNewActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.network.UserServiceImpl;
 import com.fengqipu.mall.tools.GeneralUtils;
@@ -145,7 +148,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         groupViewHolder.tv_title_parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, EnterpriseActivity.class);
+                Intent intent = new Intent(context, EnterpriseNewActivity.class);
                 intent.putExtra("sid", storeBean.getId());
                 context.startActivity(intent);
             }
@@ -257,7 +260,7 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
                     .findViewById(edit_info);
             childViewHolder.btn_jian = (TextView) convertView
                     .findViewById(R.id.btn_jian);
-            childViewHolder.num_txt = (TextView) convertView
+            childViewHolder.num_txt = (EditText) convertView
                     .findViewById(R.id.num_txt);
             childViewHolder.btn_jia = (TextView) convertView
                     .findViewById(R.id.btn_jia);
@@ -425,6 +428,35 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
                 notifyDataSetChanged();
             }
         });*/
+        final ChildViewHolder finalChildViewHolder = childViewHolder;
+        childViewHolder.num_txt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    int count = 0;
+                    try {
+                        count=Integer.valueOf(finalChildViewHolder.num_txt.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        count=goodsBean.getCount();
+                    }
+                    goodsBean.setCount(count);
+                    //  textView.setText(String.valueOf(count));
+                    notifyDataSetChanged();
+                    dealPrice();
+                    NetLoadingDialog.getInstance().loading(context);
+                    List<CartResponse.CartRecord> clist = new ArrayList<CartResponse.CartRecord>();
+                    clist.add(new CartResponse.CartRecord(goodsBean.getRecordID(), goodsBean.getShopID(), goodsBean.getUserID()
+                            , goodsBean.getContentID(), goodsBean.getObjectName(), goodsBean.getPicUrl()
+                            , goodsBean.getCount(), goodsBean.getStyle(), goodsBean.getColor(), goodsBean.getPrice() + ""
+                            , goodsBean.getCreateTime(), goodsBean.getPicUrl(), goodsBean.getShopName()));
+                    UserServiceImpl.instance().setCartNum(clist, CartNumResponse.class.getName());
+                }
+
+                return false;
+            }
+        });
         childViewHolder.num_txt.setText(goodsBean.getCount() + "");
         childViewHolder.btn_jian.setOnClickListener(new MyOnClickListener(goodsBean, 0));//0.减
         childViewHolder.btn_jia.setOnClickListener(new MyOnClickListener(goodsBean, 1));//1.加
@@ -803,7 +835,8 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
         TextView id_tv_price;
         TextView id_tv_discount_price,edit_price;
         TextView id_tv_count;
-        TextView btn_jian, num_txt, btn_jia;
+        TextView btn_jian , btn_jia;
+        EditText num_txt;
         ImageView id_iv_logo;
 //        ImageView id_iv_reduce;
 //        ImageView id_iv_add;
@@ -838,9 +871,6 @@ public class MyBaseExpandableListAdapter extends BaseExpandableListAdapter {
                 dealPrice();
             } else {
                 int count = goodsBean.getCount();
-                if (count == 99) {
-                    return;
-                }
                 count++;
                 goodsBean.setCount(count);
                 //  textView.setText(String.valueOf(count));

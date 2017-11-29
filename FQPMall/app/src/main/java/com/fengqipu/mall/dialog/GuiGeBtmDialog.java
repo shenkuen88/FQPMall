@@ -5,10 +5,13 @@ import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,7 +47,8 @@ public class GuiGeBtmDialog extends Dialog {
     }
 
     private ImageView gg_pic, gg_cancel;
-    public TextView gg_name, gg_price, tv_guige, btn_jian, num_txt, btn_jia;
+    public TextView gg_name, gg_price, tv_guige, btn_jian, btn_jia;
+    public EditText num_txt;
     private ListView my_list_view;
     private Button btn_addgwc, btn_buy;
     int num = 1;
@@ -311,7 +315,6 @@ public class GuiGeBtmDialog extends Dialog {
         btn_jia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (num >= 99) return;
                 num++;
                 num_txt.setText(num + "");
                 String str="";
@@ -334,7 +337,45 @@ public class GuiGeBtmDialog extends Dialog {
 
             }
         });
+        num_txt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId,
+                                          KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    ctx.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                num=Integer.valueOf(num_txt.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                num=1;
+                            }
+                            num_txt.setText(num + "");
+                            String str="";
+                            try {
+                                if(stylestr!=null
+                                        &&!stylestr.equals("")){
+                                    str= stylestr+"、";
+                                }
+                                if(colorstr!=null
+                                        &&!colorstr.equals("")){
+                                    str=str+colorstr+ "、";
+                                }
+                                str= str + num_txt.getText().toString() + "件";
+                                tv_guige.setText(str);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            tv_guige.setText(str);
+                            EventBus.getDefault().post(new NoticeEvent("GUIGEREFRESH"));
+                        }
+                    });
+                }
 
+                return false;
+            }
+        });
     }
 
     public void setOutsideTouchable(boolean touchable) {

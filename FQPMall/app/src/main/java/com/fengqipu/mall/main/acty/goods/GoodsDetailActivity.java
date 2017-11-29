@@ -40,7 +40,7 @@ import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.dialog.GuiGeBtmDialog;
 import com.fengqipu.mall.dialog.SucDialog;
-import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseNewActivity;
 import com.fengqipu.mall.main.acty.index.ConfirmOrderActivity;
 import com.fengqipu.mall.main.acty.index.zfb.NoticeListActivity;
 import com.fengqipu.mall.main.acty.mine.LoginActy;
@@ -214,7 +214,7 @@ public class GoodsDetailActivity extends BaseActivity implements View.OnClickLis
             case R.id.shop_tv:
                 try
                 {
-                    Intent intent2 = new Intent(GoodsDetailActivity.this, EnterpriseActivity.class);
+                    Intent intent2 = new Intent(GoodsDetailActivity.this, EnterpriseNewActivity.class);
                     intent2.putExtra("sid", goodsDetailResponse.getContent().getShopID());
                     startActivity(intent2);
                 } catch (Exception e)

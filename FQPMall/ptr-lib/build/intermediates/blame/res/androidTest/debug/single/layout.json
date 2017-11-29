@@ -8,8 +8,16 @@
         "source": "H:\\code\\git\\1024\\FQPMall\\FQPMall\\ptr-lib\\build\\intermediates\\bundles\\debug\\res\\layout\\cube_ptr_simple_loading.xml"
     },
     {
+        "merged": "E:\\androidPro\\NewFQPMallCode\\FQPMall\\FQPMall\\ptr-lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\cube_ptr_classic_default_header.xml",
+        "source": "E:\\androidPro\\NewFQPMallCode\\FQPMall\\FQPMall\\ptr-lib\\build\\intermediates\\bundles\\debug\\res\\layout\\cube_ptr_classic_default_header.xml"
+    },
+    {
         "merged": "H:\\code\\git\\1024\\FQPMall\\FQPMall\\ptr-lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\cube_ptr_classic_default_header.xml",
         "source": "H:\\code\\git\\1024\\FQPMall\\FQPMall\\ptr-lib\\build\\intermediates\\bundles\\debug\\res\\layout\\cube_ptr_classic_default_header.xml"
+    },
+    {
+        "merged": "E:\\androidPro\\NewFQPMallCode\\FQPMall\\FQPMall\\ptr-lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\cube_ptr_simple_loading.xml",
+        "source": "E:\\androidPro\\NewFQPMallCode\\FQPMall\\FQPMall\\ptr-lib\\build\\intermediates\\bundles\\debug\\res\\layout\\cube_ptr_simple_loading.xml"
     },
     {
         "merged": "H:\\code\\git\\1009\\aaa\\FQPMall\\FQPMall\\ptr-lib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\cube_ptr_classic_default_header.xml",

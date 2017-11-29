@@ -26,7 +26,7 @@ import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.main.acty.MainActivity;
-import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseNewActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.index.zfb.NoticeListActivity;
 import com.fengqipu.mall.main.acty.search.NewSearchActivity;
@@ -288,7 +288,7 @@ public class CategoryFragment extends BaseFragment {
                                 switch (openType){
                                     case "1":
                                         try {
-                                            Intent intent = new Intent(getActivity(), EnterpriseActivity.class);
+                                            Intent intent = new Intent(getActivity(), EnterpriseNewActivity.class);
                                             intent.putExtra("sid", sid);
                                             getActivity().startActivity(intent);
                                         } catch (Exception e) {
@@ -388,7 +388,7 @@ public class CategoryFragment extends BaseFragment {
                                             switch (openType){
                                                 case "1":
                                                     try {
-                                                        Intent intent = new Intent(getActivity(), EnterpriseActivity.class);
+                                                        Intent intent = new Intent(getActivity(), EnterpriseNewActivity.class);
                                                         intent.putExtra("sid", sid);
                                                         getActivity().startActivity(intent);
                                                     } catch (Exception e) {

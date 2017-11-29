@@ -166,7 +166,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                         helper.getConvertView().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Intent intent = new Intent(EnterpriseListActivity.this, EnterpriseActivity.class);
+                                Intent intent = new Intent(EnterpriseListActivity.this, EnterpriseNewActivity.class);
                                 intent.putExtra("sid", item.getId());
                                 startActivity(intent);
                             }
@@ -242,7 +242,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                                 switch (openType){
                                     case "1":
                                         try {
-                                            Intent intent = new Intent(EnterpriseListActivity.this, EnterpriseActivity.class);
+                                            Intent intent = new Intent(EnterpriseListActivity.this, EnterpriseNewActivity.class);
                                             intent.putExtra("sid", sid);
                                             startActivity(intent);
                                         } catch (Exception e) {
@@ -387,7 +387,7 @@ public class EnterpriseListActivity extends BaseActivity implements View.OnClick
                                             switch (openType){
                                                 case "1":
                                                     try {
-                                                        Intent intent = new Intent(EnterpriseListActivity.this, EnterpriseActivity.class);
+                                                        Intent intent = new Intent(EnterpriseListActivity.this, EnterpriseNewActivity.class);
                                                         intent.putExtra("sid", sid);
                                                         startActivity(intent);
                                                     } catch (Exception e) {

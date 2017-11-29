@@ -39,7 +39,7 @@ import com.fengqipu.mall.bean.NetResponseEvent;
 import com.fengqipu.mall.bean.shop.ShopO2OResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
-import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseNewActivity;
 import com.fengqipu.mall.main.base.HeadView;
 import com.fengqipu.mall.network.GsonHelper;
 import com.fengqipu.mall.network.UserServiceImpl;
@@ -163,7 +163,7 @@ public class KuaiXiuActivity extends BaseActivity {
             public boolean onMarkerClick(Marker marker) {
                 Bundle bundle = marker.getExtraInfo();
                 String id = (String) bundle.getSerializable("ID");
-                Intent intent = new Intent(KuaiXiuActivity.this, EnterpriseActivity.class);
+                Intent intent = new Intent(KuaiXiuActivity.this, EnterpriseNewActivity.class);
                 intent.putExtra("sid", id);
                 startActivity(intent);
                 return false;

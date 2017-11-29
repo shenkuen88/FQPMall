@@ -26,7 +26,7 @@ import com.fengqipu.mall.bean.mine.DelFavourResponse;
 import com.fengqipu.mall.bean.mine.ShopFavourResponse;
 import com.fengqipu.mall.constant.Constants;
 import com.fengqipu.mall.constant.ErrorCode;
-import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseNewActivity;
 import com.fengqipu.mall.main.acty.mine.NewMyFavourActivity;
 import com.fengqipu.mall.main.base.BaseFragment;
 import com.fengqipu.mall.network.GsonHelper;
@@ -157,7 +157,7 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
                 comment_name_tv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(newMyFavourActivity, EnterpriseActivity.class);
+                        Intent intent = new Intent(newMyFavourActivity, EnterpriseNewActivity.class);
                         intent.putExtra("sid", item.getObjectID());
                         startActivity(intent);
                     }
@@ -165,7 +165,7 @@ public class FavourShopsFragment extends BaseFragment implements View.OnClickLis
                 comment_head_iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(newMyFavourActivity, EnterpriseActivity.class);
+                        Intent intent = new Intent(newMyFavourActivity, EnterpriseNewActivity.class);
                         intent.putExtra("sid", item.getObjectID());
                         startActivity(intent);
                     }

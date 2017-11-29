@@ -35,7 +35,7 @@ import com.fengqipu.mall.constant.ErrorCode;
 import com.fengqipu.mall.constant.Global;
 import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
-import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseNewActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.index.ConfirmOrderActivity;
 import com.fengqipu.mall.main.acty.logistics.LogisticsActivity;
@@ -159,7 +159,7 @@ public class OrderDetailActivity extends BaseActivity {
                 helper.getView(R.id.store_nam).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(OrderDetailActivity.this, EnterpriseActivity.class);
+                        Intent intent = new Intent(OrderDetailActivity.this, EnterpriseNewActivity.class);
                         intent.putExtra("sid", item.getShopID());
                         startActivity(intent);
 

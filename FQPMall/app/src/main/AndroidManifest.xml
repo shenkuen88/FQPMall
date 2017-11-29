@@ -302,6 +302,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".main.acty.enterprise.EnterpriseActivity"/>
+        <activity android:name=".main.acty.enterprise.EnterpriseNewActivity"/>
         <activity android:name=".main.acty.enterprise.GoodsEnterpriseActivity"/>
         <activity android:name=".main.acty.enterprise.EnterpriseListActivity"/>
         <activity android:name=".main.acty.goods.GoodsDetailActivity"/>

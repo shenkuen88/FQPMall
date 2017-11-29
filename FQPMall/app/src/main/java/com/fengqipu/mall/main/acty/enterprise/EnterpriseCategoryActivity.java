@@ -331,7 +331,7 @@ public class EnterpriseCategoryActivity extends BaseActivity {
                                 switch (openType) {
                                     case "1":
                                         try {
-                                            Intent intent = new Intent(EnterpriseCategoryActivity.this, EnterpriseActivity.class);
+                                            Intent intent = new Intent(EnterpriseCategoryActivity.this, EnterpriseNewActivity.class);
                                             intent.putExtra("sid", sid);
                                             startActivity(intent);
                                         } catch (Exception e) {
@@ -455,7 +455,7 @@ public class EnterpriseCategoryActivity extends BaseActivity {
                                             switch (openType) {
                                                 case "1":
                                                     try {
-                                                        Intent intent = new Intent(EnterpriseCategoryActivity.this, EnterpriseActivity.class);
+                                                        Intent intent = new Intent(EnterpriseCategoryActivity.this, EnterpriseNewActivity.class);
                                                         intent.putExtra("sid", sid);
                                                         startActivity(intent);
                                                     } catch (Exception e) {

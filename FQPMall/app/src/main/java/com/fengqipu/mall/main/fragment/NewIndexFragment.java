@@ -38,8 +38,8 @@ import com.fengqipu.mall.constant.IntentCode;
 import com.fengqipu.mall.constant.NotiTag;
 import com.fengqipu.mall.main.acty.KuaiXiuActivity;
 import com.fengqipu.mall.main.acty.MainActivity;
-import com.fengqipu.mall.main.acty.enterprise.EnterpriseActivity;
 import com.fengqipu.mall.main.acty.enterprise.EnterpriseCategoryActivity;
+import com.fengqipu.mall.main.acty.enterprise.EnterpriseNewActivity;
 import com.fengqipu.mall.main.acty.goods.GoodsDetailActivity;
 import com.fengqipu.mall.main.acty.huodong.HuoDongActivity;
 import com.fengqipu.mall.main.acty.index.zfb.NoticeListActivity;
@@ -261,7 +261,7 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                 helper.getConvertView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), EnterpriseActivity.class);
+                        Intent intent = new Intent(getActivity(), EnterpriseNewActivity.class);
                         intent.putExtra("sid", item.getId());
                         startActivity(intent);
                     }
@@ -369,7 +369,7 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                 switch (bean.getOpenType()) {
                     case 1:
                         try {
-                            Intent intent = new Intent(getActivity(), EnterpriseActivity.class);
+                            Intent intent = new Intent(getActivity(), EnterpriseNewActivity.class);
                             intent.putExtra("sid", bean.getToShopID());
                             getActivity().startActivity(intent);
                         } catch (Exception e) {
@@ -622,7 +622,7 @@ public class NewIndexFragment extends BaseFragment implements View.OnClickListen
                                 ivTop.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        Intent intent2 = new Intent(getActivity(), EnterpriseActivity.class);
+                                        Intent intent2 = new Intent(getActivity(), EnterpriseNewActivity.class);
                                         intent2.putExtra("sid", mIndexBannerResponse.getTop().getId());
                                         startActivity(intent2);
                                     }
