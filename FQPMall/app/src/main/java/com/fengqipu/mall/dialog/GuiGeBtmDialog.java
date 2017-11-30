@@ -153,7 +153,7 @@ public class GuiGeBtmDialog extends Dialog {
             stylestrs.clear();
             colorstrs.clear();
             for (GoodsDetailResponse.ContentStyleListBean item : goodsDetailResponse.getContentStyleList()) {
-                if(!stylestrs.contains(item.getStyle())){
+                if(!item.getStyle().trim().equals("")&&!stylestrs.contains(item.getStyle())){
                     stylestrs.add(item.getStyle());
                 }
                 if(!item.getColor().trim().equals("")&&!colorstrs.contains(item.getColor())){

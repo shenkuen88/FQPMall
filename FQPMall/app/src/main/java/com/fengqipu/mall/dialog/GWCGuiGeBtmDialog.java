@@ -161,7 +161,7 @@ public class GWCGuiGeBtmDialog extends Dialog {
             stylestrs.clear();
             colorstrs.clear();
             for (GWCGoodsDetailResponse.ContentStyleListBean item : goodsDetailResponse.getContentStyleList()) {
-                if(!stylestrs.contains(item.getStyle())){
+                if(!item.getStyle().trim().equals("")&&!stylestrs.contains(item.getStyle())){
                     stylestrs.add(item.getStyle());
                 }
                 if(!item.getColor().trim().equals("")&&!colorstrs.contains(item.getColor())){
