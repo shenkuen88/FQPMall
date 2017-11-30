@@ -150,11 +150,13 @@ public class GuiGeBtmDialog extends Dialog {
                 e.printStackTrace();
             }
             tv_guige.setText(str);
+            stylestrs.clear();
+            colorstrs.clear();
             for (GoodsDetailResponse.ContentStyleListBean item : goodsDetailResponse.getContentStyleList()) {
                 if(!stylestrs.contains(item.getStyle())){
                     stylestrs.add(item.getStyle());
                 }
-                if(!colorstrs.contains(item.getColor())){
+                if(!item.getColor().trim().equals("")&&!colorstrs.contains(item.getColor())){
                     colorstrs.add(item.getColor());
                 }
             }
@@ -162,7 +164,7 @@ public class GuiGeBtmDialog extends Dialog {
                 styleList.add(new GuiGeBean("规格",stylestrs));
             }
             if(colorstrs.size()>0){
-                styleList.add(new GuiGeBean("颜色",colorstrs));
+                styleList.add(new GuiGeBean("颜色", colorstrs));
             }
             styleAdapter = new CommonAdapter<GuiGeBean>(ctx, styleList, R.layout.gwc_canshu_item) {
                 @Override

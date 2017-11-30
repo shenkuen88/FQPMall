@@ -158,12 +158,13 @@ public class GWCGuiGeBtmDialog extends Dialog {
                 e.printStackTrace();
             }
             tv_guige.setText(str);
-
+            stylestrs.clear();
+            colorstrs.clear();
             for (GWCGoodsDetailResponse.ContentStyleListBean item : goodsDetailResponse.getContentStyleList()) {
                 if(!stylestrs.contains(item.getStyle())){
                     stylestrs.add(item.getStyle());
                 }
-                if(!colorstrs.contains(item.getColor())){
+                if(!item.getColor().trim().equals("")&&!colorstrs.contains(item.getColor())){
                     colorstrs.add(item.getColor());
                 }
             }
